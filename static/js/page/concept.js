@@ -91,7 +91,7 @@ function buildTreeMap(resultData) {
 }
 
 $(function () {
-    var arrData = {query_type: 2, key: name, start_id: 0, info_type_list: "", "start_time": 0};
+    var arrData = {query_type: 3, key: name, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") == 0) {
             if ($("#mCSB_2_container").html().trim() == "") {
@@ -148,8 +148,8 @@ $(function () {
             }
         }
     });
+    common.initRelateSHG(3, name);
     common.getNews(arrData);
     initLineChart();
     initTreeMapChart();
-    common.initRelateSHG(3, name);
 });
