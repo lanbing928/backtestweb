@@ -89,13 +89,6 @@ function buildTreeMap(resultData) {
         common.buildHotmap("wk-stock-follow-treemap", _suf, "stock");
     }
 }
-function initRelateSG() {
-    common.getRelateSHG({"query_type": 2, "key_name": name}, null, function (resultData) {
-        if (resultData.status == 1) {
-
-        }
-    })
-}
 $(function () {
     var arrData = {query_type: 2, key: name, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
@@ -154,8 +147,8 @@ $(function () {
             }
         }
     });
+    common.initRelateSHG(2, name);
     common.getNews(arrData);
     initLineChart();
     initTreeMapChart();
-    initRelateSG();
 });
