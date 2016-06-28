@@ -595,6 +595,37 @@ var common = {
         window.onresize = myChart.resize;
     },
     /**
+     * 获取关联的行业股票概念
+     */
+    initRelateSHG: function (query_type, name) {
+        common.getRelateSHG({"query_type": query_type, "key_name": name}, function () {
+            $(".relate-infos").html("关联资讯<i class=\"fa fa-circle-o-notch fa-spin fa-fw\"></i>");
+        }, function (resultData) {
+            if (resultData.status == 1) {
+                var relateInfo = [];
+                if (resultData.industry.length > 0) {
+                    relateInfo.push("<span>关联行业:&nbsp;</span>");
+                    for (var i in resultData.industry) {
+                        relateInfo.push("<a href='industry.php?name=" + resultData.industry[i].industry + "'>" + resultData.industry[i].industry + "</a>");
+                    }
+                }
+                if (resultData.stock.length > 0) {
+                    relateInfo.push("<span>关联股票:&nbsp;</span>");
+                    for (var s in resultData.stock) {
+                        relateInfo.push("<a href='stock.php?stock=" + resultData.stock[s].stock_code + "'>" + resultData.stock[s].stock_name + "</a>");
+                    }
+                }
+                if (resultData.notion.length > 0) {
+                    relateInfo.push("<span>关联概念:&nbsp;</span>");
+                    for (var n in resultData.notion) {
+                        relateInfo.push("<a href='stock.php?concept=" + resultData.notion[n].section + "'>" + resultData.notion[n].section + "</a>");
+                    }
+                }
+                $(".relate-infos").html("关联资讯" + relateInfo.join(''));
+            }
+        })
+    },
+    /**
      * 根据价格获取颜色值
      * @param price
      * @returns {*}
