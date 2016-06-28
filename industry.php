@@ -64,7 +64,7 @@ if (empty($industryName)) {
     </section>
     <section class="wk-all-hot">
         <div class="wk-con-news">
-            <p class="wk-hot-title">关联资讯
+            <p class="wk-hot-title relate-infos">关联资讯
             </p>
             <div class="wk-con-box">
                 <ul class="nav nav-tabs" role="tablist">
