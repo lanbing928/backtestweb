@@ -5,6 +5,7 @@ var viewData = [], searchData = [], followData = [];
 var wk_treemap_data_industry, wk_treemap_data_concept;
 var myChart = echarts.init(document.getElementById("left-chart"));
 myChart.showLoading();
+
 function initLineChart() {
     common.getSingleRealTimeHot({"stock": stockcode}, null, function (resultData) {
         if (resultData.status == 1) {
@@ -53,7 +54,7 @@ function initLineChart() {
     });
 }
 function initTreeMapChart() {
-    common.getStockBase({"stock": stockcode}, function(){
+    common.getStockBase({"stock": stockcode}, function () {
         var waitLogingCharts = ["wk-industry-view-treemap", "wk-concept-view-treemap"];
         for (var i in waitLogingCharts) {
             var treemap = echarts.init(document.getElementById(waitLogingCharts[i]));
@@ -81,11 +82,11 @@ function initTreeMapChart() {
             $(".wk-related-info").html(resultData.stock_info.stock_name + "热度情况&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "</span>");
             $(".latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
             $(".todayhot-title").html(resultData.stock_info.stock_name + "今日最热度");
-            $("i[data-toggle='popover']").popover({container: "body",trigger: "hover"});
+            $("i[data-toggle='popover']").popover({container: "body", trigger: "hover"});
             var $related_concept = rel_concept[0].sect;
             var $related_industry = rel_industry[0].indus;
             if (!wk_treemap_data_concept) {
-                common.getTopTwentyStock({"hottype": "gn", "hotval": $related_concept}, function(){
+                common.getTopTwentyStock({"hottype": "gn", "hotval": $related_concept}, function () {
                     $("#concept-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
                 }, function (resultData) {
                     if (resultData.status == 1) {
@@ -97,7 +98,7 @@ function initTreeMapChart() {
                 buildConceptTreeMap(wk_treemap_data_concept);
             }
             if (!wk_treemap_data_industry) {
-                common.getTopTwentyStock({"hottype": "hy", "hotval": $related_industry}, function(){
+                common.getTopTwentyStock({"hottype": "hy", "hotval": $related_industry}, function () {
                     $("#industry-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
                 }, function (resultData) {
                     if (resultData.status == 1) {
@@ -157,18 +158,21 @@ function buildConceptTreeMap(resultData) {
         common.buildHotmap("wk-concept-follow-treemap", _suf, "stock");
     }
 }
+
 $(function () {
     var arrData = {query_type: 1, key: stockcode, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") == 0) {
             if ($("#mCSB_2_container").html().trim() == "") {
                 arrData.start_id = 0;
+                arrData.start_time = 0;
                 common.getSelfMedia(arrData);
             }
         }
         if ($(this).attr("href").indexOf("#wk-newsflash") == 0) {
             if ($("#wk-newsflash table>tbody").html().trim() == "") {
                 arrData.start_id = 0;
+                arrData.start_time = 0;
                 common.getFastNews(arrData);
             }
         }
@@ -215,6 +219,7 @@ $(function () {
             }
         }
     });
+    common.initRelateSHG(1, stockcode);
     common.getNews(arrData);
     initLineChart();
     initTreeMapChart();
