@@ -89,6 +89,7 @@ function buildTreeMap(resultData) {
         common.buildHotmap("wk-stock-follow-treemap", _suf, "stock");
     }
 }
+
 $(function () {
     var arrData = {query_type: 2, key: name, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
@@ -150,4 +151,5 @@ $(function () {
     common.getNews(arrData);
     initLineChart();
     initTreeMapChart();
+    common.initRelateSHG(3, name);
 });
