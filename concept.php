@@ -64,7 +64,7 @@ if (empty($conceptName)) {
     </section>
     <section class="wk-all-hot">
         <div class="wk-con-news">
-            <p class="wk-hot-title">关联资讯</p>
+            <p class="wk-hot-title relate-infos">关联资讯</p>
             <div class="wk-con-box">
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#wk-news" aria-controls="wk-news" role="tab" data-toggle="tab">新闻</a></li>
