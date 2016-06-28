@@ -168,13 +168,13 @@ var common = {
             if (resultData.fast_info.length > 0) {
                 $(".loadingmask").remove();
                 for (var i = 0; i < resultData.fast_info.length; i++) {
-                    fastHtml.push("<tr id='fast_" + resultData.fast_info[i].info_id + "' data-fastnews-timestamp=\"" + resultData.fast_info[i].timestamp + "><td><label>");
+                    fastHtml.push("<tr id='fast_" + resultData.fast_info[i].info_id + "' data-fastnews-timestamp=\"" + resultData.fast_info[i].timestamp + "\"><td><label>");
                     fastHtml.push(Utility.unixToDate(resultData.fast_info[i].timestamp).substring(10, 16));
-                    fastHtml.push("</label> </td><td>");
+                    fastHtml.push("</label></td><td>");
                     fastHtml.push(resultData.fast_info[i].summary);
                     fastHtml.push("</td></tr>");
                 }
-                $("#wk-newsflash .mCSB_container table>tbody").append(fastHtml.join(''));
+                $("#wk-newsflash .wk-news-list table>tbody").append(fastHtml.join(''));
             } else {
                 if (arrData.start_id == 0) {
                     $(".loadingmask").remove();
