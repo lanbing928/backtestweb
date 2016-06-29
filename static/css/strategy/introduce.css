@@ -1,0 +1,33 @@
+.wk-container{max-width: 1100px;!important}
+.col-md-7{padding: 0;}
+.col-md-5{padding: 0;}
+.wk-intro-header{}
+.wk-intro-header .col-md-4{background: url("http://static.iwookong.com/imgs/s/box.png") no-repeat center; height: 142px;margin-top: 35px;}
+.wk-intro-header hr{border-top: 1px dashed #434343; margin: 0 40px;}
+.wk-intro-title{width: 100px; margin: 5px auto 0; font-size: 13px;color: #FFFFFF;text-align: center;}
+.wk-intro-header-con{margin-top: 30px;text-align: center;}
+.wk-intro-header-con p{text-align: center;font-size: 14px;color: #464646;}
+.wk-intro-header-con p img{padding-right: 5px;}
+
+.wk-intro-header-con span:nth-child(3){margin: 0 20px 0 20px;}
+.wk-intro-header-con label{text-align: center;}
+
+.wk-intro-icon{text-align: center;}
+.wk-intro-icon img{margin-top: 40px;}
+.wk-intro-icon p{margin-top: 20px;color: #464646;}
+
+.wk-intro-inputbox{text-align: center;}
+.wk-intro-inputbox input{margin-top: 40px;margin-bottom: 30px;}
+.wk-intro-inputbox input[type='text']{width: 305px;height: 30px;}
+.wk-intro-inputbox input[type='submit']{width: 150px;height: 30px;background-color: #3970b3;color: #FFFFFF;border: none;-webkit-box-shadow: #5b5b5b 2px 2px 2px;-moz-box-shadow: #5b5b5b 2px 2px 2px;box-shadow: #5b5b5b 2px 2px 2px;}
+
+.wk-intro-info{text-align: center;}
+.wk-intro-info label{font-size: 24px;}
+.wk-intro-info label span{color:#aa89bd; }
+.wk-intro-info span{color:#464646; font-size: 16px;background-color: #FFFFFF;padding: 0 5px;}
+.wk-intro-info hr{margin-top: -10px;margin-bottom: 50px;border-top: 1px dashed #464646;}
+.wk-intro-info p{font-size: 20px;color: #525252;margin-top: 20px;font-weight: 600;margin-bottom: 16px;}
+
+.wk-intro-detail-title{font-size: 18px;font-weight: 600;margin-top: 50px;}
+.wk-intro-detail-con{font-size: 14px;margin-bottom: 0;line-height: 24px;color: #464646;}
+.wk-intro-detail label{font-size: 18px;color: #aa89bd;}
