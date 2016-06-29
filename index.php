@@ -38,7 +38,7 @@ if (CheckLogin::check() == -1) {
         <div class="col-md-4 right-infos">
             <p>
                 A股今日最热度情况
-<!--                &nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-placement="bottom" data-content=""></i>-->
+                <!--                &nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-placement="bottom" data-content=""></i>-->
             </p>
             <hr>
             <table class="table table-condensed first-table todayhot">
