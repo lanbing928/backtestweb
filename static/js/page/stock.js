@@ -20,7 +20,7 @@ function initLineChart() {
                 viewData = JSON.parse("[" + viewData.join(',') + "]");
                 var _v = Math.max.apply(Math, viewData);
                 var _vindex = viewData.indexOf(Math.max.apply(Math, viewData));
-                _lastHot.push("<tr><td>查看</td><td>" + viewData[viewData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + _vnum + ":00") + "</td></tr>");
+                _lastHot.push("<tr><td>查看</td><td>" + viewData[viewData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + (_vnum - 1) + ":00") + "</td></tr>");
                 _todayHot.push("<tr><td>查看</td><td>" + _v + "</td><td>" + Utility.calTime(_vindex) + "</td></tr>");
             }
             if (resultData.search) {
@@ -32,7 +32,7 @@ function initLineChart() {
                 searchData = JSON.parse("[" + searchData.join(',') + "]");
                 var _s = Math.max.apply(Math, searchData);
                 var _sindex = searchData.indexOf(Math.max.apply(Math, searchData));
-                _lastHot.push("<tr><td>查看</td><td>" + searchData[searchData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + _snum + ":00") + "</td></tr>");
+                _lastHot.push("<tr><td>搜索</td><td>" + searchData[searchData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + (_snum - 1) + ":00") + "</td></tr>");
                 _todayHot.push("<tr><td>搜索</td><td>" + _s + "</td><td>" + Utility.calTime(_sindex) + "</td></tr>");
             }
             if (resultData.follow) {
@@ -44,7 +44,7 @@ function initLineChart() {
                 followData = JSON.parse("[" + followData.join(',') + "]");
                 var _f = Math.max.apply(Math, followData);
                 var _findex = followData.indexOf(Math.max.apply(Math, followData));
-                _lastHot.push("<tr><td>查看</td><td>" + followData[followData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + _fnum + ":00") + "</td></tr>");
+                _lastHot.push("<tr><td>关注</td><td>" + followData[followData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + (_fnum - 1) + ":00") + "</td></tr>");
                 _todayHot.push("<tr><td>关注</td><td>" + _f + "</td><td>" + Utility.calTime(_findex) + "</td></tr>");
             }
             $(".todayhot").html(_todayHot.join(''));
