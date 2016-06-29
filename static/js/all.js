@@ -113,4 +113,61 @@ $(function () {
             to.find(".toggle-treemap-table").show();
         }
     });
+    $(".wk-rate-select label").click(function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        var toggle = $(this).attr("data-toogle");
+        var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
+        var option = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            color: ["rgb(151,47,134)", "rgb(65,77,92)"],
+            legend: {
+                data: ['平安银行', '沪深300'],
+                bottom: '0'
+            },
+            grid: {
+                top: '8px',
+                left: '0',
+                right: '0',
+                bottom: '10%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['2016-06-18', '2016-06-19', '2016-06-20', '2016-06-21', '2016-06-22', '2016-06-23', '2016-06-24','2016-06-25','2016-06-26','2016-06-27','2016-06-28','2016-06-29','2016-06-30','2016-07-01']
+            },
+            yAxis: {
+                type: 'value',
+                position: 'right'
+            },
+            series: [
+                {
+                    name: '平安银行',
+                    type: 'line',
+                    smooth: true,
+                    data: [120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name: '沪深300',
+                    type: 'line',
+                    smooth: true,
+                    data: [220, 182, 191, 234, 290, 330, 310, 134, 90, 230, 210, 120, 132, 101]
+                }
+            ]
+        };
+        rateChart.setOption(option);
+        window.onresize = rateChart.resize
+        switch (toggle) {
+            case "today":
+                break;
+            case "week":
+                break;
+            case "month":
+                break;
+            case "threemonth":
+                break;
+        }
+    })
 });

@@ -8,7 +8,7 @@
     <!--插件cdn-->
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" >
     <link href="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="http://static.iwookong.com/css/wookong/login.min.css">
+    <link rel="stylesheet" href="static/css/login.min.css">
     <style>
         .container{padding: 0;}
         .navbar{height: 130px;margin-bottom:0;background-color: #FFFFFF;}
@@ -20,8 +20,8 @@
         .navbar-right li{height: 20px;padding: 0 20px;}
         .navbar-right li a{font-size: 18px;color: #545454;line-height: 18px;padding: 0;cursor: pointer;}
         .navbar-right li:nth-child(1){border-right: 1px solid #545454;}
-        .login-box{background: url("http://static.iwookong.com/imgs/i/login_bg.png") no-repeat center;height: 668px;width: 100%;}
-        .login-left{background: url("http://static.iwookong.com/imgs/i/login_left.png") no-repeat left;height: 392px;margin-top: 130px;float: left;width:335px;max-width: 335px;}
+        .login-box{background: url("static/imgs/i/login_bg.png") no-repeat center;height: 668px;width: 100%;}
+        .login-left{background: url("static/imgs/i/login_left.png") no-repeat left;height: 392px;margin-top: 130px;float: left;width:335px;max-width: 335px;}
         .login-right{width: 442px;height: 450px;background-color: #FFFFFF;float: right;margin-top: 106px;border-radius: 5px;box-shadow: 2px 2px 5px;}
         .login-right-box{padding: 21px 42px 48px;}
         .account-box input{width: 100%;border-radius: 5px;height: 50px;border: 1px solid #cccccc;padding-left: 12px;font-size: 14px;}
@@ -44,7 +44,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">
-                <img src="http://static.iwookong.com/imgs/i/login_logo.png">
+                <img src="static/imgs/i/login_logo.png">
                 <label>坤雁悟空</label>
             </a>
         </div>
@@ -92,10 +92,10 @@
         }
     });
     $("#wechat").click(function(){
-        swal({title: "",text: "",imageUrl: "http://static.iwookong.com/imgs/i/qrcode.jpg" });
+        swal({title: "",text: "",imageUrl: "staticimgs/i/qrcode.jpg" });
         $(".sa-custom").css({"width":"258px","height":"258px"});
         $(".showSweetAlert").css({"margin-top":"-230px"});
-        //http://static.iwookong.com/imgs/i/qrcode.jpg
+        //staticimgs/i/qrcode.jpg
     });
     $(function(){
         $(this).keydown(function (e){

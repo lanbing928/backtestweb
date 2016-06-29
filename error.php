@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css"
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="http://static.iwookong.com/plugins/typeahead/jquery.typeahead.min.css">
-    <link rel="stylesheet" href="http://static.iwookong.com/css/common.min.css">
-    <link rel="stylesheet" href="http://static.iwookong.com/css/wookong/index.min.css">
+    <link rel="stylesheet" href="static/plugins/typeahead/jquery.typeahead.min.css">
+    <link rel="stylesheet" href="static/css/common.min.css">
+    <link rel="stylesheet" href="static/css/index.min.css">
     <style>
         .wk-error-content{width: 550px; margin: 130px auto 0;}
         .wk-error-content img{margin: 65px 0;}
@@ -26,7 +26,7 @@
 <div class="container wk-container">
     <div class="wk-error-content">
         <p class="wk-error-title">很抱歉！您要访问的页面出错啦 >_<</p>
-        <img src="http://static.iwookong.com/imgs/i/error.png">
+        <img src="staticimgs/i/error.png">
         <p class="wk-error-info">您访问的页面暂时不可用。您可以<a href="javascript:history.go(-1);">返回上一页</a></p>
         <div class="wk-error-btn">
             <button id="wk-back">返回上一页</button>
@@ -35,7 +35,7 @@
 </div>
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-<script src="http://static.iwookong.com/plugins/typeahead/jquery.typeahead.min.js"></script>
+<script src="static/plugins/typeahead/jquery.typeahead.min.js"></script>
 <script src="static/js/Utility.min.js"></script>
 <script src="static/js/all.min.js"></script>
 <script>
