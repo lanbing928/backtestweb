@@ -89,6 +89,20 @@ function buildTreeMap(resultData) {
         common.buildHotmap("wk-stock-follow-treemap", _suf, "stock");
     }
 }
+function initTodayRateLine() {
+    var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
+    var queryData = {
+        "query_type": "event",
+        "query_key": name,
+        "query_date": "today"
+    };
+    common.getRateLine(queryData, function () {
+        rateLine.showLoading();
+    }, function (resultData) {
+        common.buildRateLine(decodeURI(name), "today", resultData);
+        rateLine.hideLoading();
+    });
+}
 $(function () {
     var arrData = {query_type: 2, key: name, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
@@ -151,4 +165,5 @@ $(function () {
     common.getNews(arrData);
     initLineChart();
     initTreeMapChart();
+    initTodayRateLine();
 });

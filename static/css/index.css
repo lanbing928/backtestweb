@@ -46,7 +46,7 @@
 /*收益率走势*/
 .wk-rate-line{margin-top: 25px;min-height: 460px;}
 .wk-rate-select{margin-top: 16px;margin-bottom: 20px;}
-.wk-rate-select label{width: 80px;background-color: #FFFFFF;text-align: center;border: 1px solid #cccccc;font-size: 12px;margin-bottom: 0;margin-right: -5px;height: 20px;font-weight: 400;}
+.wk-rate-select label{width: 80px;background-color: #FFFFFF;text-align: center;border: 1px solid #cccccc;font-size: 12px;margin-bottom: 0;margin-right: -5px;height: 20px;font-weight: 400;cursor: pointer;}
 .wk-rate-select label.active{width: 80px;background-color: #7065a3;color: #FFFFFF;border: 1px solid #7065a3;}
 #wk-rate-line-pic{height: 350px;width: 100%;}
 

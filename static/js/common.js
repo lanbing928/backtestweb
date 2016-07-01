@@ -450,6 +450,97 @@ var common = {
         })
     },
     /**
+     * 获取热度走势图
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getRateLine: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "ajax/ajax_get_rateline.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 构建热度趋势图
+     * @param query_name
+     * @param query_date
+     * @param buildData
+     */
+    buildRateLine: function (query_name, query_date, buildData) {
+        var dateArr = [];
+        var r1Data = [];
+        var r2Data = [];
+        if (buildData.body && buildData.body.list.length > 0) {
+            var list = buildData.body.list;
+            if (query_date === "today") {
+                for (var i = 0; i < list.length; i++) {
+                    dateArr.push(Utility.unixToTime(list[i].trade_time * 1000));
+                    r1Data.push(list[i].day_yield);
+                    r2Data.push(list[i].hs300_day_yield);
+                }
+            } else {
+                for (var j = 0; j < list.length; j++) {
+                    dateArr.push(list[j].date);
+                    r1Data.push(list[j].adjusted_day_yield);
+                    r2Data.push(list[j].hs300_adjusted_day_yield);
+                }
+            }
+        }
+        var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
+        var option = {
+            tooltip: {
+                trigger: 'axis'
+            },
+            color: ["rgb(151,47,134)", "rgb(65,77,92)"],
+            legend: {
+                data: [query_name, '沪深300'],
+                bottom: '0'
+            },
+            grid: {
+                top: '8px',
+                left: '0',
+                right: '0',
+                bottom: '10%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: dateArr
+            },
+            yAxis: {
+                type: 'value',
+                position: 'right'
+            },
+            series: [
+                {
+                    name: query_name,
+                    type: 'line',
+                    smooth: true,
+                    data: JSON.parse("[" + r1Data.reverse() + "]")
+                },
+                {
+                    name: '沪深300',
+                    type: 'line',
+                    smooth: true,
+                    data: JSON.parse("[" + r2Data.reverse() + "]")
+                }
+            ]
+        };
+        rateChart.setOption(option);
+        window.onresize = rateChart.resize
+    },
+    /**
      * 构建股票热力图表格
      * @param buildData
      * @returns {string}
@@ -460,14 +551,14 @@ var common = {
             return b.value - a.value;
         });
         for (var i = 0; i < buildData.length; i++) {
-            var tvalue = (parseFloat(buildData[i].value) * 100).toFixed(2);
+            var tvalue = buildData[i].value;
             tableHtml.push("<tr>");
             tableHtml.push("<td>" + (i + 1) + "</td>");
             tableHtml.push("<td><a href='stocks.php?stock=" + buildData[i].code + "' target='_blank'>" + buildData[i].name + "</a></td>");
             tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].price_level) + "'>" + buildData[i].price + "</td>");
             tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].price_change_ratio) + "'>" + (buildData[i].price_change_ratio * 100).toFixed(2) + "%</td>");
             tableHtml.push("<td>" + buildData[i].hot + "</td>");
-            tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "%" + "</td>");
+            tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
             tableHtml.push("<td>" + buildData[i].count + "</td>");
             tableHtml.push("</tr>");
         }
@@ -485,12 +576,12 @@ var common = {
             return b.value - a.value;
         });
         for (var i = 0; i < buildData.length; i++) {
-            var tvalue = (parseFloat(buildData[i].value) * 100).toFixed(2);
+            var tvalue = buildData[i].value;
             tableHtml.push("<tr>");
             tableHtml.push("<td>" + (i + 1) + "</td>");
             tableHtml.push("<td><a href='" + buildType + ".php?name=" + buildData[i].name + "' target='_blank'>" + buildData[i].name + "</a></td>");
             tableHtml.push("<td>" + buildData[i].hot + "</td>");
-            tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "%" + "</td>");
+            tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
             tableHtml.push("<td>" + buildData[i].count + "</td>");
             tableHtml.push("</tr>");
         }
@@ -537,14 +628,14 @@ var common = {
             if (buildType == "stock") {
                 var tname = buildData[y].name;
                 var tcode = buildData[y].code;
-                var tvalue = (parseFloat(buildData[y].value) * 100).toFixed(2);
+                var tvalue = buildData[y].value;
                 var tpricelevel = buildData[y].price_level;
                 var tstop = buildData[y].stop;
                 if (tstop == 1) {
                     //TODO 这里判断是否停牌
-                    cdata.push("{name:\"" + tname + "\\n(" + tcode + ")\\n" + (tvalue > 0 ? "+" : "") + tvalue + "%\"");
+                    cdata.push("{name:\"" + tname + "\\n(" + tcode + ")\\n" + (tvalue > 0 ? "+" : "") + tvalue + "\"");
                 } else {
-                    cdata.push("{name:\"" + tname + "\\n(" + tcode + ")\\n" + (tvalue > 0 ? "+" : "") + tvalue + "%\"");
+                    cdata.push("{name:\"" + tname + "\\n(" + tcode + ")\\n" + (tvalue > 0 ? "+" : "") + tvalue + "\"");
                 }
                 cdata.push("value:" + buildData[y].count);
                 cdata.push("itemStyle:{normal:{color:'" + Utility.getTreeMapColor(tpricelevel) + "'}}");
@@ -556,8 +647,8 @@ var common = {
                     cdata.push("label:{normal:{textStyle:{color:'#fff'}}}}");
                 }
             } else {
-                var tsvalue = (parseFloat(buildData[y].value) * 100).toFixed(2);
-                cdata.push('{name:"' + buildData[y].name + "\\n" + (tsvalue > 0 ? "+" : "") + tsvalue + '%"');
+                var tsvalue = buildData[y].value;
+                cdata.push('{name:"' + buildData[y].name + "\\n" + (tsvalue > 0 ? "+" : "") + tsvalue + '"');
                 cdata.push("value:" + buildData[y].count);
                 cdata.push("itemStyle:{normal:{color:'" + Utility.getTreeMapColor(buildData[y].price_level) + "'}}");
                 if (buildData[y].price_level == -1) {
@@ -606,19 +697,19 @@ var common = {
                 if (resultData.industry.length > 0) {
                     relateInfo.push("<span>关联行业&nbsp;:&nbsp;</span>");
                     for (var i in resultData.industry) {
-                        relateInfo.push("<a href='industry.php?name=" + resultData.industry[i].industry + "'>" + resultData.industry[i].industry + "</a>");
+                        relateInfo.push("<a href='industry.php?name=" + resultData.industry[i].industry + "' target='_blank'>" + resultData.industry[i].industry + "</a>");
                     }
                 }
                 if (resultData.stock.length > 0) {
                     relateInfo.push("<span>关联股票&nbsp;:&nbsp;</span>");
                     for (var s in resultData.stock) {
-                        relateInfo.push("<a href='stock.php?stock=" + resultData.stock[s].stock_code + "'>" + resultData.stock[s].stock_name + "</a>");
+                        relateInfo.push("<a href='stocks.php?stock=" + resultData.stock[s].stock_code + "' target='_blank'>" + resultData.stock[s].stock_name + "</a>");
                     }
                 }
                 if (resultData.notion.length > 0) {
                     relateInfo.push("<span>关联概念&nbsp;:&nbsp;</span>");
                     for (var n in resultData.notion) {
-                        relateInfo.push("<a href='stock.php?concept=" + resultData.notion[n].section + "'>" + resultData.notion[n].section + "</a>");
+                        relateInfo.push("<a href='concept.php?name=" + resultData.notion[n].section + "' target='_blank'>" + resultData.notion[n].section + "</a>");
                     }
                 }
                 $(".relate-infos").html("关联资讯" + relateInfo.join(''));
