@@ -80,12 +80,12 @@ var common = {
     getNews: function (arrData) {
         arrData.info_type_list = "1,0,0,0,0,0";
         common.getRelatedInfo(arrData, function () {
-            $("#wk-news").append("<div class=\"loadingmask\"><p>加载中...</p></div>");
+            $("#wk-news").append(common.getLoading());
         }, function (resultData) {
             var newsHtml = [];
             var maxNum = parseInt(($(".wk-news-title-num:last").html() == "" ? 0 : $(".wk-news-title-num:last").html()));
             if (resultData.news.length > 0) {
-                $(".loadingmask").remove();
+                common.hideLoading();
                 for (var i = 0; i < resultData.news.length; i++) {
                     newsHtml.push("<div class=\"wk-news-list\" id=\"news_" + resultData.news[i].info_id + "\" data-news-timestamp=\"" + resultData.news[i].timestamp + "\">");
                     newsHtml.push("<div class=\"wk-news-list-head\">");
@@ -103,14 +103,11 @@ var common = {
                 $("#wk-news .mCSB_container").append(newsHtml.join(''));
             } else {
                 if (arrData.start_id == 0) {
-                    $(".loadingmask").remove();
-                    newsHtml.push("<div class=\"wk-news-no\"><img src=\"staticimgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
+                    common.hideLoading();
+                    newsHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
                     $("#wk-news .mCSB_container").html(newsHtml.join(''));
                 } else {
-                    $(".loadingmask p").html("没有更多数据");
-                    setTimeout(function () {
-                        $(".loadingmask").remove();
-                    }, 500);
+                    common.hideLoading();
                 }
             }
         })
@@ -122,11 +119,11 @@ var common = {
     getSelfMedia: function (arrData) {
         arrData.info_type_list = "0,0,1,0,0,0";
         common.getRelatedInfo(arrData, function () {
-            $("#wk-selfmedia").append("<div class=\"loadingmask\"><p>加载中...</p></div>");
+            $("#wk-selfmedia").append(common.getLoading());
         }, function (resultData) {
             var mediaHtml = [];
             if (resultData.me_media.length > 0) {
-                $(".loadingmask").remove();
+                common.hideLoading();
                 for (var i = 0; i < resultData.me_media.length; i++) {
                     mediaHtml.push("<div class=\"wk-news-list\" id=\"media_" + resultData.me_media[i].info_id + "\" data-media-timestamp=\"" + resultData.me_media[i].timestamp + "\"><div class=\"wk-news-list-head\">");
                     mediaHtml.push("<p class=\"wk-news-list-title\">");
@@ -143,14 +140,11 @@ var common = {
                 $("#wk-selfmedia .mCSB_container").append(mediaHtml.join(''));
             } else {
                 if (arrData.start_id == 0) {
-                    $(".loadingmask").remove();
-                    mediaHtml.push("<div class=\"wk-news-no\"><img src=\"staticimgs/i/nonews.png\"><span>暂无相关达人观点</span></div>");
+                    common.hideLoading();
+                    mediaHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关达人观点</span></div>");
                     $("#wk-selfmedia .mCSB_container").html(mediaHtml.join(''));
                 } else {
-                    $(".loadingmask p").html("没有更多数据");
-                    setTimeout(function () {
-                        $(".loadingmask").remove();
-                    }, 500);
+                    common.hideLoading();
                 }
             }
         })
@@ -162,11 +156,11 @@ var common = {
     getFastNews: function (arrData) {
         arrData.info_type_list = "0,1,0,0,0,0";
         common.getRelatedInfo(arrData, function () {
-            $("#wk-newsflash").append("<div class=\"loadingmask\"><p>加载中...</p></div>");
+            $("#wk-newsflash").append(common.getLoading());
         }, function (resultData) {
             var fastHtml = [];
             if (resultData.fast_info.length > 0) {
-                $(".loadingmask").remove();
+                common.hideLoading();
                 for (var i = 0; i < resultData.fast_info.length; i++) {
                     fastHtml.push("<tr id='fast_" + resultData.fast_info[i].info_id + "' data-fastnews-timestamp=\"" + resultData.fast_info[i].timestamp + "\"><td><label>");
                     fastHtml.push(Utility.unixToDate(resultData.fast_info[i].timestamp).substring(10, 16));
@@ -177,14 +171,11 @@ var common = {
                 $("#wk-newsflash .wk-news-list table>tbody").append(fastHtml.join(''));
             } else {
                 if (arrData.start_id == 0) {
-                    $(".loadingmask").remove();
-                    fastHtml.push("<div class=\"wk-news-no\"><img src=\"staticimgs/i/nonews.png\"><span>暂无相关快讯</span></div>");
+                    common.hideLoading();
+                    fastHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关快讯</span></div>");
                     $("#wk-newsflash .mCSB_container").html(fastHtml.join(''));
                 } else {
-                    $(".loadingmask p").html("没有更多数据");
-                    setTimeout(function () {
-                        $(".loadingmask").remove();
-                    }, 500);
+                    common.hideLoading();
                 }
             }
         })
@@ -256,7 +247,7 @@ var common = {
     getTreemap: function (wk_treemap_data) {
         for (var x in wk_treemap_data) {
             if (Utility.timeRange("09:15", "09:25")) {
-                $("#" + wk_treemap_data[x].key).html("<div class=\"wk-hotmap-no\"><img src=\"staticimgs/i/nonews.png\"><span>自由竞价时间,暂无数据</span></div>");
+                $("#" + wk_treemap_data[x].key).html("<div class=\"wk-hotmap-no\"><img src=\"static/imgs/i/nonews.png\"><span>自由竞价时间,暂无数据</span></div>");
             } else {
                 var myChart = echarts.init(document.getElementById("" + wk_treemap_data[x].key + ""));
                 var cdata = [];
@@ -723,5 +714,32 @@ var common = {
      */
     getUpDownColor: function (price) {
         return price > 0 ? "wk-red" : price < 0 ? "wk-green" : "wk-gray";
+    },
+    /**
+     * 获取加载动画
+     * @returns {string}
+     */
+    getLoading: function () {
+        var loadingHtml = [];
+        loadingHtml.push("<div id=\"loading\">");
+        loadingHtml.push("		<div id=\"loading-center\">");
+        loadingHtml.push("			<div id=\"loading-center-absolute\">");
+        loadingHtml.push("				<div class=\"object\"></div>");
+        loadingHtml.push("				<div class=\"object\"></div>");
+        loadingHtml.push("				<div class=\"object\"></div>");
+        loadingHtml.push("				<div class=\"object\"></div>");
+        loadingHtml.push("				<div class=\"object\"></div>");
+        loadingHtml.push("				<div class=\"object\"></div>");
+        loadingHtml.push("				<div class=\"object\"></div>");
+        loadingHtml.push("				<div class=\"object\"></div>");
+        loadingHtml.push("				<div class=\"object\"></div>");
+        loadingHtml.push("				<div class=\"object\"></div>");
+        loadingHtml.push("			</div>");
+        loadingHtml.push("		</div>");
+        loadingHtml.push("	</div>");
+        return loadingHtml.join('');
+    },
+    hideLoading: function () {
+        $("#loading").remove();
     }
 };
