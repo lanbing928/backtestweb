@@ -30,7 +30,7 @@ class CheckLogin
                         "user_id" => $user_id,
                         "user_name" => $userName,
                         "token" => $token
-                    )), 864000);
+                    )), 43200);
                 }
                 $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
                 $token = isset($_SESSION['token']) ? $_SESSION['token'] : "";

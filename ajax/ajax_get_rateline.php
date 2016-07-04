@@ -3,10 +3,6 @@
  * 获取收益率走势
  */
 
-//http://222.73.34.92/cgi-bin/george/stock/v1/stockhotdiagram.fcgi?cycle_type=current&event=大豆供应
-//http://222.73.34.92/cgi-bin/george/stock/v1/stockhotdiagram.fcgi?cycle_type=current&stock_code=,000001
-//http://222.73.34.92/cgi-bin/george/stock/v1/stockhotdiagram.fcgi?start_date=,2016-06-03&event=酿酒食品
-//http://222.73.34.92/cgi-bin/george/stock/v1/stockhotdiagram.fcgi?start_date=,2016-06-03&stock_code=,000001&cycle_type=bydate
 require_once(dirname(__FILE__) . "/../common/Request.class.php");
 require_once(dirname(__FILE__) . "/../common/iwookongConfig.class.php");
 require_once(dirname(__FILE__) . "/../common/CheckUserLogin.class.php");
@@ -58,6 +54,10 @@ if ($json_line['status'] != "0") {
     print_r($stock_line_result);
     return;
 } else {
-    print_r(json_encode(array("status" => 0, "result" => $json_line['msg'])));
-    return;
+    if ($json_line['msg'] == "权限不够") {
+        print_r(json_encode(array("status" => -100, "result" => $json_line['msg'])));
+    } else {
+        print_r(json_encode(array("status" => 0, "result" => $json_line['msg'])));
+        return;
+    }
 }

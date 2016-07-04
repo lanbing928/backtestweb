@@ -1,6 +1,15 @@
 "use strict";
 var common = {
     /**
+     * 验证是否没有权限
+     * @param resultData
+     */
+    initCheckLogin: function (resultData) {
+        if (resultData.status == -100) {
+            window.location.href = "login.php";
+        }
+    },
+    /**
      * 登录
      */
     login: function (arrData, beforeFn, backFn) {
@@ -52,6 +61,7 @@ var common = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -69,6 +79,7 @@ var common = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         });
@@ -331,6 +342,7 @@ var common = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -352,6 +364,7 @@ var common = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -373,6 +386,7 @@ var common = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -394,6 +408,7 @@ var common = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -415,6 +430,7 @@ var common = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -436,6 +452,7 @@ var common = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -457,6 +474,7 @@ var common = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
