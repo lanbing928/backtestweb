@@ -64,7 +64,7 @@ if (empty($industryName)) {
     </section>
     <section class="wk-rate-line">
         <p class="wk-hot-title">收益率走势</p>
-        <div class="wk-rate-select">
+        <div class="wk-rate-select" data-query-name="<?php echo $industryName ?>" data-query-type="event">
             <label class="active" data-toggle="today">当天</label>
             <label data-toggle="week">最近一周</label>
             <label data-toggle="month">最近一个月</label>
@@ -146,7 +146,7 @@ if (empty($industryName)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>查看热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -193,7 +193,7 @@ if (empty($industryName)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>搜索热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -240,7 +240,7 @@ if (empty($industryName)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>

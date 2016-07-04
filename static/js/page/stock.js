@@ -1,5 +1,6 @@
 //获取传过来的股票代码
 var stockcode = Utility.getQueryStringByName("stock");
+var _stockName = "";
 var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
 var viewData = [], searchData = [], followData = [];
 var wk_treemap_data_industry, wk_treemap_data_concept;
@@ -78,6 +79,7 @@ function initTreeMapChart() {
                     rel_con_link += "<a href='concept.php?name=" + rel_concept[i].sect + "' target='_blank'>" + rel_concept[i].sect + "</a>"
                 }
             }
+            _stockName = resultData.stock_info.stock_name;
             $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
             $(".wk-related-info").html(resultData.stock_info.stock_name + "热度情况&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "</span>");
             $(".latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
@@ -109,6 +111,7 @@ function initTreeMapChart() {
             } else {
                 buildIndustryTreeMap(wk_treemap_data_industry);
             }
+            initTodayRateLine();
         }
     });
 }
@@ -158,7 +161,20 @@ function buildConceptTreeMap(resultData) {
         common.buildHotmap("wk-concept-follow-treemap", _suf, "stock");
     }
 }
-
+function initTodayRateLine() {
+    var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
+    var queryData = {
+        "query_type": "stock",
+        "query_key": stockcode,
+        "query_date": "today"
+    };
+    common.getRateLine(queryData, function () {
+        rateLine.showLoading();
+    }, function (resultData) {
+        common.buildRateLine(_stockName, "today", resultData);
+        rateLine.hideLoading();
+    });
+}
 $(function () {
     var arrData = {query_type: 1, key: stockcode, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
@@ -182,7 +198,6 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            onTotalScrollOffset: 150,
             onTotalScroll: function () {
                 arrData.start_id = $("#wk-news .wk-news-list:last").attr("id").replace("news_", "");
                 arrData.info_type_list = "1,0,0,0,0,0";
@@ -196,7 +211,7 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            onTotalScrollOffset: 150,
+            
             onTotalScroll: function () {
                 arrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
                 arrData.info_type_list = "0,0,1,0,0,0";
@@ -210,7 +225,7 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            onTotalScrollOffset: 150,
+            
             onTotalScroll: function () {
                 arrData.start_id = $("#wk-newsflash .wk-news-list tr:last").attr("id").replace("fast_", "");
                 arrData.info_type_list = "0,1,0,0,0,0";
