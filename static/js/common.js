@@ -485,12 +485,27 @@ var common = {
                     r1Data.push(list[j].adjusted_day_yield);
                     r2Data.push(list[j].hs300_adjusted_day_yield);
                 }
+                dateArr.reverse();
+                r1Data.reverse();
+                r2Data.reverse();
             }
         }
         var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
         var option = {
             tooltip: {
-                trigger: 'axis'
+                trigger: "axis",
+                formatter: function (params) {
+                    var showLabel = "";
+                    showLabel += params[0].name + "<br>";
+                    for (var p in params) {
+                        if (params[p].value && params[p].value != 0) {
+                            if (params[0].name == params[p].name) {
+                                showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
+                            }
+                        }
+                    }
+                    return showLabel;
+                }
             },
             color: ["rgb(151,47,134)", "rgb(65,77,92)"],
             legend: {
@@ -511,20 +526,29 @@ var common = {
             },
             yAxis: {
                 type: 'value',
-                position: 'right'
+                position: 'right',
+                axisLabel: {
+                    formatter: function (value) {
+                        if (value != 0) {
+                            return (value * 100) + "%";
+                        } else {
+                            return 0;
+                        }
+                    }
+                }
             },
             series: [
                 {
                     name: query_name,
                     type: 'line',
                     smooth: true,
-                    data: JSON.parse("[" + r1Data.reverse() + "]")
+                    data: JSON.parse("[" + r1Data + "]")
                 },
                 {
                     name: '沪深300',
                     type: 'line',
                     smooth: true,
-                    data: JSON.parse("[" + r2Data.reverse() + "]")
+                    data: JSON.parse("[" + r2Data + "]")
                 }
             ]
         };
