@@ -97,7 +97,7 @@ if (empty($conceptName)) {
         <div class="wk-con-industry">
             <p class="wk-hot-title"><?php echo $conceptName ?>概念热度情况</p>
             <div class="wk-con-box">
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs hot-map" role="tablist">
                     <li role="presentation" class="active"><a href="#concept-view" aria-controls="concept-view" role="tab" data-toggle="tab">查看热度</a></li>
                     <li role="presentation"><a href="#concept-search" aria-controls="concept-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#concept-follow" aria-controls="concept-follow" role="tab" data-toggle="tab">关注热度</a></li>

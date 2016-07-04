@@ -1,4 +1,4 @@
-.wk-time-hot,.wk-stock-hot,.wk-industry-hot,.wk-concept-hot,.wk-all-hotm,.wk-news-detail,.wk-all-hot,.wk-rate-line{border: 1px solid #d1d1d1;padding:20px;-webkit-box-shadow: #eeeeee 0px 1px 5px; -moz-box-shadow: #eeeeee 0px 1px 5px; box-shadow: #eeeeee 0px 1px 5px;}
+.wk-time-hot,.wk-stock-hot,.wk-industry-hot,.wk-concept-hot,.wk-all-hotm,.wk-news-detail,.wk-all-hot,.wk-rate-line,.wk-user-center{border: 1px solid #d1d1d1;padding:20px;-webkit-box-shadow: #eeeeee 0px 1px 5px; -moz-box-shadow: #eeeeee 0px 1px 5px; box-shadow: #eeeeee 0px 1px 5px;}
 /*股票 行业 概念 内容*/
 .wk-all-hot{margin-top: 25px;margin-bottom: 40px;}
 .wk-hot-title{font-size: 18px;font-weight: 600;margin-bottom: 15px;}
@@ -116,6 +116,7 @@
 .loadingmask{width: 100%; height: 100%; position: absolute;top: 0;left: 0;background: rgba(193,193,193,.5);}
 .loadingmask label{background: url("../imgs/i/loader.gif") no-repeat center;}
 .loadingmask p{text-align: center;margin-top: 200px;color: #212121;}
+.clear{clear: both;}
 
 /*重写table间隔变色，偶数行变色*/
 .table-striped>tbody>tr:nth-of-type(even) {background-color: #f9f9f9;}
@@ -136,3 +137,26 @@
 .wk-treemap-table tbody>tr>td{text-align: center;border:1px solid #dddddd;height: 27px;padding: 4px;}
 .wk-treemap-table thead>tr>td{text-align: center;border:1px solid #dddddd;height: 24px;padding: 2px;}
 .wk-treemap-table thead{border-top: 2px solid #c9c9c9;border-bottom: 2px solid #c9c9c9;}
+
+/*个人中心*/
+/*头部数据*/
+.wk-user-center{margin-top: 25px;}
+.wk-user-datas{height: 70px;}
+.wk-user-datas .col-md-4{padding: 0;}
+.wk-user-datas-box{width: 240px;}
+.wk-user-datas p{padding: 0;margin: 0;}
+.wk-user-datas-title{font-size: 16px;}
+.wk-user-datas-num{font-size: 26px;float: left;}
+.wk-user-datas-per{float: right;}
+.wk-user-datas-per p{line-height: 1.2;}
+.wk-datas-c{margin: 0 auto;}
+.wk-datas-r{margin-left: 55px;}
+/*我的自选股*/
+.wk-user-mychoose{margin-top: 40px;}
+.wk-user-choose-title{display: inline-flex;}
+.wk-user-choose-title div{padding: 0 8px;font-size: 14px;color: #333333;cursor: pointer;}
+.wk-user-choose-title div.active{color: #303F9F;}
+.wk-add-zh{border: none;color: #FFFFFF;text-shadow: none; background: #3970b3 none;font-size: 14px;margin-left: 16px;height: 26px;line-height: 1.2;}
+.wk-user-mychoose-table-box{margin-top: 15px;}
+.wk-user-mychoose-table table>thead>tr>th{text-align: center;border-style: none;}
+.wk-user-mychoose-table table>tbody>tr>td{text-align: center;  border-style: none;}
