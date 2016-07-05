@@ -65,7 +65,7 @@ if (empty($stockCode)) {
     </section>
     <section class="wk-rate-line">
         <p class="wk-hot-title">收益率走势</p>
-        <div class="wk-rate-select">
+        <div class="wk-rate-select" data-query-name="<?php echo $stockCode ?>" data-query-type="stock">
             <label class="active" data-toggle="today">当天</label>
             <label data-toggle="week">最近一周</label>
             <label data-toggle="month">最近一个月</label>
@@ -98,7 +98,7 @@ if (empty($stockCode)) {
         <div class="wk-con-industry">
             <p class="wk-hot-title hy-title"></p>
             <div class="wk-con-box">
-                <ul class="nav nav-tabs hot-map" role="tablist">
+                <ul class="nav nav-tabs wk-hotmap" role="tablist">
                     <li role="presentation" class="active"><a href="#industry-view" aria-controls="industry-view" role="tab" data-toggle="tab">查看热度</a></li>
                     <li role="presentation"><a href="#industry-search" aria-controls="industry-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#industry-follow" aria-controls="industry-follow" role="tab" data-toggle="tab">关注热度</a></li>
@@ -148,7 +148,7 @@ if (empty($stockCode)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -195,7 +195,7 @@ if (empty($stockCode)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -242,7 +242,7 @@ if (empty($stockCode)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -257,7 +257,7 @@ if (empty($stockCode)) {
         <div class="wk-con-concept">
             <p class="wk-hot-title gn-title"></p>
             <div class="wk-con-box">
-                <ul class="nav nav-tabs hot-map" role="tablist">
+                <ul class="nav nav-tabs wk-hotmap" role="tablist">
                     <li role="presentation" class="active"><a href="#concept-view" aria-controls="stock-view" role="tab" data-toggle="tab">查看热度</a></li>
                     <li role="presentation"><a href="#concept-search" aria-controls="concept-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#concept-follow" aria-controls="concept-follow" role="tab" data-toggle="tab">关注热度</a></li>
@@ -307,7 +307,7 @@ if (empty($stockCode)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -354,7 +354,7 @@ if (empty($stockCode)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -401,7 +401,7 @@ if (empty($stockCode)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
