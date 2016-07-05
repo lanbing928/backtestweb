@@ -6,10 +6,10 @@
 require_once(dirname(__FILE__) . "/../common/Request.class.php");
 require_once(dirname(__FILE__) . "/../common/iwookongConfig.class.php");
 require_once(dirname(__FILE__) . "/../common/CheckUserLogin.class.php");
-//if (CheckLogin::check() == -1) {
-//    print_r(json_encode(array("status" => -1, "result" => "未知登录状态")));
-//    return;
-//}
+if (CheckLogin::check() == -1) {
+    print_r(json_encode(array("status" => -1, "result" => "未知登录状态")));
+    return;
+}
 $arrData = array(
     "user_id" => $_SESSION['user_id'],
     "token" => $_SESSION["token"]
@@ -22,10 +22,9 @@ if (empty($query_date) || empty($query_type) || empty($query_key)) {
 }
 if ($query_type == "stock") {
     $arrData["stock_code"] = "," . $query_key;
-} elseif ($query_type == "event") {
-    $arrData["event"] = $query_key;
 } else {
-    print_r(json_encode(array("status" => 0, "result" => "参数有误")));
+    $arrData["event"] = $query_key;
+    $arrData["classify"] = $query_type;
 }
 switch ($query_date) {
     case "today":

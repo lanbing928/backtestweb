@@ -212,7 +212,7 @@ var common = {
                     for (var p in params) {
                         if (params[p].value && params[p].value != 0) {
                             if (params[0].name == params[p].name) {
-                                showLabel += "<label style='color: " + params[p].color + ";font-size: 18px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + Utility.formatNum(params[p].value) + "<br>";
+                                showLabel += "<label style='color: " + params[p].color + ";font-size: 14x;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + Utility.formatNum(params[p].value) + "<br>";
                             }
                         }
                     }

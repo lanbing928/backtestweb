@@ -64,7 +64,7 @@ if (empty($conceptName)) {
     </section>
     <section class="wk-rate-line">
         <p class="wk-hot-title">收益率走势</p>
-        <div class="wk-rate-select" data-query-name="<?php echo $conceptName ?>" data-query-type="event">
+        <div class="wk-rate-select" data-query-name="<?php echo $conceptName ?>" data-query-type="concept">
             <label class="active" data-toggle="today">当天</label>
             <label data-toggle="week">最近一周</label>
             <label data-toggle="month">最近一个月</label>
@@ -97,7 +97,7 @@ if (empty($conceptName)) {
         <div class="wk-con-industry">
             <p class="wk-hot-title"><?php echo $conceptName ?>概念热度情况</p>
             <div class="wk-con-box">
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs wk-hotmap" role="tablist">
                     <li role="presentation" class="active"><a href="#concept-view" aria-controls="concept-view" role="tab" data-toggle="tab">查看热度</a></li>
                     <li role="presentation"><a href="#concept-search" aria-controls="concept-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#concept-follow" aria-controls="concept-follow" role="tab" data-toggle="tab">关注热度</a></li>

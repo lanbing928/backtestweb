@@ -55,7 +55,7 @@ $(function () {
         trigger: "hover"
     });
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+    $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
         initTreeMapChart();
     });
     $(".wk-line-toggle a").click(function () {
