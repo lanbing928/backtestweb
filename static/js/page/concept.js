@@ -92,7 +92,7 @@ function buildTreeMap(resultData) {
 function initTodayRateLine() {
     var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
     var queryData = {
-        "query_type": "event",
+        "query_type": "concept",
         "query_key": name,
         "query_date": "today"
     };

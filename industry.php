@@ -64,7 +64,7 @@ if (empty($industryName)) {
     </section>
     <section class="wk-rate-line">
         <p class="wk-hot-title">收益率走势</p>
-        <div class="wk-rate-select" data-query-name="<?php echo $industryName ?>" data-query-type="event">
+        <div class="wk-rate-select" data-query-name="<?php echo $industryName ?>" data-query-type="industry">
             <label class="active" data-toggle="today">当天</label>
             <label data-toggle="week">最近一周</label>
             <label data-toggle="month">最近一个月</label>
