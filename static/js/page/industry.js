@@ -89,6 +89,20 @@ function buildTreeMap(resultData) {
         common.buildHotmap("wk-stock-follow-treemap", _suf, "stock");
     }
 }
+function initTodayRateLine() {
+    var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
+    var queryData = {
+        "query_type": "industry",
+        "query_key": name,
+        "query_date": "today"
+    };
+    common.getRateLine(queryData, function () {
+        rateLine.showLoading();
+    }, function (resultData) {
+        common.buildRateLine(decodeURI(name), "today", resultData);
+        rateLine.hideLoading();
+    });
+}
 $(function () {
     var arrData = {query_type: 2, key: name, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
@@ -110,7 +124,6 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            onTotalScrollOffset: 150,
             onTotalScroll: function () {
                 arrData.start_id = $("#wk-news .wk-news-list:last").attr("id").replace("news_", "");
                 arrData.info_type_list = "1,0,0,0,0,0";
@@ -124,7 +137,6 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            onTotalScrollOffset: 150,
             onTotalScroll: function () {
                 arrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
                 arrData.info_type_list = "0,0,1,0,0,0";
@@ -138,7 +150,6 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            onTotalScrollOffset: 150,
             onTotalScroll: function () {
                 arrData.start_id = $("#wk-newsflash .wk-news-list tr:last").attr("id").replace("fast_", "");
                 arrData.info_type_list = "0,1,0,0,0,0";
@@ -151,4 +162,5 @@ $(function () {
     common.getNews(arrData);
     initLineChart();
     initTreeMapChart();
+    initTodayRateLine();
 });

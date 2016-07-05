@@ -128,7 +128,7 @@ if (CheckLogin::check() == -1) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>查看热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -181,7 +181,7 @@ if (CheckLogin::check() == -1) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>搜索热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -234,7 +234,7 @@ if (CheckLogin::check() == -1) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -304,7 +304,7 @@ if (CheckLogin::check() == -1) {
                                         <td>序号</td>
                                         <td>行业名称</td>
                                         <td>查看热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -354,7 +354,7 @@ if (CheckLogin::check() == -1) {
                                         <td>序号</td>
                                         <td>行业名称</td>
                                         <td>搜索热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -404,7 +404,7 @@ if (CheckLogin::check() == -1) {
                                         <td>序号</td>
                                         <td>行业名称</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -474,7 +474,7 @@ if (CheckLogin::check() == -1) {
                                         <td>序号</td>
                                         <td>行业名称</td>
                                         <td>查看热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -524,7 +524,7 @@ if (CheckLogin::check() == -1) {
                                         <td>序号</td>
                                         <td>行业名称</td>
                                         <td>搜索热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -574,7 +574,7 @@ if (CheckLogin::check() == -1) {
                                         <td>序号</td>
                                         <td>行业名称</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
