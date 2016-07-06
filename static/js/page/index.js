@@ -32,7 +32,7 @@ function buildTreeMap(resultData) {
     if (resultData.result.code_info.shs_.length > 0) {
         var _shs = resultData.result.code_info.shs_;
         var _sus = resultData.result.code_info.sus_;
-        $("#hot-search-stock").html("<a class='" + Utility.getPriceColor(_shs[0].price) + "' href='stocks.php?stock=" + _shs[0].code + "' target='_blank'>" + _shs[0].name + "(" + _shv[0].code + ")</a>");
+        $("#hot-search-stock").html("<a class='" + Utility.getPriceColor(_shs[0].price) + "' href='stocks.php?stock=" + _shs[0].code + "' target='_blank'>" + _shs[0].name + "(" + _shs[0].code + ")</a>");
         $("#stock-search .wk-hot-table tbody").html(common.buildHotmapTable(_shs, "stock"));
         $("#stock-search .right .wk-treemap-table tbody").html(common.buildStockTable(_sus));
         common.buildHotmap("wk-stock-search-treemap", _sus, "stock");
@@ -40,7 +40,7 @@ function buildTreeMap(resultData) {
     if (resultData.result.code_info.shf_.length > 0) {
         var _shf = resultData.result.code_info.shf_;
         var _suf = resultData.result.code_info.suf_;
-        $("#hot-follow-stock").html("<a class='" + Utility.getPriceColor(_shf[0].price) + "' href='stocks.php?stock=" + _shf[0].code + "' target='_blank'>" + _shf[0].name + "(" + _shv[0].code + ")</a>");
+        $("#hot-follow-stock").html("<a class='" + Utility.getPriceColor(_shf[0].price) + "' href='stocks.php?stock=" + _shf[0].code + "' target='_blank'>" + _shf[0].name + "(" + _shf[0].code + ")</a>");
         $("#stock-follow .wk-hot-table tbody").html(common.buildHotmapTable(_shf, "stock"));
         $("#stock-follow .right .wk-treemap-table tbody").html(common.buildStockTable(_suf));
         common.buildHotmap("wk-stock-follow-treemap", _suf, "stock");
