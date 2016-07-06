@@ -119,9 +119,11 @@ if (empty($industryName)) {
                                     <td>价格</td>
                                 </tr>
                                 </thead>
-                                <tbody> <tr>
+                                <tbody>
+                                <tr>
                                     <td colspan="5">加载中...</td>
-                                </tr></tbody>
+                                </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div class="col-md-7 right">

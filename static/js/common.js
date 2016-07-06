@@ -548,7 +548,7 @@ var common = {
                 axisLabel: {
                     formatter: function (value) {
                         if (value != 0) {
-                            return (value * 100) + "%";
+                            return (value * 100).toFixed(2) + "%";
                         } else {
                             return 0;
                         }

@@ -301,35 +301,273 @@ if (CheckLogin::check() == -1) {
             </div>
         </div>
         <div class="wk-user-mynews">
-            <div class="btn-group active">
-                <span>新闻</span>
+            <div class="btn-group active" data-target="wk-user-news-list">
+                <div class="wk-user-news-slider">
+                    <span>新闻</span>
                     <span class="dropdown-toggle" data-toggle="dropdown">
                         <span class="fa fa-chevron-down"></span>
                     </span>
+                </div>
             </div>
-            <div class="btn-group">
-                <span>大V观点</span>
+            <div class="btn-group" data-target="wk-user-vpoint-list">
+                <div class="wk-user-news-slider">
+                    <span>大V观点</span>
                     <span class="dropdown-toggle" data-toggle="dropdown">
                         <span class="fa fa-chevron-down"></span>
                     </span>
+                </div>
             </div>
-            <div class="btn-group">
-                <span>快讯</span>
-            </div>
-        </div>
-        <div class="wk-user-news-list">
-            <div class="wk-user-news">
-                <label>腾达建设(600161)</label><label>招商银行(600162)</label>
-                <p>万亿住房租赁市场 两类标的明显受益</p>
-                <p></p>
-                <p><span>来源:同花顺</span><span>2016-07-05 17:09</span></p>
+            <div class="btn-group" data-target="wk-user-fastnews-list">
+                <div class="wk-user-news-slider">
+                    <span>快讯</span>
+                </div>
             </div>
         </div>
-        <div class="wk-user-vpoint-list">
-
-        </div>
-        <div class="wk-user-fastnews-list">
-
+        <div class="wk-user-news-tabcon">
+            <div class="wk-user-news-list" id="wk-user-news-list">
+                <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
+                    <div class="wk-news-list-head">
+                        <p class="wk-news-list-title">
+                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                        </p>
+                        <span class="wk-news-list-tips wk-lihao"></span>
+                    </div>
+                    <div class="wk-news-list-con">
+                        <p>
+                            <strong>【机器人摘要】</strong>
+                            其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）、亚星锚链（601890）等冲击涨停，中国船舶（600150）、钢构工程（600072）、中国重工（601989）、中航机电（002013）、中直股份（600038）、洪都航空（600316）、航天电子（600879）、光电股份（600184）等涨幅超5%。
+                            <a href="detail.php?infoid=173497" target="_blank"><i class="fa fa-link"></i>详情链接</a>
+                        </p>
+                        <span>来源：金融界&nbsp;&nbsp;&nbsp;&nbsp;2016-07-05 00:32</span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
+                    <div class="wk-news-list-head">
+                        <p class="wk-news-list-title">
+                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                        </p>
+                        <span class="wk-news-list-tips wk-lihao"></span>
+                    </div>
+                    <div class="wk-news-list-con">
+                        <p>
+                            <strong>【机器人摘要】</strong>
+                            其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）、亚星锚链（601890）等冲击涨停，中国船舶（600150）、钢构工程（600072）、中国重工（601989）、中航机电（002013）、中直股份（600038）、洪都航空（600316）、航天电子（600879）、光电股份（600184）等涨幅超5%。
+                            <a href="detail.php?infoid=173497" target="_blank"><i class="fa fa-link"></i>详情链接</a>
+                        </p>
+                        <span>来源：金融界&nbsp;&nbsp;&nbsp;&nbsp;2016-07-05 00:32</span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
+                    <div class="wk-news-list-head">
+                        <p class="wk-news-list-title">
+                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                        </p>
+                        <span class="wk-news-list-tips wk-lihao"></span>
+                    </div>
+                    <div class="wk-news-list-con">
+                        <p>
+                            <strong>【机器人摘要】</strong>
+                            其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）、亚星锚链（601890）等冲击涨停，中国船舶（600150）、钢构工程（600072）、中国重工（601989）、中航机电（002013）、中直股份（600038）、洪都航空（600316）、航天电子（600879）、光电股份（600184）等涨幅超5%。
+                            <a href="detail.php?infoid=173497" target="_blank"><i class="fa fa-link"></i>详情链接</a>
+                        </p>
+                        <span>来源：金融界&nbsp;&nbsp;&nbsp;&nbsp;2016-07-05 00:32</span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
+                    <div class="wk-news-list-head">
+                        <p class="wk-news-list-title">
+                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                        </p>
+                        <span class="wk-news-list-tips wk-lihao"></span>
+                    </div>
+                    <div class="wk-news-list-con">
+                        <p>
+                            <strong>【机器人摘要】</strong>
+                            其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）、亚星锚链（601890）等冲击涨停，中国船舶（600150）、钢构工程（600072）、中国重工（601989）、中航机电（002013）、中直股份（600038）、洪都航空（600316）、航天电子（600879）、光电股份（600184）等涨幅超5%。
+                            <a href="detail.php?infoid=173497" target="_blank"><i class="fa fa-link"></i>详情链接</a>
+                        </p>
+                        <span>来源：金融界&nbsp;&nbsp;&nbsp;&nbsp;2016-07-05 00:32</span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
+                    <div class="wk-news-list-head">
+                        <p class="wk-news-list-title">
+                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                        </p>
+                        <span class="wk-news-list-tips wk-lihao"></span>
+                    </div>
+                    <div class="wk-news-list-con">
+                        <p>
+                            <strong>【机器人摘要】</strong>
+                            其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）、亚星锚链（601890）等冲击涨停，中国船舶（600150）、钢构工程（600072）、中国重工（601989）、中航机电（002013）、中直股份（600038）、洪都航空（600316）、航天电子（600879）、光电股份（600184）等涨幅超5%。
+                            <a href="detail.php?infoid=173497" target="_blank"><i class="fa fa-link"></i>详情链接</a>
+                        </p>
+                        <span>来源：金融界&nbsp;&nbsp;&nbsp;&nbsp;2016-07-05 00:32</span>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="wk-user-vpoint-list" id="wk-user-vpoint-list" style="display: none;">
+                <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
+                    <div class="wk-news-list-head">
+                        <p class="wk-news-list-title">
+                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                        </p>
+                        <span class="wk-news-list-tips wk-lihao"></span>
+                    </div>
+                    <div class="wk-news-list-con">
+                        <p>
+                            <strong>【机器人摘要】</strong>
+                            其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）、亚星锚链（601890）等冲击涨停，中国船舶（600150）、钢构工程（600072）、中国重工（601989）、中航机电（002013）、中直股份（600038）、洪都航空（600316）、航天电子（600879）、光电股份（600184）等涨幅超5%。
+                            <a href="detail.php?infoid=173497" target="_blank"><i class="fa fa-link"></i>详情链接</a>
+                        </p>
+                        <span>来源：金融界&nbsp;&nbsp;&nbsp;&nbsp;2016-07-05 00:32</span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
+                    <div class="wk-news-list-head">
+                        <p class="wk-news-list-title">
+                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                        </p>
+                        <span class="wk-news-list-tips wk-lihao"></span>
+                    </div>
+                    <div class="wk-news-list-con">
+                        <p>
+                            <strong>【机器人摘要】</strong>
+                            其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）、亚星锚链（601890）等冲击涨停，中国船舶（600150）、钢构工程（600072）、中国重工（601989）、中航机电（002013）、中直股份（600038）、洪都航空（600316）、航天电子（600879）、光电股份（600184）等涨幅超5%。
+                            <a href="detail.php?infoid=173497" target="_blank"><i class="fa fa-link"></i>详情链接</a>
+                        </p>
+                        <span>来源：金融界&nbsp;&nbsp;&nbsp;&nbsp;2016-07-05 00:32</span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
+                    <div class="wk-news-list-head">
+                        <p class="wk-news-list-title">
+                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                        </p>
+                        <span class="wk-news-list-tips wk-lihao"></span>
+                    </div>
+                    <div class="wk-news-list-con">
+                        <p>
+                            <strong>【机器人摘要】</strong>
+                            其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）、亚星锚链（601890）等冲击涨停，中国船舶（600150）、钢构工程（600072）、中国重工（601989）、中航机电（002013）、中直股份（600038）、洪都航空（600316）、航天电子（600879）、光电股份（600184）等涨幅超5%。
+                            <a href="detail.php?infoid=173497" target="_blank"><i class="fa fa-link"></i>详情链接</a>
+                        </p>
+                        <span>来源：金融界&nbsp;&nbsp;&nbsp;&nbsp;2016-07-05 00:32</span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
+                    <div class="wk-news-list-head">
+                        <p class="wk-news-list-title">
+                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                        </p>
+                        <span class="wk-news-list-tips wk-lihao"></span>
+                    </div>
+                    <div class="wk-news-list-con">
+                        <p>
+                            <strong>【机器人摘要】</strong>
+                            其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）、亚星锚链（601890）等冲击涨停，中国船舶（600150）、钢构工程（600072）、中国重工（601989）、中航机电（002013）、中直股份（600038）、洪都航空（600316）、航天电子（600879）、光电股份（600184）等涨幅超5%。
+                            <a href="detail.php?infoid=173497" target="_blank"><i class="fa fa-link"></i>详情链接</a>
+                        </p>
+                        <span>来源：金融界&nbsp;&nbsp;&nbsp;&nbsp;2016-07-05 00:32</span>
+                    </div>
+                    <hr>
+                </div>
+                <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
+                    <div class="wk-news-list-head">
+                        <p class="wk-news-list-title">
+                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                        </p>
+                        <span class="wk-news-list-tips wk-lihao"></span>
+                    </div>
+                    <div class="wk-news-list-con">
+                        <p>
+                            <strong>【机器人摘要】</strong>
+                            其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）、亚星锚链（601890）等冲击涨停，中国船舶（600150）、钢构工程（600072）、中国重工（601989）、中航机电（002013）、中直股份（600038）、洪都航空（600316）、航天电子（600879）、光电股份（600184）等涨幅超5%。
+                            <a href="detail.php?infoid=173497" target="_blank"><i class="fa fa-link"></i>详情链接</a>
+                        </p>
+                        <span>来源：金融界&nbsp;&nbsp;&nbsp;&nbsp;2016-07-05 00:32</span>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+            <div class="wk-user-fastnews-list" id="wk-user-fastnews-list" style="display: none;">
+                <div class="wk-user-fastnews">
+                    <span class="wk-user-fastnews-dot">●</span><p class="wk-user-fastnews-todate">2016-07-05</p>
+                    <ul>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="wk-user-fastnews">
+                    <span class="wk-user-fastnews-dot">●</span><p class="wk-user-fastnews-todate">2016-07-04</p>
+                    <ul>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="wk-user-fastnews">
+                    <span class="wk-user-fastnews-dot">●</span><p class="wk-user-fastnews-todate">2016-07-03</p>
+                    <ul>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="wk-user-fastnews">
+                    <span class="wk-user-fastnews-dot">●</span><p class="wk-user-fastnews-todate">2016-07-03</p>
+                    <ul>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                        <li>
+                            <label>15:15</label>
+                            <p>其中，以军工板块为首，是推动大盘向上的又一大力量：中船防务（600685）、中航飞机（000768）、航天通信（600677）</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 </div>
@@ -347,6 +585,8 @@ if (CheckLogin::check() == -1) {
     });
     $(".wk-user-mynews .btn-group").click(function () {
         $(this).addClass("active").siblings().removeClass("active");
+        var targets = $(this).attr("data-target");
+        $("#"+targets).fadeIn().siblings().fadeOut();
     });
     $(".wk-sub-refresh").click(function () {
         $(this).addClass("fa-spin");
