@@ -304,27 +304,117 @@ if (CheckLogin::check() == -1) {
             <div class="btn-group active" data-target="wk-user-news-list">
                 <div class="wk-user-news-slider">
                     <span>新闻</span>
-                    <span class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="fa fa-chevron-down"></span>
-                    </span>
+                    <i class="fa fa-chevron-down" data-expand="false"></i>
                 </div>
             </div>
             <div class="btn-group" data-target="wk-user-vpoint-list">
-                <div class="wk-user-news-slider">
-                    <span>大V观点</span>
-                    <span class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="fa fa-chevron-down"></span>
-                    </span>
+                <div class="wk-user-vpoint-slider">
+                    <span>达人观点</span>
+                    <i class="fa fa-chevron-down" data-expand="false"></i>
                 </div>
             </div>
             <div class="btn-group" data-target="wk-user-fastnews-list">
-                <div class="wk-user-news-slider">
+                <div class="wk-user-fastnews-slider">
                     <span>快讯</span>
                 </div>
             </div>
         </div>
         <div class="wk-user-news-tabcon">
             <div class="wk-user-news-list" id="wk-user-news-list">
+                <div class="wk-user-news-ctrl">
+                    <div class="wk-user-news-ctrl-head">
+                        <div><label>默认</label></div>
+                        <div class="user-define">自定义&nbsp;<i class="fa fa-caret-down" data-expand="false"></i></div>
+                    </div>
+                    <div class="wk-user-news-ctrl-con">
+                        <div class="con-item">
+                            <label>
+                                <div>
+                                    <span class="active">大智慧</span>
+                                    &nbsp;<i class="fa fa-times-circle"></i>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label>
+                                <div>
+                                    <span class="active">大智慧</span>
+                                    &nbsp;<i class="fa fa-times-circle"></i>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label>
+                                <div>
+                                    <span class="active">大智慧</span>
+                                    &nbsp;<i class="fa fa-times-circle"></i>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label>
+                                <div>
+                                    <span class="active">大智慧</span>
+                                    &nbsp;<i class="fa fa-times-circle"></i>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                    </div>
+                </div>
                 <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
                     <div class="wk-news-list-head">
                         <p class="wk-news-list-title">
@@ -412,10 +502,41 @@ if (CheckLogin::check() == -1) {
                 </div>
             </div>
             <div class="wk-user-vpoint-list" id="wk-user-vpoint-list" style="display: none;">
+                <div class="wk-user-vpoint-ctrl">
+                    <div class="wk-user-news-ctrl-head">
+                        <div><label>默认</label></div>
+                        <div class="user-define">自定义&nbsp;<i class="fa fa-caret-down" data-expand="false"></i></div>
+                    </div>
+                    <div class="wk-user-news-ctrl-con">
+                        <div class="con-item">
+                            <label>
+                                <div>
+                                    <span class="active">大智慧</span>
+                                    &nbsp;<i class="fa fa-times-circle"></i>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                        <div class="con-item">
+                            <label><span>大智慧</span>&nbsp;<i class="fa fa-plus"></i></label>
+                        </div>
+                    </div>
+                </div>
                 <div class="wk-news-list" id="news_173497" data-news-timestamp="1467649961027">
                     <div class="wk-news-list-head">
                         <p class="wk-news-list-title">
-                            <a href="detail.php?infoid=173497" target="_blank">蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
+                            <a href="detail.php?infoid=173497" target="_blank">达人蓝筹股集体发力 有色金属等三板块成领涨风向标</a>
                         </p>
                         <span class="wk-news-list-tips wk-lihao"></span>
                     </div>
@@ -500,7 +621,8 @@ if (CheckLogin::check() == -1) {
             </div>
             <div class="wk-user-fastnews-list" id="wk-user-fastnews-list" style="display: none;">
                 <div class="wk-user-fastnews">
-                    <span class="wk-user-fastnews-dot">●</span><p class="wk-user-fastnews-todate">2016-07-05</p>
+                    <span class="wk-user-fastnews-dot">●</span>
+                    <p class="wk-user-fastnews-todate">2016-07-05</p>
                     <ul>
                         <li>
                             <label>15:15</label>
@@ -517,7 +639,8 @@ if (CheckLogin::check() == -1) {
                     </ul>
                 </div>
                 <div class="wk-user-fastnews">
-                    <span class="wk-user-fastnews-dot">●</span><p class="wk-user-fastnews-todate">2016-07-04</p>
+                    <span class="wk-user-fastnews-dot">●</span>
+                    <p class="wk-user-fastnews-todate">2016-07-04</p>
                     <ul>
                         <li>
                             <label>15:15</label>
@@ -534,7 +657,8 @@ if (CheckLogin::check() == -1) {
                     </ul>
                 </div>
                 <div class="wk-user-fastnews">
-                    <span class="wk-user-fastnews-dot">●</span><p class="wk-user-fastnews-todate">2016-07-03</p>
+                    <span class="wk-user-fastnews-dot">●</span>
+                    <p class="wk-user-fastnews-todate">2016-07-03</p>
                     <ul>
                         <li>
                             <label>15:15</label>
@@ -547,7 +671,8 @@ if (CheckLogin::check() == -1) {
                     </ul>
                 </div>
                 <div class="wk-user-fastnews">
-                    <span class="wk-user-fastnews-dot">●</span><p class="wk-user-fastnews-todate">2016-07-03</p>
+                    <span class="wk-user-fastnews-dot">●</span>
+                    <p class="wk-user-fastnews-todate">2016-07-03</p>
                     <ul>
                         <li>
                             <label>15:15</label>
@@ -586,7 +711,48 @@ if (CheckLogin::check() == -1) {
     $(".wk-user-mynews .btn-group").click(function () {
         $(this).addClass("active").siblings().removeClass("active");
         var targets = $(this).attr("data-target");
-        $("#"+targets).fadeIn().siblings().fadeOut();
+        $("#" + targets).fadeIn().siblings().fadeOut();
+    });
+    $(".wk-user-news-slider i").click(function () {
+        if ($(this).attr("data-expand") == "false") {
+            $(this).addClass("fa-chevron-up").removeClass("fa-chevron-down").attr("data-expand", true);
+            $(".wk-user-news-ctrl").slideDown();
+        } else {
+            $(this).addClass("fa-chevron-down").removeClass("fa-chevron-up").attr("data-expand", false);
+            $(".wk-user-news-ctrl").slideUp();
+        }
+    });
+    $(".wk-user-vpoint-slider i").click(function () {
+        if ($(this).attr("data-expand") == "false") {
+            $(this).addClass("fa-chevron-up").removeClass("fa-chevron-down").attr("data-expand", true);
+            $(".wk-user-vpoint-ctrl").slideDown();
+        } else {
+            $(this).addClass("fa-chevron-down").removeClass("fa-chevron-up").attr("data-expand", false);
+            $(".wk-user-vpoint-ctrl").slideUp();
+        }
+    });
+    $(".wk-user-news-ctrl .user-define i").click(function () {
+        if ($(this).attr("data-expand") == "false") {
+            $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
+            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").slideDown();
+        } else {
+            $(this).addClass("fa-caret-down").removeClass("fa-caret-up").attr("data-expand", false);
+            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").slideUp();
+        }
+    });
+    $(".wk-user-vpoint-ctrl .user-define i").click(function () {
+        if ($(this).attr("data-expand") == "false") {
+            $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
+            $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").slideDown();
+        } else {
+            $(this).addClass("fa-caret-down").removeClass("fa-caret-up").attr("data-expand", false);
+            $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").slideUp();
+        }
+    });
+    $(".wk-user-news-ctrl-con div").hover(function () {
+        $(this).find("i").show();
+    }, function () {
+        $(this).find("i").hide();
     });
     $(".wk-sub-refresh").click(function () {
         $(this).addClass("fa-spin");
