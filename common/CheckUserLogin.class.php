@@ -46,4 +46,4 @@ class CheckLogin
         }
     }
 }
-
+session_write_close();
