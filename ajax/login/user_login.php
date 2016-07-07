@@ -4,9 +4,9 @@
  * Date: 2016/5/12 0012 16:42
  * Description:用户登录
  */
+session_start();
 require_once(dirname(__FILE__) . "/../../common/Request.class.php");
 require_once(dirname(__FILE__) . "/../../common/iwookongConfig.class.php");
-require_once(dirname(__FILE__) . "/../../common/CheckUserLogin.class.php");
 require_once(dirname(__FILE__) . "/../../common/VerifyAction.class.php");
 require_once(dirname(__FILE__) . "/../../common/Cookies.class.php");
 
@@ -62,3 +62,4 @@ if ($jsonresult['status'] != null) {
     print_r(json_encode(array("status" => 0, "result" => "未知错误")));
     return;
 }
+session_write_close();

@@ -41,7 +41,9 @@ if (isset($userInfo)) {
                     </li>
                     <li><a href='logout.php'>退出</a></li>
                 <?php } else { ?>
-                    <a href="login.php"><i class="fa fa-user"></i>&nbsp;登录</a>
+                    <li>
+                        <a href="login.php"><i class="fa fa-user"></i>&nbsp;登录</a>
+                    </li>
                 <?php } ?>
             </ul>
         </div>

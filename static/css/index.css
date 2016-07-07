@@ -96,6 +96,11 @@
 .wk-hotmap-no{width: 250px; margin:0 auto;padding-top: 110px;}
 .wk-hotmap-no span{font-size: 18px;color: #545454;margin-left: 18px;}
 
+/*个人中心没有订阅股票显示*/
+.wk-user-no{width: 215px; margin: 70px auto;}
+.wk-user-no span{font-size: 18px;color: #545454;margin-left: 18px;}
+
+
 /*热力图表*/
 /*.charts{min-height: 250px;min-width: 458px;}*/
 
@@ -267,7 +272,7 @@
 .wk-user-sub-search{padding: 0;display: inline-flex;}
 .wk-user-sub-search .col-md-4:last-child{padding-right: 0;}
 .wk-user-stock-search{height: 24px;border-right: none;}
-.input-group-addon{padding: 4px;background: none;}
+.input-group-addon{padding: 6px;background: none;border: none;}
 
 .wk-user-time span:first-child,.wk-user-hs span:first-child{margin-right: 15px;}
 .wk-user-time,.wk-user-hs{margin-bottom: 0;padding-top: 2px;font-weight: 400;}
@@ -301,3 +306,5 @@
 .wk-user-news-ctrl-con span{color: #444444;}
 .wk-user-news-ctrl-con i{display: none;}
 .wk-user-news-ctrl,.wk-user-vpoint-ctrl{display: none;}
+.wk-user-sub-search .typeahead__container{width: 100%;height: 100%;border: 1px solid #ccc;}
+.wk-user-sub-search .typeahead__cancel-button{z-index: 9;}

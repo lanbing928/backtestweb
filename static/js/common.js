@@ -785,3 +785,177 @@ var common = {
         $("#loading").remove();
     }
 };
+var inforcenter = {
+    /**
+     * 添加组合
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    addGroup: function (arrData, beforeFn, backFn) {
+        arrData.operate_code = 1;
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_stock_group.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 删除组合
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    delGroup: function (arrData, beforeFn, backFn) {
+        arrData.operate_code = 2;
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_stock_group.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 修改组合
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    modifyGroup: function (arrData, beforeFn, backFn) {
+        arrData.operate_code = 3;
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_stock_group.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 显示组合
+     * @param beforeFn
+     * @param backFn
+     */
+    showGroup: function (beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_stock_group.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: {operate_code: 4},
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 添加股票
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    addStock: function (arrData, beforeFn, backFn) {
+        arrData.operate_code = 5;
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_stock_group.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 删除股票
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    delStock: function (arrData, beforeFn, backFn) {
+        arrData.operate_code = 6;
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_stock_group.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 显示股票
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    showstock: function (arrData, beforeFn, backFn) {
+        arrData.operate_code = 7;
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_stock_group.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 获取个人中心页头部大盘指数
+     * @param beforeFn
+     * @param backFn
+     */
+    getStockPoint: function (beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_stock_group.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: {operate_code: 8},
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    }
+};

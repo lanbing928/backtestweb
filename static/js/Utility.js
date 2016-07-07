@@ -129,6 +129,15 @@ var Utility = {
             return "wk-gray";
         }
     },
+    getUpDownColor: function ($mark) {
+        if ($mark > 0) {
+            return "wk-up";
+        } else if ($mark < 0) {
+            return "wk-down";
+        } else {
+            return "";
+        }
+    },
     /**
      * Unix 时间戳转换为时间
      * @param unixtime
