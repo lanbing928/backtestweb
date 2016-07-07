@@ -68,7 +68,7 @@ if (CheckLogin::check() == -1) {
         <div class="wk-con-stock">
             <p class="wk-hot-title">A股市场股票热度情况</p>
             <div class="wk-con-box">
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs wk-hotmap" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#stock-view" aria-controls="stock-view" role="tab" data-toggle="tab">查看热度</a>
                     </li>
@@ -249,7 +249,7 @@ if (CheckLogin::check() == -1) {
         <div class="wk-con-industry">
             <p class="wk-hot-title">A股市场行业热度情况</p>
             <div class="wk-con-box">
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs wk-hotmap" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#industry-view" aria-controls="industry-view" role="tab" data-toggle="tab">查看热度</a>
                     </li>
@@ -419,7 +419,7 @@ if (CheckLogin::check() == -1) {
         <div class="wk-con-concept">
             <p class="wk-hot-title">A股市场概念热度情况</p>
             <div class="wk-con-box">
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs wk-hotmap" role="tablist">
                     <li role="presentation" class="active">
                         <a href="#concept-view" aria-controls="stock-view" role="tab" data-toggle="tab">查看热度</a>
                     </li>
