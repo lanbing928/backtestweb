@@ -227,6 +227,10 @@ var initEvent = {
                     swal.showInputError("请输入组合名称");
                     return false;
                 }
+                if (Utility.getByteLen(inputValue) > 12) {
+                    swal.showInputError("字符数超过限制");
+                    return false;
+                }
                 inforcenter.modifyGroup({ori_name: group_name, cur_name: inputValue}, null, function (resultData) {
                     if (resultData.status == 1) {
                         swal({
@@ -289,6 +293,10 @@ var initEvent = {
                 if (inputValue === false) return false;
                 if (inputValue === "") {
                     swal.showInputError("请输入组合名称");
+                    return false;
+                }
+                if (Utility.getByteLen(inputValue) > 12) {
+                    swal.showInputError("字符数超过限制");
                     return false;
                 }
                 inforcenter.addGroup({ori_name: inputValue}, null, function (resultData) {
