@@ -214,6 +214,7 @@ var initEvent = {
                 title: "更改名称【" + group_name + "】",
                 text: "组合名称不能超过6个汉字或12个字符",
                 type: "input",
+                html: true,
                 showCancelButton: true,
                 closeOnConfirm: false,
                 confirmButtonText: "确定",
@@ -228,11 +229,15 @@ var initEvent = {
                 }
                 inforcenter.modifyGroup({ori_name: group_name, cur_name: inputValue}, null, function (resultData) {
                     if (resultData.status == 1) {
-                        swal("提示!", "修改组合【" + group_name + "】为【" + inputValue + "】成功", "success");
+                        swal({
+                            title: "",
+                            text: "修改组合<span style='color: #F8BB86'>" + group_name + "</span>为<span style='color: #F8BB86'>" + inputValue + "</span>成功",
+                            html: true,
+                            type: "success"
+                        });
                         getMyGroup();
                     }
                 });
-
             });
         });
     },
@@ -240,9 +245,10 @@ var initEvent = {
         $(".del-group").bind("click", function () {
             var group_name = $(this).parent().attr("data-group-name");
             swal({
-                title: "确定删除【" + group_name + "】吗?",
-                text: "此操作将无法恢复",
+                title: "",
+                text: "确定删除<span style='color: #F8BB86'>" + group_name + "</span>吗?此操作将无法恢复!",
                 type: "warning",
+                html: true,
                 showCancelButton: true,
                 confirmButtonColor: "#DD6B55",
                 confirmButtonText: "确定",
@@ -253,7 +259,12 @@ var initEvent = {
                 if (isConfirm) {
                     inforcenter.delGroup({ori_name: group_name}, null, function (resultData) {
                         if (resultData.status == 1) {
-                            swal("提示", "组合【" + group_name + "】已被删除", "success");
+                            swal({
+                                title: "",
+                                text: "组合<span style='color: #F8BB86'>" + group_name + "</span>已被删除",
+                                html: true,
+                                type: "success"
+                            });
                             getMyGroup();
                         }
                     });
@@ -267,6 +278,7 @@ var initEvent = {
                 title: "添加组合",
                 text: "组合名称不能超过6个汉字或12个字符",
                 type: "input",
+                html: true,
                 showCancelButton: true,
                 closeOnConfirm: false,
                 confirmButtonText: "确定",
@@ -281,13 +293,22 @@ var initEvent = {
                 }
                 inforcenter.addGroup({ori_name: inputValue}, null, function (resultData) {
                     if (resultData.status == 1) {
-                        swal("提示", "添加【" + inputValue + "】组合成功", "success");
+                        swal({
+                            title: "",
+                            text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合成功",
+                            html: true,
+                            type: "success"
+                        });
                         getMyGroup();
                     } else {
-                        swal("异常!", "添加【" + inputValue + "】组合异常", "error");
+                        swal({
+                            title: "",
+                            text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合异常",
+                            html: true,
+                            type: "success"
+                        });
                     }
                 });
-
             });
         });
     },
@@ -298,9 +319,10 @@ var initEvent = {
                 var del_stock = $(this).attr("data-stock-code");
                 var del_group = $(".wk-sub-refresh").attr("data-refresh");
                 swal({
-                    title: "确定删除【" + del_group + "】中的股票【" + del_stock_name + "(" + del_stock + ")】吗?",
-                    text: "此操作将无法恢复",
+                    title: "",
+                    text: "确定删除<span style='color: #F8BB86'>" + del_stock_name + "(" + del_stock + ")</span>吗?此操作将无法恢复!",
                     type: "warning",
+                    html: true,
                     showCancelButton: true,
                     confirmButtonColor: "#DD6B55",
                     confirmButtonText: "确定",
@@ -311,7 +333,12 @@ var initEvent = {
                     if (isConfirm) {
                         inforcenter.delStock({ori_name: del_group, code: del_stock}, null, function (resultData) {
                             if (resultData.status == 1) {
-                                swal("提示", "股票【" + del_stock + "】已被删除", "success");
+                                swal({
+                                    title: "",
+                                    text: "<span style='color:#F8BB86'>" + del_stock_name + "(" + del_stock + ")</span>已被删除",
+                                    html: true,
+                                    type: "success"
+                                });
                                 getGroupStock(del_group);
                             }
                         });

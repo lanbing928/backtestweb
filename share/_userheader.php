@@ -35,7 +35,7 @@ if (isset($userInfo)) {
                     <li>
                         <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i>&nbsp;<?php echo $userName ?></a>
                         <ul class="dropdown-menu">
-                            <li><a href='infocenter/'>个人中心</a></li>
+                            <li><a href='/infocenter/'>个人中心</a></li>
                             <li><a href='/'>返回首页</a></li>
                         </ul>
                     </li>

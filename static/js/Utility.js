@@ -212,7 +212,7 @@ var Utility = {
      * @param time
      * @returns {string}
      */
-    calTime:function(time){
+    calTime: function (time) {
         if (time > 0) {
             return (time - 1) + ":00 - " + time + ":00";
         } else {
@@ -223,7 +223,7 @@ var Utility = {
      * 获取当前日期,格式为YYYY-MM-DD
      * @returns {string}
      */
-    getNowFormatDate:function(){
+    getNowFormatDate: function () {
         var date = new Date();
         var seperator1 = "-";
         var year = date.getFullYear();
@@ -236,5 +236,20 @@ var Utility = {
             strDate = "0" + strDate;
         }
         return year + seperator1 + month + seperator1 + strDate;
+    },
+    /**
+     * 获取字符串长度,汉字两个字节
+     * @param val
+     * @returns {number}
+     */
+    getByteLen: function (val) {
+        var len = 0;
+        for (var i = 0; i < val.length; i++) {
+            if (val[i].match(/[^x00-xff]/ig) != null) //全角
+                len += 2;
+            else
+                len += 1;
+        }
+        return len;
     }
 };

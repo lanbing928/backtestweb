@@ -47,9 +47,9 @@ if (CheckLogin::check() == -1) {
                 <div class="col-md-4">
                     <div class="input-group">
                         <div class="typeahead__container">
-                            <div class="typeahead__field"><span class="typeahead__query">
+                            <div class="typeahead__field">
+                                <span class="typeahead__query">
                                     <input class="form-control wk-user-stock-search" type="search" placeholder="请输入股票代码" autocomplete="off">
-
                                 </span>
                                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                             </div>
