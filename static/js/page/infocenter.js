@@ -5,6 +5,16 @@ $(function () {
         $(this).addClass("active").siblings().removeClass("active");
         var targets = $(this).attr("data-target");
         $("#" + targets).fadeIn().siblings().fadeOut();
+        var arrData = {"query_type": 1, "start_time": 0, "info_type": 0};
+        if (targets == "wk-user-news-list") {
+            getNewsList(arrData);
+        }
+        if (targets == "wk-user-vpoint-list") {
+            getMediaList(arrData);
+        }
+        if (targets == "wk-user-fastnews-list") {
+            getFastNewsList(arrData);
+        }
     });
     $(".wk-user-news-slider i").click(function () {
         if ($(this).attr("data-expand") == "false") {
@@ -27,26 +37,22 @@ $(function () {
     $(".wk-user-news-ctrl .user-define i").click(function () {
         if ($(this).attr("data-expand") == "false") {
             $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
-            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").slideDown();
+            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").show();
         } else {
             $(this).addClass("fa-caret-down").removeClass("fa-caret-up").attr("data-expand", false);
-            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").slideUp();
+            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").hide();
         }
     });
     $(".wk-user-vpoint-ctrl .user-define i").click(function () {
         if ($(this).attr("data-expand") == "false") {
             $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
-            $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").slideDown();
+            $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").show();
         } else {
             $(this).addClass("fa-caret-down").removeClass("fa-caret-up").attr("data-expand", false);
-            $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").slideUp();
+            $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").hide();
         }
     });
-    $(".wk-user-news-ctrl-con div").hover(function () {
-        $(this).find("i").show();
-    }, function () {
-        $(this).find("i").hide();
-    });
+
     $(".wk-sub-refresh").click(function () {
         $(this).addClass("fa-spin");
         var refresh_name = $(this).attr("data-refresh");
@@ -89,6 +95,8 @@ $(function () {
     getMyGroup();//我的组合
     getGroupStock("我的自选股");//我的自选股
     setInterval(_getNowTime, 1000);
+    getPlatform();
+    getNewsList({"query_type": 1, "start_time": 0, "info_type": 0});
     //setInterval(getStockPoint, 5000);
 });
 /**
@@ -123,6 +131,9 @@ function getStockPoint() {
         }
     })
 }
+/**
+ * 获取我的组合
+ */
 function getMyGroup() {
     inforcenter.showGroup(null, function (resultData) {
         if (resultData && resultData.status == 1) {
@@ -149,6 +160,10 @@ function getMyGroup() {
         }
     })
 }
+/**
+ * 获取组合下的股票
+ * @param ori_name
+ */
 function getGroupStock(ori_name) {
     inforcenter.showstock({ori_name: ori_name}, function () {
         $(".wk-sub-refresh").addClass("fa-spin");
@@ -161,7 +176,7 @@ function getGroupStock(ori_name) {
                 for (var i = 0; i < list.length; i++) {
                     stockHtml.push("<tr>");
                     stockHtml.push("<td>" + list[i].code + "</td>");
-                    stockHtml.push("<td>" + list[i].name + "</td>");
+                    stockHtml.push("<td><a href='../stocks.php?stock=" + list[i].code + "' target='_blank'>" + list[i].name + "</a></td>");
                     stockHtml.push("<td>" + list[i].trade.toFixed(2) + "</td>");
                     stockHtml.push("<td>" + (list[i].price_change_ratio * 100).toFixed(2) + "</td>");
                     stockHtml.push("<td>" + list[i].volume + "</td>");
@@ -174,15 +189,61 @@ function getGroupStock(ori_name) {
                     stockHtml.push("</tr>");
                 }
             } else {
-                stockHtml.push("<tr><td colspan='10'><div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>您尚未添加自选股</span></div></td></tr>");
+                stockHtml.push("<tr><td colspan='11'><div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>您尚未添加自选股</span></div></td></tr>");
             }
         } else {
-            stockHtml.push("<tr><td colspan='10'><div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>您尚未添加自选股</span></div></td></tr>");
+            stockHtml.push("<tr><td colspan='11'><div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>您尚未添加自选股</span></div></td></tr>");
         }
         $(".wk-user-mychoose-table table>tbody").html(stockHtml.join(''));
         initEvent.initStockTableHoverEvent();
     })
 }
+
+/**
+ * 获取所有平台
+ */
+function getPlatform() {
+    inforcenter.getPlatform(null, function (resultData) {
+        if (resultData.status == 1) {
+            var news_platform = resultData.result[0].news_info_plat;
+            var vpoint_platform = resultData.result[2].media_info_plat;
+            if (news_platform && news_platform.length > 0) {
+                var newsHtml = [];
+                for (var i = 0; i < news_platform.length; i++) {
+                    newsHtml.push("<div class=\"con-item\">");
+                    if (news_platform[i].is_choosed == 1) {
+                        newsHtml.push("<label><span class='active'>" + news_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-times-circle\"></i></label>");
+                    }
+                    else {
+                        newsHtml.push("<label><span>" + news_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-plus\"></i></label>");
+                    }
+                    newsHtml.push("</div>");
+                }
+                $(".wk-user-news-list .wk-user-news-ctrl-con").html(newsHtml.join(''));
+            }
+            if (vpoint_platform && vpoint_platform.length > 0) {
+                var vpointHtml = [];
+                for (var i = 0; i < vpoint_platform.length; i++) {
+                    vpointHtml.push("<div class=\"con-item\">");
+                    if (vpoint_platform[i].is_choosed == 1) {
+                        vpointHtml.push("<label><span class='active'>" + vpoint_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-times-circle\"></i></label>");
+                    }
+                    else {
+                        vpointHtml.push("<label><span>" + vpoint_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-plus\"></i></label>");
+                    }
+                    vpointHtml.push("</div>");
+                }
+                $(".wk-user-vpoint-list .wk-user-news-ctrl-con").html(vpointHtml.join(''));
+            }
+            initEvent.initPlatformShowEvent();
+        }
+    })
+}
+
+/**
+ * 获取当前时间
+ * @private
+ */
 function _getNowTime() {
     var toDay = new Date();//创建时间对象
     var _hour = toDay.getHours();//时
@@ -192,6 +253,129 @@ function _getNowTime() {
     $(".wk-user-time span:last-child").html(time);
 }
 
+function getNewsList(arrData) {
+    arrData.info_type = 0;
+    inforcenter.getRelatedInfo(arrData, null, function (resultData) {
+        if (resultData && resultData.status == 1) {
+            buildNews(resultData.result);
+        }
+    })
+}
+function getMediaList(arrData) {
+    arrData.info_type = 2;
+    inforcenter.getRelatedInfo(arrData, null, function (resultData) {
+        if (resultData && resultData.status == 1) {
+            buildMedia(resultData.result);
+        }
+    })
+}
+function getFastNewsList(arrData) {
+    arrData.info_type = 1;
+    inforcenter.getRelatedInfo(arrData, null, function (resultData) {
+        if (resultData && resultData.status == 1) {
+            buildFastNews(resultData.result);
+        }
+    })
+}
+function buildNews(resultData) {
+    var newsHtml = [];
+    if (resultData.length > 0) {
+        for (var i = 0; i < resultData.length; i++) {
+            newsHtml.push("<div class=\"wk-news-list\" id=\"news_" + resultData[i].info_id + "\" data-news-timestamp=\"" + resultData[i].timestamp + "\">");
+            newsHtml.push("<div class=\"news-rel-stock\">");
+            if (resultData[i].related_stock.length > 0) {
+                for (var j = 0; j < resultData[i].related_stock.length; j++) {
+                    var stock_name = resultData[i].related_stock[j].stock_name;
+                    var stock_code = resultData[i].related_stock[j].stock_code;
+                    if (stock_name != "" && stock_code != "") {
+                        newsHtml.push("<a href='../stocks.php?stock=" + stock_code + "' target='_blank'>" + stock_name + "(" + stock_code + ")</a>");
+                    }
+                }
+            }
+            newsHtml.push("</div>");
+            newsHtml.push("<div class=\"wk-news-list-head\">");
+            newsHtml.push("<p class=\"wk-news-list-title\"><a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\">");
+            newsHtml.push(resultData[i].titile);
+            newsHtml.push("</a></p>" + Utility.getgetEmotion(resultData[i].sentiment) + "</div><div class=\"wk-news-list-con\"><p>");
+            if (resultData[i].summary != "") {
+                newsHtml.push("<strong>【机器人摘要】</strong>");
+                newsHtml.push(resultData[i].summary);
+                newsHtml.push("<a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
+            }
+            newsHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
+        }
+        $("#wk-user-news-list").append(newsHtml.join(''));
+    } else {
+        // if (arrData.start_id == 0) {
+        //     common.hideLoading();
+        //     newsHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
+        //     $("#wk-news .mCSB_container").html(newsHtml.join(''));
+        // } else {
+        //     common.hideLoading();
+        // }
+    }
+}
+function buildMedia(resultData) {
+    var mediaHtml = [];
+    if (resultData.length > 0) {
+        for (var i = 0; i < resultData.length; i++) {
+            mediaHtml.push("<div class=\"wk-news-list\" id=\"media_" + resultData[i].info_id + "\" data-news-timestamp=\"" + resultData[i].timestamp + "\">");
+            mediaHtml.push("<div class=\"news-rel-stock\">");
+            if (resultData[i].related_stock.length > 0) {
+                for (var j = 0; j < resultData[i].related_stock.length; j++) {
+                    var stock_name = resultData[i].related_stock[j].stock_name;
+                    var stock_code = resultData[i].related_stock[j].stock_code;
+                    if (stock_name != "" && stock_code != "") {
+                        mediaHtml.push("<a href='../stocks.php?stock=" + stock_code + "' target='_blank'>" + stock_name + "(" + stock_code + ")</a>");
+                    }
+                }
+            }
+            mediaHtml.push("</div>");
+            mediaHtml.push("<div class=\"wk-news-list-head\">");
+            mediaHtml.push("<p class=\"wk-news-list-title\"><a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\">");
+            mediaHtml.push(resultData[i].titile);
+            mediaHtml.push("</a></p>" + Utility.getgetEmotion(resultData[i].sentiment) + "</div><div class=\"wk-news-list-con\"><p>");
+            if (resultData[i].summary != "") {
+                mediaHtml.push("<strong>【机器人摘要】</strong>");
+                mediaHtml.push(resultData[i].summary);
+                mediaHtml.push("<a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
+            }
+            mediaHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
+        }
+        $("#wk-user-vpoint-list").append(mediaHtml.join(''));
+    } else {
+        // if (arrData.start_id == 0) {
+        //     common.hideLoading();
+        //     newsHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
+        //     $("#wk-news .mCSB_container").html(newsHtml.join(''));
+        // } else {
+        //     common.hideLoading();
+        // }
+    }
+}
+function buildFastNews(resultData) {
+    var fastHtml = [];
+    if (resultData.length > 0) {
+        for (var i in resultData) {
+            for (var j in resultData[i]) {
+                fastHtml.push();
+                fastHtml.push("<div class=\"wk-user-fastnews\">");
+                fastHtml.push("                    <span class=\"wk-user-fastnews-dot\">●</span>");
+                fastHtml.push("                    <p class=\"wk-user-fastnews-todate\">" + j + "</p>");
+                fastHtml.push("                    <ul>");
+                for (var k = 0; k < resultData[i][j].length; k++) {
+                    fastHtml.push("                        <li>");
+                    fastHtml.push("                            <label>" + Utility.unixToTime(resultData[i][j][k].timestamp) + "</label>");
+                    fastHtml.push("                            <p>" + resultData[i][j][k].summary + "</p>");
+                    fastHtml.push("                        </li>");
+                }
+                fastHtml.push("                    </ul>");
+                fastHtml.push("                </div>");
+            }
+        }
+        $("#wk-user-fastnews-list").append(fastHtml.join(''));
+    }
+}
 /**
  * 初始化一些事件
  */
@@ -207,6 +391,9 @@ var initEvent = {
             getGroupStock(group_name);
         });
     },
+    /**
+     * 修改组合名字
+     */
     initChangeGroupNameEvent: function () {
         $(".change-name").bind("click", function () {
             var group_name = $(this).parent().attr("data-group-name");
@@ -245,6 +432,9 @@ var initEvent = {
             });
         });
     },
+    /**
+     * 删除组合
+     */
     initDelGroupEvent: function () {
         $(".del-group").bind("click", function () {
             var group_name = $(this).parent().attr("data-group-name");
@@ -276,6 +466,9 @@ var initEvent = {
             });
         });
     },
+    /**
+     * 添加组合
+     */
     initAddGroupEvent: function () {
         $(".wk-add-zh").click(function () {
             swal({
@@ -320,6 +513,9 @@ var initEvent = {
             });
         });
     },
+    /**
+     * 股票列表hover事件
+     */
     initStockTableHoverEvent: function () {
         $(".wk-user-mychoose-table table>tbody>tr").hover(function () {
             var del_stock_name = $(this).find("td:nth-child(2)").html();
@@ -356,5 +552,15 @@ var initEvent = {
         }, function () {
             $(this).find(".btn-del-stock").hide();
         })
+    },
+    /**
+     * 新闻平台hover显示添加或删除按钮
+     */
+    initPlatformShowEvent: function () {
+        $(".wk-user-news-ctrl-con div").hover(function () {
+            $(this).find("i").show();
+        }, function () {
+            $(this).find("i").hide();
+        });
     }
 };

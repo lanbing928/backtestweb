@@ -957,5 +957,46 @@ var inforcenter = {
                 backFn && backFn(resultData);
             }
         })
+    },
+    /**
+     * 获取新闻/达人观点/快讯关联的新闻
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getRelatedInfo: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_relatedinfo.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+
+    /**
+     * 获取所有平台
+     * @param beforeFn
+     * @param backFn
+     */
+    getPlatform:function(beforeFn, backFn){
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_all_platform.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
     }
 };
