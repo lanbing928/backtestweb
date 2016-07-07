@@ -266,6 +266,7 @@
 .wk-user-mychoose-table table>thead>tr>th{text-align: center;border-style: none;}
 .wk-user-mychoose-table table>tbody>tr>td{text-align: center;border-style: none;}
 .wk-sub-refresh{cursor: pointer;}
+.btn-del-stock{display: none;cursor: pointer;}
 
 .wk-dp-up{background: url("../imgs/i/dp_up.png") no-repeat center;width: 16px;height: 20px;}
 .wk-dp-down{background: url("../imgs/i/dp_down.png") no-repeat center;}

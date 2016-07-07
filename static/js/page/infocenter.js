@@ -170,7 +170,7 @@ function getGroupStock(ori_name) {
                     stockHtml.push("<td>" + list[i].visit_hot + "</td>");
                     stockHtml.push("<td>" + list[i].search_hot + "</td>");
                     stockHtml.push("<td>" + list[i].follow_hot + "</td>");
-                    stockHtml.push("<td><i class='fa fa-minus-circle text-danger'></i></td>");
+                    stockHtml.push("<td><i class='fa fa-minus-circle text-danger btn-del-stock' data-stock-code='" + list[i].code + "'></i></td>");
                     stockHtml.push("</tr>");
                 }
             } else {
@@ -180,6 +180,7 @@ function getGroupStock(ori_name) {
             stockHtml.push("<tr><td colspan='10'><div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>您尚未添加自选股</span></div></td></tr>");
         }
         $(".wk-user-mychoose-table table>tbody").html(stockHtml.join(''));
+        initEvent.initStockTableHoverEvent();
     })
 }
 function _getNowTime() {
@@ -190,7 +191,6 @@ function _getNowTime() {
     var time = _hour + ":" + _minutes + ":" + _seconds;
     $(".wk-user-time span:last-child").html(time);
 }
-
 
 /**
  * 初始化一些事件
@@ -290,5 +290,36 @@ var initEvent = {
 
             });
         });
+    },
+    initStockTableHoverEvent: function () {
+        $(".wk-user-mychoose-table table>tbody>tr").hover(function () {
+            var del_stock_name = $(this).find("td:nth-child(2)").html();
+            $(this).find(".btn-del-stock").show().bind("click", function () {
+                var del_stock = $(this).attr("data-stock-code");
+                var del_group = $(".wk-sub-refresh").attr("data-refresh");
+                swal({
+                    title: "确定删除【" + del_group + "】中的股票【" + del_stock_name + "(" + del_stock + ")】吗?",
+                    text: "此操作将无法恢复",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    closeOnConfirm: false,
+                    closeOnCancel: true
+                }, function (isConfirm) {
+                    if (isConfirm) {
+                        inforcenter.delStock({ori_name: del_group, code: del_stock}, null, function (resultData) {
+                            if (resultData.status == 1) {
+                                swal("提示", "股票【" + del_stock + "】已被删除", "success");
+                                getGroupStock(del_group);
+                            }
+                        });
+                    }
+                });
+            });
+        }, function () {
+            $(this).find(".btn-del-stock").hide();
+        })
     }
 };
