@@ -5,7 +5,7 @@ var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:
 var viewData = [], searchData = [], followData = [];
 var wk_treemap_data_industry, wk_treemap_data_concept;
 var myChart = echarts.init(document.getElementById("left-chart"));
-myChart.showLoading();
+myChart.showLoading({"text": "加载中..."});
 
 function initLineChart() {
     common.getSingleRealTimeHot({"stock": stockcode}, null, function (resultData) {
@@ -59,7 +59,7 @@ function initTreeMapChart() {
         var waitLogingCharts = ["wk-industry-view-treemap", "wk-concept-view-treemap"];
         for (var i in waitLogingCharts) {
             var treemap = echarts.init(document.getElementById(waitLogingCharts[i]));
-            treemap.showLoading();
+            treemap.showLoading({"text": "加载中..."});
         }
     }, function (resultData) {
         if (resultData.status == 1) {
@@ -169,7 +169,7 @@ function initTodayRateLine() {
         "query_date": "today"
     };
     common.getRateLine(queryData, function () {
-        rateLine.showLoading();
+        rateLine.showLoading({"text": "加载中..."});
     }, function (resultData) {
         common.buildRateLine(_stockName, "today", resultData);
         rateLine.hideLoading();

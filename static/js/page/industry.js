@@ -2,7 +2,7 @@ var name = Utility.getQueryStringByName("name");
 var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
 var wk_treemap_data, viewData = [], searchData = [], followData = [];
 var myChart = echarts.init(document.getElementById("left-chart"));
-myChart.showLoading();
+myChart.showLoading({"text": "加载中..."});
 function initLineChart() {
     common.getHyAndGnHot({"name": name, "query_type": 1}, null, function (resultData) {
         if (resultData.status == 1) {
@@ -54,7 +54,7 @@ function initTreeMapChart() {
     if (!wk_treemap_data) {
         common.getTopTwentyStock({"hottype": "hy", "hotval": name}, function () {
             var treemap = echarts.init(document.getElementById("wk-stock-view-treemap"));
-            treemap.showLoading();
+            treemap.showLoading({"text": "加载中..."});
             $("#industry-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
         }, function (resultData) {
             if (resultData.status == 1) {
@@ -97,7 +97,7 @@ function initTodayRateLine() {
         "query_date": "today"
     };
     common.getRateLine(queryData, function () {
-        rateLine.showLoading();
+        rateLine.showLoading({"text": "加载中..."});
     }, function (resultData) {
         common.buildRateLine(decodeURI(name), "today", resultData);
         rateLine.hideLoading();

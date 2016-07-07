@@ -73,7 +73,7 @@ $(function () {
         } else {
             common.getHotRecord(arrData, function () {
                 var myChart = echarts.init(document.getElementById("left-chart"));
-                myChart.showLoading();
+                myChart.showLoading({"text": "加载中..."});
             }, function (resultData) {
                 var _viewData = [];
                 var _searchData = [];
@@ -132,7 +132,7 @@ $(function () {
         switch (toggle) {
             case "today":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading();
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -140,7 +140,7 @@ $(function () {
                 break;
             case "week":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading();
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -148,7 +148,7 @@ $(function () {
                 break;
             case "month":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading();
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -156,7 +156,7 @@ $(function () {
                 break;
             case "threemonth":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading();
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();

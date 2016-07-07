@@ -201,7 +201,7 @@ var common = {
      */
     getLineChart: function (chartId, xdata, viewData, searchData, followData) {
         var myChart = echarts.init(document.getElementById(chartId));
-        myChart.showLoading();
+        myChart.showLoading({"text": "加载中..."});
         myChart.setOption({
             color: ["rgb(243, 104, 97)", "rgb(76, 93, 186)", "rgb(118, 172, 245)"],
             tooltip: {
