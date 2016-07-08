@@ -985,12 +985,56 @@ var inforcenter = {
      * @param beforeFn
      * @param backFn
      */
-    getPlatform:function(beforeFn, backFn){
+    getPlatform: function (beforeFn, backFn) {
         $.ajax({
             url: "../ajax/infocenter/ajax_get_all_platform.php",
             type: "post",
             dataType: "json",
             cache: false,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 添加用户新闻平台
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    addUserPlatform: function (arrData, beforeFn, backFn) {
+        arrData.custom_type = 2;
+        $.ajax({
+            url: "../ajax/infocenter/ajax_ctrl_customplat.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 删除用户新闻平台
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    delUserPlatform: function (arrData, beforeFn, backFn) {
+        arrData.custom_type = 3;
+        $.ajax({
+            url: "../ajax/infocenter/ajax_ctrl_customplat.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
             beforeSend: function () {
                 beforeFn && beforeFn();
             },

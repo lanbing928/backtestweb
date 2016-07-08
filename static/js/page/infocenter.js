@@ -1,49 +1,60 @@
+var _arrData = {"query_type": 1, "start_time": 0, "info_type": 0};
 $(function () {
     initEvent.initGroupEvent();
     initEvent.initAddGroupEvent();
     $(".wk-user-mynews .btn-group").click(function () {
         $(this).addClass("active").siblings().removeClass("active");
         var targets = $(this).attr("data-target");
-        $("#" + targets).fadeIn().siblings().fadeOut();
-        var arrData = {"query_type": 1, "start_time": 0, "info_type": 0};
+        $("#" + targets).show().siblings().hide();
         if (targets == "wk-user-news-list") {
-            getNewsList(arrData);
+            getNewsList(_arrData);
         }
         if (targets == "wk-user-vpoint-list") {
-            getMediaList(arrData);
+            getMediaList(_arrData);
         }
         if (targets == "wk-user-fastnews-list") {
-            getFastNewsList(arrData);
+            getFastNewsList(_arrData);
         }
     });
     $(".wk-user-news-slider i").click(function () {
-        if ($(this).attr("data-expand") == "false") {
-            $(this).addClass("fa-chevron-up").removeClass("fa-chevron-down").attr("data-expand", true);
-            $(".wk-user-news-ctrl").slideDown();
-        } else {
+        if ($(this).attr("data-expand") != "false") {
             $(this).addClass("fa-chevron-down").removeClass("fa-chevron-up").attr("data-expand", false);
-            $(".wk-user-news-ctrl").slideUp();
+            $(".wk-user-news-ctrl").hide();
+        } else {
+            $(this).addClass("fa-chevron-up").removeClass("fa-chevron-down").attr("data-expand", true);
+            $(".wk-user-news-ctrl").show();
         }
     });
     $(".wk-user-vpoint-slider i").click(function () {
         if ($(this).attr("data-expand") == "false") {
             $(this).addClass("fa-chevron-up").removeClass("fa-chevron-down").attr("data-expand", true);
-            $(".wk-user-vpoint-ctrl").slideDown();
+            $(".wk-user-vpoint-ctrl").show();
         } else {
             $(this).addClass("fa-chevron-down").removeClass("fa-chevron-up").attr("data-expand", false);
-            $(".wk-user-vpoint-ctrl").slideUp();
+            $(".wk-user-vpoint-ctrl").hide();
         }
     });
-    $(".wk-user-news-ctrl .user-define i").click(function () {
-        if ($(this).attr("data-expand") == "false") {
-            $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
-            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").show();
-        } else {
-            $(this).addClass("fa-caret-down").removeClass("fa-caret-up").attr("data-expand", false);
-            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").hide();
-        }
+
+    $(".wk-user-news-ctrl-head div").click(function () {
+        $(this).addClass("active").siblings().removeClass("active");
     });
-    $(".wk-user-vpoint-ctrl .user-define i").click(function () {
+
+
+    $(".wk-user-vpoint-ctrl .user-default").click(function () {
+        _arrData.query_type = 1;
+        _arrData.info_type = 0;
+        getMediaList(_arrData);
+    });
+    $(".wk-user-news-ctrl .user-default").click(function () {
+        _arrData.query_type = 1;
+        _arrData.info_type = 0;
+        getNewsList(_arrData);
+    });
+    $(".wk-user-vpoint-ctrl .user-define").click(function () {
+        _arrData.query_type = 2;
+        _arrData.info_type = 2;
+        getMediaList(_arrData);
+    }).find("i").click(function () {
         if ($(this).attr("data-expand") == "false") {
             $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
             $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").show();
@@ -52,13 +63,25 @@ $(function () {
             $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").hide();
         }
     });
-
+    $(".wk-user-news-ctrl .user-define").click(function () {
+        _arrData.query_type = 2;
+        _arrData.info_type = 2;
+        getNewsList(_arrData);
+    }).find("i").click(function () {
+        if ($(this).attr("data-expand") == "false") {
+            $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
+            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").show();
+        } else {
+            $(this).addClass("fa-caret-down").removeClass("fa-caret-up").attr("data-expand", false);
+            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").hide();
+        }
+    });
+    ;
     $(".wk-sub-refresh").click(function () {
         $(this).addClass("fa-spin");
         var refresh_name = $(this).attr("data-refresh");
         getGroupStock(refresh_name);
     });
-
     /**
      * 搜索框自动完成
      */
@@ -93,10 +116,9 @@ $(function () {
     });
     getStockPoint();//大盘指数
     getMyGroup();//我的组合
-    getGroupStock("我的自选股");//我的自选股
+    getGroupStock("我的自选股");//默认第一次加载我的自选股
     setInterval(_getNowTime, 1000);
     getPlatform();
-    getNewsList({"query_type": 1, "start_time": 0, "info_type": 0});
     //setInterval(getStockPoint, 5000);
 });
 /**
@@ -152,6 +174,7 @@ function getMyGroup() {
                     groupHtml.push("<li class='del-group'><a href=\"#\"><i class=\"fa fa-trash-o fa-fw\"></i>删除组合</a></li>");
                     groupHtml.push("</ul></div>");
                 }
+
                 $(".wk-user-choose-title").html(groupHtml.join(''));
                 initEvent.initChangeGroupNameEvent();
                 initEvent.initDelGroupEvent();
@@ -169,11 +192,13 @@ function getGroupStock(ori_name) {
         $(".wk-sub-refresh").addClass("fa-spin");
     }, function (resultData) {
         var stockHtml = [];
+        var _all_stock_code = [];
         if (resultData && resultData.status == 1) {
             $(".wk-sub-refresh").removeClass("fa-spin");
             if (resultData.result.info.group_info.length > 0) {
                 var list = resultData.result.info.group_info[0].stock_info;
                 for (var i = 0; i < list.length; i++) {
+                    _all_stock_code.push(list[i].code);
                     stockHtml.push("<tr>");
                     stockHtml.push("<td>" + list[i].code + "</td>");
                     stockHtml.push("<td><a href='../stocks.php?stock=" + list[i].code + "' target='_blank'>" + list[i].name + "</a></td>");
@@ -188,6 +213,8 @@ function getGroupStock(ori_name) {
                     stockHtml.push("<td><i class='fa fa-minus-circle text-danger btn-del-stock' data-stock-code='" + list[i].code + "'></i></td>");
                     stockHtml.push("</tr>");
                 }
+                _arrData.stock_list = _all_stock_code.join('|');
+                initEvent.initGetAllList();
             } else {
                 stockHtml.push("<tr><td colspan='11'><div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>您尚未添加自选股</span></div></td></tr>");
             }
@@ -198,7 +225,6 @@ function getGroupStock(ori_name) {
         initEvent.initStockTableHoverEvent();
     })
 }
-
 /**
  * 获取所有平台
  */
@@ -212,10 +238,10 @@ function getPlatform() {
                 for (var i = 0; i < news_platform.length; i++) {
                     newsHtml.push("<div class=\"con-item\">");
                     if (news_platform[i].is_choosed == 1) {
-                        newsHtml.push("<label><span class='active'>" + news_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-times-circle\"></i></label>");
+                        newsHtml.push("<label><span class='active'>" + news_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-times-circle\" data-platform='" + news_platform[i].platform_id + "'></i></label>");
                     }
                     else {
-                        newsHtml.push("<label><span>" + news_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-plus\"></i></label>");
+                        newsHtml.push("<label><span>" + news_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-plus\"  data-platform='" + news_platform[i].platform_id + "'></i></label>");
                     }
                     newsHtml.push("</div>");
                 }
@@ -226,15 +252,16 @@ function getPlatform() {
                 for (var i = 0; i < vpoint_platform.length; i++) {
                     vpointHtml.push("<div class=\"con-item\">");
                     if (vpoint_platform[i].is_choosed == 1) {
-                        vpointHtml.push("<label><span class='active'>" + vpoint_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-times-circle\"></i></label>");
+                        vpointHtml.push("<label><span class='active'>" + vpoint_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-times-circle\"  data-platform='" + vpoint_platform[i].platform_id + "'></i></label>");
                     }
                     else {
-                        vpointHtml.push("<label><span>" + vpoint_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-plus\"></i></label>");
+                        vpointHtml.push("<label><span>" + vpoint_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-plus\"  data-platform='" + vpoint_platform[i].platform_id + "'></i></label>");
                     }
                     vpointHtml.push("</div>");
                 }
-                $(".wk-user-vpoint-list .wk-user-news-ctrl-con").html(vpointHtml.join(''));
+                $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").html(vpointHtml.join(''));
             }
+            initEvent.initPlatformCtrlEvent();
             initEvent.initPlatformShowEvent();
         }
     })
@@ -252,7 +279,6 @@ function _getNowTime() {
     var time = _hour + ":" + _minutes + ":" + _seconds;
     $(".wk-user-time span:last-child").html(time);
 }
-
 function getNewsList(arrData) {
     arrData.info_type = 0;
     inforcenter.getRelatedInfo(arrData, null, function (resultData) {
@@ -304,7 +330,6 @@ function buildNews(resultData) {
             }
             newsHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
         }
-        $("#wk-user-news-list").append(newsHtml.join(''));
     } else {
         // if (arrData.start_id == 0) {
         //     common.hideLoading();
@@ -314,6 +339,7 @@ function buildNews(resultData) {
         //     common.hideLoading();
         // }
     }
+    $("#wk-user-news-list").find(".wk-con").html(newsHtml.join(''));
 }
 function buildMedia(resultData) {
     var mediaHtml = [];
@@ -342,7 +368,6 @@ function buildMedia(resultData) {
             }
             mediaHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
         }
-        $("#wk-user-vpoint-list").append(mediaHtml.join(''));
     } else {
         // if (arrData.start_id == 0) {
         //     common.hideLoading();
@@ -352,6 +377,7 @@ function buildMedia(resultData) {
         //     common.hideLoading();
         // }
     }
+    $("#wk-user-vpoint-list .wk-con").html(mediaHtml.join(''));
 }
 function buildFastNews(resultData) {
     var fastHtml = [];
@@ -360,21 +386,22 @@ function buildFastNews(resultData) {
             for (var j in resultData[i]) {
                 fastHtml.push();
                 fastHtml.push("<div class=\"wk-user-fastnews\">");
-                fastHtml.push("                    <span class=\"wk-user-fastnews-dot\">●</span>");
-                fastHtml.push("                    <p class=\"wk-user-fastnews-todate\">" + j + "</p>");
-                fastHtml.push("                    <ul>");
+                fastHtml.push("<span class=\"wk-user-fastnews-dot\">●</span>");
+                fastHtml.push("<p class=\"wk-user-fastnews-todate\">" + j + "</p>");
+                fastHtml.push("<ul>");
                 for (var k = 0; k < resultData[i][j].length; k++) {
-                    fastHtml.push("                        <li>");
-                    fastHtml.push("                            <label>" + Utility.unixToTime(resultData[i][j][k].timestamp) + "</label>");
-                    fastHtml.push("                            <p>" + resultData[i][j][k].summary + "</p>");
-                    fastHtml.push("                        </li>");
+                    fastHtml.push("<li>");
+                    fastHtml.push("<label>" + Utility.unixToTime(resultData[i][j][k].timestamp) + "</label>");
+                    fastHtml.push("<p>" + resultData[i][j][k].summary + "</p>");
+                    fastHtml.push("</li>");
                 }
-                fastHtml.push("                    </ul>");
-                fastHtml.push("                </div>");
+                fastHtml.push("</ul></div>");
             }
         }
-        $("#wk-user-fastnews-list").append(fastHtml.join(''));
+    } else {
+
     }
+    $("#wk-user-fastnews-list").html(fastHtml.join(''));
 }
 /**
  * 初始化一些事件
@@ -562,5 +589,54 @@ var initEvent = {
         }, function () {
             $(this).find("i").hide();
         });
+    },
+    /**
+     * 平台选择/删除
+     */
+    initPlatformCtrlEvent: function () {
+        $(".con-item i").each(function () {
+            $(this).bind("click", function (e) {
+                var $this = $(this);
+                var _plat_id = $this.attr("data-platform");
+                if ($this.hasClass("fa-times-circle")) {
+                    inforcenter.delUserPlatform({plat_id: _plat_id}, null, function (resultData) {
+                        if (resultData.status == 1) {
+                            $this.removeClass("fa-times-circle").addClass("fa-plus").siblings().removeClass("active");
+                        }
+                    });
+                } else {
+                    inforcenter.addUserPlatform({plat_id: _plat_id}, null, function (resultData) {
+                        if (resultData.status == 1) {
+                            $this.removeClass("fa-plus").addClass("fa-times-circle").siblings().addClass("active");
+                        }
+                    });
+                }
+                initEvent.initGetAllList();
+                e.stopPropagation();
+            });
+        });
+    },
+    /**
+     * 获取自选新闻
+     */
+    initGetAllList: function () {
+        var _waitRefresh = $(".wk-user-mynews .btn-group");
+        for (var w = 0; w < _waitRefresh.length; w++) {
+            if ($(_waitRefresh[w]).hasClass("active")) {
+                var _target = $(_waitRefresh[w]).attr("data-target");
+                if (_target == "wk-user-news-list") {
+                    $("#" + _target).find(".wk-con").empty();
+                    getNewsList(_arrData);
+                }
+                if (_target == "wk-user-vpoint-list") {
+                    $("#" + _target).find(".wk-con").empty();
+                    getMediaList(_arrData);
+                }
+                if (_target == "wk-user-fastnews-list") {
+                    $("#" + _target).empty();
+                    getFastNewsList(_arrData);
+                }
+            }
+        }
     }
 };

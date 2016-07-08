@@ -15,7 +15,7 @@ if (CheckLogin::check() == -1) {
     <meta charset="UTF-8">
     <title>悟空</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -101,20 +101,22 @@ if (CheckLogin::check() == -1) {
             <div class="wk-user-news-list" id="wk-user-news-list">
                 <div class="wk-user-news-ctrl">
                     <div class="wk-user-news-ctrl-head">
-                        <div><label>默认</label></div>
+                        <div class="user-default active"><label>默认</label></div>
                         <div class="user-define">自定义&nbsp;<i class="fa fa-caret-down" data-expand="false"></i></div>
                     </div>
                     <div class="wk-user-news-ctrl-con"></div>
                 </div>
+                <div class="wk-con"></div>
             </div>
             <div class="wk-user-vpoint-list" id="wk-user-vpoint-list" style="display: none;">
                 <div class="wk-user-vpoint-ctrl">
                     <div class="wk-user-news-ctrl-head">
-                        <div><label>默认</label></div>
+                        <div class="user-default active"><label>默认</label></div>
                         <div class="user-define">自定义&nbsp;<i class="fa fa-caret-down" data-expand="false"></i></div>
                     </div>
                     <div class="wk-user-news-ctrl-con"></div>
                 </div>
+                <div class="wk-con"></div>
             </div>
             <div class="wk-user-fastnews-list" id="wk-user-fastnews-list" style="display: none;"></div>
         </div>
