@@ -251,5 +251,17 @@ var Utility = {
                 len += 1;
         }
         return len;
+    },
+    /**
+     * 获取当前的交易情况
+     */
+    getTradeTime: function () {
+        if (Utility.timeRange("09:15", "09:25")) {
+            return "竞价中";
+        }
+        if (Utility.timeRange("09:30", "11:30") || Utility.timeRange("13:00", "15:00")) {
+            return "交易中";
+        }
+        return "休市";
     }
 };

@@ -1,21 +1,21 @@
-var _arrData = {"query_type": 1, "start_time": 0, "info_type": 0};
+/**
+ * 自定义组合下的股票
+ * @type {string}
+ * @private
+ */
+var _choose_stock_list = "";
 $(function () {
+    /**
+     * 初始化我的自选组合事件
+     */
     initEvent.initGroupEvent();
+    /**
+     * 初始化添加自选组合事件
+     */
     initEvent.initAddGroupEvent();
-    $(".wk-user-mynews .btn-group").click(function () {
-        $(this).addClass("active").siblings().removeClass("active");
-        var targets = $(this).attr("data-target");
-        $("#" + targets).show().siblings().hide();
-        if (targets == "wk-user-news-list") {
-            getNewsList(_arrData);
-        }
-        if (targets == "wk-user-vpoint-list") {
-            getMediaList(_arrData);
-        }
-        if (targets == "wk-user-fastnews-list") {
-            getFastNewsList(_arrData);
-        }
-    });
+    /**
+     * 新闻tab下拉菜单
+     */
     $(".wk-user-news-slider i").click(function () {
         if ($(this).attr("data-expand") != "false") {
             $(this).addClass("fa-chevron-down").removeClass("fa-chevron-up").attr("data-expand", false);
@@ -25,6 +25,9 @@ $(function () {
             $(".wk-user-news-ctrl").show();
         }
     });
+    /**
+     * 达人观点tab下拉菜单
+     */
     $(".wk-user-vpoint-slider i").click(function () {
         if ($(this).attr("data-expand") == "false") {
             $(this).addClass("fa-chevron-up").removeClass("fa-chevron-down").attr("data-expand", true);
@@ -34,49 +37,43 @@ $(function () {
             $(".wk-user-vpoint-ctrl").hide();
         }
     });
-
+    /**
+     * 新闻/达人观点/菜单点击效果
+     */
     $(".wk-user-news-ctrl-head div").click(function () {
         $(this).addClass("active").siblings().removeClass("active");
     });
-
-
-    $(".wk-user-vpoint-ctrl .user-default").click(function () {
-        _arrData.query_type = 1;
-        _arrData.info_type = 0;
-        getMediaList(_arrData);
-    });
-    $(".wk-user-news-ctrl .user-default").click(function () {
-        _arrData.query_type = 1;
-        _arrData.info_type = 0;
-        getNewsList(_arrData);
-    });
-    $(".wk-user-vpoint-ctrl .user-define").click(function () {
-        _arrData.query_type = 2;
-        _arrData.info_type = 2;
-        getMediaList(_arrData);
-    }).find("i").click(function () {
-        if ($(this).attr("data-expand") == "false") {
-            $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
-            $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").show();
-        } else {
-            $(this).addClass("fa-caret-down").removeClass("fa-caret-up").attr("data-expand", false);
-            $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").hide();
+    /**
+     * 新闻标签切换
+     */
+    $(".wk-user-mynews .btn-group").bind("click", function (e) {
+        $(this).addClass("active").siblings().removeClass("active");
+        var targets = $(this).attr("data-target");
+        $("#" + targets).show().siblings().hide();
+        if (targets == "wk-user-news-list") {
+            //if ($("#wk-user-news-list").find(".wk-con .wk-news-list").length <= 0) {
+            let _arrData = {"query_type": 1, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
+            getNewsList(_arrData);
+            //}
         }
-    });
-    $(".wk-user-news-ctrl .user-define").click(function () {
-        _arrData.query_type = 2;
-        _arrData.info_type = 2;
-        getNewsList(_arrData);
-    }).find("i").click(function () {
-        if ($(this).attr("data-expand") == "false") {
-            $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
-            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").show();
-        } else {
-            $(this).addClass("fa-caret-down").removeClass("fa-caret-up").attr("data-expand", false);
-            $(".wk-user-news-ctrl .wk-user-news-ctrl-con").hide();
+        if (targets == "wk-user-vpoint-list") {
+            //if ($("#wk-user-vpoint-list").find(".wk-con .wk-news-list").length <= 0) {
+            let _arrData = {"query_type": 1, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
+            getMediaList(_arrData);
+            //}
         }
+        if (targets == "wk-user-fastnews-list") {
+            //if ($("#wk-user-fastnews-list").find(".wk-con").length <= 0) {
+            let _arrData = {"query_type": 1, "info_type": 1, "start_time": 0, "stock_list": _choose_stock_list};
+            getFastNewsList(_arrData);
+            //}
+        }
+        e.stopPropagation();
     });
-    ;
+
+    /**
+     * 列表的刷新按钮
+     */
     $(".wk-sub-refresh").click(function () {
         $(this).addClass("fa-spin");
         var refresh_name = $(this).attr("data-refresh");
@@ -114,6 +111,8 @@ $(function () {
             }
         }
     });
+
+
     getStockPoint();//大盘指数
     getMyGroup();//我的组合
     getGroupStock("我的自选股");//默认第一次加载我的自选股
@@ -125,7 +124,9 @@ $(function () {
  * 获取大盘数据
  */
 function getStockPoint() {
-    inforcenter.getStockPoint(null, function (resultData) {
+    inforcenter.getStockPoint(function () {
+        $(".wk-user-datas").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
+    }, function (resultData) {
         if (resultData && resultData.status == 1) {
             if (resultData.result.info.index_info.length > 0) {
                 var indexHtml = [];
@@ -190,6 +191,7 @@ function getMyGroup() {
 function getGroupStock(ori_name) {
     inforcenter.showstock({ori_name: ori_name}, function () {
         $(".wk-sub-refresh").addClass("fa-spin");
+        $(".wk-user-mychoose-table table>tbody").html("<tr><td colspan='11'><div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div></td></tr>");
     }, function (resultData) {
         var stockHtml = [];
         var _all_stock_code = [];
@@ -213,24 +215,72 @@ function getGroupStock(ori_name) {
                     stockHtml.push("<td><i class='fa fa-minus-circle text-danger btn-del-stock' data-stock-code='" + list[i].code + "'></i></td>");
                     stockHtml.push("</tr>");
                 }
-                _arrData.stock_list = _all_stock_code.join('|');
-                initEvent.initGetAllList();
+                _choose_stock_list = _all_stock_code.join('|') + "|";
             } else {
+                _choose_stock_list = "";
                 stockHtml.push("<tr><td colspan='11'><div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>您尚未添加自选股</span></div></td></tr>");
             }
         } else {
             stockHtml.push("<tr><td colspan='11'><div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>您尚未添加自选股</span></div></td></tr>");
         }
         $(".wk-user-mychoose-table table>tbody").html(stockHtml.join(''));
+
         initEvent.initStockTableHoverEvent();
+        initEvent.initGetAllList();
+        /**
+         * 达人观点默认按钮
+         */
+        $(".wk-user-vpoint-ctrl .user-default").click(function () {
+            var _arrData = {"query_type": 1, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
+            getMediaList(_arrData);
+        });
+        /**
+         * 新闻默认按钮
+         */
+        $(".wk-user-news-ctrl .user-default").click(function () {
+            var _arrData = {"query_type": 1, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
+            getNewsList(_arrData);
+        });
+        /**
+         * 达人观点自定义按钮
+         */
+        $(".wk-user-vpoint-ctrl .user-define").click(function () {
+            var _arrData = {"query_type": 2, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
+            getMediaList(_arrData);
+        }).find("i").click(function () {
+            if ($(this).attr("data-expand") == "false") {
+                $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
+                $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").show();
+            } else {
+                $(this).addClass("fa-caret-down").removeClass("fa-caret-up").attr("data-expand", false);
+                $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").hide();
+            }
+        });
+        /**
+         * 新闻自定义按钮
+         */
+        $(".wk-user-news-ctrl .user-define").click(function () {
+            var _arrData = {"query_type": 2, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
+            getNewsList(_arrData);
+        }).find("i").click(function () {
+            if ($(this).attr("data-expand") == "false") {
+                $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
+                $(".wk-user-news-ctrl .wk-user-news-ctrl-con").show();
+            } else {
+                $(this).addClass("fa-caret-down").removeClass("fa-caret-up").attr("data-expand", false);
+                $(".wk-user-news-ctrl .wk-user-news-ctrl-con").hide();
+            }
+        });
     })
 }
 /**
  * 获取所有平台
  */
 function getPlatform() {
-    inforcenter.getPlatform(null, function (resultData) {
-        if (resultData.status == 1) {
+    inforcenter.getPlatform(function () {
+        $(".wk-user-choose-title").append("<div class='btn-group'><i class='fa fa-refresh fa-spin'></i></div>");
+    }, function (resultData) {
+        if (resultData && resultData.status == 1) {
             var news_platform = resultData.result[0].news_info_plat;
             var vpoint_platform = resultData.result[2].media_info_plat;
             if (news_platform && news_platform.length > 0) {
@@ -279,30 +329,62 @@ function _getNowTime() {
     var time = _hour + ":" + _minutes + ":" + _seconds;
     $(".wk-user-time span:last-child").html(time);
 }
+/**
+ * 获取新闻列表
+ * @param arrData
+ */
 function getNewsList(arrData) {
     arrData.info_type = 0;
-    inforcenter.getRelatedInfo(arrData, null, function (resultData) {
+    inforcenter.getRelatedInfo(arrData, function () {
+        $(".wk-user-news-loading").show();
+    }, function (resultData) {
         if (resultData && resultData.status == 1) {
+            $(".wk-user-news-loading").hide();
             buildNews(resultData.result);
+        } else {
+            $("#wk-user-news-list").find(".wk-con").html("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
         }
     })
 }
+/**
+ * 获取达人观点(原自媒体)
+ * @param arrData
+ */
 function getMediaList(arrData) {
     arrData.info_type = 2;
-    inforcenter.getRelatedInfo(arrData, null, function (resultData) {
+    inforcenter.getRelatedInfo(arrData, function () {
+        $(".wk-user-news-loading").show();
+    }, function (resultData) {
         if (resultData && resultData.status == 1) {
+            $(".wk-user-news-loading").hide();
             buildMedia(resultData.result);
+        } else {
+            $("#wk-user-vpoint-list").find(".wk-con").html("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关达人观点资讯</span></div>");
         }
     })
 }
+/**
+ * 获取快讯
+ * @param arrData
+ */
 function getFastNewsList(arrData) {
     arrData.info_type = 1;
-    inforcenter.getRelatedInfo(arrData, null, function (resultData) {
+    inforcenter.getRelatedInfo(arrData, function () {
+        $(".wk-user-news-loading").show();
+        $(".wk-user-fastnews-list").css("border", "none");
+    }, function (resultData) {
         if (resultData && resultData.status == 1) {
+            $(".wk-user-news-loading").hide();
             buildFastNews(resultData.result);
+        } else {
+            $("#wk-user-fastnews-list .wk-con").html("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关快讯</span></div>");
         }
     })
 }
+/**
+ * 构建新闻内容
+ * @param resultData
+ */
 function buildNews(resultData) {
     var newsHtml = [];
     if (resultData.length > 0) {
@@ -331,16 +413,14 @@ function buildNews(resultData) {
             newsHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
         }
     } else {
-        // if (arrData.start_id == 0) {
-        //     common.hideLoading();
-        //     newsHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
-        //     $("#wk-news .mCSB_container").html(newsHtml.join(''));
-        // } else {
-        //     common.hideLoading();
-        // }
+        newsHtml.push("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
     }
     $("#wk-user-news-list").find(".wk-con").html(newsHtml.join(''));
 }
+/**
+ * 构建达人观点内容(原自媒体)
+ * @param resultData
+ */
 function buildMedia(resultData) {
     var mediaHtml = [];
     if (resultData.length > 0) {
@@ -369,16 +449,14 @@ function buildMedia(resultData) {
             mediaHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
         }
     } else {
-        // if (arrData.start_id == 0) {
-        //     common.hideLoading();
-        //     newsHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
-        //     $("#wk-news .mCSB_container").html(newsHtml.join(''));
-        // } else {
-        //     common.hideLoading();
-        // }
+        mediaHtml.push("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关达人观点</span></div>");
     }
     $("#wk-user-vpoint-list .wk-con").html(mediaHtml.join(''));
 }
+/**
+ * 构建快讯内容
+ * @param resultData
+ */
 function buildFastNews(resultData) {
     var fastHtml = [];
     if (resultData.length > 0) {
@@ -399,9 +477,10 @@ function buildFastNews(resultData) {
             }
         }
     } else {
-
+        fastHtml.push("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关快讯</span></div>");
+        $(".wk-user-fastnews-list").css("border", "none");
     }
-    $("#wk-user-fastnews-list").html(fastHtml.join(''));
+    $("#wk-user-fastnews-list .wk-con").html(fastHtml.join(''));
 }
 /**
  * 初始化一些事件
@@ -451,7 +530,8 @@ var initEvent = {
                             title: "",
                             text: "修改组合<span style='color: #F8BB86'>" + group_name + "</span>为<span style='color: #F8BB86'>" + inputValue + "</span>成功",
                             html: true,
-                            type: "success"
+                            timer: 1000,
+                            showConfirmButton: false
                         });
                         getMyGroup();
                     }
@@ -484,7 +564,8 @@ var initEvent = {
                                 title: "",
                                 text: "组合<span style='color: #F8BB86'>" + group_name + "</span>已被删除",
                                 html: true,
-                                type: "success"
+                                timer: 1000,
+                                showConfirmButton: false
                             });
                             getMyGroup();
                         }
@@ -525,7 +606,8 @@ var initEvent = {
                             title: "",
                             text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合成功",
                             html: true,
-                            type: "success"
+                            timer: 1000,
+                            showConfirmButton: false
                         });
                         getMyGroup();
                     } else {
@@ -533,7 +615,8 @@ var initEvent = {
                             title: "",
                             text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合异常",
                             html: true,
-                            type: "success"
+                            timer: 1000,
+                            showConfirmButton: false
                         });
                     }
                 });
@@ -568,7 +651,8 @@ var initEvent = {
                                     title: "",
                                     text: "<span style='color:#F8BB86'>" + del_stock_name + "(" + del_stock + ")</span>已被删除",
                                     html: true,
-                                    type: "success"
+                                    timer: 1000,
+                                    showConfirmButton: false
                                 });
                                 getGroupStock(del_group);
                             }
@@ -612,6 +696,7 @@ var initEvent = {
                     });
                 }
                 initEvent.initGetAllList();
+                getGroupStock("我的自选股");
                 e.stopPropagation();
             });
         });
@@ -626,14 +711,17 @@ var initEvent = {
                 var _target = $(_waitRefresh[w]).attr("data-target");
                 if (_target == "wk-user-news-list") {
                     $("#" + _target).find(".wk-con").empty();
+                    let _arrData = {"query_type": 2, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
                     getNewsList(_arrData);
                 }
                 if (_target == "wk-user-vpoint-list") {
                     $("#" + _target).find(".wk-con").empty();
+                    let _arrData = {"query_type": 2, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
                     getMediaList(_arrData);
                 }
                 if (_target == "wk-user-fastnews-list") {
-                    $("#" + _target).empty();
+                    $("#" + _target).find(".wk-con").empty();
+                    let _arrData = {"query_type": 2, "info_type": 1, "start_time": 0, "stock_list": _choose_stock_list};
                     getFastNewsList(_arrData);
                 }
             }
