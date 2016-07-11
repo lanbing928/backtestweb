@@ -230,21 +230,21 @@ function getGroupStock(ori_name) {
         /**
          * 达人观点默认按钮
          */
-        $(".wk-user-vpoint-ctrl .user-default").click(function () {
+        $(".wk-user-vpoint-ctrl .user-default").bind("click", function () {
             var _arrData = {"query_type": 1, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
             getMediaList(_arrData);
         });
         /**
          * 新闻默认按钮
          */
-        $(".wk-user-news-ctrl .user-default").click(function () {
+        $(".wk-user-news-ctrl .user-default").bind("click", function () {
             var _arrData = {"query_type": 1, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
             getNewsList(_arrData);
         });
         /**
          * 达人观点自定义按钮
          */
-        $(".wk-user-vpoint-ctrl .user-define").click(function () {
+        $(".wk-user-vpoint-ctrl .user-define").bind("click", function () {
             var _arrData = {"query_type": 2, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
             getMediaList(_arrData);
         }).find("i").click(function () {
@@ -259,10 +259,10 @@ function getGroupStock(ori_name) {
         /**
          * 新闻自定义按钮
          */
-        $(".wk-user-news-ctrl .user-define").click(function () {
+        $(".wk-user-news-ctrl .user-define").bind("click", function () {
             var _arrData = {"query_type": 2, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
             getNewsList(_arrData);
-        }).find("i").click(function () {
+        }).find("i").bind("click", function () {
             if ($(this).attr("data-expand") == "false") {
                 $(this).addClass("fa-caret-up").removeClass("fa-caret-down").attr("data-expand", true);
                 $(".wk-user-news-ctrl .wk-user-news-ctrl-con").show();
@@ -711,17 +711,17 @@ var initEvent = {
                 var _target = $(_waitRefresh[w]).attr("data-target");
                 if (_target == "wk-user-news-list") {
                     $("#" + _target).find(".wk-con").empty();
-                    let _arrData = {"query_type": 2, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
+                    let _arrData = {"query_type": 1, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
                     getNewsList(_arrData);
                 }
                 if (_target == "wk-user-vpoint-list") {
                     $("#" + _target).find(".wk-con").empty();
-                    let _arrData = {"query_type": 2, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
+                    let _arrData = {"query_type": 1, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
                     getMediaList(_arrData);
                 }
                 if (_target == "wk-user-fastnews-list") {
                     $("#" + _target).find(".wk-con").empty();
-                    let _arrData = {"query_type": 2, "info_type": 1, "start_time": 0, "stock_list": _choose_stock_list};
+                    let _arrData = {"query_type": 1, "info_type": 1, "start_time": 0, "stock_list": _choose_stock_list};
                     getFastNewsList(_arrData);
                 }
             }
