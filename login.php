@@ -134,7 +134,7 @@
         };
         common.login(arrData, null, function (resultData) {
             if (resultData.status != 0) {
-                window.location.href = "index.php";
+                window.location.href = "infocenter/";
             } else {
                 $("#result-tips").html(resultData.result);
                 setTimeout(function(){
