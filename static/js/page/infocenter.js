@@ -52,19 +52,22 @@ $(function () {
         $("#" + targets).show().siblings().hide();
         if (targets == "wk-user-news-list") {
             //if ($("#wk-user-news-list").find(".wk-con .wk-news-list").length <= 0) {
-            let _arrData = {"query_type": 1, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
+            $("#wk-user-news-list").find(".wk-con").empty();
+            var _arrData = {"query_type": 1, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
             getNewsList(_arrData);
             //}
         }
         if (targets == "wk-user-vpoint-list") {
             //if ($("#wk-user-vpoint-list").find(".wk-con .wk-news-list").length <= 0) {
-            let _arrData = {"query_type": 1, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
+            $("#wk-user-vpoint-list").find(".wk-con").empty();
+            var _arrData = {"query_type": 1, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
             getMediaList(_arrData);
             //}
         }
         if (targets == "wk-user-fastnews-list") {
             //if ($("#wk-user-fastnews-list").find(".wk-con").length <= 0) {
-            let _arrData = {"query_type": 1, "info_type": 1, "start_time": 0, "stock_list": _choose_stock_list};
+            $("#wk-user-fastnews-list").find(".wk-con").empty();
+            var _arrData = {"query_type": 1, "info_type": 1, "start_time": 0, "stock_list": _choose_stock_list};
             getFastNewsList(_arrData);
             //}
         }
@@ -118,6 +121,7 @@ $(function () {
     getGroupStock("我的自选股");//默认第一次加载我的自选股
     setInterval(_getNowTime, 1000);
     getPlatform();
+
     //setInterval(getStockPoint, 5000);
 });
 /**
@@ -204,8 +208,8 @@ function getGroupStock(ori_name) {
                     stockHtml.push("<tr>");
                     stockHtml.push("<td>" + list[i].code + "</td>");
                     stockHtml.push("<td><a href='../stocks.php?stock=" + list[i].code + "' target='_blank'>" + list[i].name + "</a></td>");
-                    stockHtml.push("<td>" + list[i].trade.toFixed(2) + "</td>");
-                    stockHtml.push("<td>" + (list[i].price_change_ratio * 100).toFixed(2) + "</td>");
+                    stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + list[i].trade.toFixed(2) + "</td>");
+                    stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + (list[i].price_change_ratio * 100).toFixed(2) + "</td>");
                     stockHtml.push("<td>" + list[i].volume + "</td>");
                     stockHtml.push("<td>" + (list[i].amount * 100).toFixed(2) + "%</td>");
                     stockHtml.push("<td>" + (list[i].pe * 100).toFixed(2) + "%</td>");
@@ -217,7 +221,7 @@ function getGroupStock(ori_name) {
                 }
                 _choose_stock_list = _all_stock_code.join('|') + "|";
             } else {
-                _choose_stock_list = "";
+                _choose_stock_list = "00000x|";
                 stockHtml.push("<tr><td colspan='11'><div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>您尚未添加自选股</span></div></td></tr>");
             }
         } else {
@@ -232,6 +236,7 @@ function getGroupStock(ori_name) {
          */
         $(".wk-user-vpoint-ctrl .user-default").bind("click", function () {
             var _arrData = {"query_type": 1, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
+            $("#wk-user-vpoint-list").find(".wk-con").html("");
             getMediaList(_arrData);
         });
         /**
@@ -239,6 +244,7 @@ function getGroupStock(ori_name) {
          */
         $(".wk-user-news-ctrl .user-default").bind("click", function () {
             var _arrData = {"query_type": 1, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
+            $("#wk-user-news-list").find(".wk-con").html("");
             getNewsList(_arrData);
         });
         /**
@@ -246,6 +252,7 @@ function getGroupStock(ori_name) {
          */
         $(".wk-user-vpoint-ctrl .user-define").bind("click", function () {
             var _arrData = {"query_type": 2, "info_type": 2, "start_time": 0, "stock_list": _choose_stock_list};
+            $("#wk-user-vpoint-list").find(".wk-con").html("");
             getMediaList(_arrData);
         }).find("i").click(function () {
             if ($(this).attr("data-expand") == "false") {
@@ -261,6 +268,7 @@ function getGroupStock(ori_name) {
          */
         $(".wk-user-news-ctrl .user-define").bind("click", function () {
             var _arrData = {"query_type": 2, "info_type": 0, "start_time": 0, "stock_list": _choose_stock_list};
+            $("#wk-user-news-list").find(".wk-con").html("");
             getNewsList(_arrData);
         }).find("i").bind("click", function () {
             if ($(this).attr("data-expand") == "false") {
@@ -327,6 +335,7 @@ function _getNowTime() {
     var _minutes = toDay.getMinutes() > 10 ? toDay.getMinutes() : "0" + toDay.getMinutes();//分
     var _seconds = toDay.getSeconds() > 10 ? toDay.getSeconds() : "0" + toDay.getSeconds();//秒
     var time = _hour + ":" + _minutes + ":" + _seconds;
+    $(".wk-user-hs").html("<span>沪深</span><span style='" + (Utility.getTradeTime() == "休市" ? "" : "color:red") + "'>" + Utility.getTradeTime() + "</span>");
     $(".wk-user-time span:last-child").html(time);
 }
 /**

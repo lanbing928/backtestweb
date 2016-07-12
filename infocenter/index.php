@@ -42,7 +42,7 @@ if (CheckLogin::check() == -1) {
             <div class="wk-user-sub-search text-right">
                 <div class="col-md-4 col-md-offset-4">
                     <label class="wk-user-time"><span>北京</span><span>15:20:30</span></label>
-                    <!--                    <label class="wk-user-hs"><span>沪深</span><span>交易中</span></label>-->
+                    <label class="wk-user-hs"></label>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
