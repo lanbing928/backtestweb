@@ -320,53 +320,54 @@ var ctrlInfo = {
             });
             //加载完股票列表后获取相关联的新闻
             var query_type = $(".wk-user-mynews").attr("data-query-type");
+            var info_type = $(".wk-user-mynews").attr("data-info-type");
             if (_all_stock_code.join('|').length > 0) {
-                if (query_type == 0) {
+                if (info_type == 0) {
                     ctrlInfo.getNews({
-                        "query_type": 0,
+                        "query_type": query_type,
                         "start_time": 0,
-                        "info_type": 0,
+                        "info_type": info_type,
                         "stock_list": _all_stock_code.join('|') + "|"
                     });
                 }
-                if (query_type == 1) {
+                if (info_type == 1) {
                     ctrlInfo.getFastNews({
-                        "query_type": 1,
+                        "query_type": query_type,
                         "start_time": 0,
-                        "info_type": 0,
+                        "info_type": info_type,
                         "stock_list": _all_stock_code.join('|') + "|"
                     });
                 }
-                if (query_type == 2) {
+                if (info_type == 2) {
                     ctrlInfo.getMedia({
-                        "query_type": 2,
+                        "query_type": query_type,
                         "start_time": 0,
-                        "info_type": 0,
+                        "info_type": info_type,
                         "stock_list": _all_stock_code.join('|') + "|"
                     });
                 }
             } else {
-                if (query_type == 0) {
+                if (info_type == 0) {
                     ctrlInfo.getNews({
-                        "query_type": 0,
+                        "query_type": query_type,
                         "start_time": 0,
-                        "info_type": 0,
+                        "info_type": info_type,
                         "stock_list": "00000x|"
                     });
                 }
-                if (query_type == 1) {
+                if (info_type == 1) {
                     ctrlInfo.getFastNews({
-                        "query_type": 1,
+                        "query_type": query_type,
                         "start_time": 0,
-                        "info_type": 0,
+                        "info_type": info_type,
                         "stock_list": "00000x|"
                     });
                 }
-                if (query_type == 2) {
+                if (info_type == 2) {
                     ctrlInfo.getMedia({
-                        "query_type": 2,
+                        "query_type": query_type,
                         "start_time": 0,
-                        "info_type": 0,
+                        "info_type": info_type,
                         "stock_list": "00000x|"
                     });
                 }
@@ -436,8 +437,8 @@ var ctrlInfo = {
                                 }
                             });
                         }
-                        var query_type = $(".wk-user-mynews").attr("query_type");
-                        var info_type = $(".wk-user-mynews").attr("info_type");
+                        var query_type = $(".wk-user-mynews").attr("data-query-type");
+                        var info_type = $(".wk-user-mynews").attr("data-info-type");
                         var stock_list = $(".wk-user-mynews").attr("data-stock");
                         if (info_type == 0) {
                             ctrlInfo.getNews({
@@ -476,7 +477,7 @@ var ctrlInfo = {
                                     $(this).addClass("active").siblings().removeClass("active");
                                     if ($(this).hasClass("user-default")) {
                                         var stock_list = $(".wk-user-mynews").attr("data-stock");
-                                        $(".wk-user-mynews").attr("query_type", 1).attr("info_type", "0");
+                                        $(".wk-user-mynews").attr("data-query-type", 1).attr("data-info-type", "0");
                                         ctrlInfo.getNews({
                                             "query_type": 1,
                                             "start_time": 0,
@@ -494,7 +495,7 @@ var ctrlInfo = {
                                                 $("#" + target + " .wk-user-news-ctrl-con").hide();
                                             }
                                         });
-                                        $(".wk-user-mynews").attr("query_type", 2).attr("info_type", "0");
+                                        $(".wk-user-mynews").attr("data-query-type", 2).attr("data-info-type", "0");
                                         ctrlInfo.getNews({
                                             "query_type": 2,
                                             "start_time": 0,
@@ -518,7 +519,7 @@ var ctrlInfo = {
                                     $(this).addClass("active").siblings().removeClass("active");
                                     var stock_list = $(".wk-user-mynews").attr("data-stock");
                                     if ($(this).hasClass("user-default")) {
-                                        $(".wk-user-mynews").attr("query_type", 1).attr("info_type", "2");
+                                        $(".wk-user-mynews").attr("data-query-type", 1).attr("data-info-type", "2");
                                         ctrlInfo.getMedia({
                                             "query_type": 1,
                                             "start_time": 0,
@@ -536,7 +537,7 @@ var ctrlInfo = {
                                                 $("#" + target + " .wk-user-news-ctrl-con").hide();
                                             }
                                         });
-                                        $(".wk-user-mynews").attr("query_type", 2).attr("info_type", "2");
+                                        $(".wk-user-mynews").attr("data-query-type", 2).attr("data-info-type", "2");
                                         ctrlInfo.getMedia({
                                             "query_type": 2,
                                             "start_time": 0,
@@ -750,17 +751,20 @@ $(function () {
         if (target == "wk-user-news-list") {
             $("#" + target).find(".wk-con").html("");
             ctrlInfo.getNews({"query_type": 1, "start_time": 0, "info_type": 0, "stock_list": stock_list});
-            $(".wk-user-mynews").attr("data-query-type", 0);
+            $(".wk-user-mynews").attr("data-info-type", 0);
+            $(".wk-user-mynews").attr("data-query-type", 1);
         }
         if (target == "wk-user-fastnews-list") {
             $("#" + target).find(".wk-con").html("");
             ctrlInfo.getFastNews({"query_type": 1, "start_time": 0, "info_type": 1, "stock_list": stock_list});
+            $(".wk-user-mynews").attr("data-info-type", 1);
             $(".wk-user-mynews").attr("data-query-type", 1);
         }
         if (target == "wk-user-vpoint-list") {
             $("#" + target).find(".wk-con").html("");
             ctrlInfo.getMedia({"query_type": 1, "start_time": 0, "info_type": 2, "stock_list": stock_list});
-            $(".wk-user-mynews").attr("data-query-type", 2);
+            $(".wk-user-mynews").attr("data-info-type", 2);
+            $(".wk-user-mynews").attr("data-query-type", 1);
         }
     });
     /**
@@ -770,12 +774,12 @@ $(function () {
         var scrollTop = $(this).scrollTop();
         var scrollHeight = $(document).height();
         var windowHeight = $(this).height();
-        if (scrollTop + windowHeight + 200 >= scrollHeight) {
+        if (scrollTop + windowHeight >= scrollHeight) {
             var stock_list = $(".wk-user-mynews").attr("data-stock");
             var query_type = $(".wk-user-mynews").attr("data-query-type");
-            var info_type = $(".wk-user-mynews").attr("info-type");
-            if (info_type == 0) {
-                var lastNews = $(".wk-user-news-list .wk-con").find(".wk-news-list:last-child");
+            var info_type = $(".wk-user-mynews").attr("data-info-type");
+            if (info_type == "0") {
+                var lastNews = $("#wk-user-news-list .wk-con").find(".wk-news-list:last-child");
                 var last_id = lastNews.attr("id");
                 var last_time = lastNews.attr("data-news-timestamp");
                 inforcenter.getRelatedInfo({
@@ -788,12 +792,14 @@ $(function () {
                     $(".wk-user-news-loading").show();
                 }, function (resultData) {
                     $(".wk-user-news-loading").hide();
-                    var html = ctrlInfo.buildNews(resultData.result);
-                    $("#wk-user-news-list .wk-con").append(html);
+                    if (resultData.result.length > 0) {
+                        var html = ctrlInfo.buildNews(resultData.result);
+                        $("#wk-user-news-list .wk-con").append(html);
+                    }
                 });
             }
-            if (info_type == 1) {
-                var lastNews = $(".wk-user-fastnews-list .wk-con").find(".wk-news-list:last-child");
+            if (info_type == "1") {
+                var lastNews = $("#wk-user-fastnews-list .wk-con").find(".wk-news-list:last-child");
                 var last_id = lastNews.attr("id");
                 var last_time = lastNews.attr("data-news-timestamp");
                 inforcenter.getRelatedInfo({
@@ -806,12 +812,14 @@ $(function () {
                     $(".wk-user-news-loading").show();
                 }, function (resultData) {
                     $(".wk-user-news-loading").hide();
-                    var html = ctrlInfo.buildFastNews(resultData.result);
-                    $("#wk-user-fastnews-list .wk-con").append(html);
+                    if (resultData.result.length > 0) {
+                        var html = ctrlInfo.buildFastNews(resultData.result);
+                        $("#wk-user-fastnews-list .wk-con").append(html);
+                    }
                 });
             }
-            if (info_type == 2) {
-                var lastNews = $(".wk-user-vpoint-list .wk-con").find(".wk-news-list:last-child");
+            if (info_type == "2") {
+                var lastNews = $("#wk-user-vpoint-list .wk-con").find(".wk-news-list:last-child");
                 var last_id = lastNews.attr("id");
                 var last_time = lastNews.attr("data-news-timestamp");
                 inforcenter.getRelatedInfo({
@@ -824,8 +832,10 @@ $(function () {
                     $(".wk-user-news-loading").show();
                 }, function (resultData) {
                     $(".wk-user-news-loading").hide();
-                    var html = ctrlInfo.buildMedia(resultData.result);
-                    $("#wk-user-vpoint-list .wk-con").append(html);
+                    if (resultData.result.length > 0) {
+                        var html = ctrlInfo.buildMedia(resultData.result);
+                        $("#wk-user-vpoint-list .wk-con").append(html);
+                    }
                 });
             }
         }

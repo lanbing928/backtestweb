@@ -108,7 +108,7 @@ if (CheckLogin::check() == -1) {
                 </table>
             </div>
         </div>
-        <div class="wk-user-mynews" data-stock="00000x|" data-query-type="0">
+        <div class="wk-user-mynews" data-stock="00000x|" data-query-type="1" data-info-type="0">
             <div class="btn-group active" data-target="wk-user-news-list">
                 <div class="wk-user-news-slider">
                     <span>新闻</span>
