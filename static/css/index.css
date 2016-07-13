@@ -326,3 +326,28 @@
 .news-rel-stock a{font-size: 16px;color: #011c71;font-weight: 400; margin: 0 32px 10px 0;text-decoration: none;}
 
 .wk-user-news-loading{width: 100%;text-align: center;display: none;}
+
+.wk-user-news-loading{width: 100%;text-align: center;display: none;}
+
+/*header头 公共头部*/
+.wk-user-topmenu{text-align: center;}
+.nav .open > a, .nav .open > a:focus, .nav .open > a:hover {background: none;}
+.nav .dot{width:5px;height:5px;border-radius:10px;background-color:red;margin:6px 0 0 5px;float:right;}
+.msg_all{font-size:14px;min-width:250px;line-height:22px;padding:0;}
+.dropdown-menu ul{padding-left:0px;}
+.message li{list-style: none;padding:3px 10px;}
+.message .msg_title{padding:5px 10px;background: #f6f7f9;border-bottom: 1px solid #ddd;}
+.message .detail{border-top: 1px solid #ddd;padding:5px 10px;background: #f6f7f9;}
+.message .detail a{color:#4d5aad;}
+.message a:first-child{padding-top:18px;}
+
+/*热度排行榜hotrank*/
+.wk-con-box .tab-pane .left{padding-right:5px;}
+.wk-con-box .tab-pane .right{padding:0px 0px 0px 5px;}
+
+/*版本更新说明message*/
+.wk-all-hot .msg{line-height:24px;}
+.wk-all-hot .msg b{margin:40px 0 16px 0;}
+.wk-all-hot .msg .updata_main{margin-bottom:30px;}
+.wk-all-hot .msg img{width:90%;margin:10px 5% 22px;}
+.wk-all-hot .msg_btn{width:15%;margin:0 0 3% 43%;box-shadow:3px 3px 1px #888;}
