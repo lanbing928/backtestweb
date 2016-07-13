@@ -172,12 +172,21 @@ var common = {
             var fastHtml = [];
             if (resultData.fast_info.length > 0) {
                 common.hideLoading();
-                for (var i = 0; i < resultData.fast_info.length; i++) {
-                    fastHtml.push("<tr id='fast_" + resultData.fast_info[i].info_id + "' data-fastnews-timestamp=\"" + resultData.fast_info[i].timestamp + "\"><td><label>");
-                    fastHtml.push(Utility.unixToDate(resultData.fast_info[i].timestamp).substring(10, 16));
-                    fastHtml.push("</label></td><td>");
-                    fastHtml.push(resultData.fast_info[i].summary);
-                    fastHtml.push("</td></tr>");
+                for (var i in resultData.fast_info) {
+                    for (var j in resultData.fast_info[i]) {
+                        fastHtml.push();
+                        fastHtml.push("<div class=\"wk-user-fastnews\">");
+                        fastHtml.push("<span class=\"wk-user-fastnews-dot\">●</span>");
+                        fastHtml.push("<p class=\"wk-user-fastnews-todate\">" + j + "</p>");
+                        fastHtml.push("<ul>");
+                        for (var k = 0; k < resultData.fast_info[i][j].length; k++) {
+                            fastHtml.push("<li>");
+                            fastHtml.push("<label>" + Utility.unixToTime(resultData.fast_info[i][j][k].timestamp) + "</label>");
+                            fastHtml.push("<p>" + resultData.fast_info[i][j][k].summary + "</p>");
+                            fastHtml.push("</li>");
+                        }
+                        fastHtml.push("</ul></div>");
+                    }
                 }
                 $("#wk-newsflash .wk-news-list table>tbody").append(fastHtml.join(''));
             } else {
