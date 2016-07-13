@@ -88,7 +88,6 @@ class Cookies
 
             $cookie_value = $this->authcode($_COOKIE[$cookie_name], 'DECODE');
             $cookie_value = $this->unpack($cookie_value);
-
             return isset($cookie_value[0]) ? $cookie_value[0] : null;
 
         } else {

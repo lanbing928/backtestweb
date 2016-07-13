@@ -19,10 +19,19 @@ if (CheckLogin::check() == -1) {
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/common.min.css">
     <link rel="stylesheet" href="static/css/index.min.css">
-    <link rel="stylesheet" href="static/css/hotrank.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="static/plugins/typeahead/jquery.typeahead.min.css">
     <link rel="stylesheet" href="static/css/common.min.css">
     <link rel="stylesheet" href="static/css/index.min.css">
+    <link rel="stylesheet" href="static/css/hotrank.css">
+    <script>
+        .wk-con-box .tab-pane .left{
+            padding-right:5px;
+        }
+        .wk-con-box .tab-pane .right{
+            padding:0px 0px 0px 5px;
+        }
+    </script>
 </head>
 <body>
 <?php include("share/_header.php") ?>
