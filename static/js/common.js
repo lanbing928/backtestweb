@@ -570,7 +570,7 @@ var common = {
                 }
             ]
         };
-        rateChart.setO折线ption(option);
+        rateChart.setOption(option);
         window.onresize = rateChart.resize
     },
     /**
