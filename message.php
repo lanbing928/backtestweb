@@ -13,7 +13,7 @@ if (CheckLogin::check() == -1) {
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>股票热度情况</title>
+    <title>版本更新说明</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -21,26 +21,6 @@ if (CheckLogin::check() == -1) {
     <link rel="stylesheet" href="static/plugins/typeahead/jquery.typeahead.min.css">
     <link rel="stylesheet" href="static/css/common.min.css">
     <link rel="stylesheet" href="static/css/index.min.css">
-    <style>
-        .wk-all-hot .msg{
-            line-height:24px;
-        }
-        .wk-all-hot .msg b{
-           margin:40px 0 16px 0;
-        }
-        .wk-all-hot .msg .updata_main{
-            margin-bottom:30px;
-        }
-        .wk-all-hot .msg img{
-            width:90%;
-            margin:10px 5% 22px;
-        }
-        .wk-all-hot .msg_btn{
-            width:15%;
-            margin:0 0 3% 43%;
-            box-shadow:3px 3px 1px #888;
-        }
-    </style>
 </head>
 <body>
 <?php include("share/_header.php") ?>

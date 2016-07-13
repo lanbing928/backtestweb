@@ -8,48 +8,6 @@ if (isset($userInfo)) {
     $userName = $info['user_name'];
 }
 ?>
-<style>
-    .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
-        background: none;
-    }
-    .nav .dot{
-        width:5px;
-        height:5px;
-        border-radius:10px;
-        background-color:red;
-        margin:6px 0 0 5px;
-        float:right;
-    }
-    .msg_all{
-        font-size:14px;
-        min-width:250px;
-        line-height:22px;
-        padding:0;
-    }
-    .dropdown-menu ul{
-        padding-left:0px;
-    }
-    .message li{
-        list-style: none;
-        padding:3px 10px;
-    }
-    .message .msg_title{
-        padding:5px 10px;
-        background: #f6f7f9;
-        border-bottom: 1px solid #ddd;
-    }
-    .message .detail{
-        border-top: 1px solid #ddd;
-        padding:5px 10px;
-        background: #f6f7f9;
-    }
-    .message .detail a{
-        color:#4d5aad;
-    }
-    .message a:first-child{
-        padding-top:18px;
-    }
-</style>
 <nav class="wk-header">
     <div class="container wk-container">
         <div class="navbar-header">
