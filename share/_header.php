@@ -50,7 +50,7 @@ if (isset($userInfo)) {
                             <li><a href='infocenter/'>个人中心</a></li>
                             <li><a href='/'>返回首页</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href='../logout.php'>退出</a></li>
+                            <li><a href='logout.php'>退出</a></li>
                         </ul>
                     </li>
                 <?php } else { ?>
