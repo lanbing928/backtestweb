@@ -17,19 +17,19 @@ $arrData = array(
 );
 switch ($operate_code) {
     case 1:
-        $arrData["ori_name"] = isset($_POST['ori_name']) ? $_POST['ori_name'] : "";
+        $arrData["ori_name"] = isset($_POST['ori_name']) ? $_POST['ori_name'] . "," : "";
         break;
     case 2:
-        $arrData["ori_name"] = isset($_POST['ori_name']) ? $_POST['ori_name'] : "";
+        $arrData["ori_name"] = isset($_POST['ori_name']) ? $_POST['ori_name'] . "," : "";
         break;
     case 3:
-        $arrData["ori_name"] = isset($_POST['ori_name']) ? $_POST['ori_name'] : "";
-        $arrData["cur_name"] = isset($_POST['cur_name']) ? $_POST['cur_name'] : "";
+        $arrData["ori_name"] = isset($_POST['ori_name']) ? $_POST['ori_name'] . "," : "";
+        $arrData["cur_name"] = isset($_POST['cur_name']) ? $_POST['cur_name'] . "," : "";
         break;
     case 4:
         break;
     case 5:
-        $arrData["ori_name"] = isset($_POST['ori_name']) ? $_POST['ori_name'] : "";
+        $arrData["ori_name"] = isset($_POST['ori_name']) ? $_POST['ori_name'] . "," : "";
         $arrData["code"] = isset($_POST['code']) ? $_POST['code'] . "," : "";
         break;
     case 6:
@@ -37,7 +37,7 @@ switch ($operate_code) {
         $arrData["code"] = isset($_POST['code']) ? $_POST['code'] . "," : "";
         break;
     case 7:
-        $arrData["ori_name"] = isset($_POST['ori_name']) ? $_POST['ori_name'] : "";
+        $arrData["ori_name"] = isset($_POST['ori_name']) ? $_POST['ori_name'] . "," : "";
         break;
     case 8:
         break;
