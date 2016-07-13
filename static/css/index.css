@@ -248,9 +248,9 @@
 /*个人中心*/
 /*头部数据*/
 .wk-user-center{margin-top: 25px;margin-bottom: 40px;}
-.wk-user-datas{height: 70px;}
-.wk-user-datas .col-md-4{padding-left: 30px;padding-right: 30px;}
-.wk-user-datas-box{width: 240px;}
+.wk-user-datas{min-height: 70px;}
+.wk-user-datas .col-md-4{padding: 10px 30px;}
+/*.wk-user-datas-box{width: 240px;}*/
 .wk-user-datas-box hr{clear:both;margin: 0;padding: 0;border-color: inherit;border-top: 2px solid;}
 .wk-user-datas p{padding: 0;margin: 0;}
 .wk-user-datas-title{font-size: 16px;}
@@ -282,6 +282,7 @@
 .wk-dp-down{background: url("../imgs/i/dp_down.png") no-repeat center;}
 .wk-user-sub-search{padding: 0;display: inline-flex;}
 .wk-user-sub-search .col-md-4:last-child{padding-right: 0;}
+.wk-user-sub-search .col-md-4:first-child{min-width: 250px;}
 .wk-user-stock-search{height: 24px;border-right: none;}
 .input-group-addon{padding: 6px;background: none;border: none;}
 

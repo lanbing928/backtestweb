@@ -45,7 +45,7 @@ if (CheckLogin::check() == -1) {
     <meta charset="UTF-8">
     <title>悟空</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -87,7 +87,7 @@ if (CheckLogin::check() == -1) {
                     </div>
                 </div>
             </div>
-            <div class="wk-user-mychoose-table">
+            <div class="wk-user-mychoose-table table-responsive">
                 <table class="table table-striped">
                     <thead>
                     <tr>
