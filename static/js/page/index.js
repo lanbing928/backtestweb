@@ -1,14 +1,14 @@
 var wk_treemap_data, viewData = [], searchData = [], followData = [];
 var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
 var myLineChart = echarts.init(document.getElementById("left-chart"));
-myLineChart.showLoading();
+myLineChart.showLoading({"text": "加载中..."});
 function initTreeMapChart() {
     if (!wk_treemap_data) {
         common.getTopTwentyStock(null, function () {
-            var waitLogingCharts = ["wk-stock-view-treemap", "wk-industry-view-treemap", "wk-concept-view-treemap"];
+            var waitLogingCharts = ["wk-stock-view-treemap", "wk-industry-view-treemap", "wk-concept-view-treemap","wk-event-view-treemap"];
             for (var i in waitLogingCharts) {
                 var treemap = echarts.init(document.getElementById(waitLogingCharts[i]));
-                treemap.showLoading();
+                treemap.showLoading({"text": "加载中..."});
             }
         }, function (resultData) {
             if (resultData.status == 1) {
@@ -32,7 +32,7 @@ function buildTreeMap(resultData) {
     if (resultData.result.code_info.shs_.length > 0) {
         var _shs = resultData.result.code_info.shs_;
         var _sus = resultData.result.code_info.sus_;
-        $("#hot-search-stock").html("<a class='" + Utility.getPriceColor(_shs[0].price) + "' href='stocks.php?stock=" + _shs[0].code + "' target='_blank'>" + _shs[0].name + "(" + _shv[0].code + ")</a>");
+        $("#hot-search-stock").html("<a class='" + Utility.getPriceColor(_shs[0].price) + "' href='stocks.php?stock=" + _shs[0].code + "' target='_blank'>" + _shs[0].name + "(" + _shs[0].code + ")</a>");
         $("#stock-search .wk-hot-table tbody").html(common.buildHotmapTable(_shs, "stock"));
         $("#stock-search .right .wk-treemap-table tbody").html(common.buildStockTable(_sus));
         common.buildHotmap("wk-stock-search-treemap", _sus, "stock");
@@ -40,11 +40,12 @@ function buildTreeMap(resultData) {
     if (resultData.result.code_info.shf_.length > 0) {
         var _shf = resultData.result.code_info.shf_;
         var _suf = resultData.result.code_info.suf_;
-        $("#hot-follow-stock").html("<a class='" + Utility.getPriceColor(_shf[0].price) + "' href='stocks.php?stock=" + _shf[0].code + "' target='_blank'>" + _shf[0].name + "(" + _shv[0].code + ")</a>");
+        $("#hot-follow-stock").html("<a class='" + Utility.getPriceColor(_shf[0].price) + "' href='stocks.php?stock=" + _shf[0].code + "' target='_blank'>" + _shf[0].name + "(" + _shf[0].code + ")</a>");
         $("#stock-follow .wk-hot-table tbody").html(common.buildHotmapTable(_shf, "stock"));
         $("#stock-follow .right .wk-treemap-table tbody").html(common.buildStockTable(_suf));
         common.buildHotmap("wk-stock-follow-treemap", _suf, "stock");
     }
+
     if (resultData.result.code_info.hhv_.length > 0) {
         var _hhv = resultData.result.code_info.hhv_;
         var _huv = resultData.result.code_info.huv_;
@@ -66,6 +67,7 @@ function buildTreeMap(resultData) {
         $("#industry-follow .right .wk-treemap-table tbody").html(common.buildOtherTable(_huf, "industry"));
         common.buildHotmap("wk-industry-follow-treemap", _huf, "industry");
     }
+
     if (resultData.result.code_info.ghv_.length > 0) {
         var _ghv = resultData.result.code_info.ghv_;
         var _guv = resultData.result.code_info.guv_;
@@ -86,6 +88,28 @@ function buildTreeMap(resultData) {
         $("#concept-follow .wk-hot-table tbody").html(common.buildHotmapTable(_ghf, "concept"));
         $("#concept-follow .right .wk-treemap-table tbody").html(common.buildOtherTable(_guf, "concept"));
         common.buildHotmap("wk-concept-follow-treemap", _guf, "concept");
+    }
+
+    if (resultData.result.code_info.ehv_.length > 0) {
+        var _ehv = resultData.result.code_info.ehv_;
+        var _euv = resultData.result.code_info.euv_;
+        $("#event-view .wk-hot-table tbody").html(common.buildHotmapTable(_ehv, "event"));
+        $("#event-view .right .wk-treemap-table tbody").html(common.buildOtherTable(_euv, "event"));
+        common.buildHotmap("wk-event-view-treemap", _euv, "event");
+    }
+    if (resultData.result.code_info.ehs_.length > 0) {
+        var _ehs = resultData.result.code_info.ehs_;
+        var _eus = resultData.result.code_info.eus_;
+        $("#event-search .wk-hot-table tbody").html(common.buildHotmapTable(_ehs, "event"));
+        $("#event-search .right .wk-treemap-table tbody").html(common.buildOtherTable(_eus, "event"));
+        common.buildHotmap("wk-event-search-treemap", _eus, "event");
+    }
+    if (resultData.result.code_info.ehf_.length > 0) {
+        var _ehf = resultData.result.code_info.ehf_;
+        var _euf = resultData.result.code_info.euf_;
+        $("#event-follow .wk-hot-table tbody").html(common.buildHotmapTable(_ehf, "event"));
+        $("#event-follow .right .wk-treemap-table tbody").html(common.buildOtherTable(_euf, "event"));
+        common.buildHotmap("wk-event-follow-treemap", _euf, "event");
     }
 }
 function initTimeLine() {

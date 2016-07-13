@@ -11,8 +11,6 @@ class iwookongConfig
     //public static $requireUrl = "http://222.73.34.104/cgi-bin/wookong/";//接口前缀地址
     //public static $requireUrl = "http://222.73.34.104/cgi-bin/wookong111/";//接口前缀地址
     public static $requireUrl = "http://222.73.34.92/cgi-bin/test_wookong/";
-    //焦永清测试接口
-    //public static $requireUrl = "http://222.73.34.92/cgi-bin/jiao/prsim/";
 
     /**
      * 获取接口地址前缀

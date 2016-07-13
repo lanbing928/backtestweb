@@ -25,9 +25,9 @@ if (empty($industryName)) {
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css">
-    <link rel="stylesheet" href="http://static.iwookong.com/plugins/typeahead/jquery.typeahead.min.css">
-    <link rel="stylesheet" href="http://static.iwookong.com/css/common.min.css">
-    <link rel="stylesheet" href="http://static.iwookong.com/css/wookong/index.min.css">
+    <link rel="stylesheet" href="static/plugins/typeahead/jquery.typeahead.min.css">
+    <link rel="stylesheet" href="static/css/common.min.css">
+    <link rel="stylesheet" href="static/css/index.min.css">
 </head>
 <body>
 <?php include("share/_header.php") ?>
@@ -62,6 +62,16 @@ if (empty($industryName)) {
             </table>
         </div>
     </section>
+    <section class="wk-rate-line">
+        <p class="wk-hot-title">收益率走势</p>
+        <div class="wk-rate-select" data-query-name="<?php echo $industryName ?>" data-query-type="industry">
+            <label class="active" data-toggle="today">当天</label>
+            <label data-toggle="week">最近一周</label>
+            <label data-toggle="month">最近一个月</label>
+            <label data-toggle="threemonth">最近三个月</label>
+        </div>
+        <div id="wk-rate-line-pic"></div>
+    </section>
     <section class="wk-all-hot">
         <div class="wk-con-news">
             <p class="wk-hot-title relate-infos">关联资讯
@@ -88,7 +98,7 @@ if (empty($industryName)) {
         <div class="wk-con-industry">
             <p class="wk-hot-title"><?php echo $industryName ?>行业热度情况</p>
             <div class="wk-con-box">
-                <ul class="nav nav-tabs" role="tablist">
+                <ul class="nav nav-tabs wk-hotmap" role="tablist">
                     <li role="presentation" class="active"><a href="#industry-view" aria-controls="industry-view" role="tab" data-toggle="tab">查看热度</a></li>
                     <li role="presentation"><a href="#industry-search" aria-controls="industry-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#industry-follow" aria-controls="industry-follow" role="tab" data-toggle="tab">关注热度</a></li>
@@ -109,9 +119,11 @@ if (empty($industryName)) {
                                     <td>价格</td>
                                 </tr>
                                 </thead>
-                                <tbody> <tr>
+                                <tbody>
+                                <tr>
                                     <td colspan="5">加载中...</td>
-                                </tr></tbody>
+                                </tr>
+                                </tbody>
                             </table>
                         </div>
                         <div class="col-md-7 right">
@@ -136,7 +148,7 @@ if (empty($industryName)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>查看热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -183,7 +195,7 @@ if (empty($industryName)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>搜索热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -230,7 +242,7 @@ if (empty($industryName)) {
                                         <td>价格</td>
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
-                                        <td>热度涨跌幅</td>
+                                        <td>热度增量</td>
                                         <td>成交量</td>
                                     </tr>
                                     </thead>
@@ -249,7 +261,7 @@ if (empty($industryName)) {
 <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="http://static.iwookong.com/plugins/typeahead/jquery.typeahead.min.js"></script>
+<script src="static/plugins/typeahead/jquery.typeahead.min.js"></script>
 <script src="static/js/all.min.js"></script>
 <script src="static/js/common.min.js"></script>
 <script src="static/js/Utility.min.js"></script>

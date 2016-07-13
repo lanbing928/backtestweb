@@ -55,7 +55,7 @@ $(function () {
         trigger: "hover"
     });
 
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+    $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
         initTreeMapChart();
     });
     $(".wk-line-toggle a").click(function () {
@@ -73,7 +73,7 @@ $(function () {
         } else {
             common.getHotRecord(arrData, function () {
                 var myChart = echarts.init(document.getElementById("left-chart"));
-                myChart.showLoading();
+                myChart.showLoading({"text": "加载中..."});
             }, function (resultData) {
                 var _viewData = [];
                 var _searchData = [];
@@ -113,4 +113,57 @@ $(function () {
             to.find(".toggle-treemap-table").show();
         }
     });
+    $(".wk-rate-select label").click(function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        var querykey = $(this).parent().attr("data-query-name");//查询关键字(股票代码||行业/概念关键字)
+        var querytype = $(this).parent().attr("data-query-type");//查询类别(股票/行业/概念)
+        var toggle = $(this).attr("data-toggle");//查询周期(当天/一周/一个月/三个月)
+        var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
+        var queryData = {
+            "query_type": querytype,
+            "query_key": querykey,
+            "query_date": toggle
+        };
+        if (querytype == "stock") {
+            if (_stockName) {
+                querykey = _stockName;
+            }
+        }
+        switch (toggle) {
+            case "today":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            case "week":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            case "month":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            case "threemonth":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            default:
+                break;
+        }
+    })
 });

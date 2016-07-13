@@ -23,6 +23,10 @@ if ($json_rtr['status'] != "0") {
     print_r($real_timehot_result);
     return;
 } else {
-    print_r(json_encode(array("status" => 0, "result" => $json_rtr['msg'])));
-    return;
+    if ($json_rtr['msg'] == "权限不够") {
+        print_r(json_encode(array("status" => -100, "result" => $json_rtr['msg'])));
+    } else {
+        print_r(json_encode(array("status" => 0, "result" => $json_rtr['msg'])));
+        return;
+    }
 }

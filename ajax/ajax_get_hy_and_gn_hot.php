@@ -26,6 +26,10 @@ if ($json_line['status'] != "0") {
     print_r($stock_line_result);
     return;
 } else {
-    print_r(json_encode(array("status" => 0, "result" => $json_line['msg'])));
-    return;
+    if ($json_line['msg'] == "权限不够") {
+        print_r(json_encode(array("status" => -100, "result" => $json_line['msg'])));
+    } else {
+        print_r(json_encode(array("status" => 0, "result" => $json_line['msg'])));
+        return;
+    }
 }

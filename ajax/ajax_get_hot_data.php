@@ -20,6 +20,9 @@ if ($hottype == "hy") {
 if ($hottype == "gn") {
     $arrData["gn"] = $hotval;
 }
+if ($hottype == "hv") {
+    $arrData["hot_event"] = $hotval;
+}
 $url = iwookongConfig::$requireUrl . "stock/1/top_twenty_stock.fcgi";
 $result = RequestUtil::get($url, $arrData);
 $jsonresult = json_decode($result, true);
@@ -27,6 +30,10 @@ if ($jsonresult['status'] != "0") {
     print_r($result);
     return;
 } else {
-    print_r(json_encode(array("status" => 0, "result" => $jsonresult['msg'])));
-    return;
+    if ($jsonresult['msg'] == "权限不够") {
+        print_r(json_encode(array("status" => -100, "result" => $jsonresult['msg'])));
+    } else {
+        print_r(json_encode(array("status" => 0, "result" => $jsonresult['msg'])));
+        return;
+    }
 }

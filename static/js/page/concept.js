@@ -2,7 +2,7 @@ var name = Utility.getQueryStringByName("name");
 var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
 var wk_treemap_data, viewData = [], searchData = [], followData = [];
 var myChart = echarts.init(document.getElementById("left-chart"));
-myChart.showLoading();
+myChart.showLoading({"text": "加载中..."});
 function initLineChart() {
     common.getHyAndGnHot({"name": name, "query_type": 2}, null, function (resultData) {
         if (resultData.status == 1) {
@@ -17,7 +17,7 @@ function initLineChart() {
                 viewData = JSON.parse("[" + viewData.join(',') + "]");
                 var _v = Math.max.apply(Math, viewData);
                 var _vindex = viewData.indexOf(Math.max.apply(Math, viewData));
-                _lastHot.push("<tr><td>查看</td><td>" + viewData[viewData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + _vnum + ":00") + "</td></tr>");
+                _lastHot.push("<tr><td>查看</td><td>" + viewData[viewData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + (_vnum - 1) + ":00") + "</td></tr>");
                 _todayHot.push("<tr><td>查看</td><td>" + _v + "</td><td>" + Utility.calTime(_vindex) + "</td></tr>");
             }
             if (resultData.search) {
@@ -29,7 +29,7 @@ function initLineChart() {
                 searchData = JSON.parse("[" + searchData.join(',') + "]");
                 var _s = Math.max.apply(Math, searchData);
                 var _sindex = searchData.indexOf(Math.max.apply(Math, searchData));
-                _lastHot.push("<tr><td>查看</td><td>" + searchData[searchData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + _snum + ":00") + "</td></tr>");
+                _lastHot.push("<tr><td>搜索</td><td>" + searchData[searchData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + (_snum - 1) + ":00") + "</td></tr>");
                 _todayHot.push("<tr><td>搜索</td><td>" + _s + "</td><td>" + Utility.calTime(_sindex) + "</td></tr>");
             }
             if (resultData.follow) {
@@ -41,7 +41,7 @@ function initLineChart() {
                 followData = JSON.parse("[" + followData.join(',') + "]");
                 var _f = Math.max.apply(Math, followData);
                 var _findex = followData.indexOf(Math.max.apply(Math, followData));
-                _lastHot.push("<tr><td>查看</td><td>" + followData[followData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + _fnum + ":00") + "</td></tr>");
+                _lastHot.push("<tr><td>关注</td><td>" + followData[followData.length - 1] + "</td><td>" + (Utility.getNowFormatDate() + " " + (_fnum - 1) + ":00") + "</td></tr>");
                 _todayHot.push("<tr><td>关注</td><td>" + _f + "</td><td>" + Utility.calTime(_findex) + "</td></tr>");
             }
             $(".todayhot").html(_todayHot.join(''));
@@ -54,7 +54,7 @@ function initTreeMapChart() {
     if (!wk_treemap_data) {
         common.getTopTwentyStock({"hottype": "gn", "hotval": name}, function () {
             var treemap = echarts.init(document.getElementById("wk-stock-view-treemap"));
-            treemap.showLoading();
+            treemap.showLoading({"text": "加载中..."});
             $("#concept-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
         }, function (resultData) {
             if (resultData.status == 1) {
@@ -89,7 +89,20 @@ function buildTreeMap(resultData) {
         common.buildHotmap("wk-stock-follow-treemap", _suf, "stock");
     }
 }
-
+function initTodayRateLine() {
+    var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
+    var queryData = {
+        "query_type": "concept",
+        "query_key": name,
+        "query_date": "today"
+    };
+    common.getRateLine(queryData, function () {
+        rateLine.showLoading({"text": "加载中..."});
+    }, function (resultData) {
+        common.buildRateLine(decodeURI(name), "today", resultData);
+        rateLine.hideLoading();
+    });
+}
 $(function () {
     var arrData = {query_type: 3, key: name, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
@@ -111,7 +124,6 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            onTotalScrollOffset: 150,
             onTotalScroll: function () {
                 arrData.start_id = $("#wk-news .wk-news-list:last").attr("id").replace("news_", "");
                 arrData.info_type_list = "1,0,0,0,0,0";
@@ -125,11 +137,10 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            onTotalScrollOffset: 150,
             onTotalScroll: function () {
                 arrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
                 arrData.info_type_list = "0,0,1,0,0,0";
-                arrData.timestamp = $("#wk-selfmedia .wk-news-list:last").attr("data-news-timestamp");
+                arrData.timestamp = $("#wk-selfmedia .wk-news-list:last").attr("data-media-timestamp");
                 common.getSelfMedia(arrData);
             }
         }
@@ -139,17 +150,18 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            onTotalScrollOffset: 150,
             onTotalScroll: function () {
                 arrData.start_id = $("#wk-newsflash .wk-news-list tr:last").attr("id").replace("fast_", "");
                 arrData.info_type_list = "0,1,0,0,0,0";
-                arrData.timestamp = $("#wk-newsflash .wk-news-list:last").attr("data-news-timestamp");
+                arrData.timestamp = $("#wk-newsflash .wk-news-list:last").attr("data-fastnews-timestamp");
                 common.getFastNews(arrData);
             }
         }
     });
     common.initRelateSHG(3, name);
     common.getNews(arrData);
+
     initLineChart();
     initTreeMapChart();
+    initTodayRateLine();
 });

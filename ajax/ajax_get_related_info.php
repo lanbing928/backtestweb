@@ -32,7 +32,7 @@ $result = RequestUtil::get($url,
         "user_id" => $_SESSION['user_id'],
         "token" => $_SESSION["token"],
         "query_type" => $query_type,
-        "key" => $key . ",",
+        "key" => $key,
         "start_id" => $start_id,
         "info_type_list" => $info_type_list,
         "start_time" => $start_time
@@ -42,6 +42,10 @@ if ($jsonresult['status'] != "0") {
     print_r($result);
     return;
 } else {
-    print_r(json_encode(array("status" => 0, "result" => $jsonresult['msg'])));
-    return;
+    if ($jsonresult['msg'] == "权限不够") {
+        print_r(json_encode(array("status" => -100, "result" => $jsonresult['msg'])));
+    } else {
+        print_r(json_encode(array("status" => 0, "result" => $jsonresult['msg'])));
+        return;
+    }
 }

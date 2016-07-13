@@ -4,9 +4,9 @@
  * Date: 2016/5/12 0012 16:42
  * Description:用户登录
  */
+session_start();
 require_once(dirname(__FILE__) . "/../../common/Request.class.php");
 require_once(dirname(__FILE__) . "/../../common/iwookongConfig.class.php");
-require_once(dirname(__FILE__) . "/../../common/CheckUserLogin.class.php");
 require_once(dirname(__FILE__) . "/../../common/VerifyAction.class.php");
 require_once(dirname(__FILE__) . "/../../common/Cookies.class.php");
 
@@ -53,6 +53,38 @@ if ($jsonresult['status'] != null) {
             $usercookie = new Cookies();
             $usercookie->set(iwookongConfig::$usercookie, json_encode($resultArr), 864000);
         }
+//        $service_port = 5059;
+//        $address = '192.168.2.87';
+//
+//        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+//        if ($socket === false) {
+//            echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
+//        } else {
+//            echo "OK. \n";
+//        }
+//        echo "Attempting to connect to '$address' on port '$service_port'...";
+//        $result = socket_connect($socket, $address, $service_port);
+//        if($result === false) {
+//            echo "socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($socket)) . "\n";
+//        } else {
+//            echo "OK \n";
+//        }
+//        $in = "HEAD / http/1.1\r\n";
+//        $in .= "HOST: localhost \r\n";
+//        $in .= "Connection: close\r\n\r\n";
+//        $out = "";
+//        echo "sending http head request ...";
+//        socket_write($socket, $in, strlen($in));
+//        echo  "OK\n";
+//
+//        echo "Reading response:\n\n";
+//        while ($out = socket_read($socket, 8192)) {
+//            echo $out;
+//        }
+//        echo "closeing socket..";
+//        socket_close($socket);
+//        echo "ok .\n\n";
+
         print_r(json_encode(array("status" => 1, "result" => $jsonresult['status'])));
     } else {
         print_r(json_encode(array("status" => 0, "result" => $jsonresult['msg'])));
@@ -62,3 +94,4 @@ if ($jsonresult['status'] != null) {
     print_r(json_encode(array("status" => 0, "result" => "未知错误")));
     return;
 }
+session_write_close();
