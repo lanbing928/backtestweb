@@ -211,7 +211,6 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            
             onTotalScroll: function () {
                 arrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
                 arrData.info_type_list = "0,0,1,0,0,0";
@@ -225,11 +224,10 @@ $(function () {
         theme: "minimal-dark",
         axis: "y",
         callbacks: {
-            
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-newsflash .wk-news-list tr:last").attr("id").replace("fast_", "");
+                arrData.start_id = $("#wk-newsflash .wk-user-fastnews:last-child").find("ul li:last-child").attr("id").replace("fast_", "");
                 arrData.info_type_list = "0,1,0,0,0,0";
-                arrData.timestamp = $("#wk-newsflash .wk-news-list:last").attr("data-fastnews-timestamp");
+                arrData.timestamp = $("#wk-newsflash  .wk-user-fastnews:last-child").find("ul li:last-child").attr("data-fastnews-timestamp");
                 common.getFastNews(arrData);
             }
         }

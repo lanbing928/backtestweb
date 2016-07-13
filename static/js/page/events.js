@@ -160,7 +160,7 @@ $(function () {
     });
     common.initRelateSHG(3, name);
     common.getNews(arrData);
-
+    
     initLineChart();
     initTreeMapChart();
     initTodayRateLine();

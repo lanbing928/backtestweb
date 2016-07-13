@@ -180,7 +180,7 @@ var common = {
                         fastHtml.push("<p class=\"wk-user-fastnews-todate\">" + j + "</p>");
                         fastHtml.push("<ul>");
                         for (var k = 0; k < resultData.fast_info[i][j].length; k++) {
-                            fastHtml.push("<li>");
+                            fastHtml.push("<li id='" + resultData.fast_info[i][j][k].info_id + "' data-fastnews-timestamp='" + resultData.fast_info[i][j][k].timestamp + "'>");
                             fastHtml.push("<label>" + Utility.unixToTime(resultData.fast_info[i][j][k].timestamp) + "</label>");
                             fastHtml.push("<p>" + resultData.fast_info[i][j][k].summary + "</p>");
                             fastHtml.push("</li>");
