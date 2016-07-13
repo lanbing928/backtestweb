@@ -36,7 +36,7 @@ if (CheckLogin::check() == -1) {
                 4.总热度排行新增"更多"Top100。<br>
                 5.新增关联股票/行业/概念/主题事件图。<br>
             </div>
-            <b>更新内容介绍：</b
+            <b>更新内容介绍：</b>
                 <div>1.热力图五涨五跌，新增涨幅/跌幅表。</div>
                 <img src="static/imgs/msg/pic_1.png">
                 <div>2.新增资讯分类：公告。</div>
