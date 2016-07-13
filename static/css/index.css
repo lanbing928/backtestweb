@@ -331,6 +331,7 @@
 .wk-user-news-loading{width: 100%;text-align: center;display: none;}
 
 /*header头 公共头部*/
+.wk-user-topmenu{text-align: center;}
 .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {background: none;}
 .nav .dot{width:5px;height:5px;border-radius:10px;background-color:red;margin:6px 0 0 5px;float:right;}
 .msg_all{font-size:14px;min-width:250px;line-height:22px;padding:0;}
