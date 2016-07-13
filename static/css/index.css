@@ -248,9 +248,9 @@
 /*个人中心*/
 /*头部数据*/
 .wk-user-center{margin-top: 25px;margin-bottom: 40px;}
-.wk-user-datas{height: 70px;}
-.wk-user-datas .col-md-4{padding-left: 30px;padding-right: 30px;}
-.wk-user-datas-box{width: 240px;}
+.wk-user-datas{min-height: 70px;}
+.wk-user-datas .col-md-4{padding: 10px 30px;}
+/*.wk-user-datas-box{width: 240px;}*/
 .wk-user-datas-box hr{clear:both;margin: 0;padding: 0;border-color: inherit;border-top: 2px solid;}
 .wk-user-datas p{padding: 0;margin: 0;}
 .wk-user-datas-title{font-size: 16px;}
@@ -282,6 +282,7 @@
 .wk-dp-down{background: url("../imgs/i/dp_down.png") no-repeat center;}
 .wk-user-sub-search{padding: 0;display: inline-flex;}
 .wk-user-sub-search .col-md-4:last-child{padding-right: 0;}
+.wk-user-sub-search .col-md-4:first-child{min-width: 250px;}
 .wk-user-stock-search{height: 24px;border-right: none;}
 .input-group-addon{padding: 6px;background: none;border: none;}
 
@@ -326,3 +327,27 @@
 .news-rel-stock a{font-size: 16px;color: #011c71;font-weight: 400; margin: 0 32px 10px 0;text-decoration: none;}
 
 .wk-user-news-loading{width: 100%;text-align: center;display: none;}
+
+.wk-user-news-loading{width: 100%;text-align: center;display: none;}
+
+/*header头 公共头部*/
+.nav .open > a, .nav .open > a:focus, .nav .open > a:hover {background: none;}
+.nav .dot{width:5px;height:5px;border-radius:10px;background-color:red;margin:6px 0 0 5px;float:right;}
+.msg_all{font-size:14px;min-width:250px;line-height:22px;padding:0;}
+.dropdown-menu ul{padding-left:0px;}
+.message li{list-style: none;padding:3px 10px;}
+.message .msg_title{padding:5px 10px;background: #f6f7f9;border-bottom: 1px solid #ddd;}
+.message .detail{border-top: 1px solid #ddd;padding:5px 10px;background: #f6f7f9;}
+.message .detail a{color:#4d5aad;}
+.message a:first-child{padding-top:18px;}
+
+/*热度排行榜hotrank*/
+.wk-con-box .tab-pane .left{padding-right:5px;}
+.wk-con-box .tab-pane .right{padding:0px 0px 0px 5px;}
+
+/*版本更新说明message*/
+.wk-all-hot .msg{line-height:24px;}
+.wk-all-hot .msg b{margin:40px 0 16px 0;}
+.wk-all-hot .msg .updata_main{margin-bottom:30px;}
+.wk-all-hot .msg img{width:90%;margin:10px 5% 22px;}
+.wk-all-hot .msg_btn{width:15%;margin:0 0 3% 43%;box-shadow:3px 3px 1px #888;}

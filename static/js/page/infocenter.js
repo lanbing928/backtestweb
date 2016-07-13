@@ -115,10 +115,10 @@ var ctrlInfo = {
                             showConfirmButton: false
                         });
                         ctrlInfo.getMyStockGroup();
-                    } else {
+                    } else if (resultData.status == 0) {
                         swal({
                             title: "",
-                            text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合异常",
+                            text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合异常," + resultData.msg + "",
                             html: true,
                             timer: 1000,
                             showConfirmButton: false
@@ -258,10 +258,10 @@ var ctrlInfo = {
                         stockHtml.push("<td>" + list[i].code + "</td>");
                         stockHtml.push("<td><a href='../stocks.php?stock=" + list[i].code + "' target='_blank'>" + list[i].name + "</a></td>");
                         stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + list[i].trade.toFixed(2) + "</td>");
-                        stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + (list[i].price_change_ratio * 100).toFixed(2) + "</td>");
-                        stockHtml.push("<td>" + list[i].volume + "</td>");
-                        stockHtml.push("<td>" + (list[i].amount * 100).toFixed(2) + "%</td>");
-                        stockHtml.push("<td>" + (list[i].pe * 100).toFixed(2) + "%</td>");
+                        stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + (list[i].price_change_ratio).toFixed(2) + "%</td>");
+                        stockHtml.push("<td>" + (list[i].volume / 10000).toFixed(2) + "</td>");
+                        stockHtml.push("<td>" + (list[i].amount).toFixed(2) + "</td>");
+                        stockHtml.push("<td>" + (list[i].pe).toFixed(2) + "</td>");
                         stockHtml.push("<td>" + list[i].visit_hot + "</td>");
                         stockHtml.push("<td>" + list[i].search_hot + "</td>");
                         stockHtml.push("<td>" + list[i].follow_hot + "</td>");
@@ -464,6 +464,7 @@ var ctrlInfo = {
                     $(this).unbind("click").bind("click", function () {
                         var btnGroup = $(this).parent().parent();
                         var target = btnGroup.attr("data-target");
+                        var stock_list = $(".wk-user-mynews").attr("data-stock");
                         if (target == "wk-user-news-list") {
                             if (btnGroup.hasClass("active")) {
                                 if ($(this).attr("data-expand") != "false") {
@@ -476,7 +477,6 @@ var ctrlInfo = {
                                 $("#" + target + " .wk-user-news-ctrl-head div").click(function () {
                                     $(this).addClass("active").siblings().removeClass("active");
                                     if ($(this).hasClass("user-default")) {
-                                        var stock_list = $(".wk-user-mynews").attr("data-stock");
                                         $(".wk-user-mynews").attr("data-query-type", 1).attr("data-info-type", "0");
                                         ctrlInfo.getNews({
                                             "query_type": 1,
@@ -486,13 +486,15 @@ var ctrlInfo = {
                                         });
                                     }
                                     if ($(this).hasClass("user-define")) {
-                                        $(this).find("i").bind("click", function () {
+                                        $(this).find("i").unbind("click").bind("click", function () {
                                             if ($(this).attr("data-expand") == "false") {
                                                 $(this).addClass("fa-caret-up").removeClass("fa-caret-down");
                                                 $("#" + target + " .wk-user-news-ctrl-con").show();
+                                                $(this).attr("data-expand", true);
                                             } else {
                                                 $(this).addClass("fa-caret-down").removeClass("fa-caret-up");
                                                 $("#" + target + " .wk-user-news-ctrl-con").hide();
+                                                $(this).attr("data-expand", false);
                                             }
                                         });
                                         $(".wk-user-mynews").attr("data-query-type", 2).attr("data-info-type", "0");
@@ -505,6 +507,7 @@ var ctrlInfo = {
                                     }
                                 })
                             }
+                            return;
                         }
                         if (target == "wk-user-vpoint-list") {
                             if (btnGroup.hasClass("active")) {
@@ -528,13 +531,15 @@ var ctrlInfo = {
                                         });
                                     }
                                     if ($(this).hasClass("user-define")) {
-                                        $(this).find("i").bind("click", function () {
+                                        $(this).find("i").unbind("click").bind("click", function () {
                                             if ($(this).attr("data-expand") == "false") {
                                                 $(this).addClass("fa-caret-up").removeClass("fa-caret-down");
                                                 $("#" + target + " .wk-user-news-ctrl-con").show();
+                                                $(this).attr("data-expand", true);
                                             } else {
                                                 $(this).addClass("fa-caret-down").removeClass("fa-caret-up");
                                                 $("#" + target + " .wk-user-news-ctrl-con").hide();
+                                                $(this).attr("data-expand", false);
                                             }
                                         });
                                         $(".wk-user-mynews").attr("data-query-type", 2).attr("data-info-type", "2");
@@ -780,7 +785,7 @@ $(function () {
             var info_type = $(".wk-user-mynews").attr("data-info-type");
             if (info_type == "0") {
                 var lastNews = $("#wk-user-news-list .wk-con").find(".wk-news-list:last-child");
-                var last_id = lastNews.attr("id");
+                var last_id = lastNews.attr("id") || 0;
                 var last_time = lastNews.attr("data-news-timestamp");
                 inforcenter.getRelatedInfo({
                     "query_type": query_type,
@@ -797,10 +802,11 @@ $(function () {
                         $("#wk-user-news-list .wk-con").append(html);
                     }
                 });
+                return;
             }
             if (info_type == "1") {
                 var lastNews = $("#wk-user-fastnews-list .wk-con").find(".wk-news-list:last-child");
-                var last_id = lastNews.attr("id");
+                var last_id = lastNews.attr("id") || 0;
                 var last_time = lastNews.attr("data-news-timestamp");
                 inforcenter.getRelatedInfo({
                     "query_type": query_type,
@@ -817,10 +823,11 @@ $(function () {
                         $("#wk-user-fastnews-list .wk-con").append(html);
                     }
                 });
+                return;
             }
             if (info_type == "2") {
                 var lastNews = $("#wk-user-vpoint-list .wk-con").find(".wk-news-list:last-child");
-                var last_id = lastNews.attr("id");
+                var last_id = lastNews.attr("id") || 0;
                 var last_time = lastNews.attr("data-news-timestamp");
                 inforcenter.getRelatedInfo({
                     "query_type": query_type,

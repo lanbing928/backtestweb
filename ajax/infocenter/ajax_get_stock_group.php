@@ -54,7 +54,7 @@ if ($jsonresult['status'] != "0") {
     if ($jsonresult['msg'] == "权限不够") {
         print_r(json_encode(array("status" => -100, "result" => $jsonresult['msg'])));
     } else {
-        print_r(json_encode(array("status" => 0, "result" => $jsonresult['msg'])));
+        print_r($result);
         return;
     }
 }

@@ -528,19 +528,22 @@ var common = {
             color: ["rgb(151,47,134)", "rgb(65,77,92)"],
             legend: {
                 data: [query_name, '沪深300'],
-                bottom: '0'
+                top: 0
             },
             grid: {
-                top: '8px',
+                top: '25px',
                 left: '0',
                 right: '0',
-                bottom: '10%',
+                bottom: '5%',
                 containLabel: true
             },
             xAxis: {
                 type: 'category',
                 boundaryGap: false,
-                data: dateArr
+                data: dateArr,
+                axisLabel: {
+                    rotate: 45
+                }
             },
             yAxis: {
                 type: 'value',
@@ -1044,3 +1047,4 @@ var inforcenter = {
         })
     }
 };
+
