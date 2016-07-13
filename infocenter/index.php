@@ -8,6 +8,36 @@ if (CheckLogin::check() == -1) {
     header("Location:../login.php ");
     exit();
 }
+//$service_port = 5059;
+//$address = '192.168.2.87';
+//$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+//if ($socket === false) {
+//    echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
+//} else {
+//    echo "OK. \n";
+//}
+//echo "Attempting to connect to '$address' on port '$service_port'...";
+//$result = socket_connect($socket, $address, $service_port);
+//if ($result === false) {
+//    echo "socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($socket)) . "\n";
+//} else {
+//    echo "OK \n";
+//}
+//$in = "HEAD / http/1.1\r\n";
+//$in .= "HOST: localhost \r\n";
+//$in .= "Connection: close\r\n\r\n";
+//$out = "";
+//echo "sending http head request ...";
+//socket_write($socket, $in, strlen($in));
+//echo "OK\n";
+//
+//echo "Reading response:\n\n";
+//while ($out = socket_read($socket, 8192)) {
+//    echo $out;
+//}
+//echo "closeing socket..";
+//socket_close($socket);
+//echo "ok .\n\n";
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -15,7 +45,7 @@ if (CheckLogin::check() == -1) {
     <meta charset="UTF-8">
     <title>悟空</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
@@ -41,8 +71,8 @@ if (CheckLogin::check() == -1) {
         <div class="wk-user-mychoose-table-box">
             <div class="wk-user-sub-search text-right">
                 <div class="col-md-4 col-md-offset-4">
-                    <label class="wk-user-time"><span>北京</span><span>15:20:30</span></label>
-                    <label class="wk-user-hs"><span>沪深</span><span>交易中</span></label>
+                    <label class="wk-user-time"><span>北京</span><span></span></label>
+                    <label class="wk-user-hs"></label>
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
@@ -57,7 +87,7 @@ if (CheckLogin::check() == -1) {
                     </div>
                 </div>
             </div>
-            <div class="wk-user-mychoose-table">
+            <div class="wk-user-mychoose-table table-responsive">
                 <table class="table table-striped">
                     <thead>
                     <tr>
@@ -65,7 +95,7 @@ if (CheckLogin::check() == -1) {
                         <td>股票名称</td>
                         <td>最新价</td>
                         <td>涨跌幅</td>
-                        <td>成交量(手)</td>
+                        <td>成交量(万手)</td>
                         <td>换手率</td>
                         <td>市盈率</td>
                         <td>查看热度</td>
@@ -78,7 +108,7 @@ if (CheckLogin::check() == -1) {
                 </table>
             </div>
         </div>
-        <div class="wk-user-mynews">
+        <div class="wk-user-mynews" data-stock="00000x|" data-query-type="1" data-info-type="0">
             <div class="btn-group active" data-target="wk-user-news-list">
                 <div class="wk-user-news-slider">
                     <span>新闻</span>
@@ -102,23 +132,28 @@ if (CheckLogin::check() == -1) {
                 <div class="wk-user-news-ctrl">
                     <div class="wk-user-news-ctrl-head">
                         <div class="user-default active"><label>默认</label></div>
-                        <div class="user-define">自定义&nbsp;<i class="fa fa-caret-down" data-expand="false"></i></div>
+                        <div class="user-define"><span>自定义</span>&nbsp;<i class="fa fa-caret-down" data-expand="false"></i></div>
                     </div>
                     <div class="wk-user-news-ctrl-con"></div>
                 </div>
                 <div class="wk-con"></div>
+                <div class='wk-user-news-loading'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>
             </div>
             <div class="wk-user-vpoint-list" id="wk-user-vpoint-list" style="display: none;">
                 <div class="wk-user-vpoint-ctrl">
                     <div class="wk-user-news-ctrl-head">
                         <div class="user-default active"><label>默认</label></div>
-                        <div class="user-define">自定义&nbsp;<i class="fa fa-caret-down" data-expand="false"></i></div>
+                        <div class="user-define"><span>自定义</span>&nbsp;<i class="fa fa-caret-down" data-expand="false"></i></div>
                     </div>
                     <div class="wk-user-news-ctrl-con"></div>
                 </div>
                 <div class="wk-con"></div>
+                <div class='wk-user-news-loading'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>
             </div>
-            <div class="wk-user-fastnews-list" id="wk-user-fastnews-list" style="display: none;"></div>
+            <div class="wk-user-fastnews-list" id="wk-user-fastnews-list" style="display: none;">
+                <div class="wk-con"></div>
+                <div class='wk-user-news-loading'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>
+            </div>
         </div>
     </section>
 </div>

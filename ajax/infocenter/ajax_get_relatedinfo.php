@@ -13,6 +13,7 @@ $query_type = isset($_POST['query_type']) ? $_POST['query_type'] : "";
 $start_time = isset($_POST['start_time']) ? $_POST['start_time'] : "";
 $info_type = isset($_POST['info_type']) ? $_POST['info_type'] : "";
 $stock_list = isset($_POST['stock_list']) ? $_POST['stock_list'] : "";
+$start_id = isset($_POST['start_id']) ? $_POST['start_id'] : "0";
 
 $arrData = array(
     "user_id" => $_SESSION['user_id'],
@@ -20,7 +21,8 @@ $arrData = array(
     "query_type" => $query_type,
     "start_time" => $start_time,
     "info_type" => $info_type,
-    "stock_list" => $stock_list
+    "stock_list" => $stock_list,
+    "start_id" => $start_id
 );
 $url = iwookongConfig::$requireUrl . "custominfo/1/relatedinfo.fcgi";
 $result = RequestUtil::get($url, $arrData);

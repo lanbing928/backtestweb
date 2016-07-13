@@ -97,7 +97,7 @@
 .wk-hotmap-no span{font-size: 18px;color: #545454;margin-left: 18px;}
 
 /*个人中心没有订阅股票显示*/
-.wk-user-no{width: 215px; margin: 70px auto;}
+.wk-user-no{width: 215px; margin: 70px auto;text-align: center;}
 .wk-user-no span{font-size: 18px;color: #545454;margin-left: 18px;}
 
 
@@ -179,11 +179,9 @@
     animation: animate 1s infinite;
     float: left;
 }
-
 .object:last-child {
     margin-right: 0px;
 }
-
 .object:nth-child(10){
     -webkit-animation-delay: 0.9s;
     animation-delay: 0.9s;
@@ -237,12 +235,22 @@
     }
 }
 
+/*另一个加载动画*/
+.spinner{width:60px;height:60px;position:relative;margin:100px auto}
+.tips{text-align: center; margin:0 auto;width:80px;height:50px;font-family:Microsoft YaHei,arial,sans-serif,"微软雅黑";margin-top:-90px;color:#a1a1a1}
+.double-bounce1,.double-bounce2{width:100%;height:100%;border-radius:50%;background-color:#005cb7;opacity:0.6;position:absolute;top:0;left:0;-webkit-animation:bounce 2.0s infinite ease-in-out;animation:bounce 2.0s infinite ease-in-out}
+.double-bounce2{-webkit-animation-delay:-1.0s;animation-delay:-1.0s}
+@-webkit-keyframes bounce{0%,100%{-webkit-transform:scale(0.0)}50%{-webkit-transform:scale(1.0)}}
+@keyframes bounce{0%,100%{transform:scale(0.0);-webkit-transform:scale(0.0)}50%{transform:scale(1.0);-webkit-transform:scale(1.0)}}
+
+
+
 /*个人中心*/
 /*头部数据*/
 .wk-user-center{margin-top: 25px;margin-bottom: 40px;}
-.wk-user-datas{height: 70px;}
-.wk-user-datas .col-md-4{padding-left: 30px;padding-right: 30px;}
-.wk-user-datas-box{width: 240px;}
+.wk-user-datas{min-height: 70px;}
+.wk-user-datas .col-md-4{padding: 10px 30px;}
+/*.wk-user-datas-box{width: 240px;}*/
 .wk-user-datas-box hr{clear:both;margin: 0;padding: 0;border-color: inherit;border-top: 2px solid;}
 .wk-user-datas p{padding: 0;margin: 0;}
 .wk-user-datas-title{font-size: 16px;}
@@ -274,6 +282,7 @@
 .wk-dp-down{background: url("../imgs/i/dp_down.png") no-repeat center;}
 .wk-user-sub-search{padding: 0;display: inline-flex;}
 .wk-user-sub-search .col-md-4:last-child{padding-right: 0;}
+.wk-user-sub-search .col-md-4:first-child{min-width: 250px;}
 .wk-user-stock-search{height: 24px;border-right: none;}
 .input-group-addon{padding: 6px;background: none;border: none;}
 
@@ -316,6 +325,8 @@
 
 .news-rel-stock{margin-bottom: 10px;}
 .news-rel-stock a{font-size: 16px;color: #011c71;font-weight: 400; margin: 0 32px 10px 0;text-decoration: none;}
+
+.wk-user-news-loading{width: 100%;text-align: center;display: none;}
 
 /*header头 公共头部*/
 .nav .open > a, .nav .open > a:focus, .nav .open > a:hover {background: none;}

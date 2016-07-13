@@ -20,6 +20,9 @@ if ($hottype == "hy") {
 if ($hottype == "gn") {
     $arrData["gn"] = $hotval;
 }
+if ($hottype == "hv") {
+    $arrData["hot_event"] = $hotval;
+}
 $url = iwookongConfig::$requireUrl . "stock/1/top_twenty_stock.fcgi";
 $result = RequestUtil::get($url, $arrData);
 $jsonresult = json_decode($result, true);
