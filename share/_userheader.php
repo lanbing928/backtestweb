@@ -40,12 +40,13 @@ if (isset($userInfo)) {
                 <?php if (!empty($userName)) { ?>
                     <li>
                         <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i>&nbsp;<?php echo $userName ?></a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu wk-user-topmenu">
                             <li><a href='/infocenter/'>个人中心</a></li>
                             <li><a href='/'>返回首页</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href='../logout.php'>退出</a></li>
                         </ul>
                     </li>
-                    <li><a href='../logout.php'>退出</a></li>
                 <?php } else { ?>
                     <li>
                         <a href="../login.php"><i class="fa fa-user"></i>&nbsp;登录</a>

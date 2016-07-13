@@ -27,7 +27,10 @@ if (isset($userInfo)) {
             <ul class="nav navbar-nav navbar-right wk-nav-user">
                 <?php if (!empty($userName)) { ?>
                     <li class="message">
-                        <a data-toggle="dropdown"><img src="static/imgs/i/icon_horn.png" style="float:left"><div class="dot"></div><div style="clear:both"></div></a>
+                        <a data-toggle="dropdown"><img src="static/imgs/i/icon_horn.png" style="float:left">
+                            <div class="dot"></div>
+                            <div style="clear:both"></div>
+                        </a>
                         <div class="dropdown-menu msg_all">
                             <div class="msg_title">悟空1.3.2版本更新</div>
                             <ul>
@@ -43,12 +46,13 @@ if (isset($userInfo)) {
                     </li>
                     <li>
                         <a data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i>&nbsp;<?php echo $userName ?></a>
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu wk-user-topmenu">
                             <li><a href='infocenter/'>个人中心</a></li>
                             <li><a href='/'>返回首页</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href='../logout.php'>退出</a></li>
                         </ul>
                     </li>
-                    <li><a href='logout.php'>退出</a></li>
                 <?php } else { ?>
                     <li>
                         <a href="login.php"><i class="fa fa-user"></i>&nbsp;登录</a>
