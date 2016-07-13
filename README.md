@@ -1,5 +1,5 @@
 # 悟空
-> version 1.1.2
+> version 1.2.0
 
 #### 测试地址
 *[http://t.stock.iwookong.com](http://t.stock.iwookong.com)*
