@@ -95,7 +95,7 @@ if (CheckLogin::check() == -1) {
                         <td>股票名称</td>
                         <td>最新价</td>
                         <td>涨跌幅</td>
-                        <td>成交量(手)</td>
+                        <td>成交量(万手)</td>
                         <td>换手率</td>
                         <td>市盈率</td>
                         <td>查看热度</td>

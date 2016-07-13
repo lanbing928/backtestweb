@@ -115,10 +115,10 @@ var ctrlInfo = {
                             showConfirmButton: false
                         });
                         ctrlInfo.getMyStockGroup();
-                    } else {
+                    } else if (resultData.status == 0) {
                         swal({
                             title: "",
-                            text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合异常",
+                            text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合异常," + resultData.msg + "",
                             html: true,
                             timer: 1000,
                             showConfirmButton: false
@@ -258,10 +258,10 @@ var ctrlInfo = {
                         stockHtml.push("<td>" + list[i].code + "</td>");
                         stockHtml.push("<td><a href='../stocks.php?stock=" + list[i].code + "' target='_blank'>" + list[i].name + "</a></td>");
                         stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + list[i].trade.toFixed(2) + "</td>");
-                        stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + (list[i].price_change_ratio * 100).toFixed(2) + "</td>");
-                        stockHtml.push("<td>" + list[i].volume + "</td>");
-                        stockHtml.push("<td>" + (list[i].amount * 100).toFixed(2) + "%</td>");
-                        stockHtml.push("<td>" + (list[i].pe * 100).toFixed(2) + "%</td>");
+                        stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + (list[i].price_change_ratio).toFixed(2) + "%</td>");
+                        stockHtml.push("<td>" + (list[i].volume / 10000).toFixed(2) + "</td>");
+                        stockHtml.push("<td>" + (list[i].amount).toFixed(2) + "</td>");
+                        stockHtml.push("<td>" + (list[i].pe).toFixed(2) + "</td>");
                         stockHtml.push("<td>" + list[i].visit_hot + "</td>");
                         stockHtml.push("<td>" + list[i].search_hot + "</td>");
                         stockHtml.push("<td>" + list[i].follow_hot + "</td>");
@@ -797,6 +797,7 @@ $(function () {
                         $("#wk-user-news-list .wk-con").append(html);
                     }
                 });
+                return;
             }
             if (info_type == "1") {
                 var lastNews = $("#wk-user-fastnews-list .wk-con").find(".wk-news-list:last-child");
@@ -817,6 +818,7 @@ $(function () {
                         $("#wk-user-fastnews-list .wk-con").append(html);
                     }
                 });
+                return;
             }
             if (info_type == "2") {
                 var lastNews = $("#wk-user-vpoint-list .wk-con").find(".wk-news-list:last-child");
@@ -837,6 +839,7 @@ $(function () {
                         $("#wk-user-vpoint-list .wk-con").append(html);
                     }
                 });
+                return;
             }
         }
     });
