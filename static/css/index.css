@@ -340,10 +340,7 @@
 .message .detail{border-top: 1px solid #ddd;padding:5px 10px;background: #f6f7f9;}
 .message .detail a{color:#4d5aad;}
 .message a:first-child{padding-top:18px;}
-
-/*热度排行榜hotrank*/
-.wk-con-box .tab-pane .left{padding-right:5px;}
-.wk-con-box .tab-pane .right{padding:0px 0px 0px 5px;}
+.navbar-nav>li>.dropdown-menu{margin-right:-75px}
 
 /*版本更新说明message*/
 .wk-all-hot .msg{line-height:24px;}
@@ -351,3 +348,7 @@
 .wk-all-hot .msg .updata_main{margin-bottom:30px;}
 .wk-all-hot .msg img{width:90%;margin:10px 5% 22px;}
 .wk-all-hot .msg_btn{width:15%;margin:0 0 3% 43%;box-shadow:3px 3px 1px #888;}
+
+/*热度排行榜hotrank*/
+.tab-content .hot_text{border:1px solid #abb1d8;height:26px;width:24%;line-height:26px;text-align: center;margin:0 0 10px 12px;box-shadow:1px 1px 1px #ccc }
+.tab-content .hot_more{margin:auto;text-align: center;color:#c0c0c0;cursor: pointer}
