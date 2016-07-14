@@ -252,6 +252,7 @@ var Utility = {
         }
         return len;
     },
+
     /**
      * 获取当前的交易情况
      */
