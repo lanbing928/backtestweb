@@ -56,7 +56,7 @@ if (CheckLogin::check() == -1) {
     <link rel="stylesheet" href="../static/css/index.min.css">
 </head>
 <body>
-<?php include("../share/_userheader.php") ?>
+<?php include(dirname(__FILE__)."/../share/_header.php") ?>
 <div class="container wk-container">
     <section class="wk-user-center">
         <div class="wk-user-datas"></div>
