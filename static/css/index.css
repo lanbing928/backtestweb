@@ -136,7 +136,8 @@
 .wk-line-toggle a.line-active{color: #FFFFFF;background-color: #7065a3;border: 1px solid #7065a3;}
 .wk-hot-sub-title p:first-child{float: left;}
 .treemap-toggle{float: right;margin-right: 5px;}
-.treemap-toggle span{width: 30px; height: 20px;border: 1px solid #c9c9c9;display: inline-block;text-align: center;cursor: pointer;margin-right: -5px;}
+.treemap-toggle span:first-child{width: 46px;}
+.treemap-toggle span{width: 36px; height: 20px;border: 1px solid #c9c9c9;display: inline-block;text-align: center;cursor: pointer;margin-right: -5px;}
 .treemap-toggle span.treemap-active{background-color: #7065a3;color: #FFFFFF;}
 .wk-treemap-table{font-size: 12px;border: 1px solid #ddd;}
 .wk-treemap-table a{color: #545454;}
