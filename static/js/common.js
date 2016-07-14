@@ -795,6 +795,28 @@ var common = {
     },
     hideLoading: function () {
         $("#loading").remove();
+    },
+
+    /**
+     *
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getHotRank: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "ajax/hotrank/ajax_get_hot_rank.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
     }
 };
 var inforcenter = {
