@@ -208,7 +208,7 @@ function initFollowBtn() {
             var followBtnHtml = [];
             followBtnHtml.push("<div class=\"btn-group\" style='float: right;'>");
             followBtnHtml.push("<button type=\"button\" class=\"btn dropdown-toggle wk-btn-follow\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
-            followBtnHtml.push("+ 关注&nbsp;&nbsp;<span class=\"caret\"></span>");
+            followBtnHtml.push("+ 关注");
             followBtnHtml.push("</button>");
             if (resultData.result.info.group_name.length > 0) {
                 followBtnHtml.push("<ul class=\"dropdown-menu\">");
