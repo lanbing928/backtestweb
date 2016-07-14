@@ -158,7 +158,7 @@ $(function () {
             }
         }
     });
-    common.initRelateSHG(3, name);
+    common.initRelateSHG(4, name);
     common.getNews(arrData);
 
     initLineChart();
