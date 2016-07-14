@@ -4,7 +4,7 @@ var wk_treemap_data, viewData = [], searchData = [], followData = [];
 var myChart = echarts.init(document.getElementById("left-chart"));
 myChart.showLoading({"text": "加载中..."});
 function initLineChart() {
-    common.getHyAndGnHot({"name": name, "query_type": 2}, null, function (resultData) {
+    common.getHyAndGnHot({"name": name, "query_type": 3}, null, function (resultData) {
         if (resultData.status == 1) {
             var _todayHot = [];
             var _lastHot = [];
@@ -160,7 +160,7 @@ $(function () {
     });
     common.initRelateSHG(3, name);
     common.getNews(arrData);
-    
+
     initLineChart();
     initTreeMapChart();
     initTodayRateLine();
