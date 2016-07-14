@@ -20,6 +20,7 @@ function initTreeMapChart() {
         buildTreeMap(wk_treemap_data);
     }
 }
+
 function buildTreeMap(resultData) {
     if (resultData.result.code_info.shv_.length > 0) {
         var _shv = resultData.result.code_info.shv_;
