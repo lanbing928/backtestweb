@@ -2,13 +2,19 @@
 var stockcode = Utility.getQueryStringByName("stock");
 var _stockName = "";
 var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
-var viewData = [], searchData = [], followData = [];
+var viewData = [],
+    searchData = [],
+    followData = [];
 var wk_treemap_data_industry, wk_treemap_data_concept;
 var myChart = echarts.init(document.getElementById("left-chart"));
-myChart.showLoading({"text": "加载中..."});
+myChart.showLoading({
+    "text": "加载中..."
+});
 
 function initLineChart() {
-    common.getSingleRealTimeHot({"stock": stockcode}, null, function (resultData) {
+    common.getSingleRealTimeHot({
+        "stock": stockcode
+    }, null, function (resultData) {
         if (resultData.status == 1) {
             var _todayHot = [];
             var _lastHot = [];
@@ -54,12 +60,17 @@ function initLineChart() {
         }
     });
 }
+
 function initTreeMapChart() {
-    common.getStockBase({"stock": stockcode}, function () {
+    common.getStockBase({
+        "stock": stockcode
+    }, function () {
         var waitLogingCharts = ["wk-industry-view-treemap", "wk-concept-view-treemap"];
         for (var i in waitLogingCharts) {
             var treemap = echarts.init(document.getElementById(waitLogingCharts[i]));
-            treemap.showLoading({"text": "加载中..."});
+            treemap.showLoading({
+                "text": "加载中..."
+            });
         }
     }, function (resultData) {
         if (resultData.status == 1) {
@@ -81,14 +92,20 @@ function initTreeMapChart() {
             }
             _stockName = resultData.stock_info.stock_name;
             $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
-            $(".wk-related-info").html(resultData.stock_info.stock_name + "热度情况&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "</span>");
+            $(".wk-related-info").html(resultData.stock_info.stock_name + "热度情况&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "");
             $(".latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
             $(".todayhot-title").html(resultData.stock_info.stock_name + "今日最热度");
-            $("i[data-toggle='popover']").popover({container: "body", trigger: "hover"});
+            $("i[data-toggle='popover']").popover({
+                container: "body",
+                trigger: "hover"
+            });
             var $related_concept = rel_concept[0].sect;
             var $related_industry = rel_industry[0].indus;
             if (!wk_treemap_data_concept) {
-                common.getTopTwentyStock({"hottype": "gn", "hotval": $related_concept}, function () {
+                common.getTopTwentyStock({
+                    "hottype": "gn",
+                    "hotval": $related_concept
+                }, function () {
                     $("#concept-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
                 }, function (resultData) {
                     if (resultData.status == 1) {
@@ -100,7 +117,10 @@ function initTreeMapChart() {
                 buildConceptTreeMap(wk_treemap_data_concept);
             }
             if (!wk_treemap_data_industry) {
-                common.getTopTwentyStock({"hottype": "hy", "hotval": $related_industry}, function () {
+                common.getTopTwentyStock({
+                    "hottype": "hy",
+                    "hotval": $related_industry
+                }, function () {
                     $("#industry-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
                 }, function (resultData) {
                     if (resultData.status == 1) {
@@ -112,9 +132,11 @@ function initTreeMapChart() {
                 buildIndustryTreeMap(wk_treemap_data_industry);
             }
             initTodayRateLine();
+            initFollowBtn();
         }
     });
 }
+
 function buildIndustryTreeMap(resultData) {
     if (resultData.result.code_info.shv_.length > 0) {
         var _shv = resultData.result.code_info.shv_;
@@ -138,6 +160,7 @@ function buildIndustryTreeMap(resultData) {
         common.buildHotmap("wk-industry-follow-treemap", _suf, "stock");
     }
 }
+
 function buildConceptTreeMap(resultData) {
     if (resultData.result.code_info.shv_.length > 0) {
         var _shv = resultData.result.code_info.shv_;
@@ -161,6 +184,7 @@ function buildConceptTreeMap(resultData) {
         common.buildHotmap("wk-concept-follow-treemap", _suf, "stock");
     }
 }
+
 function initTodayRateLine() {
     var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
     var queryData = {
@@ -169,14 +193,77 @@ function initTodayRateLine() {
         "query_date": "today"
     };
     common.getRateLine(queryData, function () {
-        rateLine.showLoading({"text": "加载中..."});
+        rateLine.showLoading({
+            "text": "加载中..."
+        });
     }, function (resultData) {
         common.buildRateLine(_stockName, "today", resultData);
         rateLine.hideLoading();
     });
 }
+
+function initFollowBtn() {
+    inforcenter.showGroup(null, function (resultData) {
+        if (resultData && resultData.status == 1) {
+            var followBtnHtml = [];
+            followBtnHtml.push("<div class=\"btn-group\" style='float: right;'>");
+            followBtnHtml.push("<button type=\"button\" class=\"btn dropdown-toggle wk-btn-follow\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
+            followBtnHtml.push("+ 关注&nbsp;&nbsp;<span class=\"caret\"></span>");
+            followBtnHtml.push("</button>");
+            if (resultData.result.info.group_name.length > 0) {
+                followBtnHtml.push("<ul class=\"dropdown-menu\">");
+                var list = resultData.result.info.group_name;
+                followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='我的自选股'><a href=\"#\">我的自选股</a></li>");
+                for (var i = 0; i < list.length; i++) {
+                    followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='" + list[i] + "'><a href=\"#\">" + list[i] + "</a></li>");
+                }
+                followBtnHtml.push("</ul>");
+            }
+            followBtnHtml.push("</div>");
+            $(".wk-related-info").append(followBtnHtml.join(''));
+            $(".wk-follow-stock").each(function () {
+                var follow_name = $(this).attr("data-follow-name");
+                $(this).unbind("click").bind("click", function () {
+                    inforcenter.addStock({ori_name: follow_name, code: stockcode}, null, function (addResult) {
+                        if (addResult.status == 1) {
+                            swal({
+                                title: "",
+                                text: "关注个股<span style='color: #F8BB86'>" + stockcode + "</span>成功",
+                                html: true,
+                                timer: 1000,
+                                showConfirmButton: false
+                            });
+                        } else if (addResult.status == 0) {
+                            swal({
+                                title: "",
+                                text: "关注个股<span style='color: #F8BB86'>" + stockcode + "</span>异常," + resultData.msg + "",
+                                html: true,
+                                timer: 1000,
+                                showConfirmButton: false
+                            });
+                        } else {
+                            swal({
+                                title: "",
+                                text: "关注个股<span style='color: #F8BB86'>" + stockcode + "</span>异常,未知原因",
+                                html: true,
+                                timer: 1000,
+                                showConfirmButton: false
+                            });
+                        }
+                    })
+                })
+            })
+        }
+    })
+}
 $(function () {
-    var arrData = {query_type: 1, key: stockcode, start_id: 0, info_type_list: "", "start_time": 0};
+    var arrData = {
+        query_type: 1,
+        key: stockcode,
+        start_id: 0,
+        info_type_list: "",
+        "start_time": 0
+    };
     $(".nav-tabs li a").bind("click", function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") == 0) {
             if ($("#mCSB_2_container").html().trim() == "") {

@@ -351,3 +351,11 @@
 .wk-all-hot .msg .updata_main{margin-bottom:30px;}
 .wk-all-hot .msg img{width:90%;margin:10px 5% 22px;}
 .wk-all-hot .msg_btn{width:15%;margin:0 0 3% 43%;box-shadow:3px 3px 1px #888;}
+
+
+/*股票页面的关注按钮*/
+.wk-btn-follow{height: 26px;padding: 0;width: 80px;border-radius: 0;background-color: #4963ae;color: #FFFFFF;}
+.wk-btn-follow:hover{color: #FFFFFF;}
+.wk-btn-follow:focus{color: #FFFFFF;}
+.wk-btn-follow.focus{color: #FFFFFF;}
+.wk-btn-follow span{color: #FFFFFF;}
