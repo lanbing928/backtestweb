@@ -593,7 +593,7 @@ var common = {
     buildStockTable: function (buildData) {
         var tableHtml = [];
         buildData.sort(function (a, b) {
-            return b.value - a.value;
+            return Math.abs(b.value) - Math.abs(a.value);
         });
         for (var i = 0; i < buildData.length; i++) {
             var tvalue = buildData[i].value;
