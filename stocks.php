@@ -26,6 +26,7 @@ if (empty($stockCode)) {
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css">
     <link rel="stylesheet" href="static/plugins/typeahead/jquery.typeahead.min.css">
     <link rel="stylesheet" href="static/css/common.min.css">
     <link rel="stylesheet" href="static/css/index.min.css">
@@ -419,6 +420,7 @@ if (empty($stockCode)) {
 <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="static/plugins/typeahead/jquery.typeahead.min.js"></script>
 <script src="static/js/all.min.js"></script>
 <script src="static/js/common.min.js"></script>
