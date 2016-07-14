@@ -15,10 +15,10 @@ $(function () {
         filter: false,
         emptyTemplate: '未找到 "{{query}}" 的相关信息',
         source: {
-            "股票": {url: ["ajax/ajax_search.php?message={{query}},", "stock"]},
-            "行业": {url: ["ajax/ajax_search.php?message={{query}},", "hy"]},
-            "概念": {url: ["ajax/ajax_search.php?message={{query}},", "gn"]},
-            "热点事件": {url: ["ajax/ajax_search.php?message={{query}},", "rd"]}
+            "股票": { url: ["ajax/ajax_search.php?message={{query}},", "stock"] },
+            "行业": { url: ["ajax/ajax_search.php?message={{query}},", "hy"] },
+            "概念": { url: ["ajax/ajax_search.php?message={{query}},", "gn"] },
+            "热点事件": { url: ["ajax/ajax_search.php?message={{query}},", "rd"] }
         },
         callback: {
             onClickAfter: function (node, a, item) {
@@ -73,7 +73,7 @@ $(function () {
         } else {
             common.getHotRecord(arrData, function () {
                 var myChart = echarts.init(document.getElementById("left-chart"));
-                myChart.showLoading({"text": "加载中..."});
+                myChart.showLoading({ "text": "加载中..." });
             }, function (resultData) {
                 var _viewData = [];
                 var _searchData = [];
@@ -104,13 +104,19 @@ $(function () {
     $(".treemap-toggle span").click(function () {
         $(this).addClass("treemap-active").siblings().removeClass("treemap-active");
         var to = $(this).parent().parent().parent();
-        if ($(this).html() == "图") {
+        if ($(this).html() == "热力图") {
             to.find(".toggle-treemap").show();
-            to.find(".toggle-treemap-table").hide();
+            to.find(".toggle-treemap-table-up").hide();
+            to.find(".toggle-treemap-table-down").hide();
             initTreeMapChart();
-        } else {
+        } else if ($(this).html() == "涨幅") {
             to.find(".toggle-treemap").hide();
-            to.find(".toggle-treemap-table").show();
+            to.find(".toggle-treemap-table-up").show();
+            to.find(".toggle-treemap-table-down").hide();
+        } else if ($(this).html() == "跌幅") {
+            to.find(".toggle-treemap").hide();
+            to.find(".toggle-treemap-table-up").hide();
+            to.find(".toggle-treemap-table-down").show();
         }
     });
     $(".wk-rate-select label").click(function () {
@@ -132,7 +138,7 @@ $(function () {
         switch (toggle) {
             case "today":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({"text": "加载中..."});
+                    rateLine.showLoading({ "text": "加载中..." });
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -140,7 +146,7 @@ $(function () {
                 break;
             case "week":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({"text": "加载中..."});
+                    rateLine.showLoading({ "text": "加载中..." });
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -148,7 +154,7 @@ $(function () {
                 break;
             case "month":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({"text": "加载中..."});
+                    rateLine.showLoading({ "text": "加载中..." });
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -156,7 +162,7 @@ $(function () {
                 break;
             case "threemonth":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({"text": "加载中..."});
+                    rateLine.showLoading({ "text": "加载中..." });
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
