@@ -2,9 +2,9 @@ var name = Utility.getQueryStringByName("name");
 var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
 var wk_treemap_data, viewData = [], searchData = [], followData = [];
 var myChart = echarts.init(document.getElementById("left-chart"));
-myChart.showLoading({"text": "加载中..."});
+myChart.showLoading({ "text": "加载中..." });
 function initLineChart() {
-    common.getHyAndGnHot({"name": name, "query_type": 2}, null, function (resultData) {
+    common.getHyAndGnHot({ "name": name, "query_type": 2 }, null, function (resultData) {
         if (resultData.status == 1) {
             var _todayHot = [];
             var _lastHot = [];
@@ -52,9 +52,9 @@ function initLineChart() {
 }
 function initTreeMapChart() {
     if (!wk_treemap_data) {
-        common.getTopTwentyStock({"hottype": "gn", "hotval": name}, function () {
+        common.getTopTwentyStock({ "hottype": "gn", "hotval": name }, function () {
             var treemap = echarts.init(document.getElementById("wk-stock-view-treemap"));
-            treemap.showLoading({"text": "加载中..."});
+            treemap.showLoading({ "text": "加载中..." });
             $("#concept-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
         }, function (resultData) {
             if (resultData.status == 1) {
@@ -97,14 +97,14 @@ function initTodayRateLine() {
         "query_date": "today"
     };
     common.getRateLine(queryData, function () {
-        rateLine.showLoading({"text": "加载中..."});
+        rateLine.showLoading({ "text": "加载中..." });
     }, function (resultData) {
         common.buildRateLine(decodeURI(name), "today", resultData);
         rateLine.hideLoading();
     });
 }
 $(function () {
-    var arrData = {query_type: 3, key: name, start_id: 0, info_type_list: "", "start_time": 0};
+    var arrData = { query_type: 3, key: name, start_id: 0, info_type_list: "", "start_time": 0 };
     $(".nav-tabs li a").bind("click", function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") == 0) {
             if ($("#mCSB_2_container").html().trim() == "") {
@@ -116,6 +116,12 @@ $(function () {
             if ($("#wk-newsflash table>tbody").html().trim() == "") {
                 arrData.start_id = 0;
                 common.getFastNews(arrData);
+            }
+        }
+        if ($(this).attr("href").indexOf("#wk-notice") == 0) {
+            if ($("#mCSB_4_container").html().trim() == "") {
+                arrData.start_id = 0;
+                common.getNotice(arrData);
             }
         }
     });
@@ -158,9 +164,21 @@ $(function () {
             }
         }
     });
+    $("#wk-notice").mCustomScrollbar({
+        autoHideScrollbar: true,
+        theme: "minimal-dark",
+        axis: "y",
+        callbacks: {
+            onTotalScroll: function () {
+                arrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
+                arrData.info_type_list = "0,0,0,0,0,0,1";
+                arrData.timestamp = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
+                common.getNotice(arrData);
+            }
+        }
+    });
     common.initRelateSHG(3, name);
     common.getNews(arrData);
-
     initLineChart();
     initTreeMapChart();
     initTodayRateLine();
