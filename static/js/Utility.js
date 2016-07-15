@@ -243,6 +243,7 @@ var Utility = {
         var _up = [];
         var _down = [];
         var _map = [];
+        var maxcount = 10;
         for (var i = 0, len = buildData.length; i < len; i++) {
             if (buildData[i].value > 0) {
                 _up.push(buildData[i]);
@@ -256,10 +257,23 @@ var Utility = {
         var _newdown = _down.sort(function (a, b) {
             return Math.abs(b.value) - Math.abs(a.value);
         });
+        if (_newup.length > 5) {
+            if (_newdown.length > 5) {
+                _newup = _newup.slice(0, 5);
+                _newdown = _newdown.slice(0, 5);
+            } else {
+                _newup = _newup.slice(0, maxcount - _newdown.length);
+            }
+        } else {
+            if (_newdown.length >5) {
+                _newdown = _newdown.slice(0, (10 - _newup.length));
+            }
+        }
+        var _newMap = _newup.concat(_newdown);
         return {
             "_up": _up,
             "_down": _down,
-            "_map": _up.concat(_down)
+            "_map": _newMap
         };
     }
 };
