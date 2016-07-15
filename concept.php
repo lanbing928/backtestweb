@@ -80,6 +80,7 @@ if (empty($conceptName)) {
                     <li role="presentation" class="active"><a href="#wk-news" aria-controls="wk-news" role="tab" data-toggle="tab">新闻</a></li>
                     <li role="presentation"><a href="#wk-selfmedia" aria-controls="wk-selfmedia" role="tab" data-toggle="tab"><label></label>达人观点</a></li>
                     <li role="presentation"><a href="#wk-newsflash" aria-controls="wk-newsflash" role="tab" data-toggle="tab">快讯</a></li>
+                    <li role="presentation"><a href="#wk-notice" aria-controls="wk-notice" role="tab" data-toggle="tab">公告</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="wk-news"></div>
@@ -91,6 +92,7 @@ if (empty($conceptName)) {
                             </table>
                         </div>
                     </div>
+                    <div role="tabpanel" class="tab-pane fade" id="wk-notice"></div>
                 </div>
             </div>
         </div>
