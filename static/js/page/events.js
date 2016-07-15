@@ -71,22 +71,28 @@ function buildTreeMap(resultData) {
         var _shv = resultData.result.code_info.shv_;
         var _suv = resultData.result.code_info.suv_;
         $("#event-view .wk-hot-table tbody").html(common.buildHotmapTable(_shv, "stock"));
-        $("#event-view .right .wk-treemap-table tbody").html(common.buildStockTable(_suv));
-        common.buildHotmap("wk-stock-view-treemap", _suv, "stock");
+        var maptable = Utility.buildMapTable(_suv);
+        $("#event-view .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#event-view .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-stock-view-treemap", maptable._map, "stock");
     }
     if (resultData.result.code_info.shs_.length > 0) {
         var _shs = resultData.result.code_info.shs_;
         var _sus = resultData.result.code_info.sus_;
         $("#event-search .wk-hot-table tbody").html(common.buildHotmapTable(_shs, "stock"));
-        $("#event-search .right .wk-treemap-table tbody").html(common.buildStockTable(_sus));
-        common.buildHotmap("wk-stock-search-treemap", _sus, "stock");
+        var maptable = Utility.buildMapTable(_sus);
+        $("#event-search .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#event-search .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-stock-search-treemap", maptable._map, "stock");
     }
     if (resultData.result.code_info.shf_.length > 0) {
         var _shf = resultData.result.code_info.shf_;
         var _suf = resultData.result.code_info.suf_;
         $("#event-follow .wk-hot-table tbody").html(common.buildHotmapTable(_shf, "stock"));
-        $("#event-follow .right .wk-treemap-table tbody").html(common.buildStockTable(_suf));
-        common.buildHotmap("wk-stock-follow-treemap", _suf, "stock");
+        var maptable = Utility.buildMapTable(_suf);
+        $("#event-follow .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#event-follow .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-stock-follow-treemap", maptable._map, "stock");
     }
 }
 function initTodayRateLine() {
@@ -107,21 +113,21 @@ $(function () {
     var eventArrData = { key_name: name, start_id: 0, "start_time": 0 };
     $(".nav-tabs li a").bind("click", function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") === 0) {
-            if ($("#mCSB_2_container").html().trim() === "") {
+            if ($("#mCSB_2_container").html() === "") {
                 eventArrData.start_id = 0;
                 eventArrData.info_type = 2;
                 common.getEventMedia(eventArrData);
             }
         }
         if ($(this).attr("href").indexOf("#wk-newsflash") === 0) {
-            if ($("#wk-newsflash table>tbody").html().trim() === "") {
+            if ($("#wk-newsflash table>tbody").html() === "") {
                 eventArrData.start_id = 0;
                 eventArrData.info_type = 1;
                 common.getEventFastNews(eventArrData);
             }
         }
         if ($(this).attr("href").indexOf("#wk-notice") === 0) {
-            if ($("#mCSB_4_container").html().trim() === "") {
+            if ($("#mCSB_4_container").html() === "") {
                 eventArrData.start_id = 0;
                 eventArrData.info_type = 4;
                 common.getEventNotice(eventArrData);

@@ -71,22 +71,28 @@ function buildTreeMap(resultData) {
         var _shv = resultData.result.code_info.shv_;
         var _suv = resultData.result.code_info.suv_;
         $("#concept-view .wk-hot-table tbody").html(common.buildHotmapTable(_shv, "stock"));
-        $("#concept-view .right .wk-treemap-table tbody").html(common.buildStockTable(_suv));
-        common.buildHotmap("wk-stock-view-treemap", _suv, "stock");
+        var maptable = Utility.buildMapTable(_suv);
+        $("#concept-view .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#concept-view .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-stock-view-treemap", maptable._map, "stock");
     }
     if (resultData.result.code_info.shs_.length > 0) {
         var _shs = resultData.result.code_info.shs_;
         var _sus = resultData.result.code_info.sus_;
         $("#concept-search .wk-hot-table tbody").html(common.buildHotmapTable(_shs, "stock"));
-        $("#concept-search .right .wk-treemap-table tbody").html(common.buildStockTable(_sus));
-        common.buildHotmap("wk-stock-search-treemap", _sus, "stock");
+        var maptable = Utility.buildMapTable(_sus);
+        $("#concept-search .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#concept-search .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-stock-search-treemap", maptable._map, "stock");
     }
     if (resultData.result.code_info.shf_.length > 0) {
         var _shf = resultData.result.code_info.shf_;
         var _suf = resultData.result.code_info.suf_;
         $("#concept-follow .wk-hot-table tbody").html(common.buildHotmapTable(_shf, "stock"));
-        $("#concept-follow .right .wk-treemap-table tbody").html(common.buildStockTable(_suf));
-        common.buildHotmap("wk-stock-follow-treemap", _suf, "stock");
+        var maptable = Utility.buildMapTable(_suf);
+        $("#concept-search .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#concept-search .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-stock-follow-treemap", maptable._map, "stock");
     }
 }
 function initTodayRateLine() {

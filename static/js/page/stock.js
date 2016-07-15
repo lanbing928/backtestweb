@@ -142,22 +142,28 @@ function buildIndustryTreeMap(resultData) {
         var _shv = resultData.result.code_info.shv_;
         var _suv = resultData.result.code_info.suv_;
         $("#industry-view .wk-hot-table tbody").html(common.buildHotmapTable(_shv, "stock"));
-        $("#industry-view .right .wk-treemap-table tbody").html(common.buildStockTable(_suv));
-        common.buildHotmap("wk-industry-view-treemap", _suv, "stock");
+        var maptable = Utility.buildMapTable(_suv);
+        $("#industry-view .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#industry-view .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-industry-view-treemap", maptable._map, "stock");
     }
     if (resultData.result.code_info.shs_.length > 0) {
         var _shs = resultData.result.code_info.shs_;
         var _sus = resultData.result.code_info.sus_;
         $("#industry-search .wk-hot-table tbody").html(common.buildHotmapTable(_shs, "stock"));
-        $("#industry-search .right .wk-treemap-table tbody").html(common.buildStockTable(_sus));
-        common.buildHotmap("wk-industry-search-treemap", _sus, "stock");
+        var maptable = Utility.buildMapTable(_sus);
+        $("#industry-search .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#industry-search .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-industry-search-treemap", maptable._map, "stock");
     }
     if (resultData.result.code_info.shf_.length > 0) {
         var _shf = resultData.result.code_info.shf_;
         var _suf = resultData.result.code_info.suf_;
         $("#industry-follow .wk-hot-table tbody").html(common.buildHotmapTable(_shf, "stock"));
-        $("#industry-follow .right .wk-treemap-table tbody").html(common.buildStockTable(_suf));
-        common.buildHotmap("wk-industry-follow-treemap", _suf, "stock");
+        var maptable = Utility.buildMapTable(_suf);
+        $("#industry-follow .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#industry-follow .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-industry-follow-treemap", maptable._map, "stock");
     }
 }
 
@@ -166,22 +172,28 @@ function buildConceptTreeMap(resultData) {
         var _shv = resultData.result.code_info.shv_;
         var _suv = resultData.result.code_info.suv_;
         $("#concept-view .wk-hot-table tbody").html(common.buildHotmapTable(_shv, "stock"));
-        $("#concept-view .right .wk-treemap-table tbody").html(common.buildStockTable(_suv));
-        common.buildHotmap("wk-concept-view-treemap", _suv, "stock");
+        var maptable = Utility.buildMapTable(_suv);
+        $("#concept-view .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#concept-view .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-concept-view-treemap", maptable._map, "stock");
     }
     if (resultData.result.code_info.shs_.length > 0) {
         var _shs = resultData.result.code_info.shs_;
         var _sus = resultData.result.code_info.sus_;
         $("#concept-search .wk-hot-table tbody").html(common.buildHotmapTable(_shs, "stock"));
-        $("#concept-search .right .wk-treemap-table tbody").html(common.buildStockTable(_sus));
-        common.buildHotmap("wk-concept-search-treemap", _sus, "stock");
+        var maptable = Utility.buildMapTable(_sus);
+        $("#concept-search .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#concept-search .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-concept-search-treemap", maptable._map, "stock");
     }
     if (resultData.result.code_info.shf_.length > 0) {
         var _shf = resultData.result.code_info.shf_;
         var _suf = resultData.result.code_info.suf_;
         $("#concept-follow .wk-hot-table tbody").html(common.buildHotmapTable(_shf, "stock"));
-        $("#concept-follow .right .wk-treemap-table tbody").html(common.buildStockTable(_suf));
-        common.buildHotmap("wk-concept-follow-treemap", _suf, "stock");
+        var maptable = Utility.buildMapTable(_suf);
+        $("#concept-follow .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#concept-follow .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-concept-follow-treemap", maptable._map, "stock");
     }
 }
 
