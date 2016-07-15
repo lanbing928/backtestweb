@@ -18,7 +18,7 @@ $(function () {
             "股票": { url: ["ajax/ajax_search.php?message={{query}},", "stock"] },
             "行业": { url: ["ajax/ajax_search.php?message={{query}},", "hy"] },
             "概念": { url: ["ajax/ajax_search.php?message={{query}},", "gn"] },
-            "热点事件": { url: ["ajax/ajax_search.php?message={{query}},", "rd"] }
+            "热点事件": { url: ["ajax/ajax_search.php?message={{query}},", "event"] }
         },
         callback: {
             onClickAfter: function (node, a, item) {
@@ -34,7 +34,7 @@ $(function () {
                             window.open("concept.php?name=" + item.display, "_blank");
                             break;
                         case "热点事件":
-                            window.open("hotevent.php?name=" + item.display, "_blank");
+                            window.open("event.php?name=" + item.display, "_blank");
                             break;
                         default:
                             window.open("error.php", "_blank");
