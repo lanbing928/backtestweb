@@ -108,7 +108,7 @@ $(function () {
             to.find(".toggle-treemap").show();
             to.find(".toggle-treemap-table-up").hide();
             to.find(".toggle-treemap-table-down").hide();
-            initTreeMapChart();
+            //initTreeMapChart();
         } else if ($(this).html() == "涨幅") {
             to.find(".toggle-treemap").hide();
             to.find(".toggle-treemap-table-up").show();
