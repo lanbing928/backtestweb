@@ -201,6 +201,42 @@ var common = {
         })
     },
     /**
+     * 公告
+     */
+    getNotice: function (arrData) {
+        arrData.info_type_list = "0,0,0,0,0,0,1";
+        common.getRelatedInfo(arrData, function () {
+            $("#wk-notice").append(common.getLoading());
+        }, function (resultData) {
+            var noticeHtml = [];
+            if (resultData.notice.length > 0) {
+                common.hideLoading();
+                for (var i = 0; i < resultData.notice.length; i++) {
+                    noticeHtml.push("<div class=\"wk-news-list\" id=\"notice_" + resultData.notice[i].info_id + "\" data-news-timestamp=\"" + resultData.notice[i].timestamp + "\">");
+                    noticeHtml.push("<div class=\"wk-news-list-head\">");
+                    noticeHtml.push("<p class=\"wk-news-list-title\"><a href=\"detail.php?infoid=" + resultData.notice[i].info_id + "\" target=\"_blank\">");
+                    noticeHtml.push(resultData.notice[i].title);
+                    noticeHtml.push("</a></p>" + Utility.getgetEmotion(resultData.notice[i].sentiment) + "</div><div class=\"wk-news-list-con\"><p>");
+                    if (resultData.notice[i].summary != "") {
+                        noticeHtml.push("<strong>【机器人摘要】</strong>");
+                        noticeHtml.push(resultData.notice[i].summary);
+                        noticeHtml.push("<a href=\"detail.php?infoid=" + resultData.notice[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
+                    }
+                    noticeHtml.push("</p><span>来源：" + resultData.notice[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData.notice[i].timestamp) + "</span></div><hr></div>");
+                }
+                $("#wk-notice .mCSB_container").append(noticeHtml.join(''));
+            } else {
+                if (arrData.start_id == 0) {
+                    common.hideLoading();
+                    noticeHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关公告</span></div>");
+                    $("#wk-notice .mCSB_container").html(noticeHtml.join(''));
+                } else {
+                    common.hideLoading();
+                }
+            }
+        })
+    },
+    /**
      * 折线图
      * @param chartId
      * @param xdata
@@ -210,7 +246,7 @@ var common = {
      */
     getLineChart: function (chartId, xdata, viewData, searchData, followData) {
         var myChart = echarts.init(document.getElementById(chartId));
-        myChart.showLoading({"text": "加载中..."});
+        myChart.showLoading({ "text": "加载中..." });
         myChart.setOption({
             color: ["rgb(243, 104, 97)", "rgb(76, 93, 186)", "rgb(118, 172, 245)"],
             tooltip: {
@@ -228,10 +264,10 @@ var common = {
                     return showLabel;
                 }
             },
-            grid: {top: "12%", left: "6%", right: "5%", bottom: "0", containLabel: true},
-            legend: {left: "left", data: ["查看", "搜索", "关注"], padding: [0, 0, 0, 15]},
-            xAxis: {type: "category", boundaryGap: false, data: xdata},
-            yAxis: {type: "value", position: "right", scale: true, min: "dataMin", max: "dataMax"},
+            grid: { top: "12%", left: "6%", right: "5%", bottom: "0", containLabel: true },
+            legend: { left: "left", data: ["查看", "搜索", "关注"], padding: [0, 0, 0, 15] },
+            xAxis: { type: "category", boundaryGap: false, data: xdata },
+            yAxis: { type: "value", position: "right", scale: true, min: "dataMin", max: "dataMax" },
             calculable: false,
             series: [
                 {
@@ -734,7 +770,7 @@ var common = {
      * 获取关联的行业股票概念
      */
     initRelateSHG: function (query_type, name) {
-        common.getRelateSHG({"query_type": query_type, "key_name": name}, function () {
+        common.getRelateSHG({ "query_type": query_type, "key_name": name }, function () {
             $(".relate-infos").html("关联资讯<i class=\"fa fa-circle-o-notch fa-spin fa-fw\"></i>");
         }, function (resultData) {
             if (resultData.status == 1) {
@@ -875,7 +911,7 @@ var inforcenter = {
             type: "post",
             dataType: "json",
             cache: false,
-            data: {operate_code: 4},
+            data: { operate_code: 4 },
             beforeSend: function () {
                 beforeFn && beforeFn();
             },
@@ -961,7 +997,7 @@ var inforcenter = {
             type: "post",
             dataType: "json",
             cache: false,
-            data: {operate_code: 8},
+            data: { operate_code: 8 },
             beforeSend: function () {
                 beforeFn && beforeFn();
             },
