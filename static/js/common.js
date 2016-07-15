@@ -430,12 +430,12 @@ var common = {
                         cdata.push("value:" + wk_treemap_data[x].value[y].count);
                         cdata.push("itemStyle:{normal:{color:'" + Utility.getTreeMapColor(wk_treemap_data[x].value[y].price_level) + "'}}");
                         if (wk_treemap_data[x].value[y].price_level == -1) {
-                            cdata.push("label:{normal:{textStyle:{color:'#23a64c'}}}}")
+                            cdata.push("label:{normal:{textStyle:{color:'#23a64c'}}}}");
                         } else {
                             if (wk_treemap_data[x].value[y].price_level == 1) {
-                                cdata.push("label:{normal:{textStyle:{color:'#f54545'}}}}")
+                                cdata.push("label:{normal:{textStyle:{color:'#f54545'}}}}");
                             } else {
-                                cdata.push("label:{normal:{textStyle:{color:'#fff'}}}}")
+                                cdata.push("label:{normal:{textStyle:{color:'#fff'}}}}");
                             }
                         }
                     }
@@ -828,12 +828,12 @@ var common = {
                 cdata.push("value:" + buildData[y].count);
                 cdata.push("itemStyle:{normal:{color:'" + Utility.getTreeMapColor(buildData[y].price_level) + "'}}");
                 if (buildData[y].price_level == -1) {
-                    cdata.push("label:{normal:{textStyle:{color:'#23a64c'}}}}")
+                    cdata.push("label:{normal:{textStyle:{color:'#23a64c'}}}}");
                 } else {
                     if (buildData[y].price_level == 1) {
-                        cdata.push("label:{normal:{textStyle:{color:'#f54545'}}}}")
+                        cdata.push("label:{normal:{textStyle:{color:'#f54545'}}}}");
                     } else {
-                        cdata.push("label:{normal:{textStyle:{color:'#fff'}}}}")
+                        cdata.push("label:{normal:{textStyle:{color:'#fff'}}}}");
                     }
                 }
             }
@@ -890,7 +890,7 @@ var common = {
                 }
                 $(".relate-infos").html("关联资讯" + relateInfo.join(''));
             }
-        })
+        });
     },
     /**
      * 根据价格获取颜色值
@@ -949,12 +949,12 @@ var inforcenter = {
             success: function (resultData) {
                 backFn && backFn(resultData);
             }
-        })
+        });
     },
     /**
      * 删除组合
      * @param arrData
-     * @param beforeFn
+     * @param beforeFn{}
      * @param backFn
      */
     delGroup: function (arrData, beforeFn, backFn) {
