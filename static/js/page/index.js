@@ -9,7 +9,7 @@ myLineChart.showLoading({
 
 function initTreeMapChart() {
     if (!wk_treemap_data) {
-        common.getTopTwentyStock(null, function() {
+        common.getTopTwentyStock(null, function () {
             var waitLogingCharts = ["wk-stock-view-treemap", "wk-industry-view-treemap", "wk-concept-view-treemap", "wk-event-view-treemap"];
             for (var i in waitLogingCharts) {
                 var treemap = echarts.init(document.getElementById(waitLogingCharts[i]));
@@ -17,7 +17,7 @@ function initTreeMapChart() {
                     "text": "加载中..."
                 });
             }
-        }, function(resultData) {
+        }, function (resultData) {
             if (resultData.status == 1) {
                 buildTreeMap(resultData);
                 wk_treemap_data = resultData;
@@ -28,29 +28,7 @@ function initTreeMapChart() {
     }
 }
 
-function buildMapTable(buildData) {
-    var _up = [];
-    var _down = [];
-    var _map = [];
-    for (var i = 0, len = buildData.length; i < len; i++) {
-        if (buildData[i].value > 0) {
-            _up.push(buildData[i]);
-        } else {
-            _down.push(buildData[i]);
-        }
-    }
-    var _newup = _up.sort(function(a, b) {
-        return Math.abs(b.value) - Math.abs(a.value);
-    })
-    var _newdown = _down.sort(function(a, b) {
-        return Math.abs(b.value) - Math.abs(a.value);
-    })
-    return {
-        "_up": _up,
-        "_down": _down,
-        "_map": _up.concat(_down)
-    };
-}
+
 
 function buildTreeMap(resultData) {
     if (resultData.result.code_info.shv_.length > 0) {
@@ -58,7 +36,7 @@ function buildTreeMap(resultData) {
         var _suv = resultData.result.code_info.suv_;
         $("#hot-view-stock").html("<a class='" + Utility.getPriceColor(_shv[0].price) + "' href='stocks.php?stock=" + _shv[0].code + "' target='_blank'>" + _shv[0].name + "(" + _shv[0].code + ")</a>");
         $("#stock-view .wk-hot-table tbody").html(common.buildHotmapTable(_shv, "stock"));
-        var maptable = buildMapTable(_suv);
+        var maptable = Utility.buildMapTable(_suv);
         $("#stock-view .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
         $("#stock-view .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
         common.buildHotmap("wk-stock-view-treemap", maptable._map, "stock");
@@ -68,7 +46,7 @@ function buildTreeMap(resultData) {
         var _sus = resultData.result.code_info.sus_;
         $("#hot-search-stock").html("<a class='" + Utility.getPriceColor(_shs[0].price) + "' href='stocks.php?stock=" + _shs[0].code + "' target='_blank'>" + _shs[0].name + "(" + _shs[0].code + ")</a>");
         $("#stock-search .wk-hot-table tbody").html(common.buildHotmapTable(_shs, "stock"));
-        var maptable = buildMapTable(_sus);
+        var maptable = Utility.buildMapTable(_sus);
         $("#stock-search .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
         $("#stock-search .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
         common.buildHotmap("wk-stock-search-treemap", maptable._map, "stock");
@@ -78,7 +56,7 @@ function buildTreeMap(resultData) {
         var _suf = resultData.result.code_info.suf_;
         $("#hot-follow-stock").html("<a class='" + Utility.getPriceColor(_shf[0].price) + "' href='stocks.php?stock=" + _shf[0].code + "' target='_blank'>" + _shf[0].name + "(" + _shf[0].code + ")</a>");
         $("#stock-follow .wk-hot-table tbody").html(common.buildHotmapTable(_shf, "stock"));
-        var maptable = buildMapTable(_suf);
+        var maptable = Utility.buildMapTable(_suf);
         $("#stock-follow .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
         $("#stock-follow .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
         common.buildHotmap("wk-stock-follow-treemap", maptable._map, "stock");
@@ -88,7 +66,7 @@ function buildTreeMap(resultData) {
         var _hhv = resultData.result.code_info.hhv_;
         var _huv = resultData.result.code_info.huv_;
         $("#industry-view .wk-hot-table tbody").html(common.buildHotmapTable(_hhv, "industry"));
-        var maptable = buildMapTable(_huv);
+        var maptable = Utility.buildMapTable(_huv);
         $("#industry-view .right .toggle-treemap-table-up tbody").html(common.buildOtherTable(maptable._up, "industry"));
         $("#industry-view .right .toggle-treemap-table-down tbody").html(common.buildOtherTable(maptable._down, "industry"));
         common.buildHotmap("wk-industry-view-treemap", maptable._map, "industry");
@@ -97,16 +75,16 @@ function buildTreeMap(resultData) {
         var _hhs = resultData.result.code_info.hhs_;
         var _hus = resultData.result.code_info.hus_;
         $("#industry-search .wk-hot-table tbody").html(common.buildHotmapTable(_hhs, "industry"));
-        var maptable = buildMapTable(_hus);
+        var maptable = Utility.buildMapTable(_hus);
         $("#industry-search .right .toggle-treemap-table-up tbody").html(common.buildOtherTable(maptable._up, "industry"));
         $("#industry-search .right .toggle-treemap-table-down tbody").html(common.buildOtherTable(maptable._down, "industry"));
-        common.buildHotmap("wk-industry-search-treemap",maptable._map, "industry");
+        common.buildHotmap("wk-industry-search-treemap", maptable._map, "industry");
     }
     if (resultData.result.code_info.hhf_.length > 0) {
         var _hhf = resultData.result.code_info.hhf_;
         var _huf = resultData.result.code_info.huf_;
         $("#industry-follow .wk-hot-table tbody").html(common.buildHotmapTable(_hhf, "industry"));
-        var maptable = buildMapTable(_huf);
+        var maptable = Utility.buildMapTable(_huf);
         $("#industry-follow .right .toggle-treemap-table-up tbody").html(common.buildOtherTable(maptable._up, "industry"));
         $("#industry-follow .right .toggle-treemap-table-down tbody").html(common.buildOtherTable(maptable._down, "industry"));
         common.buildHotmap("wk-industry-follow-treemap", maptable._map, "industry");
@@ -116,7 +94,7 @@ function buildTreeMap(resultData) {
         var _ghv = resultData.result.code_info.ghv_;
         var _guv = resultData.result.code_info.guv_;
         $("#concept-view .wk-hot-table tbody").html(common.buildHotmapTable(_ghv, "concept"));
-        var maptable = buildMapTable(_guv);
+        var maptable = Utility.buildMapTable(_guv);
         $("#concept-view .right .toggle-treemap-table-up tbody").html(common.buildOtherTable(maptable._up, "concept"));
         $("#concept-view .right .toggle-treemap-table-down tbody").html(common.buildOtherTable(maptable._down, "concept"));
         common.buildHotmap("wk-concept-view-treemap", maptable._map, "concept");
@@ -125,7 +103,7 @@ function buildTreeMap(resultData) {
         var _ghs = resultData.result.code_info.ghs_;
         var _gus = resultData.result.code_info.gus_;
         $("#concept-search .wk-hot-table tbody").html(common.buildHotmapTable(_ghs, "concept"));
-        var maptable = buildMapTable(_gus);
+        var maptable = Utility.buildMapTable(_gus);
         $("#concept-search .right .toggle-treemap-table-up tbody").html(common.buildOtherTable(maptable._up, "concept"));
         $("#concept-search .right .toggle-treemap-table-down tbody").html(common.buildOtherTable(maptable._down, "concept"));
         common.buildHotmap("wk-concept-search-treemap", maptable._map, "concept");
@@ -134,7 +112,7 @@ function buildTreeMap(resultData) {
         var _ghf = resultData.result.code_info.ghf_;
         var _guf = resultData.result.code_info.guf_;
         $("#concept-follow .wk-hot-table tbody").html(common.buildHotmapTable(_ghf, "concept"));
-        var maptable = buildMapTable(_guf);
+        var maptable = Utility.buildMapTable(_guf);
         $("#concept-follow .right .toggle-treemap-table-up tbody").html(common.buildOtherTable(maptable._up, "concept"));
         $("#concept-follow .right .toggle-treemap-table-down tbody").html(common.buildOtherTable(maptable._down, "concept"));
         common.buildHotmap("wk-concept-follow-treemap", maptable._map, "concept");
@@ -144,7 +122,7 @@ function buildTreeMap(resultData) {
         var _ehv = resultData.result.code_info.ehv_;
         var _euv = resultData.result.code_info.euv_;
         $("#event-view .wk-hot-table tbody").html(common.buildHotmapTable(_ehv, "event"));
-         var maptable = buildMapTable(_guf);
+        var maptable = Utility.buildMapTable(_euv);
         $("#event-view .right .toggle-treemap-table-up tbody").html(common.buildOtherTable(maptable._up, "event"));
         $("#event-view .right .toggle-treemap-table-down tbody").html(common.buildOtherTable(maptable._down, "event"));
         common.buildHotmap("wk-event-view-treemap", maptable._map, "event");
@@ -153,7 +131,7 @@ function buildTreeMap(resultData) {
         var _ehs = resultData.result.code_info.ehs_;
         var _eus = resultData.result.code_info.eus_;
         $("#event-search .wk-hot-table tbody").html(common.buildHotmapTable(_ehs, "event"));
-         var maptable = buildMapTable(_guf);
+        var maptable = Utility.buildMapTable(_eus);
         $("#event-search .right .toggle-treemap-table-up tbody").html(common.buildOtherTable(maptable._up, "event"));
         $("#event-search .right .toggle-treemap-table-down tbody").html(common.buildOtherTable(maptable._down, "event"));
         common.buildHotmap("wk-event-search-treemap", maptable._map, "event");
@@ -162,7 +140,7 @@ function buildTreeMap(resultData) {
         var _ehf = resultData.result.code_info.ehf_;
         var _euf = resultData.result.code_info.euf_;
         $("#event-follow .wk-hot-table tbody").html(common.buildHotmapTable(_ehf, "event"));
-         var maptable = buildMapTable(_guf);
+        var maptable = Utility.buildMapTable(_euf);
         $("#event-follow .right .toggle-treemap-table-up tbody").html(common.buildOtherTable(maptable._up, "event"));
         $("#event-follow .right .toggle-treemap-table-down tbody").html(common.buildOtherTable(maptable._down, "event"));
         common.buildHotmap("wk-event-follow-treemap", maptable._map, "event");
@@ -170,7 +148,7 @@ function buildTreeMap(resultData) {
 }
 
 function initTimeLine() {
-    common.getRealTimeHot(null, null, function(resultData) {
+    common.getRealTimeHot(null, null, function (resultData) {
         if (resultData.status == 1) {
             var _todayHot = [];
             if (resultData.visit) {
@@ -205,7 +183,7 @@ function initTimeLine() {
         }
     });
 }
-$(function() {
+$(function () {
     initTreeMapChart();
     initTimeLine();
 });
