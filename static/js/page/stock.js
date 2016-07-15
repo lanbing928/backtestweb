@@ -86,8 +86,8 @@ function initTreeMapChart() {
             }
             if (rel_concept.length > 0) {
                 $(".gn-title").html(rel_concept[0].sect + "概念热度情况");
-                for (var i in rel_concept) {
-                    rel_con_link += "<a href='concept.php?name=" + rel_concept[i].sect + "' target='_blank'>" + rel_concept[i].sect + "</a>"
+                for (var j in rel_concept) {
+                    rel_con_link += "<a href='concept.php?name=" + rel_concept[j].sect + "' target='_blank'>" + rel_concept[j].sect + "</a>";
                 }
             }
             _stockName = resultData.stock_info.stock_name;
@@ -224,7 +224,7 @@ function initFollowBtn() {
             $(".wk-follow-stock").each(function () {
                 var follow_name = $(this).attr("data-follow-name");
                 $(this).unbind("click").bind("click", function () {
-                    inforcenter.addStock({ori_name: follow_name, code: stockcode}, null, function (addResult) {
+                    inforcenter.addStock({ ori_name: follow_name, code: stockcode }, null, function (addResult) {
                         if (addResult.status == 1) {
                             swal({
                                 title: "",
@@ -233,7 +233,7 @@ function initFollowBtn() {
                                 timer: 1000,
                                 showConfirmButton: false
                             });
-                        } else if (addResult.status == 0) {
+                        } else if (addResult.status === 0) {
                             swal({
                                 title: "",
                                 text: "关注个股<span style='color: #F8BB86'>" + stockcode + "</span>异常," + resultData.msg + "",
@@ -250,11 +250,11 @@ function initFollowBtn() {
                                 showConfirmButton: false
                             });
                         }
-                    })
-                })
-            })
+                    });
+                });
+            });
         }
-    })
+    });
 }
 $(function () {
     var arrData = {
@@ -265,22 +265,22 @@ $(function () {
         "start_time": 0
     };
     $(".nav-tabs li a").bind("click", function () {
-        if ($(this).attr("href").indexOf("#wk-selfmedia") == 0) {
-            if ($("#mCSB_2_container").html().trim() == "") {
+        if ($(this).attr("href").indexOf("#wk-selfmedia") === 0) {
+            if ($("#mCSB_2_container").html().trim() === "") {
                 arrData.start_id = 0;
                 arrData.start_time = 0;
                 common.getSelfMedia(arrData);
             }
         }
-        if ($(this).attr("href").indexOf("#wk-newsflash") == 0) {
-            if ($("#wk-newsflash table>tbody").html().trim() == "") {
+        if ($(this).attr("href").indexOf("#wk-newsflash") === 0) {
+            if ($("#wk-newsflash table>tbody").html().trim() === "") {
                 arrData.start_id = 0;
                 arrData.start_time = 0;
                 common.getFastNews(arrData);
             }
         }
-        if ($(this).attr("href").indexOf("#wk-notice") == 0) {
-            if ($("#mCSB_4_container").html().trim() == "") {
+        if ($(this).attr("href").indexOf("#wk-notice") === 0) {
+            if ($("#mCSB_4_container").html().trim() === "") {
                 arrData.start_id = 0;
                 common.getNotice(arrData);
             }
