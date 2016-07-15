@@ -50,7 +50,7 @@
 .wk-rate-select label.active{width: 80px;background-color: #7065a3;color: #FFFFFF;border: 1px solid #7065a3;}
 #wk-rate-line-pic{height: 350px;width: 100%;}
 
-#wk-news,#wk-newsflash,#wk-selfmedia{height: 420px;}
+#wk-news,#wk-newsflash,#wk-selfmedia,#wk-notice{height: 420px;}
 
 .wk-news-list{margin-top: 12px;padding: 0 5px;}
 .wk-news-list table>tbody>tr>td{border-bottom: 1px dashed #eeeeee;border-top: none;}
@@ -136,7 +136,8 @@
 .wk-line-toggle a.line-active{color: #FFFFFF;background-color: #7065a3;border: 1px solid #7065a3;}
 .wk-hot-sub-title p:first-child{float: left;}
 .treemap-toggle{float: right;margin-right: 5px;}
-.treemap-toggle span{width: 30px; height: 20px;border: 1px solid #c9c9c9;display: inline-block;text-align: center;cursor: pointer;margin-right: -5px;}
+.treemap-toggle span:first-child{width: 46px;}
+.treemap-toggle span{width: 36px; height: 20px;border: 1px solid #c9c9c9;display: inline-block;text-align: center;cursor: pointer;margin-right: -5px;}
 .treemap-toggle span.treemap-active{background-color: #7065a3;color: #FFFFFF;}
 .wk-treemap-table{font-size: 12px;border: 1px solid #ddd;}
 .wk-treemap-table a{color: #545454;}
@@ -352,3 +353,12 @@
 /*热度排行榜hotrank*/
 .tab-content .hot_text{border:1px solid #abb1d8;height:26px;width:24%;line-height:26px;text-align: center;margin:0 0 10px 12px;box-shadow:1px 1px 1px #ccc }
 .tab-content .hot_more{margin:auto;text-align: center;color:#c0c0c0;cursor: pointer}
+
+
+
+/*股票页面的关注按钮*/
+.wk-btn-follow{height: 26px;padding: 0;width: 80px;border-radius: 0;background-color: #4963ae;color: #FFFFFF;}
+.wk-btn-follow:hover{color: #FFFFFF;}
+.wk-btn-follow:focus{color: #FFFFFF;}
+.wk-btn-follow.focus{color: #FFFFFF;}
+.wk-btn-follow span{color: #FFFFFF;}

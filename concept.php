@@ -80,6 +80,7 @@ if (empty($conceptName)) {
                     <li role="presentation" class="active"><a href="#wk-news" aria-controls="wk-news" role="tab" data-toggle="tab">新闻</a></li>
                     <li role="presentation"><a href="#wk-selfmedia" aria-controls="wk-selfmedia" role="tab" data-toggle="tab"><label></label>达人观点</a></li>
                     <li role="presentation"><a href="#wk-newsflash" aria-controls="wk-newsflash" role="tab" data-toggle="tab">快讯</a></li>
+                    <li role="presentation"><a href="#wk-notice" aria-controls="wk-notice" role="tab" data-toggle="tab">公告</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="wk-news"></div>
@@ -91,6 +92,7 @@ if (empty($conceptName)) {
                             </table>
                         </div>
                     </div>
+                    <div role="tabpanel" class="tab-pane fade" id="wk-notice"></div>
                 </div>
             </div>
         </div>
@@ -130,8 +132,9 @@ if (empty($conceptName)) {
                                 <div class="wk-hot-sub-title">
                                     <p>查看热度涨跌幅排行&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="当前最新与前一个小时的热度指标相比较产生的数值"></i></p>
                                     <p class="treemap-toggle">
-                                        <span class="treemap-active">图</span>
-                                        <span>表</span>
+                                        <span class="treemap-active">热力图</span>
+                                        <span>涨幅</span>
+                                        <span>跌幅</span>
                                     </p>
                                 </div>
                                 <div class="toggle-treemap">
@@ -139,7 +142,23 @@ if (empty($conceptName)) {
                                     <p class="wk-hot-sub-tips"><label>●</label>方块大小表示成交量，越大的板块成交量越大</p>
                                     <p class="wk-hot-sub-tips"><label>●</label>方块颜色表示热度涨跌幅，涨跌越大，颜色越深，上涨红色，下跌绿色</p>
                                 </div>
-                                <div class="toggle-treemap-table" style="display: none;">
+                                <div class="toggle-treemap-table-up" style="display: none;">
+                                    <table class="table table-hover table-condensed wk-treemap-table">
+                                        <thead>
+                                        <tr>
+                                            <td>序号</td>
+                                            <td>股票名称</td>
+                                            <td>价格</td>
+                                            <td>价格涨跌幅</td>
+                                            <td>查看热度</td>
+                                            <td>热度增量</td>
+                                            <td>成交量</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                 <div class="toggle-treemap-table-down" style="display: none;">
                                     <table class="table table-hover table-condensed wk-treemap-table">
                                         <thead>
                                         <tr>
@@ -177,8 +196,9 @@ if (empty($conceptName)) {
                                 <div class="wk-hot-sub-title">
                                     <p>搜索热度涨跌幅排行&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="当前最新与前一个小时的热度指标相比较产生的数值"></i></p>
                                     <p class="treemap-toggle">
-                                        <span class="treemap-active">图</span>
-                                        <span>表</span>
+                                        <span class="treemap-active">热力图</span>
+                                        <span>涨幅</span>
+                                        <span>跌幅</span>
                                     </p>
                                 </div>
                                 <div class="toggle-treemap">
@@ -186,7 +206,23 @@ if (empty($conceptName)) {
                                     <p class="wk-hot-sub-tips"><label>●</label>方块大小表示成交量，越大的板块成交量越大</p>
                                     <p class="wk-hot-sub-tips"><label>●</label>方块颜色表示热度涨跌幅，涨跌越大，颜色越深，上涨红色，下跌绿色</p>
                                 </div>
-                                <div class="toggle-treemap-table" style="display: none;">
+                                <div class="toggle-treemap-table-up" style="display: none;">
+                                    <table class="table table-hover table-condensed wk-treemap-table">
+                                        <thead>
+                                        <tr>
+                                            <td>序号</td>
+                                            <td>股票名称</td>
+                                            <td>价格</td>
+                                            <td>价格涨跌幅</td>
+                                            <td>搜索热度</td>
+                                            <td>热度增量</td>
+                                            <td>成交量</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <div class="toggle-treemap-table-down" style="display: none;">
                                     <table class="table table-hover table-condensed wk-treemap-table">
                                         <thead>
                                         <tr>
@@ -224,8 +260,9 @@ if (empty($conceptName)) {
                                 <div class="wk-hot-sub-title">
                                     <p>关注热度涨跌幅排行&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="当前最新与前一个小时的热度指标相比较产生的数值"></i></p>
                                     <p class="treemap-toggle">
-                                        <span class="treemap-active">图</span>
-                                        <span>表</span>
+                                        <span class="treemap-active">热力图</span>
+                                        <span>涨幅</span>
+                                        <span>跌幅</span>
                                     </p>
                                 </div>
                                 <div class="toggle-treemap">
@@ -233,7 +270,23 @@ if (empty($conceptName)) {
                                     <p class="wk-hot-sub-tips"><label>●</label>方块大小表示成交量，越大的板块成交量越大</p>
                                     <p class="wk-hot-sub-tips"><label>●</label>方块颜色表示热度涨跌幅，涨跌越大，颜色越深，上涨红色，下跌绿色</p>
                                 </div>
-                                <div class="toggle-treemap-table" style="display: none;">
+                                <div class="toggle-treemap-table-up" style="display: none;">
+                                    <table class="table table-hover table-condensed wk-treemap-table">
+                                        <thead>
+                                        <tr>
+                                            <td>序号</td>
+                                            <td>股票名称</td>
+                                            <td>价格</td>
+                                            <td>价格涨跌幅</td>
+                                            <td>关注热度</td>
+                                            <td>热度增量</td>
+                                            <td>成交量</td>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                 <div class="toggle-treemap-table-down" style="display: none;">
                                     <table class="table table-hover table-condensed wk-treemap-table">
                                         <thead>
                                         <tr>

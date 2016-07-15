@@ -71,22 +71,28 @@ function buildTreeMap(resultData) {
         var _shv = resultData.result.code_info.shv_;
         var _suv = resultData.result.code_info.suv_;
         $("#industry-view .wk-hot-table tbody").html(common.buildHotmapTable(_shv, "stock"));
-        $("#industry-view .right .wk-treemap-table tbody").html(common.buildStockTable(_suv));
-        common.buildHotmap("wk-stock-view-treemap", _suv, "stock");
+        var maptable = Utility.buildMapTable(_suv);
+        $("#industry-view .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#industry-view .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-stock-view-treemap", maptable._map, "stock");
     }
     if (resultData.result.code_info.shs_.length > 0) {
         var _shs = resultData.result.code_info.shs_;
         var _sus = resultData.result.code_info.sus_;
         $("#industry-search .wk-hot-table tbody").html(common.buildHotmapTable(_shs, "stock"));
-        $("#industry-search .right .wk-treemap-table tbody").html(common.buildStockTable(_sus));
-        common.buildHotmap("wk-stock-search-treemap", _sus, "stock");
+        var maptable = Utility.buildMapTable(_sus);
+        $("#industry-search .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#industry-search .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-stock-search-treemap", maptable._map, "stock");
     }
     if (resultData.result.code_info.shf_.length > 0) {
         var _shf = resultData.result.code_info.shf_;
         var _suf = resultData.result.code_info.suf_;
         $("#industry-follow .wk-hot-table tbody").html(common.buildHotmapTable(_shf, "stock"));
-        $("#industry-follow .right .wk-treemap-table tbody").html(common.buildStockTable(_suf));
-        common.buildHotmap("wk-stock-follow-treemap", _suf, "stock");
+        var maptable = Utility.buildMapTable(_suf);
+        $("#industry-follow .right .toggle-treemap-table-up tbody").html(common.buildStockTable(maptable._up));
+        $("#industry-follow .right .toggle-treemap-table-down tbody").html(common.buildStockTable(maptable._down));
+        common.buildHotmap("wk-stock-follow-treemap", maptable._map, "stock");
     }
 }
 function initTodayRateLine() {
@@ -116,6 +122,12 @@ $(function () {
             if ($("#wk-newsflash table>tbody").html().trim() == "") {
                 arrData.start_id = 0;
                 common.getFastNews(arrData);
+            }
+        }
+        if ($(this).attr("href").indexOf("#wk-notice") == 0) {
+            if ($("#mCSB_4_container").html().trim() == "") {
+                arrData.start_id = 0;
+                common.getNotice(arrData);
             }
         }
     });
@@ -151,10 +163,23 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-newsflash .wk-news-list tr:last").attr("id").replace("fast_", "");
+                arrData.start_id = $("#wk-newsflash .wk-user-fastnews:last-child").find("ul li:last-child").attr("id").replace("fast_", "");
                 arrData.info_type_list = "0,1,0,0,0,0";
-                arrData.timestamp = $("#wk-newsflash .wk-news-list:last").attr("data-fastnews-timestamp");
+                arrData.timestamp = $("#wk-newsflash  .wk-user-fastnews:last-child").find("ul li:last-child").attr("data-fastnews-timestamp");
                 common.getFastNews(arrData);
+            }
+        }
+    });
+    $("#wk-notice").mCustomScrollbar({
+        autoHideScrollbar: true,
+        theme: "minimal-dark",
+        axis: "y",
+        callbacks: {
+            onTotalScroll: function () {
+                arrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
+                arrData.info_type_list = "0,0,0,0,0,0,1";
+                arrData.timestamp = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
+                common.getNotice(arrData);
             }
         }
     });

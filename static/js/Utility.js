@@ -6,7 +6,7 @@ var Utility = {
      */
     getQueryStringByName: function (name) {
         var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
-        if (result == null || result.length < 1) {
+        if (result === null || result.length < 1) {
             return "";
         }
         return result[1];
@@ -20,70 +20,48 @@ var Utility = {
         switch (num) {
             case 0:
                 return "rgb(158,158,158)";
-                break;
             case 1:
                 return "rgb(255,211,211)";
-                break;
             case 2:
                 return "rgb(255,175,175)";
-                break;
             case 3:
                 return "rgb(255,128,128)";
-                break;
             case 4:
                 return "rgb(255,90,90)";
-                break;
             case 5:
                 return "rgb(255,52,52)";
-                break;
             case 6:
                 return "rgb(255,0,0)";
-                break;
             case 7:
                 return "rgb(221,25,29)";
-                break;
             case 8:
                 return "rgb(208,23,22)";
-                break;
             case 9:
                 return "rgb(196,20,17)";
-                break;
             case 10:
                 return "rgb(166,3,0)";
-                break;
             case -1:
                 return "rgb(219,246,228)";
-                break;
             case -2:
                 return "rgb(124,210,154)";
-                break;
             case -3:
                 return "rgb(76,187,115)";
-                break;
             case -4:
                 return "rgb(35,166,76)";
-                break;
             case -5:
                 return "rgb(32,155,70)";
-                break;
             case -6:
                 return "rgb(10,143,8)";
-                break;
             case -7:
                 return "rgb(10,126,7)";
-                break;
             case -8:
                 return "rgb(5,111,0)";
-                break;
             case -9:
                 return "rgb(13,83,2)";
-                break;
             case -10:
                 return "rgb(10,72,0)";
-                break;
             default:
                 return "rgb(158,158,158)";
-                break;
         }
     },
     /**
@@ -95,13 +73,10 @@ var Utility = {
         switch (emotion) {
             case 0:
                 return "<span class=\"wk-news-list-tips wk-likong\"></span>";
-                break;
             case 1:
                 return "<span class=\"wk-news-list-tips wk-lihao\"></span>";
-                break;
             case -1:
                 return "";
-                break;
         }
     },
     /**
@@ -245,7 +220,7 @@ var Utility = {
     getByteLen: function (val) {
         var len = 0;
         for (var i = 0; i < val.length; i++) {
-            if (val[i].match(/[^x00-xff]/ig) != null) //全角
+            if (val[i].match(/[^x00-xff]/ig) !== null) //全角
                 len += 2;
             else
                 len += 1;
@@ -264,5 +239,42 @@ var Utility = {
             return "交易中";
         }
         return "休市";
+    },
+    buildMapTable: function (buildData) {
+        var _up = [];
+        var _down = [];
+        var _map = [];
+        var maxcount = 10;
+        for (var i = 0, len = buildData.length; i < len; i++) {
+            if (buildData[i].value > 0) {
+                _up.push(buildData[i]);
+            } else {
+                _down.push(buildData[i]);
+            }
+        }
+        var _newup = _up.sort(function (a, b) {
+            return Math.abs(b.value) - Math.abs(a.value);
+        });
+        var _newdown = _down.sort(function (a, b) {
+            return Math.abs(b.value) - Math.abs(a.value);
+        });
+        if (_newup.length > 5) {
+            if (_newdown.length > 5) {
+                _newup = _newup.slice(0, 5);
+                _newdown = _newdown.slice(0, 5);
+            } else {
+                _newup = _newup.slice(0, maxcount - _newdown.length);
+            }
+        } else {
+            if (_newdown.length >5) {
+                _newdown = _newdown.slice(0, (10 - _newup.length));
+            }
+        }
+        var _newMap = _newup.concat(_newdown);
+        return {
+            "_up": _up,
+            "_down": _down,
+            "_map": _newMap
+        };
     }
 };
