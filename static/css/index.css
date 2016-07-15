@@ -354,11 +354,20 @@
 .tab-content .hot_text{border:1px solid #abb1d8;height:26px;width:24%;line-height:26px;text-align: center;margin:0 0 10px 12px;box-shadow:1px 1px 1px #ccc }
 .tab-content .hot_more{margin:auto;text-align: center;color:#c0c0c0;cursor: pointer}
 
-
-
 /*股票页面的关注按钮*/
 .wk-btn-follow{height: 26px;padding: 0;width: 80px;border-radius: 0;background-color: #4963ae;color: #FFFFFF;}
 .wk-btn-follow:hover{color: #FFFFFF;}
 .wk-btn-follow:focus{color: #FFFFFF;}
 .wk-btn-follow.focus{color: #FFFFFF;}
 .wk-btn-follow span{color: #FFFFFF;}
+
+/*新闻情感进度条 新闻资讯折线图*/
+.pro_chart{border: 1px solid #ddd;min-height: 170px;padding: 12px 18px; font-size: 13px; margin:6px 0 17px;}
+.pro_chart p{margin-bottom:23px;}
+.pro_chart .progress{height:10px;margin-top:25px;}
+.progress-bar-success{position:relative;}
+.pro_chart .progress_circle{width:14px;height:14px;border-radius:10px;background:#fff;border:1px solid #ddd;box-shadow: 1px 1px 1px #ccc;position:absolute;}
+.pro_chart .sacle{text-align: center;}
+.pro_chart .negative{width:10px;height:10px;border-radius:10px;background:#27ae60;}
+.pro_chart .positive{background:#e54f47;}
+
