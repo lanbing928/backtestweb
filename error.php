@@ -26,7 +26,7 @@
 <div class="container wk-container">
     <div class="wk-error-content">
         <p class="wk-error-title">很抱歉！您要访问的页面出错啦 >_<</p>
-        <img src="staticimgs/i/error.png">
+        <img src="static/imgs/i/error.png">
         <p class="wk-error-info">您访问的页面暂时不可用。您可以<a href="javascript:history.go(-1);">返回上一页</a></p>
         <div class="wk-error-btn">
             <button id="wk-back">返回上一页</button>
