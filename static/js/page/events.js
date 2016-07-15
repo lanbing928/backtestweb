@@ -2,9 +2,9 @@ var name = Utility.getQueryStringByName("name");
 var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
 var wk_treemap_data, viewData = [], searchData = [], followData = [];
 var myChart = echarts.init(document.getElementById("left-chart"));
-myChart.showLoading({"text": "加载中..."});
+myChart.showLoading({ "text": "加载中..." });
 function initLineChart() {
-    common.getHyAndGnHot({"name": name, "query_type": 3}, null, function (resultData) {
+    common.getHyAndGnHot({ "name": name, "query_type": 3 }, null, function (resultData) {
         if (resultData.status == 1) {
             var _todayHot = [];
             var _lastHot = [];
@@ -52,9 +52,9 @@ function initLineChart() {
 }
 function initTreeMapChart() {
     if (!wk_treemap_data) {
-        common.getTopTwentyStock({"hottype": "hv", "hotval": name}, function () {
+        common.getTopTwentyStock({ "hottype": "hv", "hotval": name }, function () {
             var treemap = echarts.init(document.getElementById("wk-stock-view-treemap"));
-            treemap.showLoading({"text": "加载中..."});
+            treemap.showLoading({ "text": "加载中..." });
             $("#event-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
         }, function (resultData) {
             if (resultData.status == 1) {
@@ -97,31 +97,34 @@ function initTodayRateLine() {
         "query_date": "today"
     };
     common.getRateLine(queryData, function () {
-        rateLine.showLoading({"text": "加载中..."});
+        rateLine.showLoading({ "text": "加载中..." });
     }, function (resultData) {
         common.buildRateLine(decodeURI(name), "today", resultData);
         rateLine.hideLoading();
     });
 }
 $(function () {
-    var arrData = {query_type: 3, key: name, start_id: 0, info_type_list: "", "start_time": 0};
+    var eventArrData = { key_name: name, start_id: 0, "start_time": 0 };
     $(".nav-tabs li a").bind("click", function () {
-        if ($(this).attr("href").indexOf("#wk-selfmedia") == 0) {
-            if ($("#mCSB_2_container").html().trim() == "") {
-                arrData.start_id = 0;
-                common.getSelfMedia(arrData);
+        if ($(this).attr("href").indexOf("#wk-selfmedia") === 0) {
+            if ($("#mCSB_2_container").html().trim() === "") {
+                eventArrData.start_id = 0;
+                eventArrData.info_type = 2;
+                common.getEventMedia(eventArrData);
             }
         }
-        if ($(this).attr("href").indexOf("#wk-newsflash") == 0) {
-            if ($("#wk-newsflash table>tbody").html().trim() == "") {
-                arrData.start_id = 0;
-                common.getFastNews(arrData);
+        if ($(this).attr("href").indexOf("#wk-newsflash") === 0) {
+            if ($("#wk-newsflash table>tbody").html().trim() === "") {
+                eventArrData.start_id = 0;
+                eventArrData.info_type = 1;
+                common.getEventFastNews(eventArrData);
             }
         }
-        if ($(this).attr("href").indexOf("#wk-notice") == 0) {
-            if ($("#mCSB_4_container").html().trim() == "") {
-                arrData.start_id = 0;
-                common.getNotice(arrData);
+        if ($(this).attr("href").indexOf("#wk-notice") === 0) {
+            if ($("#mCSB_4_container").html().trim() === "") {
+                eventArrData.start_id = 0;
+                eventArrData.info_type = 4;
+                common.getEventNotice(eventArrData);
             }
         }
     });
@@ -131,10 +134,10 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-news .wk-news-list:last").attr("id").replace("news_", "");
-                arrData.info_type_list = "1,0,0,0,0,0";
-                arrData.timestamp = $("#wk-news .wk-news-list:last").attr("data-news-timestamp");
-                common.getNews(arrData);
+                eventArrData.start_id = $("#wk-news .wk-news-list:last").attr("id").replace("news_", "");
+                eventArrData.info_type = 0;
+                eventArrData.timestamp = $("#wk-news .wk-news-list:last").attr("data-news-timestamp");
+                common.getEventNews(eventArrData);
             }
         }
     });
@@ -144,10 +147,10 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
-                arrData.info_type_list = "0,0,1,0,0,0";
-                arrData.timestamp = $("#wk-selfmedia .wk-news-list:last").attr("data-media-timestamp");
-                common.getSelfMedia(arrData);
+                eventArrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
+                eventArrData.info_type = 2;
+                eventArrData.timestamp = $("#wk-selfmedia .wk-news-list:last").attr("data-media-timestamp");
+                common.getEventMedia(eventArrData);
             }
         }
     });
@@ -157,10 +160,10 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-newsflash .wk-news-list tr:last").attr("id").replace("fast_", "");
-                arrData.info_type_list = "0,1,0,0,0,0";
-                arrData.timestamp = $("#wk-newsflash .wk-news-list:last").attr("data-fastnews-timestamp");
-                common.getFastNews(arrData);
+                eventArrData.start_id = $("#wk-newsflash .wk-news-list tr:last").attr("id").replace("fast_", "");
+                eventArrData.info_type = 1;
+                eventArrData.timestamp = $("#wk-newsflash .wk-news-list:last").attr("data-fastnews-timestamp");
+                common.getEventFastNews(eventArrData);
             }
         }
     });
@@ -170,15 +173,15 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
-                arrData.info_type_list = "0,0,0,0,0,0,1";
-                arrData.timestamp = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
-                common.getNotice(arrData);
+                eventArrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
+                eventArrData.info_type = 4;
+                eventArrData.timestamp = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
+                common.getEventNotice(eventArrData);
             }
         }
     });
     common.initRelateSHG(4, name);
-    common.getNews(arrData);
+    common.getEventNews(eventArrData);
 
     initLineChart();
     initTreeMapChart();
