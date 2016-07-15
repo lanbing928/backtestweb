@@ -279,6 +279,12 @@ $(function () {
                 common.getFastNews(arrData);
             }
         }
+        if ($(this).attr("href").indexOf("#wk-notice") == 0) {
+            if ($("#mCSB_4_container").html().trim() == "") {
+                arrData.start_id = 0;
+                common.getNotice(arrData);
+            }
+        }
     });
     $("#wk-news").mCustomScrollbar({
         autoHideScrollbar: true,
@@ -316,6 +322,19 @@ $(function () {
                 arrData.info_type_list = "0,1,0,0,0,0";
                 arrData.timestamp = $("#wk-newsflash  .wk-user-fastnews:last-child").find("ul li:last-child").attr("data-fastnews-timestamp");
                 common.getFastNews(arrData);
+            }
+        }
+    });
+    $("#wk-notice").mCustomScrollbar({
+        autoHideScrollbar: true,
+        theme: "minimal-dark",
+        axis: "y",
+        callbacks: {
+            onTotalScroll: function () {
+                arrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
+                arrData.info_type_list = "0,0,0,0,0,0,1";
+                arrData.timestamp = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
+                common.getNotice(arrData);
             }
         }
     });
