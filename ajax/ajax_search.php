@@ -16,7 +16,8 @@ if (empty($message)) {
     print_r(json_encode(array("status" => 0, "result" => "搜索关键字为空")));
     return;
 }
-$url = "http://api.stock.miglab.com/cgi-bin/jarvis/search/1/search.fcgi";
+//$url = "http://api.stock.miglab.com/cgi-bin/jarvis/search/1/search.fcgi";
+$url="http://222.73.34.92/cgi-bin/ky_wookong/search/1/search.fcgi";
 $result = RequestUtil::get($url,
     array(
         "user_id" => 9999,
