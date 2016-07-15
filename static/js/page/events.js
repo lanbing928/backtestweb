@@ -142,7 +142,7 @@ $(function () {
             onTotalScroll: function () {
                 eventArrData.start_id = $("#wk-news .wk-news-list:last").attr("id").replace("news_", "");
                 eventArrData.info_type = 0;
-                eventArrData.timestamp = $("#wk-news .wk-news-list:last").attr("data-news-timestamp");
+                eventArrData.start_time = $("#wk-news .wk-news-list:last").attr("data-news-timestamp");
                 common.getEventNews(eventArrData);
             }
         }
@@ -155,7 +155,7 @@ $(function () {
             onTotalScroll: function () {
                 eventArrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
                 eventArrData.info_type = 2;
-                eventArrData.timestamp = $("#wk-selfmedia .wk-news-list:last").attr("data-media-timestamp");
+                eventArrData.start_time = $("#wk-selfmedia .wk-news-list:last").attr("data-media-timestamp");
                 common.getEventMedia(eventArrData);
             }
         }
@@ -168,7 +168,7 @@ $(function () {
             onTotalScroll: function () {
                 eventArrData.start_id = $("#wk-newsflash .wk-news-list tr:last").attr("id").replace("fast_", "");
                 eventArrData.info_type = 1;
-                eventArrData.timestamp = $("#wk-newsflash .wk-news-list:last").attr("data-fastnews-timestamp");
+                eventArrData.start_time = $("#wk-newsflash .wk-news-list:last").attr("data-fastnews-timestamp");
                 common.getEventFastNews(eventArrData);
             }
         }
@@ -181,7 +181,7 @@ $(function () {
             onTotalScroll: function () {
                 eventArrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
                 eventArrData.info_type = 4;
-                eventArrData.timestamp = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
+                eventArrData.start_time = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
                 common.getEventNotice(eventArrData);
             }
         }
