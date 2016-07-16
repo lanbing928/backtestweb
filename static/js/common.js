@@ -731,7 +731,7 @@ var common = {
             tableHtml.push("<tr>");
             tableHtml.push("<td>" + (i + 1) + "</td>");
             tableHtml.push("<td><a href='stocks.php?stock=" + buildData[i].code + "' target='_blank'>" + buildData[i].name + "</a></td>");
-            tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].price_level) + "'>" + buildData[i].price + "</td>");
+            tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].mark_z_d) + "'>" + buildData[i].price + "</td>");
             tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].price_change_ratio) + "'>" + (buildData[i].price_change_ratio * 100).toFixed(2) + "%</td>");
             tableHtml.push("<td>" + buildData[i].hot + "</td>");
             tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
@@ -927,7 +927,6 @@ var common = {
     hideLoading: function () {
         $("#loading").remove();
     },
-
     /**
      *
      * @param arrData
