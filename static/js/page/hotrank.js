@@ -19,9 +19,22 @@ var key = Utility.getQueryStringByName("key");
 var data_type = 1, hot_type = 1, rank_name = "";
 if (key && key.split(',').length > 0) {
     var spl = key.split(',');
-    data_type = spl[0];//1:查看,2：搜索,3：关注
-    hot_type = spl[1];//1:股票,2:行业，3:概念,4:事件
-    rank_name = spl[2];
+    data_type = spl[0] || "";//1:查看,2：搜索,3：关注
+    hot_type = spl[1] || "";//1:股票,2:行业，3:概念,4:事件
+    rank_name = spl[2] || "";
+    $(".nav-tabs").find("li[data-type='" + data_type + "']").addClass("active in").siblings().removeClass("active in");
+    if (data_type == 1) {
+        $("#view").removeClass("fade").addClass("active in").siblings().addClass("fade").removeClass("active in");
+        showData(pagenum.vnum, data_type, "view");
+    }
+    if (data_type == 2) {
+        $("#search").removeClass("fade").addClass("active in").siblings().addClass("fade").removeClass("active in");
+        showData(pagenum.snum, data_type, "search");
+    }
+    if (data_type == 3) {
+        $("#follow").removeClass("fade").addClass("active in").siblings().addClass("fade").removeClass("active in");
+        showData(pagenum.fnum, data_type, "follow");
+    }
 }
 function showData(page, type, showid) {
     common.getHotRank({
@@ -92,8 +105,16 @@ function showData(page, type, showid) {
                 }
                 $("#" + showid).find("table>tbody").append(html);
             }
-        }else{
-
+        } else {
+            if (data_type == 1) {
+                $("#view_hot_more").hide();
+            }
+            if (data_type == 2) {
+                $("#search_hot_more").hide();
+            }
+            if (data_type == 3) {
+                $("#follow_hot_more").hide();
+            }
         }
     });
 }
@@ -109,7 +130,7 @@ function buildRankTable(buildData, buildType) {
                 buildHtml.push("<td>" + (i + 1) + "</td>");
                 buildHtml.push("<td>" + buildData[i].code + "</td>");
                 buildHtml.push("<td>" + buildData[i].name + "</td>");
-                buildHtml.push("<td class='" + Utility.getPriceColor(buildData[i].price_change_ratio) + "'>" + buildData[i].price + "</td>");
+                buildHtml.push("<td class='" + Utility.getPriceColor(buildData[i].mark_z_d) + "'>" + buildData[i].price + "</td>");
                 buildHtml.push("<td>" + (buildData[i].price_change_ratio / 10000).toFixed(2) + '%' + Utility.getHotUpDown(buildData[i].price_change_ratio) + "</td>");
                 buildHtml.push("<td>" + buildData[i].differ_price + "</td>");
                 buildHtml.push("<td>" + buildData[i].volume / 10000 + "</td>");
@@ -138,8 +159,6 @@ $(function () {
         trigger: "hover"
     });
     $(".wk-hot-title").html(decodeURI(rank_name) + "热度情况");
-    showData(pagenum.vnum, 1, "view");
-
     $(".nav-tabs").delegate("li", "click", function () {
         var dy = $(this).attr("data-type");
         data_type = dy;
