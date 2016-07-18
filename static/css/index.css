@@ -361,6 +361,9 @@
 .wk-btn-follow.focus{color: #FFFFFF;}
 .wk-btn-follow span{color: #FFFFFF;}
 
+/*热度排行榜查看更多*/
+.wk-view-more{float: right;color: #545454;}
+
 /*新闻情感进度条 新闻资讯折线图*/
 .pro_chart{border: 1px solid #ddd;min-height: 170px;padding: 12px 18px; font-size: 13px; margin:6px 0 17px;}
 .pro_chart p{margin-bottom:23px;}
