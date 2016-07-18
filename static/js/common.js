@@ -510,6 +510,28 @@ var common = {
         })
     },
     /**
+     * 获取双折线图 新闻趋势
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getNewsTrend: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "ajax/ajax_get_news_trend.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
      * 获取单只股票热度折线图
      * @param arrData
      * @param beforeFn
@@ -947,6 +969,76 @@ var common = {
                 backFn && backFn(resultData);
             }
         })
+    },
+    /**
+     *双折线图
+     * @param chartId
+     * @param xdata
+     * @param viewData
+     * @param searchData
+     * @param followData
+     */
+    getTwoLineChart: function (chartId,timeData,newsData,sentiData) {
+        var myChart = echarts.init(document.getElementById(chartId));
+        myChart.showLoading({"text": "加载中..."});
+        myChart.setOption({
+            color: ["rgb(82,153,222)","rgb(247,163,92)"],
+            tooltip: {
+                trigger: "axis"
+            },
+            legend: {
+                data:[
+                    {
+                         name:"新闻数量",icon: 'circle'
+                    },
+                    {
+                        name:"情感指数"
+                    }
+                ],
+                bottom:"0"
+            },
+            grid: {
+                top: '10px',
+                left: '0',
+                right: '0',
+                bottom: '25%',
+                containLabel: true
+            },
+            xAxis: {
+                type: "category",
+                boundaryGap: false,
+                data: timeData,
+                splitLine:{show:false},
+                axisLine:{show:false}
+            },
+            yAxis: [
+                {
+                    type: 'value'
+                },
+                {
+                    type: 'value'
+                }
+            ],
+            calculable: false,
+            series: [
+                {
+                    name: '新闻数量',
+                    type: "line",
+                    areaStyle: {normal: {}},
+                    smooth: true,
+                    data: newsData
+                },
+                {
+                    name:"情感指数",
+                    type: "line",
+                    areaStyle: {normal: {}},
+                    smooth: true,
+                    data: sentiData
+                }
+            ]
+        });
+        myChart.hideLoading();
+        window.onresize = myChart.resize
     }
 };
 var inforcenter = {
