@@ -81,20 +81,21 @@ if (empty($stockCode)) {
                 <div class="col-md-5">
                     <p>新闻情感</p>
                     <div class="progress">
-                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:80%;"></div>
-                        <div class="progress_circle" style="left:76%"></div>
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+<!--                        <div class="progress_circle" style="left:76%"></div>-->
                     </div>
                     <div class="progress">
-                        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 20%;"></div>
-                        <div class="progress_circle" style="left:20%"></div>
+                        <div class="progress-bar progress-bar-danger" role="progressbar"></div>
+<!--                        <div class="progress_circle" style="left:20%"></div>-->
                     </div>
                     <div class="sacle">
-                        <span class="negative"></span>&nbsp;负面80%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="positive"></span>&nbsp;非负面20%
+                        <span class="negative"></span>&nbsp;负面<span class="negative_per"></span>%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="positive"></span>&nbsp;非负面<span class="positive_per"></span>%
                     </div>
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md-5">
                     <p>新闻趋势</p>
+                    <div class="left-charts" id="left-double-chart"></div>
                 </div>
             </div>
             <div class="wk-con-box">
@@ -539,6 +540,9 @@ if (empty($stockCode)) {
             </div>
         </div>
     </section>
+</div>
+<div style="display: none;">
+    <script src="http://s95.cnzz.com/z_stat.php?id=1259413901&web_id=1259413901" language="JavaScript"></script>
 </div>
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
