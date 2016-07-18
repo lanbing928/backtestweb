@@ -21,7 +21,7 @@ if (key && key.split(',').length > 0) {
     var spl = key.split(',');
     data_type = spl[0] || "";//1:查看,2：搜索,3：关注
     hot_type = spl[1] || "";//1:股票,2:行业，3:概念,4:事件
-    rank_name = spl[2] || "";
+    rank_name = decodeURI(spl[2] || "");
     $(".nav-tabs").find("li[data-type='" + data_type + "']").addClass("active in").siblings().removeClass("active in");
     if (data_type == 1) {
         $("#view").removeClass("fade").addClass("active in").siblings().addClass("fade").removeClass("active in");
@@ -37,11 +37,17 @@ if (key && key.split(',').length > 0) {
     }
 }
 function showData(page, type, showid) {
-    common.getHotRank({
-        'leaf_num': page,
-        'datatype': type,
-        "hot_type": hot_type
-    }, null, function (resultData) {
+    var postData = { 'leaf_num': page, 'datatype': type, "hot_type": hot_type };
+    if (hot_type == 2) {
+        postData.hy = rank_name;
+    }
+    if (hot_type == 3) {
+        postData.gn = rank_name;
+    }
+    if (hot_type == 4) {
+        postData.hot_event = rank_name;
+    }
+    common.getHotRank(postData, null, function (resultData) {
         if (resultData && resultData.status == 1) {
             if (resultData.result.code_info) {
                 var _newdata;
@@ -127,11 +133,19 @@ function buildRankTable(buildData, buildType) {
         if (buildType == 1) {
             for (var i = 0, len = buildData.length; i < len; i++) {
                 buildHtml.push("<tr>");
-                buildHtml.push("<td>" + (i + 1) + "</td>");
+                if (data_type == 1) {
+                    buildHtml.push("<td>" + ((i + 1) + (pagenum.vnum - 1) * 24) + "</td>");
+                }
+                if (data_type == 2) {
+                    buildHtml.push("<td>" + ((i + 1) + (pagenum.snum - 1) * 24) + "</td>");
+                }
+                if (data_type == 3) {
+                    buildHtml.push("<td>" + ((i + 1) + (pagenum.fnum - 1) * 24) + "</td>");
+                }
                 buildHtml.push("<td>" + buildData[i].code + "</td>");
                 buildHtml.push("<td>" + buildData[i].name + "</td>");
                 buildHtml.push("<td class='" + Utility.getPriceColor(buildData[i].mark_z_d) + "'>" + buildData[i].price + "</td>");
-                buildHtml.push("<td>" + (buildData[i].price_change_ratio / 10000).toFixed(2) + '%' + Utility.getHotUpDown(buildData[i].price_change_ratio) + "</td>");
+                buildHtml.push("<td>" + (buildData[i].price_change_ratio).toFixed(2) + '%' + Utility.getHotUpDown(buildData[i].price_change_ratio) + "</td>");
                 buildHtml.push("<td>" + buildData[i].differ_price + "</td>");
                 buildHtml.push("<td>" + buildData[i].volume / 10000 + "</td>");
                 buildHtml.push("<td>" + buildData[i].value + "</td>");
