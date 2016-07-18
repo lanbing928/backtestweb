@@ -88,7 +88,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">查看热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=1,1" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=1,1,A股市场股票" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -159,7 +159,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">搜素热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=2,1" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=2,1,A股市场股票" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -230,7 +230,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">关注热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=3,1" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=3,1,A股市场股票" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -321,7 +321,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">查看热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=1,2" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=1,2,A股市场行业" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -389,7 +389,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">搜索热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=2,2" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=2,2,A股市场行业" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -458,7 +458,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">关注热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=2,3" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=2,3,A股市场行业" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -544,7 +544,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">查看热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=3,1" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=3,1,A股市场概念" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -610,7 +610,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">搜索热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=3,2" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=3,2,A股市场概念" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -676,7 +676,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">关注热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=3,3" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=3,3,A股市场概念" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -762,7 +762,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">查看热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=4,1" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=1,4,A股市场事件" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -828,7 +828,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">搜索热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=4,2" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=2,4,A股市场事件" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
@@ -894,7 +894,7 @@ if (CheckLogin::check() == -1) {
                         <div class="col-md-5 left">
                             <p class="wk-hot-sub-title">关注热度排行&nbsp;
                                 <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                <a href="hotrank.php?key=4,2" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                <a href="hotrank.php?key=3,4,A股市场事件" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                             </p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
