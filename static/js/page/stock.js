@@ -4,12 +4,21 @@ var _stockName = "";
 var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
 var viewData = [],
     searchData = [],
-    followData = [];
+    followData = [],
+    timeData=[],
+    newsData=[],
+    sentiData=[];
 var wk_treemap_data_industry, wk_treemap_data_concept;
+var query_type=Utility.getQueryStringByName("query_type");//
+var key_name=stockcode+'s';
 var myChart = echarts.init(document.getElementById("left-chart"));
 myChart.showLoading({
     "text": "加载中..."
 });
+
+    query_type=parseInt(query_type);
+
+
 
 function initLineChart() {
     common.getSingleRealTimeHot({
@@ -268,6 +277,31 @@ function initFollowBtn() {
         }
     });
 }
+
+//新闻情感趋势 双折线图
+function initdoubleLine(type,name) {
+    common.getNewsTrend({'query_type':type,'key_name':name}, null, function (resultData) {
+        //console.log(resultData);
+        if (resultData.status == 1) {
+            for(var i = 0, ilen = resultData.infotrend.length; i < ilen; i++){
+                timeData.push(resultData.infotrend[i]['date']);
+                newsData.push(resultData.infotrend[i]['info_count']);
+                sentiData.push(resultData.infotrend[i]['info_senti']);
+            }
+            if(resultData.senti_per){
+                var negData=resultData.senti_per.neg_per;
+                var posData=resultData.senti_per.pos_per;
+                //console.log(posData);
+                $('.progress .progress-bar-success').css("width",negData*100+'%');//负面 进度条
+                $('.sacle .negative_per').html((negData*100).toFixed(0));
+                $('.progress .progress-bar-danger').css("width",posData*100+'%');//非负面 进度条
+                $('.sacle .positive_per').html((posData*100).toFixed(0));
+            }
+            common.getTwoLineChart("left-double-chart", timeData, newsData,sentiData);
+        }
+    });
+}
+
 $(function () {
     var arrData = {
         query_type: 1,
@@ -354,4 +388,6 @@ $(function () {
     common.getNews(arrData);
     initLineChart();
     initTreeMapChart();
+    initdoubleLine(query_type,key_name);
 });
+
