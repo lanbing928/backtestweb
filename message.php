@@ -35,6 +35,9 @@ if (CheckLogin::check() == -1) {
                 3.A股界面新增主题事件热度情况，以及新增主题事件热度页。<br>
                 4.总热度排行新增"更多"Top100。<br>
                 5.新增关联股票/行业/概念/主题事件图。<br>
+                6.热度折线图板块右侧新增“关注”功能按钮。<br>
+                7.新增新闻趋势，新闻情感总值。<br>
+                8.通过socket链接控制，一个账户只能一处登录。<br>
             </div>
             <b>更新内容介绍：</b>
                 <div>1.热力图五涨五跌，新增涨幅/跌幅表。</div>
@@ -47,6 +50,11 @@ if (CheckLogin::check() == -1) {
                 <img src="static/imgs/msg/pic_4.png">
                 <div>5.新增关联股票/行业/概念/主题事件图。</div>
                 <img src="static/imgs/msg/pic_5.png">
+                <div>6.热度折线图板块右侧新增“关注”功能按钮。</div>
+                <img src="static/imgs/msg/pic_6.png">
+                <div>7.新增新闻趋势，新闻情感总值。</div>
+                <img src="static/imgs/msg/pic_7.png">
+                <div>8.通过socket链接控制，一个账户只能一处登录。</div>
             </div>
             <a href="index.php"><button class="msg_btn btn btn-primary">立即体验</button></a>
         </div>
