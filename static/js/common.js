@@ -748,6 +748,11 @@ var common = {
         buildData.sort(function (a, b) {
             return Math.abs(b.value) - Math.abs(a.value);
         });
+        if(buildData[0] == undefined){
+            tableHtml.push("<tr>");
+            tableHtml.push("<td colspan='5'>暂时没有数据...</td>");
+            tableHtml.push("</tr>");
+        }
         for (var i = 0; i < buildData.length; i++) {
             var tvalue = buildData[i].value;
             tableHtml.push("<tr>");
@@ -773,6 +778,11 @@ var common = {
         buildData.sort(function (a, b) {
             return b.value - a.value;
         });
+        if(buildData[0] == undefined){
+            tableHtml.push("<tr>");
+            tableHtml.push("<td colspan='5'>暂时没有数据...</td>");
+            tableHtml.push("</tr>");
+        }
         for (var i = 0; i < buildData.length; i++) {
             var tvalue = buildData[i].value;
             tableHtml.push("<tr>");
