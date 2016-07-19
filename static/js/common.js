@@ -912,7 +912,9 @@ var common = {
                     }
                 }
                 $(".relate-infos").html("关联资讯" + relateInfo.join(''));
-                relateRank.push("{ \"industry\": \"" + resultData.industry[0].industry + "\", \"concept\": \"" + resultData.notion[0].section + "\" }");
+                if (query_type == 1) { 
+                    relateRank.push("{ \"industry\": \"" + resultData.industry[0].industry + "\", \"concept\": \"" + resultData.notion[0].section + "\" }");
+                }
             }
         });
     },
