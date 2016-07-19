@@ -12,7 +12,11 @@ var wk_treemap_data_industry, wk_treemap_data_concept;
 var query_type = Utility.getQueryStringByName("query_type");//
 var key_name = stockcode + 's';
 var myChart = echarts.init(document.getElementById("left-chart"));
+var twoLineChart=echarts.init(document.getElementById("left-double-chart"));
 myChart.showLoading({
+    "text": "加载中..."
+});
+twoLineChart.showLoading({
     "text": "加载中..."
 });
 function buildRankAtag(a, b, c, d) {
@@ -295,7 +299,9 @@ function initFollowBtn() {
 }
 //新闻情感趋势 双折线图
 function initdoubleLine(type, name) {
+
     common.getNewsTrend({'query_type': type, 'key_name': name}, null, function (resultData) {
+        twoLineChart.hideLoading();//关闭加载中
         if (resultData.status == 1) {
             for (var i = 0, ilen = resultData.infotrend.length; i < ilen; i++) {
                 timeData.push(resultData.infotrend[i]['date']);
