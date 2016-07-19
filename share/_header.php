@@ -32,13 +32,15 @@ if (isset($userInfo)) {
                             <div style="clear:both"></div>
                         </a>
                         <div class="dropdown-menu msg_all">
-                            <div class="msg_title">悟空1.x.x版本更新</div>
+                            <div class="msg_title">悟空1.3.0版本更新</div>
                             <ul>
                                 <li>本次更新包括如下内容：</li>
-                                <li>1.新增Top100页面。</li>
-                                <li>2.首页增加主题事件模块。</li>
-                                <li>3.新增版本更新提醒功能。</li>
-                                <li>4.个股Tab标签新增研报功能。</li>
+                                <li>1.新增主题事件热度情况及热度页</li>
+                                <li>2.热力图五涨五跌,新增涨幅/跌幅表</li>
+                                <li>3.总热度排行新增更多Top100</li>
+                                <li>4.热度折线图板块右侧新增"关注"功能按钮</li>
+                                <li>5.新增资讯分类:公告</li>
+                                <li>6.新闻趋势,新闻情感总值</li>
                                 <li>......</li>
                             </ul>
                             <div class="detail"><a href="../message.php">了解详情</a></div>

@@ -341,7 +341,7 @@ var common = {
      */
     getLineChart: function (chartId, xdata, viewData, searchData, followData) {
         var myChart = echarts.init(document.getElementById(chartId));
-        myChart.showLoading({ "text": "加载中..." });
+        myChart.showLoading({"text": "加载中..."});
         myChart.setOption({
             color: ["rgb(243, 104, 97)", "rgb(76, 93, 186)", "rgb(118, 172, 245)"],
             tooltip: {
@@ -359,10 +359,10 @@ var common = {
                     return showLabel;
                 }
             },
-            grid: { top: "12%", left: "6%", right: "5%", bottom: "0", containLabel: true },
-            legend: { left: "left", data: ["查看", "搜索", "关注"], padding: [0, 0, 0, 15] },
-            xAxis: { type: "category", boundaryGap: false, data: xdata },
-            yAxis: { type: "value", position: "right", scale: true, min: "dataMin", max: "dataMax" },
+            grid: {top: "12%", left: "6%", right: "5%", bottom: "0", containLabel: true},
+            legend: {left: "left", data: ["查看", "搜索", "关注"], padding: [0, 0, 0, 15]},
+            xAxis: {type: "category", boundaryGap: false, data: xdata},
+            yAxis: {type: "value", position: "right", scale: true, min: "dataMin", max: "dataMax"},
             calculable: false,
             series: [
                 {
@@ -887,30 +887,32 @@ var common = {
      * 获取关联的行业股票概念
      */
     initRelateSHG: function (query_type, name) {
-        common.getRelateSHG({ "query_type": query_type, "key_name": name }, function () {
+        common.getRelateSHG({"query_type": query_type, "key_name": name}, function () {
             $(".relate-infos").html("关联资讯<i class=\"fa fa-circle-o-notch fa-spin fa-fw\"></i>");
         }, function (resultData) {
             if (resultData.status == 1) {
                 var relateInfo = [];
+                var relateRank = [];
                 if (resultData.industry.length > 0) {
-                    relateInfo.push("<span>关联行业&nbsp;:&nbsp;</span>");
+                    relateInfo.push("<span class='wk-rel-industry'>关联行业&nbsp;:&nbsp;</span>");
                     for (var i in resultData.industry) {
                         relateInfo.push("<a href='industry.php?name=" + resultData.industry[i].industry + "' target='_blank'>" + resultData.industry[i].industry + "</a>");
                     }
                 }
                 if (resultData.stock.length > 0) {
-                    relateInfo.push("<span>关联股票&nbsp;:&nbsp;</span>");
+                    relateInfo.push("<span class='wk-rel-stock'>关联股票&nbsp;:&nbsp;</span>");
                     for (var s in resultData.stock) {
                         relateInfo.push("<a href='stocks.php?stock=" + resultData.stock[s].stock_code + "' target='_blank'>" + resultData.stock[s].stock_name + "</a>");
                     }
                 }
                 if (resultData.notion.length > 0) {
-                    relateInfo.push("<span>关联概念&nbsp;:&nbsp;</span>");
+                    relateInfo.push("<span class='wk-rel-concept'>关联概念&nbsp;:&nbsp;</span>");
                     for (var n in resultData.notion) {
                         relateInfo.push("<a href='concept.php?name=" + resultData.notion[n].section + "' target='_blank'>" + resultData.notion[n].section + "</a>");
                     }
                 }
                 $(".relate-infos").html("关联资讯" + relateInfo.join(''));
+                relateRank.push("{ \"industry\": \"" + resultData.industry[0].industry + "\", \"concept\": \"" + resultData.notion[0].section + "\" }");
             }
         });
     },
@@ -973,53 +975,45 @@ var common = {
     /**
      *双折线图
      * @param chartId
-     * @param xdata
-     * @param viewData
-     * @param searchData
-     * @param followData
+     * @param timeData
+     * @param newsData
+     * @param sentiData
      */
-    getTwoLineChart: function (chartId,timeData,newsData,sentiData) {
+    getTwoLineChart: function (chartId, timeData, newsData, sentiData) {
         var myChart = echarts.init(document.getElementById(chartId));
         myChart.showLoading({"text": "加载中..."});
         myChart.setOption({
-            color: ["rgb(82,153,222)","rgb(247,163,92)"],
+            color: ["rgb(82,153,222)", "rgb(247,163,92)"],
             tooltip: {
                 trigger: "axis"
             },
             legend: {
-                data:[
+                data: [
                     {
-                         name:"新闻数量",icon: 'circle'
+                        name: "新闻数量", icon: 'circle'
                     },
                     {
-                        name:"情感指数"
+                        name: "情感指数"
                     }
                 ],
-                bottom:"0"
+                bottom: "0"
             },
             grid: {
                 top: '10px',
                 left: '0',
                 right: '0',
-                bottom: '25%',
+                bottom: '10%',
                 containLabel: true
             },
             xAxis: {
                 type: "category",
                 boundaryGap: false,
                 data: timeData,
-                splitLine:{show:false},
-                axisLine:{show:false}
+                splitLine: {show: false},
+                axisLine: {show: false},
+                axisLabel:{show:false}
             },
-            yAxis: [
-                {
-                    type: 'value'
-                },
-                {
-                    type: 'value'
-                }
-            ],
-            calculable: false,
+            yAxis: [{type: 'value'},{type: 'value',interval: 0.5}],
             series: [
                 {
                     name: '新闻数量',
@@ -1029,7 +1023,7 @@ var common = {
                     data: newsData
                 },
                 {
-                    name:"情感指数",
+                    name: "情感指数",
                     type: "line",
                     areaStyle: {normal: {}},
                     smooth: true,
@@ -1119,7 +1113,7 @@ var inforcenter = {
             type: "post",
             dataType: "json",
             cache: false,
-            data: { operate_code: 4 },
+            data: {operate_code: 4},
             beforeSend: function () {
                 beforeFn && beforeFn();
             },
@@ -1205,7 +1199,7 @@ var inforcenter = {
             type: "post",
             dataType: "json",
             cache: false,
-            data: { operate_code: 8 },
+            data: {operate_code: 8},
             beforeSend: function () {
                 beforeFn && beforeFn();
             },

@@ -75,6 +75,26 @@ if (empty($conceptName)) {
     <section class="wk-all-hot">
         <div class="wk-con-news">
             <p class="wk-hot-title relate-infos">关联资讯</p>
+            <div class="row right pro_chart">
+                <div class="col-md-5">
+                    <p>新闻情感</p>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-danger" role="progressbar"></div>
+                    </div>
+                    <div class="sacle">
+                        <span class="negative"></span>&nbsp;负面<span class="negative_per"></span>%&nbsp;
+                        <span class="positive"></span>&nbsp;非负面<span class="positive_per"></span>%
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-5">
+                    <p>新闻趋势</p>
+                    <div class="left-charts" id="left-double-chart"></div>
+                </div>
+            </div>
             <div class="wk-con-box">
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#wk-news" aria-controls="wk-news" role="tab" data-toggle="tab">新闻</a></li>
@@ -110,7 +130,10 @@ if (empty($conceptName)) {
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="concept-view">
                             <div class="col-md-5 left">
-                                <p class="wk-hot-sub-title">查看热度排行&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i></p>
+                                <p class="wk-hot-sub-title">查看热度排行&nbsp;
+                                    <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
+                                    <a href="hotrank.php?key=1,3,2,<?php echo $conceptName ?>" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                </p>
                                 <table class="table table-hover table-condensed table-striped wk-hot-table">
                                     <thead>
                                     <tr>
@@ -178,7 +201,10 @@ if (empty($conceptName)) {
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="concept-search">
                             <div class="col-md-5 left">
-                                <p class="wk-hot-sub-title">搜索热度排行&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i></p>
+                                <p class="wk-hot-sub-title">搜索热度排行&nbsp;
+                                    <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
+                                    <a href="hotrank.php?key=2,3,2,<?php echo $conceptName ?>" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                </p>
                                 <table class="table table-hover table-condensed table-striped wk-hot-table">
                                     <thead>
                                     <tr>
@@ -242,7 +268,10 @@ if (empty($conceptName)) {
                         </div>
                         <div role="tabpanel" class="tab-pane fade" id="concept-follow">
                             <div class="col-md-5 left">
-                                <p class="wk-hot-sub-title">关注热度排行&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i></p>
+                                <p class="wk-hot-sub-title">关注热度排行&nbsp;
+                                    <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
+                                    <a href="hotrank.php?key=3,3,2,<?php echo $conceptName ?>" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                </p>
                                 <table class="table table-hover table-condensed table-striped wk-hot-table">
                                     <thead>
                                     <tr>
