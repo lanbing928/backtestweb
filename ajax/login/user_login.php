@@ -53,37 +53,30 @@ if ($jsonresult['status'] != null) {
             $usercookie = new Cookies();
             $usercookie->set(iwookongConfig::$usercookie, json_encode($resultArr), 864000);
         }
+
 //        $service_port = 5059;
-//        $address = '192.168.2.87';
-//
+//        $address = '222.73.34.92';
 //        $socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-//        if ($socket === false) {
-//            echo "socket_create() failed: reason: " . socket_strerror(socket_last_error()) . "\n";
-//        } else {
-//            echo "OK. \n";
+//        if ($socket > 0) {
+//            $result = socket_connect($socket, $address, $service_port);
+//            if ($result > 0) {
+//                $in = "HEAD / HTTP/1.1\r\n";
+//                $in .= "Connection: Close\r\n\r\n";
+//                $out = '';
+//                $in = "msg_type=1&user_id=" . $_SESSION["user_id"];
+//                socket_write($socket, $in, strlen($in));
+//                $out = socket_read($socket, 2048);
+//                while (true){
+//                    if ($out <= 10) {
+//                        return $out;
+//                    }else{
+//                        return $out;
+//                    }
+//                }
+//                echo $out;
+//            }
+//            //socket_close($socket);
 //        }
-//        echo "Attempting to connect to '$address' on port '$service_port'...";
-//        $result = socket_connect($socket, $address, $service_port);
-//        if($result === false) {
-//            echo "socket_connect() failed.\nReason: ($result) " . socket_strerror(socket_last_error($socket)) . "\n";
-//        } else {
-//            echo "OK \n";
-//        }
-//        $in = "HEAD / http/1.1\r\n";
-//        $in .= "HOST: localhost \r\n";
-//        $in .= "Connection: close\r\n\r\n";
-//        $out = "";
-//        echo "sending http head request ...";
-//        socket_write($socket, $in, strlen($in));
-//        echo  "OK\n";
-//
-//        echo "Reading response:\n\n";
-//        while ($out = socket_read($socket, 8192)) {
-//            echo $out;
-//        }
-//        echo "closeing socket..";
-//        socket_close($socket);
-//        echo "ok .\n\n";
 
         print_r(json_encode(array("status" => 1, "result" => $jsonresult['status'])));
     } else {

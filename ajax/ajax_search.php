@@ -17,7 +17,7 @@ if (empty($message)) {
     return;
 }
 //$url = "http://api.stock.miglab.com/cgi-bin/jarvis/search/1/search.fcgi";
-$url="http://222.73.34.92/cgi-bin/ky_wookong/search/1/search.fcgi";
+$url=iwookongConfig::$requireUrl."search/1/search.fcgi";
 $result = RequestUtil::get($url,
     array(
         "user_id" => 9999,

@@ -5,21 +5,19 @@ var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:
 var viewData = [],
     searchData = [],
     followData = [],
-    timeData=[],
-    newsData=[],
-    sentiData=[];
+    timeData = [],
+    newsData = [],
+    sentiData = [];
 var wk_treemap_data_industry, wk_treemap_data_concept;
-var query_type=Utility.getQueryStringByName("query_type");//
-var key_name=stockcode+'s';
+var query_type = Utility.getQueryStringByName("query_type");//
+var key_name = stockcode + 's';
 var myChart = echarts.init(document.getElementById("left-chart"));
 myChart.showLoading({
     "text": "加载中..."
 });
-
-    query_type=parseInt(query_type);
-
-
-
+function buildRankAtag(a, b, c, d) {
+    return "<a href='hotrank.php?key=" + a + "," + b + "," + c + "," + d + "' class='wk-view-more' target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>";
+}
 function initLineChart() {
     common.getSingleRealTimeHot({
         "stock": stockcode
@@ -98,6 +96,24 @@ function initTreeMapChart() {
                 for (var j in rel_concept) {
                     rel_con_link += "<a href='concept.php?name=" + rel_concept[j].sect + "' target='_blank'>" + rel_concept[j].sect + "</a>";
                 }
+            }
+            if ($("#industry-view").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#industry-view").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(1, 2, 2, rel_industry[0].indus));
+            }
+            if ($("#industry-search").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#industry-search").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(2, 2, 2, rel_industry[0].indus));
+            }
+            if ($("#industry-follow").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#industry-follow").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(3, 2, 2, rel_industry[0].indus));
+            }
+            if ($("#concept-view").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#concept-view").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(1, 3, 2, rel_concept[0].sect));
+            }
+            if ($("#concept-search").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#concept-search").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(2, 3, 2, rel_concept[0].sect));
+            }
+            if ($("#concept-follow").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#concept-follow").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(3, 3, 2, rel_concept[0].sect));
             }
             _stockName = resultData.stock_info.stock_name;
             $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
@@ -245,7 +261,7 @@ function initFollowBtn() {
             $(".wk-follow-stock").each(function () {
                 var follow_name = $(this).attr("data-follow-name");
                 $(this).unbind("click").bind("click", function () {
-                    inforcenter.addStock({ ori_name: follow_name, code: stockcode }, null, function (addResult) {
+                    inforcenter.addStock({ori_name: follow_name, code: stockcode}, null, function (addResult) {
                         if (addResult.status == 1) {
                             swal({
                                 title: "",
@@ -277,38 +293,34 @@ function initFollowBtn() {
         }
     });
 }
-
 //新闻情感趋势 双折线图
-function initdoubleLine(type,name) {
-    common.getNewsTrend({'query_type':type,'key_name':name}, null, function (resultData) {
-        //console.log(resultData);
+function initdoubleLine(type, name) {
+    common.getNewsTrend({'query_type': type, 'key_name': name}, null, function (resultData) {
         if (resultData.status == 1) {
-            for(var i = 0, ilen = resultData.infotrend.length; i < ilen; i++){
+            for (var i = 0, ilen = resultData.infotrend.length; i < ilen; i++) {
                 timeData.push(resultData.infotrend[i]['date']);
                 newsData.push(resultData.infotrend[i]['info_count']);
                 sentiData.push(resultData.infotrend[i]['info_senti']);
             }
-            if(resultData.senti_per){
-                var negData=resultData.senti_per.neg_per;
-                var posData=resultData.senti_per.pos_per;
-                //console.log(posData);
-                $('.progress .progress-bar-success').css("width",negData*100+'%');//负面 进度条
-                $('.sacle .negative_per').html((negData*100).toFixed(0));
-                $('.progress .progress-bar-danger').css("width",posData*100+'%');//非负面 进度条
-                $('.sacle .positive_per').html((posData*100).toFixed(0));
+            if (resultData.senti_per) {
+                var negData = resultData.senti_per.neg_per;
+                var posData = resultData.senti_per.pos_per;
+                $('.progress .progress-bar-success').css("width", negData * 100 + '%');//负面 进度条
+                $('.sacle .negative_per').html((negData * 100).toFixed(0));
+                $('.progress .progress-bar-danger').css("width", posData * 100 + '%');//非负面 进度条
+                $('.sacle .positive_per').html((posData * 100).toFixed(0));
             }
-            common.getTwoLineChart("left-double-chart", timeData, newsData,sentiData);
+            common.getTwoLineChart("left-double-chart", timeData, newsData, sentiData);
         }
     });
 }
-
 $(function () {
     var arrData = {
         query_type: 1,
         key: stockcode,
         start_id: 0,
         info_type_list: "",
-        "start_time": 0
+        start_time: 0
     };
     $(".nav-tabs li a").bind("click", function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") === 0) {
@@ -388,6 +400,5 @@ $(function () {
     common.getNews(arrData);
     initLineChart();
     initTreeMapChart();
-    initdoubleLine(query_type,key_name);
+    initdoubleLine(1, key_name);
 });
-

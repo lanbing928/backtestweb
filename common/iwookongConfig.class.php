@@ -9,8 +9,8 @@ class iwookongConfig
     //正式版地址
     //222.73.34.104
     //public static $requireUrl = "http://222.73.34.104/cgi-bin/wookong/";//接口前缀地址
-    //public static $requireUrl = "http://222.73.34.104/cgi-bin/wookong120/";//接口前缀地址
-    public static $requireUrl = "http://222.73.34.92/cgi-bin/test_wookong/";
+    public static $requireUrl = "http://222.73.34.104/cgi-bin/wookong130/";//接口前缀地址
+    //public static $requireUrl = "http://222.73.34.92/cgi-bin/test_wookong/";
 
     /**
      * 获取接口地址前缀
