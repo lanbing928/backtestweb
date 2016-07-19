@@ -305,9 +305,12 @@ function initdoubleLine(type, name) {
             if (resultData.senti_per) {
                 var negData = resultData.senti_per.neg_per;
                 var posData = resultData.senti_per.pos_per;
-                $('.progress .progress-bar-success').css("width", negData * 100 + '%');//负面 进度条
+                $('.pro_chart .progress_neg_per').css("width", negData * 100 + '%');//负面 进度条
+                if(negData && negData >0){ $('.pro_chart .progress_neg .progress_circle').css({"left": (negData* 100)-1.5 + '%',"display":"block"});}
                 $('.sacle .negative_per').html((negData * 100).toFixed(0));
-                $('.progress .progress-bar-danger').css("width", posData * 100 + '%');//非负面 进度条
+
+                $('.pro_chart .progress_pos_per').css("width", posData * 100 + '%');//非负面 进度条
+                if(posData && posData>0){   $('.pro_chart .progress_pos .progress_circle').css({"left": (posData* 100)-1.5 + '%',"display":"block"}); }
                 $('.sacle .positive_per').html((posData * 100).toFixed(0));
             }
             common.getTwoLineChart("left-double-chart", timeData, newsData, sentiData);
