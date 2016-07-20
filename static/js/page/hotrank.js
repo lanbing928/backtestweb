@@ -196,7 +196,8 @@ function buildRankTable(buildData, buildType) {
                 buildHtml.push("<td><a href='" + buildType + ".php?name=" + buildData[j].name + "' target='_blank'>" + buildData[j].name + "</a></td>");
                 buildHtml.push("<td>" + (buildData[j].volume / 10000).toFixed(2) + "</td>");
                 buildHtml.push("<td>" + buildData[j].value + "</td>");
-                buildHtml.push("<td>" + buildData[j].increment + "</td>");
+                //buildHtml.push("<td>" + buildData[j].increment + "</td>");
+                buildHtml.push("<td>" + buildData[j].increment + Utility.getHotUpDown(buildData[j].increment) + "</td>");
                 buildHtml.push("</tr>");
             }
         }
