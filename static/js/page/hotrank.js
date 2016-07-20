@@ -134,9 +134,9 @@ function showData(page, type, showid) {
                 }
                 var html = buildRankTable(_newdata, hot_type_name);
                 if (hot_type == 1 || operate_code == 2) {
-                    $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>股票代码</td><td>股票名称</td><td>价格</td><td>涨跌幅</td><td>涨跌额</td><td>成交量(万手)</td><td>查看热度</td><td>热度增量</td></tr>");
+                    $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>股票代码</td><td>股票名称</td><td>价格</td><td>涨跌幅</td><td>涨跌额</td><td>成交量(万手)</td><td>" + getHotName(data_type) + "</td><td>热度增量</td></tr>");
                 } else {
-                    $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>名称</td><td>成交量(万手)</td><td>查看热度</td><td>热度增量</td></tr>");
+                    $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>名称</td><td>成交量(万手)</td><td>" + getHotName(data_type) + "</td><td>热度增量</td></tr>");
                 }
                 $("#" + showid).find("table>tbody").append(html);
             }
@@ -204,7 +204,19 @@ function buildRankTable(buildData, buildType) {
     }
     return buildHtml.join('');
 }
-
+function getHotName(hotNum) {
+    switch (hotNum) {
+        case "1":
+            return "查看热度";
+        case "2":
+            return "搜索热度";
+        case "3":
+            return "关注热度";
+        default:
+            return "未知";
+            break;
+    }
+}
 $(function () {
     $("i[data-toggle='popover']").popover({
         container: "body",
@@ -256,24 +268,24 @@ $(function () {
 
 
     /**滑动加载*/
-    $(window).scroll( function() {
+    $(window).scroll(function () {
         var scrollTop = $(this).scrollTop();
         var scrollHeight = $(document).height();
         var windowHeight = $(this).height();
-        var cha = scrollHeight - scrollTop - windowHeight ;
+        var cha = scrollHeight - scrollTop - windowHeight;
         /*获取当前对应的选项卡*/
         var type = $(".nav-tabs").find('.active').attr('data-type');
         type = parseInt(type);
-        if(cha == 0){
+        if (cha == 0) {
 
-            if(type == 1){
+            if (type == 1) {
                 $('#view_hot_more').click();
             }
-            if(type == 2){
+            if (type == 2) {
                 $('#search_hot_more').click();
             }
 
-            if(type == 3){
+            if (type == 3) {
                 $('#follow_hot_more').click();
             }
         }
