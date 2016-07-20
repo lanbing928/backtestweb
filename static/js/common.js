@@ -359,7 +359,7 @@ var common = {
                     return showLabel;
                 }
             },
-            //dataZoom: [{show: true,realtime: true},{type: 'inside',realtime: true}],
+            dataZoom: [{show: true,realtime: true},{type: 'inside',realtime: true}],
             grid: {top: "12%", left: "6%", right: "5%", bottom: 40, containLabel: true},
             legend: {left: "left", data: ["查看", "搜索", "关注"], padding: [0, 0, 0, 15]},
             xAxis: {type: "category", boundaryGap: false, data: xdata},
@@ -693,7 +693,7 @@ var common = {
                 data: [query_name, '沪深300'],
                 top: 0
             },
-            //dataZoom: [{show: true,realtime: true},{type: 'inside',realtime: true}],
+            dataZoom: [{show: true,realtime: true},{type: 'inside',realtime: true}],
             grid: {
                 top: '25px',
                 left: '0',
