@@ -341,7 +341,7 @@
 .message .detail{border-top: 1px solid #ddd;padding:5px 10px;background: #f6f7f9;}
 .message .detail a{color:#4d5aad;}
 .message a:first-child{padding-top:18px;}
-.navbar-nav>li>.dropdown-menu{margin-right:-75px}
+.navbar-nav>li>.msg_all{margin-right:-75px}
 
 /*版本更新说明message*/
 .wk-all-hot .msg{line-height:24px;}
