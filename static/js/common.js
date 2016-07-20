@@ -750,19 +750,24 @@ var common = {
         buildData.sort(function (a, b) {
             return Math.abs(b.value) - Math.abs(a.value);
         });
-        for (var i = 0; i < buildData.length; i++) {
-            var tvalue = buildData[i].value;
-            tableHtml.push("<tr>");
-            tableHtml.push("<td>" + (i + 1) + "</td>");
-            tableHtml.push("<td><a href='stocks.php?stock=" + buildData[i].code + "' target='_blank'>" + buildData[i].name + "</a></td>");
-            tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].mark_z_d) + "'>" + buildData[i].price + "</td>");
-            tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].price_change_ratio) + "'>" + (buildData[i].price_change_ratio * 100).toFixed(2) + "%</td>");
-            tableHtml.push("<td>" + buildData[i].hot + "</td>");
-            tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
-            tableHtml.push("<td>" + buildData[i].count + "</td>");
-            tableHtml.push("</tr>");
+        if (buildData.length > 0) {
+            for (var i = 0; i < buildData.length; i++) {
+                var tvalue = buildData[i].value;
+                tableHtml.push("<tr>");
+                tableHtml.push("<td>" + (i + 1) + "</td>");
+                tableHtml.push("<td><a href='stocks.php?stock=" + buildData[i].code + "' target='_blank'>" + buildData[i].name + "</a></td>");
+                tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].mark_z_d) + "'>" + buildData[i].price + "</td>");
+                tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].price_change_ratio) + "'>" + (buildData[i].price_change_ratio * 100).toFixed(2) + "%</td>");
+                tableHtml.push("<td>" + buildData[i].hot + "</td>");
+                tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
+                tableHtml.push("<td>" + buildData[i].count + "</td>");
+                tableHtml.push("</tr>");
+            }
+            return tableHtml.join('');
+        }else {//不存在
+            var str = '<tr><td colspan="7" style="height:260px;line-height:260px;color:#545454;font-size:18px;"><img src="/static/imgs/i/index_nodata.png">&nbsp;&nbsp;&nbsp;暂时没有数据</td></tr>';
+            return str;
         }
-        return tableHtml.join('');
     },
     /**
      * 构建行业/概念热力图表格
@@ -771,22 +776,32 @@ var common = {
      * @returns {string}
      */
     buildOtherTable: function (buildData, buildType) {
-        var tableHtml = [];
-        buildData.sort(function (a, b) {
-            return b.value - a.value;
-        });
-        for (var i = 0; i < buildData.length; i++) {
-            var tvalue = buildData[i].value;
-            tableHtml.push("<tr>");
-            tableHtml.push("<td>" + (i + 1) + "</td>");
-            tableHtml.push("<td><a href='" + buildType + ".php?name=" + buildData[i].name + "' target='_blank'>" + buildData[i].name + "</a></td>");
-            tableHtml.push("<td>" + buildData[i].hot + "</td>");
-            tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
-            tableHtml.push("<td>" + buildData[i].count + "</td>");
-            tableHtml.push("</tr>");
+        if(buildData.length > 0){ //存在
+            var tableHtml = [];
+            buildData.sort(function (a, b) {
+                return b.value - a.value;
+            });
+            for (var i = 0; i < buildData.length; i++) {
+                var tvalue = buildData[i].value;
+                tableHtml.push("<tr>");
+                tableHtml.push("<td>" + (i + 1) + "</td>");
+                tableHtml.push("<td><a href='" + buildType + ".php?name=" + buildData[i].name + "' target='_blank'>" + buildData[i].name + "</a></td>");
+                tableHtml.push("<td>" + buildData[i].hot + "</td>");
+                tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
+                tableHtml.push("<td>" + buildData[i].count + "</td>");
+                tableHtml.push("</tr>");
+            }
+            return tableHtml.join('');
+
+        }else{ //不存在
+            $(this).find(".wk-treemap-table").css({height:"294px","text-align":"center","line-height":"294px","color":"#545454","font-size":"18px"});
+            var str = '<tr><td colspan="5" style="height:260px;line-height:260px;color:#545454;font-size:18px;"><img src="/static/imgs/i/index_nodata.png">&nbsp;&nbsp;&nbsp;暂时没有数据</td></tr>';
+            return str;
+
         }
-        return tableHtml.join('');
-    },
+    }
+    ,
+
     /**
      * 构建热度表格
      * @param buildData

@@ -196,7 +196,8 @@ function buildRankTable(buildData, buildType) {
                 buildHtml.push("<td><a href='" + buildType + ".php?name=" + buildData[j].name + "' target='_blank'>" + buildData[j].name + "</a></td>");
                 buildHtml.push("<td>" + (buildData[j].volume / 10000).toFixed(2) + "</td>");
                 buildHtml.push("<td>" + buildData[j].value + "</td>");
-                buildHtml.push("<td>" + buildData[j].increment + "</td>");
+                //buildHtml.push("<td>" + buildData[j].increment + "</td>");
+                buildHtml.push("<td>" + buildData[j].increment + Utility.getHotUpDown(buildData[j].increment) + "</td>");
                 buildHtml.push("</tr>");
             }
         }
@@ -252,4 +253,31 @@ $(function () {
         }
         showData(pagenum.fnum, 3, "follow");
     });
+
+
+    /**滑动加载*/
+    $(window).scroll( function() {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        var cha = scrollHeight - scrollTop - windowHeight ;
+        /*获取当前对应的选项卡*/
+        var type = $(".nav-tabs").find('.active').attr('data-type');
+        type = parseInt(type);
+        if(cha == 0){
+
+            if(type == 1){
+                $('#view_hot_more').click();
+            }
+            if(type == 2){
+                $('#search_hot_more').click();
+            }
+
+            if(type == 3){
+                $('#follow_hot_more').click();
+            }
+        }
+    });
+
+
 });

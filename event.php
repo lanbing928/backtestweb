@@ -78,15 +78,16 @@ if (empty($eventName)) {
             <div class="row right pro_chart">
                 <div class="col-md-5">
                     <p>新闻情感</p>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress_neg">
+                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_circle"></div>
                     </div>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-danger" role="progressbar"></div>
+                    <div class="progress_pos">
+                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_circle"></div>
                     </div>
                     <div class="sacle">
-                        <span class="negative"></span>&nbsp;负面<span class="negative_per"></span>%&nbsp;
-                        <span class="positive"></span>&nbsp;非负面<span class="positive_per"></span>%
+                        <span class="negative"></span>&nbsp;负面<span class="negative_per"></span>%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="positive"></span>&nbsp;非负面<span class="positive_per"></span>%
                     </div>
                 </div>
                 <div class="col-md-2"></div>
@@ -132,7 +133,7 @@ if (empty($eventName)) {
                             <div class="col-md-5 left">
                                 <p class="wk-hot-sub-title">查看热度排行&nbsp;
                                     <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                    <a href="hotrank.php?key=1,4,2,<?php echo $industryName ?>" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                    <a href="hotrank.php?key=1,4,2,<?php echo $eventName ?>" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                                 </p>
                                 <table class="table table-hover table-condensed table-striped wk-hot-table">
                                     <thead>
@@ -203,7 +204,7 @@ if (empty($eventName)) {
                             <div class="col-md-5 left">
                                 <p class="wk-hot-sub-title">搜索热度排行&nbsp;
                                     <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                    <a href="hotrank.php?key=2,4,2,<?php echo $industryName ?>" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                    <a href="hotrank.php?key=2,4,2,<?php echo $eventName ?>" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                                 </p>
                                 <table class="table table-hover table-condensed table-striped wk-hot-table">
                                     <thead>
@@ -270,7 +271,7 @@ if (empty($eventName)) {
                             <div class="col-md-5 left">
                                 <p class="wk-hot-sub-title">关注热度排行&nbsp;
                                     <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                                    <a href="hotrank.php?key=3,4,2,<?php echo $industryName ?>" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
+                                    <a href="hotrank.php?key=3,4,2,<?php echo $eventName ?>" class="wk-view-more" target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>
                                 </p>
                                 <table class="table table-hover table-condensed table-striped wk-hot-table">
                                     <thead>
