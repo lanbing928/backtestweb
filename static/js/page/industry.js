@@ -5,6 +5,8 @@ var wk_treemap_data, viewData = [], searchData = [], followData = [],timeData = 
     sentiData = [];;
 var myChart = echarts.init(document.getElementById("left-chart"));
 myChart.showLoading({"text": "加载中..."});
+var twoLineChart=echarts.init(document.getElementById("left-double-chart"));
+twoLineChart.showLoading({"text": "加载中..."});
 function initLineChart() {
     common.getHyAndGnHot({"name": name, "query_type": 1}, null, function (resultData) {
         if (resultData.status == 1) {
@@ -113,12 +115,7 @@ function initTodayRateLine() {
 }
 //新闻情感趋势 双折线图
 function initdoubleLine(type, name) {
-    common.getNewsTrend({'query_type': type, 'key_name': name}, function(){
-        var twoLineChart=echarts.init(document.getElementById("left-double-chart"));
-        twoLineChart.showLoading({
-            "text": "加载中..."
-        });
-    }, function (resultData) {
+    common.getNewsTrend({'query_type': type, 'key_name': name}, null, function (resultData) {
         twoLineChart.hideLoading();//关闭加载中
         if (resultData.status == 1) {
             for (var i = 0, ilen = resultData.infotrend.length; i < ilen; i++) {
