@@ -36,7 +36,7 @@ if (empty($eventName)) {
         <p class="wk-hot-title"><?php echo $eventName ?>事件热度情况&nbsp;
             <i class="fa fa-question-circle-o" data-toggle="popover" data-content="<?php echo $eventName ?>事件每小时产生的热度量"></i>
         </p>
-        <div class="col-md-4 col-md-offset-4 text-right wk-line-toggle" data-query-type="3" data-query-key="<?php echo $eventName ?>">
+        <div class="col-md-4 col-md-offset-4 text-right wk-line-toggle" data-query-type="4" data-query-key="<?php echo $eventName ?>">
             <a class="line-active" data-key="day">实时</a>
             <a data-key="week">周</a>
             <a data-key="month">月</a>
