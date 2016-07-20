@@ -15,6 +15,10 @@ var pagenum = {
      */
     fnum: 1
 };
+var request_v=true;
+var request_s=true;
+var request_f=true;
+
 var key = Utility.getQueryStringByName("key");
 var data_type = 1,
     hot_type = 1,
@@ -140,15 +144,18 @@ function showData(page, type, showid) {
                 }
                 $("#" + showid).find("table>tbody").append(html);
             }
-        } else {
+        } else { //数据不存在
             if (data_type == 1) {
                 $("#view_hot_more").hide();
+                request_v=false;
             }
             if (data_type == 2) {
                 $("#search_hot_more").hide();
+                request_s=false;
             }
             if (data_type == 3) {
                 $("#follow_hot_more").hide();
+                request_f=false;
             }
         }
     });
@@ -236,6 +243,7 @@ $(function () {
             $(this).hide();
         }
         showData(pagenum.vnum, 1, "view");
+
     });
     $('#search_hot_more').click(function () {
         pagenum.snum = pagenum.snum + 1;
@@ -265,15 +273,14 @@ $(function () {
         var type = $(".nav-tabs").find('.active').attr('data-type');
         type = parseInt(type);
         if(cha == 0){
-
-            if(type == 1){
+            if(type == 1 && request_v===true){
                 $('#view_hot_more').click();
             }
-            if(type == 2){
+            if(type == 2 && request_s===true){
                 $('#search_hot_more').click();
             }
 
-            if(type == 3){
+            if(type == 3 && request_f===true){
                 $('#follow_hot_more').click();
             }
         }
