@@ -80,15 +80,16 @@ if (empty($stockCode)) {
             <div class="row right pro_chart">
                 <div class="col-md-5">
                     <p>新闻情感</p>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress_neg">
+                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_circle"></div>
                     </div>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-danger" role="progressbar"></div>
+                    <div class="progress_pos">
+                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_circle"></div>
                     </div>
                     <div class="sacle">
-                        <span class="negative"></span>&nbsp;负面<span class="negative_per"></span>%&nbsp;
-                        <span class="positive"></span>&nbsp;非负面<span class="positive_per"></span>%
+                        <span class="negative"></span>&nbsp;负面<span class="negative_per"></span>%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="positive"></span>&nbsp;非负面<span class="positive_per"></span>%
                     </div>
                 </div>
                 <div class="col-md-2"></div>
@@ -126,14 +127,12 @@ if (empty($stockCode)) {
                     <li role="presentation"><a href="#industry-search" aria-controls="industry-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#industry-follow" aria-controls="industry-follow" role="tab" data-toggle="tab">关注热度</a></li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?></span>
+                    <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
+                        echo UtilityTools::getNowMinute() ?></span>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="industry-view">
                         <div class="col-md-5 left">
-                            <p class="wk-hot-sub-title">查看热度排行&nbsp;
-                                <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                            </p>
+                            <p class="wk-hot-sub-title">查看热度排行&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i></p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
                                 <tr>
@@ -201,9 +200,7 @@ if (empty($stockCode)) {
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="industry-search">
                         <div class="col-md-5 left">
-                            <p class="wk-hot-sub-title">搜索热度排行&nbsp;
-                                <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                            </p>
+                            <p class="wk-hot-sub-title">搜索热度排行&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i></p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
                                 <tr>
@@ -267,9 +264,7 @@ if (empty($stockCode)) {
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="industry-follow">
                         <div class="col-md-5 left">
-                            <p class="wk-hot-sub-title">关注热度排行&nbsp;
-                                <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                            </p>
+                            <p class="wk-hot-sub-title">关注热度排行&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i></p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
                                 <tr>
@@ -347,9 +342,7 @@ if (empty($stockCode)) {
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="concept-view">
                         <div class="col-md-5 left">
-                            <p class="wk-hot-sub-title">查看热度排行&nbsp;
-                                <i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i>
-                            </p>
+                            <p class="wk-hot-sub-title">查看热度排行&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="截至当前产生的总热度量的排行"></i></p>
                             <table class="table table-hover table-condensed table-striped wk-hot-table">
                                 <thead>
                                 <tr>

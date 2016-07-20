@@ -341,7 +341,7 @@
 .message .detail{border-top: 1px solid #ddd;padding:5px 10px;background: #f6f7f9;}
 .message .detail a{color:#4d5aad;}
 .message a:first-child{padding-top:18px;}
-.navbar-nav>li>.dropdown-menu{margin-right:-75px}
+.navbar-nav>li>.msg_all{margin-right:-75px}
 
 /*版本更新说明message*/
 .wk-all-hot .msg{line-height:24px;}
@@ -366,15 +366,14 @@
 
 /*新闻情感进度条 新闻情感趋势折线图*/
 .pro_chart{border: 1px solid #ddd;min-height: 170px;padding: 12px 18px; font-size: 13px; margin:6px 0 17px;}
-.pro_chart .progress{height:10px;margin-top:25px;}
-.progress-bar-success{position:relative;}
-.pro_chart .progress_circle{width:14px;height:14px;border-radius:10px;background:#fff;border:1px solid #ddd;box-shadow: 1px 1px 1px #ccc;position:absolute;}
-.pro_chart .sacle{text-align: center;}
+.pro_chart .progress_neg,.progress_pos{height:10px;margin-top:25px;width:100%; background-color: #F0F0F0; border-radius:4px; position:relative;}
+.progress_neg_per,.progress_pos_per{position:absolute; top:0; left:0; height:10px; background:#27ae60; border-top-left-radius:4px;border-bottom-left-radius: 4px}
+.progress_pos_per{background:#e54f47}
+.pro_chart .progress_circle{width:12px;height:12px;box-shadow: 1px 1px 1px #ccc;background:#fff;border-radius:10px;position: absolute;border:1px solid #ddd;display: none;top:-1px;}
+.pro_chart .sacle{text-align: center;margin-top:25px}
 .pro_chart .negative,.positive{width:10px;height:10px;border-radius:10px;background:#27ae60;display: inline-block}
 .pro_chart .positive{background:#e54f47;}
 #left-double-chart{border:0;margin:0;padding:0;min-height:125px;}
-
-
 
 
 .wk-relate-map{margin-top: 25px;min-height: 585px;}

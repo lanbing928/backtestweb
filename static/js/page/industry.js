@@ -5,6 +5,8 @@ var wk_treemap_data, viewData = [], searchData = [], followData = [],timeData = 
     sentiData = [];;
 var myChart = echarts.init(document.getElementById("left-chart"));
 myChart.showLoading({"text": "加载中..."});
+var twoLineChart=echarts.init(document.getElementById("left-double-chart"));
+twoLineChart.showLoading({"text": "加载中..."});
 function initLineChart() {
     common.getHyAndGnHot({"name": name, "query_type": 1}, null, function (resultData) {
         if (resultData.status == 1) {
@@ -114,6 +116,7 @@ function initTodayRateLine() {
 //新闻情感趋势 双折线图
 function initdoubleLine(type, name) {
     common.getNewsTrend({'query_type': type, 'key_name': name}, null, function (resultData) {
+        twoLineChart.hideLoading();//关闭加载中
         if (resultData.status == 1) {
             for (var i = 0, ilen = resultData.infotrend.length; i < ilen; i++) {
                 timeData.push(resultData.infotrend[i]['date']);
@@ -123,9 +126,12 @@ function initdoubleLine(type, name) {
             if (resultData.senti_per) {
                 var negData = resultData.senti_per.neg_per;
                 var posData = resultData.senti_per.pos_per;
-                $('.progress .progress-bar-success').css("width", negData * 100 + '%');//负面 进度条
+                $('.pro_chart .progress_neg_per').css("width", negData * 100 + '%');//负面 进度条
+                if(negData && negData >0){ $('.pro_chart .progress_neg .progress_circle').css({"left": (negData* 100)-1.5 + '%',"display":"block"});}
                 $('.sacle .negative_per').html((negData * 100).toFixed(0));
-                $('.progress .progress-bar-danger').css("width", posData * 100 + '%');//非负面 进度条
+
+                $('.pro_chart .progress_pos_per').css("width", posData * 100 + '%');//非负面 进度条
+                if(posData && posData>0){   $('.pro_chart .progress_pos .progress_circle').css({"left": (posData* 100)-1.5 + '%',"display":"block"}); }
                 $('.sacle .positive_per').html((posData * 100).toFixed(0));
             }
             common.getTwoLineChart("left-double-chart", timeData, newsData, sentiData);
