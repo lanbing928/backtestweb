@@ -266,8 +266,8 @@ var Utility = {
                 _newup = _newup.slice(0, maxcount - _newdown.length);
             }
         } else {
-            if (_newdown.length >5) {
-                _newdown = _newdown.slice(0, (10 - _newup.length)); 
+            if (_newdown.length > 5) {
+                _newdown = _newdown.slice(0, (10 - _newup.length));
             }
         }
         var _newMap = _newup.concat(_newdown);
@@ -276,5 +276,56 @@ var Utility = {
             "_down": _down,
             "_map": _newMap
         };
+    },
+    /**
+     * 获取新浪股票信息
+     * @param stockcode
+     * @param backFn
+     */
+    getSinaStockData: function (stockcode, backFn) {
+        var code;
+        var codetype;
+        var sub = stockcode.substr(0, 1);
+        if (sub == "5" || sub == "6") {
+            codetype = "SH";
+            code = "sh" + stockcode;
+        } else if (sub == "0" || sub == "3") {
+            codetype = "SZ";
+            code = "sz" + stockcode;
+        }
+        $.ajax({
+            dataType: 'script',
+            url: 'http://hq.sinajs.cn/list=' + code,
+            cache: true,
+            success: function () {
+                var valuename = "hq_str_" + code
+                var result = eval(valuename);
+                if (result.length > 0) {
+                    var socketInfo = result.split(',');
+                    var stockDetail = {
+                        stockname: socketInfo[0], //股票名
+                        codetype: codetype, //类型 SH SZ
+                        stockcode: stockcode, //股票代码
+                        todayopen: socketInfo[1], //今开
+                        yesterdayclose: socketInfo[2], //昨收
+                        currentmoney: socketInfo[3],//当前价格
+                        todayhighest: socketInfo[4], //今日最高
+                        todaylowest: socketInfo[5], //今日最低
+                        dealcount: socketInfo[8], // 成交数量
+                        dealmoney: socketInfo[9] //成交金额
+                    };
+                    backFn && backFn(stockDetail);
+                }
+            }
+        });
+    },
+    getPriceSymbol: function (num) {
+        if (num > 0) {
+            return "+";
+        }
+        if (num < 0) {
+            return "";
+        }
+        return "";
     }
 };
