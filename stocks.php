@@ -90,7 +90,7 @@ if (empty($stockCode)) {
                 <canvas class="wk-cicle-rel">12</canvas>
             </div>
         </div>
-    </section> 
+    </section>
     <section class="wk-all-hot">
         <div class="wk-con-news">
             <p class="wk-hot-title relate-infos">关联资讯</p>
@@ -98,11 +98,11 @@ if (empty($stockCode)) {
                 <div class="col-md-5">
                     <p>最近一周新闻情感</p>
                     <div class="progress_neg">
-                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         <div class="progress_circle"></div>
                     </div>
                     <div class="progress_pos">
-                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         <div class="progress_circle"></div>
                     </div>
                     <div class="sacle">
@@ -121,6 +121,7 @@ if (empty($stockCode)) {
                     <li role="presentation"><a href="#wk-selfmedia" aria-controls="wk-selfmedia" role="tab" data-toggle="tab"><label></label>达人观点</a></li>
                     <li role="presentation"><a href="#wk-newsflash" aria-controls="wk-newsflash" role="tab" data-toggle="tab">快讯</a></li>
                     <li role="presentation"><a href="#wk-notice" aria-controls="wk-notice" role="tab" data-toggle="tab">公告</a></li>
+                    <li role="presentation"><a href="#wk-report" aria-controls="wk-report" role="tab" data-toggle="tab">研报</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="wk-news"></div>
@@ -133,6 +134,7 @@ if (empty($stockCode)) {
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="wk-notice"></div>
+                    <div role="tabpanel" class="tab-pane fade" id="wk-report"></div>
                 </div>
             </div>
         </div>
@@ -144,8 +146,8 @@ if (empty($stockCode)) {
                     <li role="presentation"><a href="#industry-search" aria-controls="industry-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#industry-follow" aria-controls="industry-follow" role="tab" data-toggle="tab">关注热度</a></li>
                 </ul>
-                    <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                        echo UtilityTools::getNowMinute() ?></span>
+                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
+                    echo UtilityTools::getNowMinute() ?></span>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="industry-view">
                         <div class="col-md-5 left">
