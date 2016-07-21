@@ -4,10 +4,13 @@ require_once(dirname(__FILE__) . "/common/Request.class.php");
 require_once(dirname(__FILE__) . "/common/iwookongConfig.class.php");
 require_once(dirname(__FILE__) . "/common/CheckUserLogin.class.php");
 require_once(dirname(__FILE__) . "/common/Utility.class.php");
+require_once(dirname(__FILE__) . "/common/Cookies.class.php");
 if (CheckLogin::check() == -1) {
     header("Location:login.php ");
     exit();
 }
+$msg_cooikes=new Cookies();
+$msg_cooikes->set('message','1','2592000');
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">

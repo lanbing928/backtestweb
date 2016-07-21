@@ -3,6 +3,7 @@ require_once(dirname(__FILE__) . "/../common/Cookies.class.php");
 require_once(dirname(__FILE__) . "/../common/iwookongConfig.class.php");
 $userCookie = new Cookies();
 $userInfo = $userCookie->get(iwookongConfig::$usercookie);
+$message=$userCookie->get('message');
 if (isset($userInfo)) {
     $info = json_decode($userInfo, true);
     $userName = $info['user_name'];
@@ -28,7 +29,9 @@ if (isset($userInfo)) {
                 <?php if (!empty($userName)) { ?>
                     <li class="message">
                         <a data-toggle="dropdown"><img src="/static/imgs/i/icon_horn.png" style="float:left">
+                            <?php if($message !='1'){?>
                             <div class="dot"></div>
+                            <?php }?>
                             <div style="clear:both"></div>
                         </a>
                         <div class="dropdown-menu msg_all">
