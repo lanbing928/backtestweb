@@ -155,25 +155,25 @@ $(function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") == 0) {
             if ($("#mCSB_2_container").html().trim() == "") {
                 arrData.start_id = 0;
-                common.getSelfMedia(arrData);
+                common.getSelfMedia(arrData, true);
             }
         }
         if ($(this).attr("href").indexOf("#wk-newsflash") == 0) {
             if ($("#wk-newsflash table>tbody").html().trim() == "") {
                 arrData.start_id = 0;
-                common.getFastNews(arrData);
+                common.getFastNews(arrData, true);
             }
         }
         if ($(this).attr("href").indexOf("#wk-notice") == 0) {
             if ($("#mCSB_4_container").html().trim() == "") {
                 arrData.start_id = 0;
-                common.getNotice(arrData);
+                common.getNotice(arrData, true);
             }
         }
         if ($(this).attr("href").indexOf("#wk-report") == 0) {
             if ($("#mCSB_5_container").html().trim() == "") {
                 arrData.start_id = 0;
-                common.getReports(arrData);
+                common.getReports(arrData, true);
             }
         }
     });
@@ -183,10 +183,12 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-news .wk-news-list:last").attr("id").replace("news_", "");
-                arrData.info_type_list = "1,0,0,0,0,0";
-                arrData.timestamp = $("#wk-news .wk-news-list:last").attr("data-news-timestamp");
-                common.getNews(arrData);
+                if ($("#wk-news .wk-news-list:last").attr("id")) {
+                    arrData.start_id = $("#wk-news .wk-news-list:last").attr("id").replace("news_", "");
+                    arrData.info_type_list = "1,0,0,0,0,0";
+                    arrData.timestamp = $("#wk-news .wk-news-list:last").attr("data-news-timestamp");
+                    common.getNews(arrData);
+                }
             }
         }
     });
@@ -196,10 +198,12 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
-                arrData.info_type_list = "0,0,1,0,0,0";
-                arrData.timestamp = $("#wk-selfmedia .wk-news-list:last").attr("data-media-timestamp");
-                common.getSelfMedia(arrData);
+                if ($("#wk-selfmedia .wk-news-list:last").attr("id")) {
+                    arrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
+                    arrData.info_type_list = "0,0,1,0,0,0";
+                    arrData.timestamp = $("#wk-selfmedia .wk-news-list:last").attr("data-media-timestamp");
+                    common.getSelfMedia(arrData);
+                }
             }
         }
     });
@@ -209,10 +213,12 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-newsflash .wk-user-fastnews:last-child").find("ul li:last-child").attr("id").replace("fast_", "");
-                arrData.info_type_list = "0,1,0,0,0,0";
-                arrData.timestamp = $("#wk-newsflash  .wk-user-fastnews:last-child").find("ul li:last-child").attr("data-fastnews-timestamp");
-                common.getFastNews(arrData);
+                if ($("#wk-newsflash .wk-user-fastnews:last-child").find("ul li:last-child").attr("id")) {
+                    arrData.start_id = $("#wk-newsflash .wk-user-fastnews:last-child").find("ul li:last-child").attr("id").replace("fast_", "");
+                    arrData.info_type_list = "0,1,0,0,0,0";
+                    arrData.timestamp = $("#wk-newsflash  .wk-user-fastnews:last-child").find("ul li:last-child").attr("data-fastnews-timestamp");
+                    common.getFastNews(arrData);
+                }
             }
         }
     });
@@ -222,10 +228,12 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
-                arrData.info_type_list = "0,0,0,0,0,0,1";
-                arrData.timestamp = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
-                common.getNotice(arrData);
+                if ($("#wk-notice .wk-news-list:last").attr("id")) {
+                    arrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
+                    arrData.info_type_list = "0,0,0,0,0,0,1";
+                    arrData.timestamp = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
+                    common.getNotice(arrData);
+                }
             }
         }
     });
@@ -235,15 +243,17 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                arrData.start_id = $("#wk-report .wk-news-list:last").attr("id").replace("report_", "");
-                arrData.info_type_list = "0,0,0,0,0,0,0,1";
-                arrData.timestamp = $("#wk-report .wk-news-list:last").attr("data-news-timestamp");
-                common.getReports(arrData);
+                if ($("#wk-report .wk-news-list:last").attr("id")) {
+                    arrData.start_id = $("#wk-report .wk-news-list:last").attr("id").replace("report_", "");
+                    arrData.info_type_list = "0,0,0,0,0,0,0,1";
+                    arrData.timestamp = $("#wk-report .wk-news-list:last").attr("data-news-timestamp");
+                    common.getReports(arrData);
+                }
             }
         }
     });
     common.initRelateSHG(2, name);
-    common.getNews(arrData);
+    common.getNews(arrData,true);
     initLineChart();
     initTreeMapChart();
     initTodayRateLine();

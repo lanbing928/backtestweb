@@ -5,7 +5,7 @@ var wk_treemap_data, viewData = [], searchData = [], followData = [], timeData =
     sentiData = [];
 var myChart = echarts.init(document.getElementById("left-chart"));
 myChart.showLoading({"text": "加载中..."});
-var twoLineChart=echarts.init(document.getElementById("left-double-chart"));
+var twoLineChart = echarts.init(document.getElementById("left-double-chart"));
 twoLineChart.showLoading({"text": "加载中..."});
 function initLineChart() {
     common.getHyAndGnHot({"name": name, "query_type": 3}, null, function (resultData) {
@@ -127,11 +127,21 @@ function initdoubleLine(type, name) {
                 var negData = resultData.senti_per.neg_per;
                 var posData = resultData.senti_per.pos_per;
                 $('.pro_chart .progress_neg_per').css("width", negData * 100 + '%');//负面 进度条
-                if(negData && negData >0){ $('.pro_chart .progress_neg .progress_circle').css({"left": (negData* 100)-1.5 + '%',"display":"block"});}
+                if (negData && negData > 0) {
+                    $('.pro_chart .progress_neg .progress_circle').css({
+                        "left": (negData * 100) - 1.5 + '%',
+                        "display": "block"
+                    });
+                }
                 $('.sacle .negative_per').html((negData * 100).toFixed(0));
 
                 $('.pro_chart .progress_pos_per').css("width", posData * 100 + '%');//非负面 进度条
-                if(posData && posData>0){   $('.pro_chart .progress_pos .progress_circle').css({"left": (posData* 100)-1.5 + '%',"display":"block"}); }
+                if (posData && posData > 0) {
+                    $('.pro_chart .progress_pos .progress_circle').css({
+                        "left": (posData * 100) - 1.5 + '%',
+                        "display": "block"
+                    });
+                }
                 $('.sacle .positive_per').html((posData * 100).toFixed(0));
             }
             common.getTwoLineChart("left-double-chart", timeData, newsData, sentiData);
@@ -145,28 +155,28 @@ $(function () {
             if ($("#mCSB_2_container").html() === "") {
                 eventArrData.start_id = 0;
                 eventArrData.info_type = 2;
-                common.getEventMedia(eventArrData);
+                common.getEventMedia(eventArrData, true);
             }
         }
         if ($(this).attr("href").indexOf("#wk-newsflash") === 0) {
             if ($("#wk-newsflash table>tbody").html() === "") {
                 eventArrData.start_id = 0;
                 eventArrData.info_type = 1;
-                common.getEventFastNews(eventArrData);
+                common.getEventFastNews(eventArrData, true);
             }
         }
         if ($(this).attr("href").indexOf("#wk-notice") === 0) {
             if ($("#mCSB_4_container").html() === "") {
                 eventArrData.start_id = 0;
                 eventArrData.info_type = 4;
-                common.getEventNotice(eventArrData);
+                common.getEventNotice(eventArrData, true);
             }
         }
         if ($(this).attr("href").indexOf("#wk-report") === 0) {
             if ($("#mCSB_5_container").html() === "") {
                 eventArrData.start_id = 0;
                 eventArrData.info_type = 3;
-                common.getEventReport(eventArrData);
+                common.getEventReport(eventArrData, true);
             }
         }
     });
@@ -176,10 +186,12 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                eventArrData.start_id = $("#wk-news .wk-news-list:last").attr("id").replace("news_", "");
-                eventArrData.info_type = 0;
-                eventArrData.start_time = $("#wk-news .wk-news-list:last").attr("data-news-timestamp");
-                common.getEventNews(eventArrData);
+                if ($("#wk-news .wk-news-list:last").attr("id")) {
+                    eventArrData.start_id = $("#wk-news .wk-news-list:last").attr("id").replace("news_", "");
+                    eventArrData.info_type = 0;
+                    eventArrData.start_time = $("#wk-news .wk-news-list:last").attr("data-news-timestamp");
+                    common.getEventNews(eventArrData);
+                }
             }
         }
     });
@@ -189,10 +201,12 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                eventArrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
-                eventArrData.info_type = 2;
-                eventArrData.start_time = $("#wk-selfmedia .wk-news-list:last").attr("data-media-timestamp");
-                common.getEventMedia(eventArrData);
+                if ($("#wk-selfmedia .wk-news-list:last").attr("id")) {
+                    eventArrData.start_id = $("#wk-selfmedia .wk-news-list:last").attr("id").replace("media_", "");
+                    eventArrData.info_type = 2;
+                    eventArrData.start_time = $("#wk-selfmedia .wk-news-list:last").attr("data-media-timestamp");
+                    common.getEventMedia(eventArrData);
+                }
             }
         }
     });
@@ -202,10 +216,12 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                eventArrData.start_id = $("#wk-newsflash .wk-news-list tr:last").attr("id").replace("fast_", "");
-                eventArrData.info_type = 1;
-                eventArrData.start_time = $("#wk-newsflash .wk-news-list:last").attr("data-fastnews-timestamp");
-                common.getEventFastNews(eventArrData);
+                if ($("#wk-newsflash .wk-news-list tr:last").attr("id")) {
+                    eventArrData.start_id = $("#wk-newsflash .wk-news-list tr:last").attr("id").replace("fast_", "");
+                    eventArrData.info_type = 1;
+                    eventArrData.start_time = $("#wk-newsflash .wk-news-list:last").attr("data-fastnews-timestamp");
+                    common.getEventFastNews(eventArrData);
+                }
             }
         }
     });
@@ -215,10 +231,12 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                eventArrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
-                eventArrData.info_type = 4;
-                eventArrData.start_time = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
-                common.getEventNotice(eventArrData);
+                if ($("#wk-notice .wk-news-list:last").attr("id")) {
+                    eventArrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
+                    eventArrData.info_type = 4;
+                    eventArrData.start_time = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
+                    common.getEventNotice(eventArrData);
+                }
             }
         }
     });
@@ -228,16 +246,17 @@ $(function () {
         axis: "y",
         callbacks: {
             onTotalScroll: function () {
-                eventArrData.start_id = $("#wk-report .wk-news-list:last").attr("id").replace("report_", "");
-                eventArrData.info_type = 3;
-                eventArrData.start_time = $("#wk-report .wk-news-list:last").attr("data-news-timestamp");
-                common.getEventReport(eventArrData);
+                if ($("#wk-report .wk-news-list:last").attr("id")) {
+                    eventArrData.start_id = $("#wk-report .wk-news-list:last").attr("id").replace("report_", "");
+                    eventArrData.info_type = 3;
+                    eventArrData.start_time = $("#wk-report .wk-news-list:last").attr("data-news-timestamp");
+                    common.getEventReport(eventArrData);
+                }
             }
         }
     });
     common.initRelateSHG(4, name);
-    common.getEventNews(eventArrData);
-
+    common.getEventNews(eventArrData,true);
     initLineChart();
     initTreeMapChart();
     initTodayRateLine();
