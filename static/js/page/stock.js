@@ -120,8 +120,16 @@ function initTreeMapChart() {
                 $("#concept-follow").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(3, 3, 2, rel_concept[0].sect));
             }
             _stockName = resultData.stock_info.stock_name;
+            $(".wk-toshow-name").html(_stockName + "(" + stockcode + ")");
+            Utility.getSinaStockData(stockcode, function (stockData) {
+                var updown_price = stockData.currentmoney - stockData.yesterdayclose;
+                var updown_per = updown_price / stockData.currentmoney * 100;
+                $(".wk-topshow-price").html(stockData.currentmoney).addClass(Utility.getPriceColor(updown_per));
+                $(".wk-topshow-price-per").html(Utility.getPriceSymbol(updown_price) + updown_price.toFixed(2) + "(" + Utility.getPriceSymbol(updown_price) + updown_per.toFixed(2) + "%)").addClass(Utility.getPriceColor(updown_per));
+            });
+            $(".wk-topshow-dp span").html(Utility.getTradeTime());
             $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
-            $(".wk-related-info").html(resultData.stock_info.stock_name + "热度情况&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "");
+            $(".wk-related-info").html("热度总览&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "");
             $(".latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
             $(".todayhot-title").html(resultData.stock_info.stock_name + "今日最热度");
             $("i[data-toggle='popover']").popover({
@@ -261,7 +269,7 @@ function initFollowBtn() {
                 followBtnHtml.push("</ul>");
             }
             followBtnHtml.push("</div>");
-            $(".wk-related-info").append(followBtnHtml.join(''));
+            $(".wk-topshow-right").append(followBtnHtml.join(''));
             $(".wk-follow-stock").each(function () {
                 var follow_name = $(this).attr("data-follow-name");
                 $(this).unbind("click").bind("click", function () {
@@ -345,26 +353,26 @@ $(function () {
             if ($("#mCSB_2_container").html().trim() == "") {
                 arrData.start_id = 0;
                 arrData.start_time = 0;
-                common.getSelfMedia(arrData,true);
+                common.getSelfMedia(arrData, true);
             }
         }
         if ($(this).attr("href").indexOf("#wk-newsflash") == 0) {
             if ($("#wk-newsflash table>tbody").html().trim() == "") {
                 arrData.start_id = 0;
                 arrData.start_time = 0;
-                common.getFastNews(arrData,true);
+                common.getFastNews(arrData, true);
             }
         }
         if ($(this).attr("href").indexOf("#wk-notice") == 0) {
             if ($("#mCSB_4_container").html().trim() == "") {
                 arrData.start_id = 0;
-                common.getNotice(arrData,true);
+                common.getNotice(arrData, true);
             }
         }
         if ($(this).attr("href").indexOf("#wk-report") == 0) {
             if ($("#mCSB_5_container").html().trim() == "") {
                 arrData.start_id = 0;
-                common.getReports(arrData,true);
+                common.getReports(arrData, true);
             }
         }
     });
@@ -444,7 +452,7 @@ $(function () {
         }
     });
     common.initRelateSHG(1, stockcode);
-    common.getNews(arrData,true);
+    common.getNews(arrData, true);
     initLineChart();
     initTreeMapChart();
     initdoubleLine(1, key_name);
