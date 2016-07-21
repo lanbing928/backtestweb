@@ -105,166 +105,183 @@ var common = {
     /**
      * 新闻
      * @param arrData
+     * @param isFirst
      */
-    getNews: function (arrData) {
+    getNews: function (arrData, isFirst) {
+        isFirst = isFirst || false;
         arrData.info_type_list = "1,0,0,0,0,0";
         common.getRelatedInfo(arrData, function () {
             $("#wk-news").append(common.getLoading());
         }, function (resultData) {
             common.hideLoading();
-            if (arrData.start_id === 0) {
-                $("#wk-news .mCSB_container").html(common.buildNews(resultData.news));
+            if (arrData.start_id == 0) {
+                $("#wk-news .mCSB_container").html(common.buildNews(resultData.news, isFirst));
             } else {
-                $("#wk-news .mCSB_container").append(common.buildNews(resultData.news));
+                $("#wk-news .mCSB_container").append(common.buildNews(resultData.news, isFirst));
             }
         });
     },
     /**
      * 达人观点(原自媒体)
      * @param arrData
+     * @param isFirst
      */
-    getSelfMedia: function (arrData) {
+    getSelfMedia: function (arrData, isFirst) {
+        isFirst = isFirst || false;
         arrData.info_type_list = "0,0,1,0,0,0";
         common.getRelatedInfo(arrData, function () {
             $("#wk-selfmedia").append(common.getLoading());
         }, function (resultData) {
             common.hideLoading();
             if (arrData.start_id == 0) {
-                $("#wk-selfmedia .mCSB_container").html(common.buildMedia(resultData.me_media));
+                $("#wk-selfmedia .mCSB_container").html(common.buildMedia(resultData.me_media, isFirst));
             } else {
-                $("#wk-selfmedia .mCSB_container").append(common.buildMedia(resultData.me_media));
+                $("#wk-selfmedia .mCSB_container").append(common.buildMedia(resultData.me_media, isFirst));
             }
         });
     },
     /**
      * 快讯
      * @param arrData
+     * @param isFirst
      */
-    getFastNews: function (arrData) {
+    getFastNews: function (arrData, isFirst) {
+        isFirst = isFirst || false;
         arrData.info_type_list = "0,1,0,0,0,0";
         common.getRelatedInfo(arrData, function () {
             $("#wk-newsflash").append(common.getLoading());
         }, function (resultData) {
             common.hideLoading();
-            if (arrData.start_id === 0) {
-                $("#wk-newsflash .mCSB_container").html(common.buildFastNews(resultData.fast_info));
+            if (arrData.start_id == 0) {
+                $("#wk-newsflash .mCSB_container").html(common.buildFastNews(resultData.fast_info, isFirst));
             } else {
-                $("#wk-newsflash .mCSB_container").append(common.buildFastNews(resultData.fast_info));
+                $("#wk-newsflash .mCSB_container").append(common.buildFastNews(resultData.fast_info, isFirst));
             }
         });
     },
     /**
      * 公告
+     * @param arrData
+     * @param isFirst
      */
-    getNotice: function (arrData) {
+    getNotice: function (arrData, isFirst) {
+        isFirst = isFirst || false;
         arrData.info_type_list = "0,0,0,0,0,0,1";
         common.getRelatedInfo(arrData, function () {
             $("#wk-notice").append(common.getLoading());
         }, function (resultData) {
             common.hideLoading();
-            if (arrData.start_id === 0) {
-                $("#wk-notice .mCSB_container").html(common.buildNotice(resultData.notice));
+            if (arrData.start_id == 0) {
+                $("#wk-notice .mCSB_container").html(common.buildNotice(resultData.notice, isFirst));
             } else {
-                $("#wk-notice .mCSB_container").append(common.buildNotice(resultData.notice));
+                $("#wk-notice .mCSB_container").append(common.buildNotice(resultData.notice, isFirst));
             }
         });
     },
     /**
      * 研报
      * @param arrData
+     * @param isFirst
      */
-    getReports: function (arrData) {
+    getReports: function (arrData, isFirst) {
+        isFirst = isFirst || false;
         arrData.info_type_list = "0,0,0,0,0,0,0,1";
         common.getRelatedInfo(arrData, function () {
             $("#wk-report").append(common.getLoading());
         }, function (resultData) {
             common.hideLoading();
-            if (arrData.start_id === 0) {
-                $("#wk-report .mCSB_container").html(common.buildReport(resultData.report));
+            if (arrData.start_id == 0) {
+                $("#wk-report .mCSB_container").html(common.buildReport(resultData.report, isFirst));
             } else {
-                $("#wk-report .mCSB_container").append(common.buildReport(resultData.report));
+                $("#wk-report .mCSB_container").append(common.buildReport(resultData.report, isFirst));
             }
         });
     },
     /**
      *获取事件关联新闻
      */
-    getEventNews: function (arrData) {
+    getEventNews: function (arrData, isFirst) {
+        isFirst = isFirst || false;
         common.getEventRelatedInfo(arrData, function () {
             $("#wk-news").append(common.getLoading());
         }, function (resultData) {
             common.hideLoading();
-            if (arrData.start_id === 0) {
-                $("#wk-news .mCSB_container").html(common.buildNews(resultData.result));
+            if (arrData.start_id == 0) {
+                $("#wk-news .mCSB_container").html(common.buildNews(resultData.result, isFirst));
             } else {
-                $("#wk-news .mCSB_container").append(common.buildNews(resultData.result));
+                $("#wk-news .mCSB_container").append(common.buildNews(resultData.result, isFirst));
             }
         });
     },
     /**
      *获取事件关联达人观点
      */
-    getEventMedia: function (arrData) {
+    getEventMedia: function (arrData, isFirst) {
+        isFirst = isFirst || false;
         common.getEventRelatedInfo(arrData, function () {
             $("#wk-selfmedia").append(common.getLoading());
         }, function (resultData) {
             common.hideLoading();
-            if (arrData.start_id === 0) {
-                $("#wk-selfmedia .mCSB_container").html(common.buildMedia(resultData.result));
+            if (arrData.start_id == 0) {
+                $("#wk-selfmedia .mCSB_container").html(common.buildMedia(resultData.result, isFirst));
             } else {
-                $("#wk-selfmedia .mCSB_container").append(common.buildMedia(resultData.result));
+                $("#wk-selfmedia .mCSB_container").append(common.buildMedia(resultData.result, isFirst));
             }
         });
     },
     /**
      *获取事件关联快讯
      */
-    getEventFastNews: function (arrData) {
+    getEventFastNews: function (arrData, isFirst) {
+        isFirst = isFirst || false;
         common.getEventRelatedInfo(arrData, function () {
             $("#wk-newsflash").append(common.getLoading());
         }, function (resultData) {
             common.hideLoading();
-            if (arrData.start_id === 0) {
-                $("#wk-newsflash .mCSB_container").html(common.buildFastNews(resultData.result));
+            if (arrData.start_id == 0) {
+                $("#wk-newsflash .mCSB_container").html(common.buildFastNews(resultData.result, isFirst));
             } else {
-                $("#wk-newsflash .mCSB_container").append(common.buildFastNews(resultData.result));
+                $("#wk-newsflash .mCSB_container").append(common.buildFastNews(resultData.result, isFirst));
             }
         });
     },
     /**
      *获取事件关联公告
      */
-    getEventNotice: function (arrData) {
+    getEventNotice: function (arrData, isFirst) {
+        isFirst = isFirst || false;
         common.getEventRelatedInfo(arrData, function () {
             $("#wk-notice").append(common.getLoading());
         }, function (resultData) {
             common.hideLoading();
-            if (arrData.start_id === 0) {
-                $("#wk-notice .mCSB_container").html(common.buildNotice(resultData.result));
+            if (arrData.start_id == 0) {
+                $("#wk-notice .mCSB_container").html(common.buildNotice(resultData.result, isFirst));
             } else {
-                $("#wk-notice .mCSB_container").append(common.buildNotice(resultData.result));
+                $("#wk-notice .mCSB_container").append(common.buildNotice(resultData.result, isFirst));
             }
         });
     },
     /**
      * 获取事件关联研报
      */
-    getEventReport: function (arrData) {
+    getEventReport: function (arrData, isFirst) {
+        isFirst = isFirst || false;
         common.getEventRelatedInfo(arrData, function () {
             $("#wk-report").append(common.getLoading());
         }, function (resultData) {
             common.hideLoading();
-            if (arrData.start_id === 0) {
-                $("#wk-report .mCSB_container").html(common.buildReport(resultData.result));
+            if (arrData.start_id == 0) {
+                $("#wk-report .mCSB_container").html(common.buildReport(resultData.result, isFirst));
             } else {
-                $("#wk-report .mCSB_container").append(common.buildReport(resultData.result));
+                $("#wk-report .mCSB_container").append(common.buildReport(resultData.result, isFirst));
             }
         });
     },
     /**
      *构建新闻
      */
-    buildNews: function (resultData) {
+    buildNews: function (resultData, isFirst) {
+        isFirst = isFirst || false;
         var newsHtml = [];
         if (resultData.length > 0) {
             for (var i = 0; i < resultData.length; i++) {
@@ -281,20 +298,22 @@ var common = {
                 newsHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
             }
         } else {
-            newsHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
+            if (isFirst) {
+                newsHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
+            }
         }
         return newsHtml.join('');
     },
     /**
      *构建快讯
      */
-    buildFastNews: function (resultData) {
+    buildFastNews: function (resultData, isFirst) {
+        isFirst = isFirst || false;
         var fastHtml = [];
         if (resultData.length > 0) {
             common.hideLoading();
             for (var i in resultData) {
                 for (var j in resultData[i]) {
-                    fastHtml.push();
                     fastHtml.push("<div class=\"wk-user-fastnews\">");
                     fastHtml.push("<span class=\"wk-user-fastnews-dot\">●</span>");
                     fastHtml.push("<p class=\"wk-user-fastnews-todate\">" + j + "</p>");
@@ -309,14 +328,17 @@ var common = {
                 }
             }
         } else {
-            fastHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关快讯</span></div>");
+            if (isFirst) {
+                fastHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关快讯</span></div>");
+            }
         }
         return fastHtml.join('');
     },
     /**
      *构建自媒体
      */
-    buildMedia: function (resultData) {
+    buildMedia: function (resultData, isFirst) {
+        isFirst = isFirst || false;
         var mediaHtml = [];
         if (resultData.length > 0) {
             common.hideLoading();
@@ -334,14 +356,17 @@ var common = {
                 mediaHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
             }
         } else {
-            mediaHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关达人观点</span></div>");
+            if (isFirst) {
+                mediaHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关达人观点</span></div>");
+            }
         }
         return mediaHtml.join('');
     },
     /**
      *构建公告
      */
-    buildNotice: function (resultData) {
+    buildNotice: function (resultData, isFirst) {
+        isFirst = isFirst || false;
         var noticeHtml = [];
         if (resultData.length > 0) {
             common.hideLoading();
@@ -359,7 +384,9 @@ var common = {
                 noticeHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
             }
         } else {
-            noticeHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关公告</span></div>");
+            if (isFirst) {
+                noticeHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关公告</span></div>");
+            }
         }
         return noticeHtml.join('');
     },
@@ -367,7 +394,8 @@ var common = {
      * 构建研报信息
      * @returns {string}
      */
-    buildReport: function (resultData) {
+    buildReport: function (resultData, isFirst) {
+        isFirst = isFirst || false;
         var reportHtml = [];
         if (resultData.length > 0) {
             common.hideLoading();
@@ -385,7 +413,9 @@ var common = {
                 reportHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
             }
         } else {
-            reportHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关研报</span></div>");
+            if (isFirst) {
+                reportHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关研报</span></div>");
+            }
         }
         return reportHtml.join('');
     },
