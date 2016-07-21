@@ -1,6 +1,6 @@
 "use strict";
 $(function () {
-    var thisHost ="http://"+window.location.host+"/";
+    var thisHost = "http://" + window.location.host + "/";
     /**
      * 搜索框自动完成
      */
@@ -16,29 +16,29 @@ $(function () {
         filter: false,
         emptyTemplate: '未找到 "{{query}}" 的相关信息',
         source: {
-            "股票": { url: [thisHost+"ajax/ajax_search.php?message={{query}},", "stock"] },
-            "行业": { url: [thisHost+"ajax/ajax_search.php?message={{query}},", "hy"] },
-            "概念": { url: [thisHost+"ajax/ajax_search.php?message={{query}},", "gn"] },
-            "热点事件": { url: [thisHost+"ajax/ajax_search.php?message={{query}},", "event"] }
+            "股票": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "stock"]},
+            "行业": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "hy"]},
+            "概念": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "gn"]},
+            "热点事件": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "event"]}
         },
         callback: {
             onClickAfter: function (node, a, item) {
                 if (item.display !== "") {
                     switch (item.group) {
                         case "股票":
-                            window.open(thisHost+"stocks.php?stock=" + item.display.substring(item.display.indexOf("(") + 1, item.display.indexOf(")")), "_blank");
+                            window.open(thisHost + "stocks.php?stock=" + item.display.substring(item.display.indexOf("(") + 1, item.display.indexOf(")")), "_blank");
                             break;
                         case "行业":
-                            window.open(thisHost+"industry.php?name=" + item.display, "_blank");
+                            window.open(thisHost + "industry.php?name=" + item.display, "_blank");
                             break;
                         case "概念":
-                            window.open(thisHost+"concept.php?name=" + item.display, "_blank");
+                            window.open(thisHost + "concept.php?name=" + item.display, "_blank");
                             break;
                         case "热点事件":
-                            window.open(thisHost+"event.php?name=" + item.display, "_blank");
+                            window.open(thisHost + "event.php?name=" + item.display, "_blank");
                             break;
                         default:
-                            window.open(thisHost+"error.php", "_blank");
+                            window.open(thisHost + "error.php", "_blank");
                             break;
                     }
                 }
@@ -46,10 +46,10 @@ $(function () {
         }
     });
     $(".wk-con-news .wk-con-box").mouseenter(function () {
-        //$(document.body).css({"overflow-x": "hidden", "overflow-y": "hidden"});
+        scrollHanlder.disableScroll();
     });
     $(".wk-con-news .wk-con-box").mouseleave(function () {
-        //$(document.body).css({"overflow-x": "auto", "overflow-y": "auto"});
+        scrollHanlder.enableScroll();
     });
     $("i[data-toggle='popover']").popover({
         container: "body",
@@ -74,7 +74,7 @@ $(function () {
         } else {
             common.getHotRecord(arrData, function () {
                 var myChart = echarts.init(document.getElementById("left-chart"));
-                myChart.showLoading({ "text": "加载中..." });
+                myChart.showLoading({"text": "加载中..."});
             }, function (resultData) {
                 var _viewData = [];
                 var _searchData = [];
@@ -139,7 +139,7 @@ $(function () {
         switch (toggle) {
             case "today":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -147,7 +147,7 @@ $(function () {
                 break;
             case "week":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -155,7 +155,7 @@ $(function () {
                 break;
             case "month":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -163,7 +163,7 @@ $(function () {
                 break;
             case "threemonth":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
