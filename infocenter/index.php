@@ -32,7 +32,11 @@ if (CheckLogin::check() == -1) {
         <div class="wk-user-datas"></div>
         <div class="wk-user-mychoose">
             <div class="wk-user-choose-title">
-                <div class="active" data-group-name="我的自选股">我的自选股</div>
+                <div class="active" data-group-name="我的自选股">
+                    <div class="wk-btn-mygroup">
+                        <span>我的自选股</span>
+                    </div>
+                </div>
             </div>
             <a class="btn btn-default btn-sm wk-add-zh">
                 <i class="fa fa-plus"></i> 添加组合
@@ -136,6 +140,6 @@ if (CheckLogin::check() == -1) {
 <script src="../static/js/all.min.js"></script>
 <script src="../static/js/common.min.js"></script>
 <script src="../static/js/Utility.min.js"></script>
-<script src="../static/js/page/infocenter.js"></script>
+<script src="../static/js/page/infocenter.min.js"></script>
 </body>
 </html>

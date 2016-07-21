@@ -1,4 +1,4 @@
-.wk-time-hot,.wk-stock-hot,.wk-industry-hot,.wk-concept-hot,.wk-all-hotm,.wk-news-detail,.wk-all-hot,.wk-rate-line,.wk-user-center{border: 1px solid #d1d1d1;padding:20px;-webkit-box-shadow: #eeeeee 0px 1px 5px; -moz-box-shadow: #eeeeee 0px 1px 5px; box-shadow: #eeeeee 0px 1px 5px;}
+.wk-time-hot,.wk-stock-hot,.wk-industry-hot,.wk-concept-hot,.wk-all-hotm,.wk-news-detail,.wk-all-hot,.wk-rate-line,.wk-user-center,.wk-relate-map{border: 1px solid #d1d1d1;padding:20px;-webkit-box-shadow: #eeeeee 0px 1px 5px; -moz-box-shadow: #eeeeee 0px 1px 5px; box-shadow: #eeeeee 0px 1px 5px;}
 /*股票 行业 概念 内容*/
 .wk-all-hot{margin-top: 25px;margin-bottom: 40px;}
 .wk-hot-title{font-size: 18px;font-weight: 600;margin-bottom: 15px;}
@@ -263,10 +263,10 @@
 /*我的自选股*/
 .wk-user-mychoose{margin-top: 30px; border-bottom: 1px solid #eee;padding-bottom: 10px;}
 .wk-user-choose-title{display: inline-flex;}
-.wk-user-choose-title div{padding: 0 8px;font-size: 14px;color: #333333;cursor: pointer;}
+.wk-user-choose-title div{padding: 0 8px;font-size: 14px;color: #666666;cursor: pointer;}
 .wk-user-choose-title div.active{color: #303F9F;}
 .wk-user-choose-title div:hover{color: #303F9F;}
-.wk-user-choose-title .btn-group .dropdown-toggle{-webkit-box-shadow: none;box-shadow: none;}
+.wk-user-choose-title .btn-group .dropdown-toggle{-webkit-box-shadow: none;box-shadow: none;vertical-align: sub;}
 .wk-add-zh{border: none;color: #FFFFFF;text-shadow: none; background: #3970b3 none;font-size: 14px;margin-left: 16px;height: 26px;line-height: 1.2;}
 .wk-user-mychoose-table-box,.wk-user-mychoose-table{margin-top: 15px;}
 .wk-user-mychoose-table table{border: 1px solid #dbe4f9;}
@@ -277,6 +277,10 @@
 .wk-user-mychoose-table table>tbody>tr>td{text-align: center;border-style: none;}
 .wk-sub-refresh{cursor: pointer;}
 .btn-del-stock{display: none;cursor: pointer;}
+.wk-btn-mygroup{height: 30px;}
+.btn-group.active .wk-btn-mygroup{border-bottom: 2px solid #303f9f;height: 30px;}
+.wk-mygroup-txt{vertical-align: sub;}
+
 
 .wk-dp-up{background: url("../imgs/i/dp_up.png") no-repeat center;width: 16px;height: 20px;}
 .wk-dp-down{background: url("../imgs/i/dp_down.png") no-repeat center;}
@@ -291,8 +295,9 @@
 .wk-user-time{float: left;}
 .wk-user-hs{float: right;}
 
+
 .wk-user-mynews{margin-top: 22px;border-bottom: 1px solid #e8e8e8;}
-.wk-user-mynews .btn-group{width: 86px;text-align: center;color: #333333;cursor: pointer;padding-bottom: 8px;}
+.wk-user-mynews .btn-group{width: 86px;text-align: center;color: #666666;cursor: pointer;padding-bottom: 8px;}
 .wk-user-mynews .btn-group.active{color: #303F9F;border-bottom: 2px solid #303F9F;padding-bottom: 7px;}
 .wk-user-mynews .btn-group:hover{color: #303F9F;}
 .wk-user-mynews .btn-group .dropdown-toggle{-webkit-box-shadow: none;box-shadow: none;}
@@ -377,4 +382,5 @@
 
 
 .wk-relate-map{margin-top: 25px;min-height: 585px;}
-.wk-rel-cicle{width: 124px;height: 124px;border-radius: 62px;background-color: red;margin: 0 auto;}
+.wk-relate-map .col-md-3{text-align: center;}
+#wk-circle-info{width: 890px;height: 540px;}

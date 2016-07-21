@@ -1,5 +1,6 @@
 "use strict";
 $(function () {
+    var thisHost ="http://"+window.location.host+"/";
     /**
      * 搜索框自动完成
      */
@@ -15,29 +16,29 @@ $(function () {
         filter: false,
         emptyTemplate: '未找到 "{{query}}" 的相关信息',
         source: {
-            "股票": { url: ["ajax/ajax_search.php?message={{query}},", "stock"] },
-            "行业": { url: ["ajax/ajax_search.php?message={{query}},", "hy"] },
-            "概念": { url: ["ajax/ajax_search.php?message={{query}},", "gn"] },
-            "热点事件": { url: ["ajax/ajax_search.php?message={{query}},", "event"] }
+            "股票": { url: [thisHost+"ajax/ajax_search.php?message={{query}},", "stock"] },
+            "行业": { url: [thisHost+"ajax/ajax_search.php?message={{query}},", "hy"] },
+            "概念": { url: [thisHost+"ajax/ajax_search.php?message={{query}},", "gn"] },
+            "热点事件": { url: [thisHost+"ajax/ajax_search.php?message={{query}},", "event"] }
         },
         callback: {
             onClickAfter: function (node, a, item) {
                 if (item.display !== "") {
                     switch (item.group) {
                         case "股票":
-                            window.open("stocks.php?stock=" + item.display.substring(item.display.indexOf("(") + 1, item.display.indexOf(")")), "_blank");
+                            window.open(thisHost+"stocks.php?stock=" + item.display.substring(item.display.indexOf("(") + 1, item.display.indexOf(")")), "_blank");
                             break;
                         case "行业":
-                            window.open("industry.php?name=" + item.display, "_blank");
+                            window.open(thisHost+"industry.php?name=" + item.display, "_blank");
                             break;
                         case "概念":
-                            window.open("concept.php?name=" + item.display, "_blank");
+                            window.open(thisHost+"concept.php?name=" + item.display, "_blank");
                             break;
                         case "热点事件":
-                            window.open("event.php?name=" + item.display, "_blank");
+                            window.open(thisHost+"event.php?name=" + item.display, "_blank");
                             break;
                         default:
-                            window.open("error.php", "_blank");
+                            window.open(thisHost+"error.php", "_blank");
                             break;
                     }
                 }

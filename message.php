@@ -4,10 +4,13 @@ require_once(dirname(__FILE__) . "/common/Request.class.php");
 require_once(dirname(__FILE__) . "/common/iwookongConfig.class.php");
 require_once(dirname(__FILE__) . "/common/CheckUserLogin.class.php");
 require_once(dirname(__FILE__) . "/common/Utility.class.php");
+require_once(dirname(__FILE__) . "/common/Cookies.class.php");
 if (CheckLogin::check() == -1) {
     header("Location:login.php ");
     exit();
 }
+$msg_cooikes=new Cookies();
+$msg_cooikes->set('message','1','2592000');
 ?>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -26,7 +29,7 @@ if (CheckLogin::check() == -1) {
 <?php include("share/_header.php") ?>
 <div class="container wk-container">
     <section class="wk-all-hot">
-        <p class="wk-hot-title">悟空1.3.2版新增功能</p>
+        <p class="wk-hot-title">悟空1.2.2版新增功能</p>
         <div class="msg">
             <b>本次悟空1.3.2版更新包括如下内容：</b>
             <div class="updata_main">

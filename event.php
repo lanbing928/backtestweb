@@ -77,7 +77,7 @@ if (empty($eventName)) {
             <p class="wk-hot-title relate-infos">关联资讯</p>
             <div class="row right pro_chart">
                 <div class="col-md-5">
-                    <p>新闻情感</p>
+                    <p>最近一周新闻情感</p>
                     <div class="progress_neg">
                         <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
                         <div class="progress_circle"></div>
@@ -92,7 +92,7 @@ if (empty($eventName)) {
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md-5">
-                    <p>新闻趋势</p>
+                    <p>最近一周新闻趋势</p>
                     <div class="left-charts" id="left-double-chart"></div>
                 </div>
             </div>

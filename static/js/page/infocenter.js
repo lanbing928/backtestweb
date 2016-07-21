@@ -69,11 +69,11 @@ var ctrlInfo = {
                     if (item.display !== "") {
                         var stockCode = item.display.substring(item.display.indexOf("(") + 1, item.display.indexOf(")"));
                         var groupName = $(".wk-sub-refresh").attr("data-refresh");
-                        inforcenter.addStock({ori_name: groupName, code: stockCode}, null, function (resultData) {
+                        inforcenter.addStock({ ori_name: groupName, code: stockCode }, null, function (resultData) {
                             if (resultData && resultData.status == 1) {
                                 ctrlInfo.getGroupStock(groupName);
                             }
-                        })
+                        });
                     }
                 }
             }
@@ -139,24 +139,25 @@ var ctrlInfo = {
                 if (resultData.result.info.group_name.length > 0) {
                     var list = resultData.result.info.group_name;
                     var groupHtml = [];
-                    groupHtml.push("<div class=\"btn-group active\" data-group-name=\"我的自选股\"><span>我的自选股</span></div>");
+                    groupHtml.push("<div class=\"btn-group active\" data-group-name=\"我的自选股\"><div class='wk-btn-mygroup'><span class='wk-mygroup-txt'>我的自选股</span></div></div>");
                     for (var i = 0; i < list.length; i++) {
                         groupHtml.push("<div class=\"btn-group\" data-group-name='" + list[i] + "'>");
-                        groupHtml.push("<span>" + list[i] + "</span>");
+                        groupHtml.push("<div class='wk-btn-mygroup'>");
+                        groupHtml.push("<span class='wk-mygroup-txt'>" + list[i] + "</span>");
                         groupHtml.push("<span class=\"dropdown-toggle\" data-toggle=\"dropdown\">");
                         groupHtml.push("<i class=\"fa fa-chevron-down\"></i>");
                         groupHtml.push("</span>");
                         groupHtml.push("<ul class=\"dropdown-menu\" data-group-name='" + list[i] + "'>");
                         groupHtml.push("<li class='change-name'><a href=\"#\"><i class=\"fa fa-pencil fa-fw\"></i>更改名称</a></li>");
                         groupHtml.push("<li class='del-group'><a href=\"#\"><i class=\"fa fa-trash-o fa-fw\"></i>删除组合</a></li>");
-                        groupHtml.push("</ul></div>");
+                        groupHtml.push("</ul></div></div>");
                     }
                     $(".wk-user-choose-title").html(groupHtml.join(''));
                     //我的自选组合点击事件
                     $(".wk-user-choose-title .btn-group span:first-child").unbind("click").bind("click", function () {
                         var stockName = $(this).parent().attr("data-group-name");
                         $(".wk-sub-refresh").attr("data-refresh", stockName);
-                        $(this).parent().addClass("active").siblings().removeClass("active");
+                        $(this).parent().parent().addClass("active").siblings().removeClass("active");
                         ctrlInfo.getGroupStock(stockName);
                     });
                     //绑定更改名称事件

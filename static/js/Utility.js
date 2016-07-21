@@ -267,7 +267,7 @@ var Utility = {
             }
         } else {
             if (_newdown.length >5) {
-                _newdown = _newdown.slice(0, (10 - _newup.length));
+                _newdown = _newdown.slice(0, (10 - _newup.length)); 
             }
         }
         var _newMap = _newup.concat(_newdown);
