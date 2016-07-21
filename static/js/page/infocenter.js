@@ -69,7 +69,7 @@ var ctrlInfo = {
                     if (item.display !== "") {
                         var stockCode = item.display.substring(item.display.indexOf("(") + 1, item.display.indexOf(")"));
                         var groupName = $(".wk-sub-refresh").attr("data-refresh");
-                        inforcenter.addStock({ ori_name: groupName, code: stockCode }, null, function (resultData) {
+                        inforcenter.addStock({ori_name: groupName, code: stockCode}, null, function (resultData) {
                             if (resultData && resultData.status == 1) {
                                 ctrlInfo.getGroupStock(groupName);
                             }
@@ -619,6 +619,46 @@ var ctrlInfo = {
         })
     },
     /**
+     * 获取公告
+     * @param arrData
+     */
+    getNotice: function (arrData) {
+        inforcenter.getRelatedInfo(arrData, function () {
+            $(".wk-user-news-loading").show();
+            $("#wk-user-notice-list").find(".wk-con").empty();
+        }, function (resultData) {
+            $(".wk-user-news-loading").hide();
+            var html = "";
+            if (resultData) {
+                html = ctrlInfo.buildNotice(resultData.result);
+            }
+            else {
+                html = "<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关公告</span></div>";
+            }
+            $("#wk-user-notice-list").find(".wk-con").html(html);
+        })
+    },
+    /**
+     * 获取研报
+     * @param arrData
+     */
+    getReport: function (arrData) {
+        inforcenter.getRelatedInfo(arrData, function () {
+            $(".wk-user-news-loading").show();
+            $("#wk-user-report-list").find(".wk-con").empty();
+        }, function (resultData) {
+            $(".wk-user-news-loading").hide();
+            var html = "";
+            if (resultData) {
+                html = ctrlInfo.buildReport(resultData.result);
+            }
+            else {
+                html = "<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关公告</span></div>";
+            }
+            $("#wk-user-report-list").find(".wk-con").html(html);
+        })
+    },
+    /**
      * 构建新闻信息
      * @param resultData
      * @returns {string}
@@ -634,7 +674,7 @@ var ctrlInfo = {
                         var stock_name = resultData[i].related_stock[j].stock_name;
                         var stock_code = resultData[i].related_stock[j].stock_code;
                         if (stock_name != "" && stock_code != "") {
-                            newsHtml.push("<a href='../stocks.php?stock=" + stock_code + "' target='_blank'>" + stock_name + "(" + stock_code + ")</a>");
+                            newsHtml.push("<a href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
                         }
                     }
                 }
@@ -671,7 +711,7 @@ var ctrlInfo = {
                         var stock_name = resultData[i].related_stock[j].stock_name;
                         var stock_code = resultData[i].related_stock[j].stock_code;
                         if (stock_name != "" && stock_code != "") {
-                            mediaHtml.push("<a href='../stocks.php?stock=" + stock_code + "' target='_blank'>" + stock_name + "(" + stock_code + ")</a>");
+                            mediaHtml.push("<a href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
                         }
                     }
                 }
@@ -708,7 +748,7 @@ var ctrlInfo = {
                     fastHtml.push("<p class=\"wk-user-fastnews-todate\">" + j + "</p>");
                     fastHtml.push("<ul>");
                     for (var k = 0; k < resultData[i][j].length; k++) {
-                        fastHtml.push("<li>");
+                        fastHtml.push("<li id='" + resultData[i][j][k].info_id + "' data-fastnews-timestamp='" + resultData[i][j][k].timestamp + "'>");
                         fastHtml.push("<label>" + Utility.unixToTime(resultData[i][j][k].timestamp) + "</label>");
                         fastHtml.push("<p>" + resultData[i][j][k].summary + "</p>");
                         fastHtml.push("</li>");
@@ -721,6 +761,80 @@ var ctrlInfo = {
             $(".wk-user-fastnews-list").css("border", "none");
         }
         return fastHtml.join('');
+    },
+    /**
+     * 构建公告
+     * @param resultData
+     * @returns {string}
+     */
+    buildNotice: function (resultData) {
+        var noticeHtml = [];
+        if (resultData.length > 0) {
+            for (var i = 0; i < resultData.length; i++) {
+                noticeHtml.push("<div class=\"wk-news-list\" id=\"notice_" + resultData[i].info_id + "\" data-news-timestamp=\"" + resultData[i].timestamp + "\">");
+                noticeHtml.push("<div class=\"news-rel-stock\">");
+                if (resultData[i].related_stock.length > 0) {
+                    for (var j = 0; j < resultData[i].related_stock.length; j++) {
+                        var stock_name = resultData[i].related_stock[j].stock_name;
+                        var stock_code = resultData[i].related_stock[j].stock_code;
+                        if (stock_name != "" && stock_code != "") {
+                            noticeHtml.push("<a href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
+                        }
+                    }
+                }
+                noticeHtml.push("</div>");
+                noticeHtml.push("<div class=\"wk-news-list-head\">");
+                noticeHtml.push("<p class=\"wk-news-list-title\"><a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\">");
+                noticeHtml.push(resultData[i].titile);
+                noticeHtml.push("</a></p>" + Utility.getgetEmotion(resultData[i].sentiment) + "</div><div class=\"wk-news-list-con\"><p>");
+                if (resultData[i].summary != "") {
+                    noticeHtml.push("<strong>【机器人摘要】</strong>");
+                    noticeHtml.push(resultData[i].summary);
+                    noticeHtml.push("<a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
+                }
+                noticeHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
+            }
+        } else {
+            noticeHtml.push("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关新闻公告</span></div>");
+        }
+        return noticeHtml.join('');
+    },
+    /**
+     * 构建研报
+     * @param resultData
+     * @returns {string}
+     */
+    buildReport: function (resultData) {
+        var reportHtml = [];
+        if (resultData.length > 0) {
+            for (var i = 0; i < resultData.length; i++) {
+                reportHtml.push("<div class=\"wk-news-list\" id=\"report_" + resultData[i].info_id + "\" data-news-timestamp=\"" + resultData[i].timestamp + "\">");
+                reportHtml.push("<div class=\"news-rel-stock\">");
+                if (resultData[i].related_stock.length > 0) {
+                    for (var j = 0; j < resultData[i].related_stock.length; j++) {
+                        var stock_name = resultData[i].related_stock[j].stock_name;
+                        var stock_code = resultData[i].related_stock[j].stock_code;
+                        if (stock_name != "" && stock_code != "") {
+                            reportHtml.push("<a href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
+                        }
+                    }
+                }
+                reportHtml.push("</div>");
+                reportHtml.push("<div class=\"wk-news-list-head\">");
+                reportHtml.push("<p class=\"wk-news-list-title\"><a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\">");
+                reportHtml.push(resultData[i].titile);
+                reportHtml.push("</a></p>" + Utility.getgetEmotion(resultData[i].sentiment) + "</div><div class=\"wk-news-list-con\"><p>");
+                if (resultData[i].summary != "") {
+                    reportHtml.push("<strong>【机器人摘要】</strong>");
+                    reportHtml.push(resultData[i].summary);
+                    reportHtml.push("<a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
+                }
+                reportHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
+            }
+        } else {
+            reportHtml.push("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关新闻研报</span></div>");
+        }
+        return reportHtml.join('');
     },
     /**
      *股票列表刷新
@@ -772,6 +886,18 @@ $(function () {
             $(".wk-user-mynews").attr("data-info-type", 2);
             $(".wk-user-mynews").attr("data-query-type", 1);
         }
+        if (target == "wk-user-notice-list") {
+            $("#" + target).find(".wk-con").html("");
+            ctrlInfo.getNotice({"query_type": 1, "start_time": 0, "info_type": 4, "stock_list": stock_list});
+            $(".wk-user-mynews").attr("data-info-type", 4);
+            $(".wk-user-mynews").attr("data-query-type", 1);
+        }
+        if (target == "wk-user-report-list") {
+            $("#" + target).find(".wk-con").html("");
+            ctrlInfo.getReport({"query_type": 1, "start_time": 0, "info_type": 3, "stock_list": stock_list});
+            $(".wk-user-mynews").attr("data-info-type", 3);
+            $(".wk-user-mynews").attr("data-query-type", 1);
+        }
     });
     /**
      * 下拉刷新
@@ -780,20 +906,20 @@ $(function () {
         var scrollTop = $(this).scrollTop();
         var scrollHeight = $(document).height();
         var windowHeight = $(this).height();
-        if (scrollTop + windowHeight >= scrollHeight) {
+        if (scrollHeight - scrollTop - windowHeight == 0) {
             var stock_list = $(".wk-user-mynews").attr("data-stock");
             var query_type = $(".wk-user-mynews").attr("data-query-type");
             var info_type = $(".wk-user-mynews").attr("data-info-type");
             if (info_type == "0") {
                 var lastNews = $("#wk-user-news-list .wk-con").find(".wk-news-list:last-child");
-                var last_id = lastNews.attr("id") || 0;
+                var last_id = lastNews.attr("id");
                 var last_time = lastNews.attr("data-news-timestamp");
                 inforcenter.getRelatedInfo({
                     "query_type": query_type,
                     "info_type": info_type,
                     "start_time": last_time,
                     "stock_list": stock_list,
-                    "start_id": last_id.replace('news_', '')
+                    "start_id": last_id ? last_id.replace('news_', '') : ""
                 }, function () {
                     $(".wk-user-news-loading").show();
                 }, function (resultData) {
@@ -806,15 +932,15 @@ $(function () {
                 return;
             }
             if (info_type == "1") {
-                var lastNews = $("#wk-user-fastnews-list .wk-con").find(".wk-news-list:last-child");
-                var last_id = lastNews.attr("id") || 0;
+                var lastNews = $("#wk-newsflash .wk-user-fastnews:last-child").find("ul li:last-child");
+                var last_id = lastNews.attr("id");
                 var last_time = lastNews.attr("data-news-timestamp");
                 inforcenter.getRelatedInfo({
                     "query_type": query_type,
                     "info_type": info_type,
                     "start_time": last_time,
                     "stock_list": stock_list,
-                    "start_id": last_id.replace('fastnews_', '')
+                    "start_id": last_id ? last_id.replace('fastnews_', '') : ''
                 }, function () {
                     $(".wk-user-news-loading").show();
                 }, function (resultData) {
@@ -828,14 +954,14 @@ $(function () {
             }
             if (info_type == "2") {
                 var lastNews = $("#wk-user-vpoint-list .wk-con").find(".wk-news-list:last-child");
-                var last_id = lastNews.attr("id") || 0;
+                var last_id = lastNews.attr("id");
                 var last_time = lastNews.attr("data-news-timestamp");
                 inforcenter.getRelatedInfo({
                     "query_type": query_type,
                     "info_type": info_type,
                     "start_time": last_time,
                     "stock_list": stock_list,
-                    "start_id": last_id.replace('media_', '')
+                    "start_id": last_id ? last_id.replace('media_', '') : ""
                 }, function () {
                     $(".wk-user-news-loading").show();
                 }, function (resultData) {
@@ -843,6 +969,46 @@ $(function () {
                     if (resultData.result.length > 0) {
                         var html = ctrlInfo.buildMedia(resultData.result);
                         $("#wk-user-vpoint-list .wk-con").append(html);
+                    }
+                });
+            }
+            if (info_type == "3") {
+                var lastNews = $("#wk-user-report-list .wk-con").find(".wk-news-list:last-child");
+                var last_id = lastNews.attr("id");
+                var last_time = lastNews.attr("data-news-timestamp");
+                inforcenter.getRelatedInfo({
+                    "query_type": query_type,
+                    "info_type": info_type,
+                    "start_time": last_time,
+                    "stock_list": stock_list,
+                    "start_id": last_id ? last_id.replace('report_', '') : ""
+                }, function () {
+                    $(".wk-user-news-loading").show();
+                }, function (resultData) {
+                    $(".wk-user-news-loading").hide();
+                    if (resultData.result.length > 0) {
+                        var html = ctrlInfo.buildReport(resultData.result);
+                        $("#wk-user-report-list .wk-con").append(html);
+                    }
+                });
+            }
+            if (info_type == "4") {
+                var lastNews = $("#wk-user-notice-list .wk-con").find(".wk-news-list:last-child");
+                var last_id = lastNews.attr("id");
+                var last_time = lastNews.attr("data-news-timestamp");
+                inforcenter.getRelatedInfo({
+                    "query_type": query_type,
+                    "info_type": info_type,
+                    "start_time": last_time,
+                    "stock_list": stock_list,
+                    "start_id": last_id ? last_id.replace('notice_', '') : ""
+                }, function () {
+                    $(".wk-user-news-loading").show();
+                }, function (resultData) {
+                    $(".wk-user-news-loading").hide();
+                    if (resultData.result.length > 0) {
+                        var html = ctrlInfo.buildNotice(resultData.result);
+                        $("#wk-user-notice-list .wk-con").append(html);
                     }
                 });
             }
