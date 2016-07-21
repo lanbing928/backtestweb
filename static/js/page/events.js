@@ -162,6 +162,13 @@ $(function () {
                 common.getEventNotice(eventArrData);
             }
         }
+        if ($(this).attr("href").indexOf("#wk-report") === 0) {
+            if ($("#mCSB_5_container").html() === "") {
+                eventArrData.start_id = 0;
+                eventArrData.info_type = 3;
+                common.getEventReprt(eventArrData);
+            }
+        }
     });
     $("#wk-news").mCustomScrollbar({
         autoHideScrollbar: true,
@@ -212,6 +219,19 @@ $(function () {
                 eventArrData.info_type = 4;
                 eventArrData.start_time = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
                 common.getEventNotice(eventArrData);
+            }
+        }
+    });
+    $("#wk-report").mCustomScrollbar({
+        autoHideScrollbar: true,
+        theme: "minimal-dark",
+        axis: "y",
+        callbacks: {
+            onTotalScroll: function () {
+                eventArrData.start_id = $("#wk-report .wk-news-list:last").attr("id").replace("report_", "");
+                eventArrData.info_type = 3;
+                eventArrData.start_time = $("#wk-report .wk-news-list:last").attr("data-news-timestamp");
+                common.getEventReport(eventArrData);
             }
         }
     });

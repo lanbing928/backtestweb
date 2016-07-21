@@ -12,7 +12,7 @@ var wk_treemap_data_industry, wk_treemap_data_concept;
 var query_type = Utility.getQueryStringByName("query_type");//
 var key_name = stockcode + 's';
 var myChart = echarts.init(document.getElementById("left-chart"));
-var twoLineChart=echarts.init(document.getElementById("left-double-chart"));
+var twoLineChart = echarts.init(document.getElementById("left-double-chart"));
 myChart.showLoading({
     "text": "加载中..."
 });
@@ -299,7 +299,6 @@ function initFollowBtn() {
 }
 //新闻情感趋势 双折线图
 function initdoubleLine(type, name) {
-
     common.getNewsTrend({'query_type': type, 'key_name': name}, null, function (resultData) {
         twoLineChart.hideLoading();//关闭加载中
         if (resultData.status == 1) {
@@ -312,11 +311,21 @@ function initdoubleLine(type, name) {
                 var negData = resultData.senti_per.neg_per;
                 var posData = resultData.senti_per.pos_per;
                 $('.pro_chart .progress_neg_per').css("width", negData * 100 + '%');//负面 进度条
-                if(negData && negData >0){ $('.pro_chart .progress_neg .progress_circle').css({"left": (negData* 100)-1.5 + '%',"display":"block"});}
+                if (negData && negData > 0) {
+                    $('.pro_chart .progress_neg .progress_circle').css({
+                        "left": (negData * 100) - 1.5 + '%',
+                        "display": "block"
+                    });
+                }
                 $('.sacle .negative_per').html((negData * 100).toFixed(0));
 
                 $('.pro_chart .progress_pos_per').css("width", posData * 100 + '%');//非负面 进度条
-                if(posData && posData>0){   $('.pro_chart .progress_pos .progress_circle').css({"left": (posData* 100)-1.5 + '%',"display":"block"}); }
+                if (posData && posData > 0) {
+                    $('.pro_chart .progress_pos .progress_circle').css({
+                        "left": (posData * 100) - 1.5 + '%',
+                        "display": "block"
+                    });
+                }
                 $('.sacle .positive_per').html((posData * 100).toFixed(0));
             }
             common.getTwoLineChart("left-double-chart", timeData, newsData, sentiData);
@@ -350,6 +359,12 @@ $(function () {
             if ($("#mCSB_4_container").html().trim() === "") {
                 arrData.start_id = 0;
                 common.getNotice(arrData);
+            }
+        }
+        if ($(this).attr("href").indexOf("#wk-report") === 0) {
+            if ($("#mCSB_5_container").html().trim() === "") {
+                arrData.start_id = 0;
+                common.getReports(arrData);
             }
         }
     });
@@ -401,6 +416,19 @@ $(function () {
                 arrData.start_id = $("#wk-notice .wk-news-list:last").attr("id").replace("notice_", "");
                 arrData.info_type_list = "0,0,0,0,0,0,1";
                 arrData.timestamp = $("#wk-notice .wk-news-list:last").attr("data-news-timestamp");
+                common.getNotice(arrData);
+            }
+        }
+    });
+    $("#wk-report").mCustomScrollbar({
+        autoHideScrollbar: true,
+        theme: "minimal-dark",
+        axis: "y",
+        callbacks: {
+            onTotalScroll: function () {
+                arrData.start_id = $("#wk-report .wk-news-list:last").attr("id").replace("report_", "");
+                arrData.info_type_list = "0,0,0,0,0,0,0,1";
+                arrData.timestamp = $("#wk-report .wk-news-list:last").attr("data-news-timestamp");
                 common.getNotice(arrData);
             }
         }
