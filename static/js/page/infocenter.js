@@ -154,8 +154,8 @@ var ctrlInfo = {
                     }
                     $(".wk-user-choose-title").html(groupHtml.join(''));
                     //我的自选组合点击事件
-                    $(".wk-user-choose-title .btn-group span:first-child").unbind("click").bind("click", function () {
-                        var stockName = $(this).parent().attr("data-group-name");
+                    $(".wk-user-choose-title .wk-btn-mygroup span").unbind("click").bind("click", function () {
+                        var stockName = $(this).parent().parent().attr("data-group-name");
                         $(".wk-sub-refresh").attr("data-refresh", stockName);
                         $(this).parent().parent().addClass("active").siblings().removeClass("active");
                         ctrlInfo.getGroupStock(stockName);
