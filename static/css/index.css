@@ -50,7 +50,7 @@
 .wk-rate-select label.active{width: 80px;background-color: #7065a3;color: #FFFFFF;border: 1px solid #7065a3;}
 #wk-rate-line-pic{height: 350px;width: 100%;}
 
-#wk-news,#wk-newsflash,#wk-selfmedia,#wk-notice{height: 420px;}
+#wk-news,#wk-newsflash,#wk-selfmedia,#wk-notice,#wk-report{height: 420px;}
 
 .wk-news-list{margin-top: 12px;padding: 0 5px;}
 .wk-news-list table>tbody>tr>td{border-bottom: 1px dashed #eeeeee;border-top: none;}
