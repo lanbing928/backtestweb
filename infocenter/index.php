@@ -45,8 +45,8 @@ if (CheckLogin::check() == -1) {
         <div class="wk-user-mychoose-table-box">
             <div class="wk-user-sub-search text-right">
                 <div class="col-md-4 col-md-offset-4">
-                    <label class="wk-user-time"><span>北京</span><span></span></label>
-                    <label class="wk-user-hs"></label>
+<!--                    <label class="wk-user-time"><span>北京</span><span></span></label>-->
+<!--                    <label class="wk-user-hs"></label>-->
                 </div>
                 <div class="col-md-4">
                     <div class="input-group">
@@ -100,6 +100,16 @@ if (CheckLogin::check() == -1) {
                     <span>快讯</span>
                 </div>
             </div>
+            <div class="btn-group" data-target="wk-user-notice-list">
+                <div class="wk-user-notice-slider">
+                    <span>公告</span>
+                </div>
+            </div>
+            <div class="btn-group" data-target="wk-user-report-list">
+                <div class="wk-user-report-slider">
+                    <span>研报</span>
+                </div>
+            </div>
         </div>
         <div class="wk-user-news-tabcon">
             <div class="wk-user-news-list" id="wk-user-news-list">
@@ -125,6 +135,14 @@ if (CheckLogin::check() == -1) {
                 <div class='wk-user-news-loading'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>
             </div>
             <div class="wk-user-fastnews-list" id="wk-user-fastnews-list" style="display: none;">
+                <div class="wk-con"></div>
+                <div class='wk-user-news-loading'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>
+            </div>
+            <div class="wk-user-notice-list" id="wk-user-notice-list" style="display: none;">
+                <div class="wk-con"></div>
+                <div class='wk-user-news-loading'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>
+            </div>
+            <div class="wk-user-report-list" id="wk-user-report-list" style="display: none;">
                 <div class="wk-con"></div>
                 <div class='wk-user-news-loading'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>
             </div>
