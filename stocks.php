@@ -74,23 +74,23 @@ if (empty($stockCode)) {
         </div>
         <div id="wk-rate-line-pic"></div>
     </section>
-    <section class="wk-relate-map">
-        <p class="wk-hot-title">关联信息</p>
-        <div>
-            <div class="col-md-3">
-                <canvas class="wk-cicle-rel" id="aabbcc">14</canvas>
-            </div>
-            <div class="col-md-3">
-                <canvas class="wk-cicle-rel">90</canvas>
-            </div>
-            <div class="col-md-3">
-                <canvas class="wk-cicle-rel">45</canvas>
-            </div>
-            <div class="col-md-3">
-                <canvas class="wk-cicle-rel">12</canvas>
-            </div>
-        </div>
-    </section>
+<!--    <section class="wk-relate-map">-->
+<!--        <p class="wk-hot-title">关联信息</p>-->
+<!--        <div>-->
+<!--            <div class="col-md-3">-->
+<!--                <canvas class="wk-cicle-rel" id="aabbcc">14</canvas>-->
+<!--            </div>-->
+<!--            <div class="col-md-3">-->
+<!--                <canvas class="wk-cicle-rel">90</canvas>-->
+<!--            </div>-->
+<!--            <div class="col-md-3">-->
+<!--                <canvas class="wk-cicle-rel">45</canvas>-->
+<!--            </div>-->
+<!--            <div class="col-md-3">-->
+<!--                <canvas class="wk-cicle-rel">12</canvas>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
     <section class="wk-all-hot">
         <div class="wk-con-news">
             <p class="wk-hot-title relate-infos">关联资讯</p>
@@ -569,6 +569,7 @@ if (empty($stockCode)) {
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="static/plugins/typeahead/jquery.typeahead.min.js"></script>
+<script src="static/plugins/scrollCtrl.min.js"></script>
 <script src="static/js/all.min.js"></script>
 <script src="static/js/common.min.js"></script>
 <script src="static/js/Utility.min.js"></script>

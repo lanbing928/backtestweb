@@ -348,6 +348,7 @@ if (empty($eventName)) {
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="static/plugins/typeahead/jquery.typeahead.min.js"></script>
+<script src="static/plugins/scrollCtrl.min.js"></script>
 <script src="static/js/common.min.js"></script>
 <script src="static/js/Utility.min.js"></script>
 <script src="static/js/all.min.js"></script>

@@ -79,11 +79,11 @@ if (empty($industryName)) {
                 <div class="col-md-5">
                     <p>最近一周新闻情感</p>
                     <div class="progress_neg">
-                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         <div class="progress_circle"></div>
                     </div>
                     <div class="progress_pos">
-                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         <div class="progress_circle"></div>
                     </div>
                     <div class="sacle">
@@ -346,6 +346,7 @@ if (empty($industryName)) {
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="static/plugins/typeahead/jquery.typeahead.min.js"></script>
+<script src="static/plugins/scrollCtrl.min.js"></script>
 <script src="static/js/all.min.js"></script>
 <script src="static/js/common.min.js"></script>
 <script src="static/js/Utility.min.js"></script>
