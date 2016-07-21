@@ -359,7 +359,8 @@ var common = {
                     return showLabel;
                 }
             },
-            grid: {top: "12%", left: "6%", right: "5%", bottom: "0", containLabel: true},
+            dataZoom: [{show: true,realtime: true},{type: 'inside',realtime: true}],
+            grid: {top: "12%", left: "6%", right: "5%", bottom: 40, containLabel: true},
             legend: {left: "left", data: ["查看", "搜索", "关注"], padding: [0, 0, 0, 15]},
             xAxis: {type: "category", boundaryGap: false, data: xdata},
             yAxis: {type: "value", position: "right", scale: true, min: "dataMin", max: "dataMax"},
@@ -692,11 +693,12 @@ var common = {
                 data: [query_name, '沪深300'],
                 top: 0
             },
+            dataZoom: [{show: true,realtime: true},{type: 'inside',realtime: true}],
             grid: {
                 top: '25px',
                 left: '0',
                 right: '0',
-                bottom: '5%',
+                bottom: 40,
                 containLabel: true
             },
             xAxis: {
@@ -927,8 +929,10 @@ var common = {
                     }
                 }
                 $(".relate-infos").html("关联资讯" + relateInfo.join(''));
-                if (query_type == 1) { 
-                    relateRank.push("{ \"industry\": \"" + resultData.industry[0].industry + "\", \"concept\": \"" + resultData.notion[0].section + "\" }");
+                if (query_type == 1) {
+                    if (resultData.industry && resultData.industry.length > 0) {
+                        relateRank.push("{ \"industry\": \"" + resultData.industry[0].industry + "\", \"concept\": \"" + resultData.notion[0].section + "\" }");
+                    }
                 }
             }
         });
@@ -1004,33 +1008,21 @@ var common = {
             tooltip: {
                 trigger: "axis"
             },
-            legend: {
-                data: [
-                    {
-                        name: "新闻数量", icon: 'circle'
-                    },
-                    {
-                        name: "情感指数"
-                    }
-                ],
-                bottom: "0"
-            },
-            grid: {
-                top: '10px',
-                left: '0',
-                right: '0',
-                bottom: '10%',
-                containLabel: true
-            },
+            legend: {data: [{name: "新闻数量", icon: 'circle'}, {name: "情感指数"}], bottom: "0"},
+            grid: {top: '10px', left: 'auto', right: 'auto', bottom: '10%', containLabel: true},
             xAxis: {
                 type: "category",
                 boundaryGap: false,
                 data: timeData,
                 splitLine: {show: false},
                 axisLine: {show: false},
-                axisLabel:{show:false}
+                axisLabel: {show: false}
             },
-            yAxis: [{type: 'value'},{type: 'value',interval: 0.5}],
+            yAxis: [{type: 'value', splitLine: {show: false}, max: "dataMax"}, {
+                type: 'value',
+                splitLine: {show: false},
+                max: "dataMax"
+            }],
             series: [
                 {
                     name: '新闻数量',
@@ -1044,7 +1036,8 @@ var common = {
                     type: "line",
                     areaStyle: {normal: {}},
                     smooth: true,
-                    data: sentiData
+                    data: sentiData,
+                    yAxisIndex: 1
                 }
             ]
         });
