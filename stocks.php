@@ -34,9 +34,27 @@ if (empty($stockCode)) {
 <body>
 <?php include("share/_header.php") ?>
 <div class="container wk-container">
+    <section class="wk-top-title">
+        <label class="wk-topshow-icon"></label>
+        <label class="wk-toshow-name"><i class="fa fa-circle-o-notch fa-spin"></i></label>
+<!--        <div class="btn-group" role="group">-->
+<!--            <i class="fa fa-list-ul" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>-->
+<!--            <ul class="dropdown-menu">-->
+<!--                <li><a href="#">公司概况</a></li>-->
+<!--                <li><a href="#">公司高管</a></li>-->
+<!--                <li><a href="#">股本结构</a></li>-->
+<!--                <li><a href="#">主要股东</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+        <label class="wk-topshow-price"></label>
+        <label class="wk-topshow-price-per"></label>
+        <div class="wk-topshow-right">
+            <span class="wk-topshow-dp">沪深：<span><i class="fa fa-circle-o-notch fa-spin"></i></span></span>
+        </div>
+    </section>
     <section class="wk-time-hot">
         <p class="wk-hot-title wk-related-info">
-            热度情况&nbsp;
+            总览&nbsp;
             <i class="fa fa-question-circle-o" data-toggle="popover" data-content="每小时产生的热度量"></i>
             <span>行业：</span>
             <span>概念：</span>
@@ -74,23 +92,23 @@ if (empty($stockCode)) {
         </div>
         <div id="wk-rate-line-pic"></div>
     </section>
-<!--    <section class="wk-relate-map">-->
-<!--        <p class="wk-hot-title">关联信息</p>-->
-<!--        <div>-->
-<!--            <div class="col-md-3">-->
-<!--                <canvas class="wk-cicle-rel" id="aabbcc">14</canvas>-->
-<!--            </div>-->
-<!--            <div class="col-md-3">-->
-<!--                <canvas class="wk-cicle-rel">90</canvas>-->
-<!--            </div>-->
-<!--            <div class="col-md-3">-->
-<!--                <canvas class="wk-cicle-rel">45</canvas>-->
-<!--            </div>-->
-<!--            <div class="col-md-3">-->
-<!--                <canvas class="wk-cicle-rel">12</canvas>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </section>-->
+    <!--    <section class="wk-relate-map">-->
+    <!--        <p class="wk-hot-title">关联信息</p>-->
+    <!--        <div>-->
+    <!--            <div class="col-md-3">-->
+    <!--                <canvas class="wk-cicle-rel" id="aabbcc">14</canvas>-->
+    <!--            </div>-->
+    <!--            <div class="col-md-3">-->
+    <!--                <canvas class="wk-cicle-rel">90</canvas>-->
+    <!--            </div>-->
+    <!--            <div class="col-md-3">-->
+    <!--                <canvas class="wk-cicle-rel">45</canvas>-->
+    <!--            </div>-->
+    <!--            <div class="col-md-3">-->
+    <!--                <canvas class="wk-cicle-rel">12</canvas>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </section>-->
     <section class="wk-all-hot">
         <div class="wk-con-news">
             <p class="wk-hot-title relate-infos">关联资讯</p>

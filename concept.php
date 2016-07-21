@@ -32,8 +32,12 @@ if (empty($conceptName)) {
 <body>
 <?php include("share/_header.php") ?>
 <div class="container wk-container">
+    <section class="wk-top-title">
+        <label class="wk-topshow-icon"></label>
+        <label class="wk-toshow-name"><?php echo $conceptName ?></label>
+    </section>
     <section class="wk-time-hot">
-        <p class="wk-hot-title"><?php echo $conceptName ?>概念热度情况&nbsp;
+        <p class="wk-hot-title">概念总览
             <i class="fa fa-question-circle-o" data-toggle="popover" data-content="<?php echo $conceptName ?>概念每小时产生的热度量"></i>
         </p>
         <div class="col-md-4 col-md-offset-4 text-right wk-line-toggle" data-query-type="3" data-query-key="<?php echo $conceptName ?>">
