@@ -45,21 +45,18 @@ $(function () {
             }
         }
     });
-    window.bindEnterNewsBox = function () {
-        $(".wk-con-news .wk-con-box").mouseenter(function () {
-            scrollHanlder.disableScroll();
-        });
-    };
-    window.bindLeaveNewsBox = function () {
-        $(".wk-con-news .wk-con-box").mouseleave(function () {
-            scrollHanlder.enableScroll();
-        });
-    };
+    // $(".wk-con-news .wk-con-box").mouseenter(function (e) {
+    //     scrollHanlder.disableScroll();
+    //     e.stopPropagation();
+    // });
+    // $(".wk-con-news .wk-con-box").mouseleave(function (e) {
+    //     scrollHanlder.enableScroll();
+    //     e.stopPropagation();
+    // });
     $("i[data-toggle='popover']").popover({
         container: "body",
         trigger: "hover"
     });
-
     $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
         initTreeMapChart();
     });
@@ -113,7 +110,7 @@ $(function () {
             to.find(".toggle-treemap").show();
             to.find(".toggle-treemap-table-up").hide();
             to.find(".toggle-treemap-table-down").hide();
-            //initTreeMapChart();
+            initTreeMapChart();
         } else if ($(this).html() == "涨幅") {
             to.find(".toggle-treemap").hide();
             to.find(".toggle-treemap-table-up").show();
