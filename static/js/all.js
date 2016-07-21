@@ -45,12 +45,16 @@ $(function () {
             }
         }
     });
-    $(".wk-con-news .wk-con-box").mouseenter(function () {
-        scrollHanlder.disableScroll();
-    });
-    $(".wk-con-news .wk-con-box").mouseleave(function () {
-        scrollHanlder.enableScroll();
-    });
+    window.bindEnterNewsBox = function () {
+        $(".wk-con-news .wk-con-box").mouseenter(function () {
+            scrollHanlder.disableScroll();
+        });
+    };
+    window.bindLeaveNewsBox = function () {
+        $(".wk-con-news .wk-con-box").mouseleave(function () {
+            scrollHanlder.enableScroll();
+        });
+    };
     $("i[data-toggle='popover']").popover({
         container: "body",
         trigger: "hover"
