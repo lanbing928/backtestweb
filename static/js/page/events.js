@@ -166,7 +166,7 @@ $(function () {
             if ($("#mCSB_5_container").html() === "") {
                 eventArrData.start_id = 0;
                 eventArrData.info_type = 3;
-                common.getEventReprt(eventArrData);
+                common.getEventReport(eventArrData);
             }
         }
     });
