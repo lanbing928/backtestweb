@@ -170,6 +170,23 @@ var common = {
         });
     },
     /**
+     * 研报
+     * @param arrData
+     */
+    getReports: function (arrData) {
+        arrData.info_type_list = "0,0,0,0,0,0,0,1";
+        common.getRelatedInfo(arrData, function () {
+            $("#wk-report").append(common.getLoading());
+        }, function (resultData) {
+            common.hideLoading();
+            if (arrData.start_id === 0) {
+                $("#wk-report .mCSB_container").html(common.buildReport(resultData.report));
+            } else {
+                $("#wk-report .mCSB_container").append(common.buildReport(resultData.report));
+            }
+        });
+    },
+    /**
      *获取事件关联新闻
      */
     getEventNews: function (arrData) {
@@ -226,6 +243,21 @@ var common = {
                 $("#wk-notice .mCSB_container").html(common.buildNotice(resultData.result));
             } else {
                 $("#wk-notice .mCSB_container").append(common.buildNotice(resultData.result));
+            }
+        });
+    },
+    /**
+     * 获取事件关联研报
+     */
+    getEventReport: function (arrData) {
+        common.getEventRelatedInfo(arrData, function () {
+            $("#wk-report").append(common.getLoading());
+        }, function (resultData) {
+            common.hideLoading();
+            if (arrData.start_id === 0) {
+                $("#wk-report .mCSB_container").html(common.buildReport(resultData.result));
+            } else {
+                $("#wk-report .mCSB_container").append(common.buildReport(resultData.result));
             }
         });
     },
@@ -332,6 +364,32 @@ var common = {
         return noticeHtml.join('');
     },
     /**
+     * 构建研报信息
+     * @returns {string}
+     */
+    buildReport: function (resultData) {
+        var reportHtml = [];
+        if (resultData.length > 0) {
+            common.hideLoading();
+            for (var i = 0; i < resultData.length; i++) {
+                reportHtml.push("<div class=\"wk-news-list\" id=\"report_" + resultData[i].info_id + "\" data-news-timestamp=\"" + resultData[i].timestamp + "\">");
+                reportHtml.push("<div class=\"wk-news-list-head\">");
+                reportHtml.push("<p class=\"wk-news-list-title\"><a href=\"detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\">");
+                reportHtml.push(resultData[i].title);
+                reportHtml.push("</a></p>" + Utility.getgetEmotion(resultData[i].sentiment) + "</div><div class=\"wk-news-list-con\"><p>");
+                if (resultData[i].summary !== "") {
+                    reportHtml.push("<strong>【机器人摘要】</strong>");
+                    reportHtml.push(resultData[i].summary);
+                    reportHtml.push("<a href=\"detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
+                }
+                reportHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
+            }
+        } else {
+            reportHtml.push("<div class=\"wk-news-no\"><img src=\"static/imgs/i/nonews.png\"><span>暂无相关研报</span></div>");
+        }
+        return reportHtml.join('');
+    },
+    /**
      * 折线图
      * @param chartId
      * @param xdata
@@ -359,13 +417,13 @@ var common = {
                     return showLabel;
                 }
             },
-            dataZoom: [
-                {type: 'inside', realtime: true},
-                {
-                    type: 'slider',
-                    show: true,
-                    realtime: true
-                }],
+            // dataZoom: [
+            //     {type: 'inside', realtime: true},
+            //     {
+            //         type: 'slider',
+            //         show: true,
+            //         realtime: true
+            //     }],
             grid: {top: "12%", left: "6%", right: "5%", bottom: 40, containLabel: true},
             legend: {left: "left", data: ["查看", "搜索", "关注"], padding: [0, 0, 0, 15]},
             xAxis: {type: "category", boundaryGap: false, data: xdata},
@@ -699,7 +757,7 @@ var common = {
                 data: [query_name, '沪深300'],
                 top: 0
             },
-            dataZoom: [{show: true, realtime: true}, {type: 'inside', realtime: true}],
+            //dataZoom: [{show: true, realtime: true}, {type: 'inside', realtime: true}],
             grid: {
                 top: '25px',
                 left: '0',
@@ -770,7 +828,7 @@ var common = {
                 tableHtml.push("</tr>");
             }
             return tableHtml.join('');
-        }else {//不存在
+        } else {//不存在
             var str = '<tr><td colspan="7" style="height:260px;line-height:260px;color:#545454;font-size:18px;"><img src="/static/imgs/i/index_nodata.png">&nbsp;&nbsp;&nbsp;暂时没有数据</td></tr>';
             return str;
         }
@@ -782,7 +840,7 @@ var common = {
      * @returns {string}
      */
     buildOtherTable: function (buildData, buildType) {
-        if(buildData.length > 0){ //存在
+        if (buildData.length > 0) { //存在
             var tableHtml = [];
             buildData.sort(function (a, b) {
                 return b.value - a.value;
@@ -799,8 +857,14 @@ var common = {
             }
             return tableHtml.join('');
 
-        }else{ //不存在
-            $(this).find(".wk-treemap-table").css({height:"294px","text-align":"center","line-height":"294px","color":"#545454","font-size":"18px"});
+        } else { //不存在
+            $(this).find(".wk-treemap-table").css({
+                height: "294px",
+                "text-align": "center",
+                "line-height": "294px",
+                "color": "#545454",
+                "font-size": "18px"
+            });
             var str = '<tr><td colspan="5" style="height:260px;line-height:260px;color:#545454;font-size:18px;"><img src="/static/imgs/i/index_nodata.png">&nbsp;&nbsp;&nbsp;暂时没有数据</td></tr>';
             return str;
 
