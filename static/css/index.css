@@ -304,7 +304,7 @@
 
 .wk-user-news-list,.wk-user-vpoint-list,.wk-user-fastnews-list{margin-top: 15px;}
 .wk-news-list-title a{text-decoration: none;}
-.wk-user-news-slider,.wk-user-vpoint-slider,.wk-user-fastnews-slider{padding: 0 5px;border-right: 1px solid #e8e8e8;}
+.wk-user-news-slider,.wk-user-vpoint-slider,.wk-user-fastnews-slider,.wk-user-notice-slider,.wk-user-report-slider{padding: 0 5px;border-right: 1px solid #e8e8e8;}
 .wk-user-fastnews-todate{margin-bottom: 0;padding: 0;font-weight: 600;color: #011c71;font-size: 14px;}
 .wk-user-fastnews ul{padding-left: 0;margin-bottom: 26px;}
 .wk-user-fastnews li{display: inline-flex;border-bottom: 1px dashed #dbe4f9;padding: 18px 0;width: 100%;}
@@ -381,6 +381,7 @@
 #left-double-chart{border:0;margin:0;padding:0;min-height:125px;}
 
 
+/*关联关系图*/
 .wk-relate-map{margin-top: 25px;min-height: 585px;}
 .wk-relate-map .col-md-3{text-align: center;}
 #wk-circle-info{width: 890px;height: 540px;}
