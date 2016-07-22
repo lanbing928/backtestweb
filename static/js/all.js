@@ -53,6 +53,18 @@ $(function () {
     //     scrollHanlder.enableScroll();
     //     e.stopPropagation();
     // });
+    Number.prototype.toWanNum = function () {
+        var str = this;
+        return (str / 10000).toFixed(2) + "万";
+    };
+    Number.prototype.toFormatNum = function () {
+        var num = this;
+        return num && (num.toString().indexOf('.') != -1 ? num.toString().replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {
+                return $1 + ",";
+            }) : num.toString().replace(/(\d)(?=(\d{3})+\b)/g, function ($0, $1) {
+                return $1 + ",";
+            }));
+    };
     $("i[data-toggle='popover']").popover({
         container: "body",
         trigger: "hover"
