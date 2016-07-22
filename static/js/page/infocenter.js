@@ -72,6 +72,7 @@ var ctrlInfo = {
                         inforcenter.addStock({ori_name: groupName, code: stockCode}, null, function (resultData) {
                             if (resultData && resultData.status == 1) {
                                 ctrlInfo.getGroupStock(groupName);
+                                $(".wk-user-stock-search").val("");
                             }
                         });
                     }
@@ -673,9 +674,9 @@ var ctrlInfo = {
                     for (var j = 0; j < resultData[i].related_stock.length; j++) {
                         var stock_name = resultData[i].related_stock[j].stock_name;
                         var stock_code = resultData[i].related_stock[j].stock_code;
-                        var price_up_down=resultData[i].related_stock[j].price_up_down;
+                        var price_up_down = resultData[i].related_stock[j].price_up_down;
                         if (stock_name != "" && stock_code != "") {
-                            newsHtml.push("<a class='"+Utility.getPriceColor(price_up_down)+"' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
+                            newsHtml.push("<a class='" + Utility.getPriceColor(price_up_down) + "' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
                         }
                     }
                 }
@@ -711,9 +712,9 @@ var ctrlInfo = {
                     for (var j = 0; j < resultData[i].related_stock.length; j++) {
                         var stock_name = resultData[i].related_stock[j].stock_name;
                         var stock_code = resultData[i].related_stock[j].stock_code;
-                        var price_up_down=resultData[i].related_stock[j].price_up_down;
+                        var price_up_down = resultData[i].related_stock[j].price_up_down;
                         if (stock_name != "" && stock_code != "") {
-                            mediaHtml.push("<a class='"+Utility.getPriceColor(price_up_down)+"' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
+                            mediaHtml.push("<a class='" + Utility.getPriceColor(price_up_down) + "' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
                         }
                     }
                 }
@@ -779,9 +780,9 @@ var ctrlInfo = {
                     for (var j = 0; j < resultData[i].related_stock.length; j++) {
                         var stock_name = resultData[i].related_stock[j].stock_name;
                         var stock_code = resultData[i].related_stock[j].stock_code;
-                        var price_up_down=resultData[i].related_stock[j].price_up_down;
+                        var price_up_down = resultData[i].related_stock[j].price_up_down;
                         if (stock_name != "" && stock_code != "") {
-                            noticeHtml.push("<a class='"+Utility.getPriceColor(price_up_down)+"' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
+                            noticeHtml.push("<a class='" + Utility.getPriceColor(price_up_down) + "' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
                         }
                     }
                 }
@@ -817,7 +818,7 @@ var ctrlInfo = {
                     for (var j = 0; j < resultData[i].related_stock.length; j++) {
                         var stock_name = resultData[i].related_stock[j].stock_name;
                         var stock_code = resultData[i].related_stock[j].stock_code;
-                        var price_up_down=resultData[i].related_stock[j].price_up_down;
+                        var price_up_down = resultData[i].related_stock[j].price_up_down;
                         if (stock_name != "" && stock_code != "") {
                             reportHtml.push("<a href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
                         }
@@ -831,7 +832,7 @@ var ctrlInfo = {
                 if (resultData[i].summary != "") {
                     reportHtml.push("<strong>【机器人摘要】</strong>");
                     reportHtml.push(resultData[i].summary);
-                    reportHtml.push("<a class='"+Utility.getPriceColor(price_up_down)+"' href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
+                    reportHtml.push("<a class='" + Utility.getPriceColor(price_up_down) + "' href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
                 }
                 reportHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
             }
