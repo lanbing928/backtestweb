@@ -327,5 +327,27 @@ var Utility = {
             return "";
         }
         return "";
+    },
+    /**
+     * 获取股票状态(价格，涨跌幅，大盘状态)
+     */
+    getStockStatus: function (stockDetail) {
+        var stock_price = stockDetail.currentmoney;//当前价格
+        var stock_updown = stockDetail.currentmoney - stockDetail.yesterdayclose;
+        if (stockDetail.currentmoney != 0) {
+            var stock_per = stock_updown / stock_price * 100;
+        }
+        var stock_status = '休市';
+        if (Utility.timeRange("09:15", "09:25")) {
+            stock_status = "竞价中";
+        }
+        if (Utility.timeRange("09:30", "11:30") || Utility.timeRange("13:00", "15:00")) {
+            stock_status = "交易中";
+        }
+        var myDate = new Date();
+        if (myDate == 0 || myDate == 6) {
+            stock_status = '休市';
+        }
+        return {"price": stock_price, "updown": stock_updown, "percent": stock_per || 0, "status": stock_status};
     }
 };
