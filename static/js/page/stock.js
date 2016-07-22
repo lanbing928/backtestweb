@@ -122,12 +122,12 @@ function initTreeMapChart() {
             _stockName = resultData.stock_info.stock_name;
             $(".wk-toshow-name").html(_stockName + "(" + stockcode + ")");
             Utility.getSinaStockData(stockcode, function (stockData) {
-                var updown_price = stockData.currentmoney - stockData.yesterdayclose;
-                var updown_per = updown_price / stockData.currentmoney * 100;
-                $(".wk-topshow-price").html(stockData.currentmoney).addClass(Utility.getPriceColor(updown_per));
-                $(".wk-topshow-price-per").html(Utility.getPriceSymbol(updown_price) + updown_price.toFixed(2) + "(" + Utility.getPriceSymbol(updown_price) + updown_per.toFixed(2) + "%)").addClass(Utility.getPriceColor(updown_per));
+                var _stock_status = Utility.getStockStatus(stockData);
+
+                $(".wk-topshow-price").html(_stock_status.price).addClass(Utility.getUpDownColor(_stock_status.updown));
+                $(".wk-topshow-price-per").html(Utility.getPriceSymbol(_stock_status.updown) + _stock_status.updown.toFixed(2) + "(" + Utility.getPriceSymbol(_stock_status.updown) + _stock_status.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(_stock_status.percent));
             });
-            $(".wk-topshow-dp span").html(Utility.getTradeTime());
+            $(".wk-topshow-dp span").html(Utility.getTradeTime()).addClass("wk-up");
             $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
             $(".wk-related-info").html("热度总览&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "");
             $(".latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
