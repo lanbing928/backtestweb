@@ -28,7 +28,11 @@ if (CheckLogin::check() == -1) {
 <?php include("share/_header.php") ?>
 <div class="container wk-container">
     <section class="wk-time-hot">
-        <p class="wk-hot-title">A股市场实时热度&nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-content="A股市场每小时产生的热度量"></i></p>
+        <p class="wk-hot-title">
+            A股市场实时热度&nbsp;
+            <i class="fa fa-question-circle-o" data-toggle="popover" data-content="A股市场每小时产生的热度量"></i>
+            <label class="wk-topshow-dp">沪深：<label><i class="fa fa-circle-o-notch fa-spin"></i></label></label>
+        </p>
         <div class="col-md-4 col-md-offset-4 text-right wk-line-toggle" data-query-type="0" data-query-key="000001">
             <a class="line-active" data-key="day">实时</a>
             <a data-key="week">周</a>
@@ -38,7 +42,6 @@ if (CheckLogin::check() == -1) {
         <div class="col-md-4 right-infos">
             <p>
                 A股今日最热度情况
-                <!--                &nbsp;<i class="fa fa-question-circle-o" data-toggle="popover" data-placement="bottom" data-content=""></i>-->
             </p>
             <hr>
             <table class="table table-condensed first-table todayhot">
@@ -131,7 +134,7 @@ if (CheckLogin::check() == -1) {
                                         <td>价格涨跌幅</td>
                                         <td>查看热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -147,7 +150,7 @@ if (CheckLogin::check() == -1) {
                                         <td>价格涨跌幅</td>
                                         <td>查看热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -202,7 +205,7 @@ if (CheckLogin::check() == -1) {
                                         <td>价格涨跌幅</td>
                                         <td>搜索热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -218,7 +221,7 @@ if (CheckLogin::check() == -1) {
                                         <td>价格涨跌幅</td>
                                         <td>搜索热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -273,13 +276,13 @@ if (CheckLogin::check() == -1) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
                             </div>
-                             <div class="toggle-treemap-table-down" style="display: none;">
+                            <div class="toggle-treemap-table-down" style="display: none;">
                                 <table class="table table-hover table-condensed wk-treemap-table">
                                     <thead>
                                     <tr>
@@ -289,7 +292,7 @@ if (CheckLogin::check() == -1) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -361,13 +364,13 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>查看热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
                             </div>
-                             <div class="toggle-treemap-table-down" style="display: none;">
+                            <div class="toggle-treemap-table-down" style="display: none;">
                                 <table class="table table-hover table-condensed wk-treemap-table">
                                     <thead>
                                     <tr>
@@ -375,7 +378,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>查看热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -429,7 +432,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>搜索热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -443,7 +446,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>搜索热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -495,13 +498,13 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
                             </div>
-                             <div class="toggle-treemap-table-down" style="display: none;">
+                            <div class="toggle-treemap-table-down" style="display: none;">
                                 <table class="table table-hover table-condensed wk-treemap-table">
                                     <thead>
                                     <tr>
@@ -509,7 +512,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -581,7 +584,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>查看热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -595,7 +598,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>查看热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -647,7 +650,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>搜索热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -661,7 +664,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>搜索热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -713,7 +716,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -727,7 +730,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -799,7 +802,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>查看热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -813,7 +816,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>查看热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -865,13 +868,13 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>搜索热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
                             </div>
-                             <div class="toggle-treemap-table-down" style="display: none;">
+                            <div class="toggle-treemap-table-down" style="display: none;">
                                 <table class="table table-hover table-condensed wk-treemap-table">
                                     <thead>
                                     <tr>
@@ -879,7 +882,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>搜索热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -931,13 +934,13 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
                                 </table>
                             </div>
-                             <div class="toggle-treemap-table-down" style="display: none;">
+                            <div class="toggle-treemap-table-down" style="display: none;">
                                 <table class="table table-hover table-condensed wk-treemap-table">
                                     <thead>
                                     <tr>
@@ -945,7 +948,7 @@ if (CheckLogin::check() == -1) {
                                         <td>行业名称</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>

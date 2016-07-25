@@ -49,7 +49,7 @@ if (empty($stockCode)) {
         <label class="wk-topshow-price"></label>
         <label class="wk-topshow-price-per"></label>
         <div class="wk-topshow-right">
-            <span class="wk-topshow-dp">沪深：<span><i class="fa fa-circle-o-notch fa-spin"></i></span></span>
+            <label class="wk-topshow-dp">沪深：<label><i class="fa fa-circle-o-notch fa-spin"></i></label></label>
         </div>
     </section>
     <section class="wk-time-hot">
@@ -198,7 +198,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -214,7 +214,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -262,7 +262,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -278,7 +278,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -326,7 +326,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -342,7 +342,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -407,7 +407,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -423,7 +423,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -471,7 +471,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -487,7 +487,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -535,7 +535,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>
@@ -551,7 +551,7 @@ if (empty($stockCode)) {
                                         <td>价格涨跌幅</td>
                                         <td>关注热度</td>
                                         <td>热度增量</td>
-                                        <td>成交量</td>
+                                        <td>成交量(万手)</td>
                                     </tr>
                                     </thead>
                                     <tbody></tbody>

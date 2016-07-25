@@ -35,6 +35,9 @@ if (empty($conceptName)) {
     <section class="wk-top-title">
         <label class="wk-topshow-icon"></label>
         <label class="wk-toshow-name"><?php echo $conceptName ?></label>
+        <div class="wk-topshow-right">
+            <label class="wk-topshow-dp">沪深：<label><i class="fa fa-circle-o-notch fa-spin"></i></label></label>
+        </div>
     </section>
     <section class="wk-time-hot">
         <p class="wk-hot-title">概念总览
@@ -186,7 +189,7 @@ if (empty($conceptName)) {
                                             <td>价格涨跌幅</td>
                                             <td>查看热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -202,7 +205,7 @@ if (empty($conceptName)) {
                                             <td>价格涨跌幅</td>
                                             <td>查看热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -253,7 +256,7 @@ if (empty($conceptName)) {
                                             <td>价格涨跌幅</td>
                                             <td>搜索热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -269,7 +272,7 @@ if (empty($conceptName)) {
                                             <td>价格涨跌幅</td>
                                             <td>搜索热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -320,7 +323,7 @@ if (empty($conceptName)) {
                                             <td>价格涨跌幅</td>
                                             <td>关注热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -336,7 +339,7 @@ if (empty($conceptName)) {
                                             <td>价格涨跌幅</td>
                                             <td>关注热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
