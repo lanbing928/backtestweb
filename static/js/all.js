@@ -69,7 +69,7 @@ $(function () {
         container: "body",
         trigger: "hover"
     });
-
+    $(".wk-topshow-dp label").html(Utility.getTradeTime()).addClass("wk-up");
     $(".wk-line-toggle a").click(function () {
         $(this).addClass("line-active").siblings().removeClass("line-active");
         var query_type = $(this).parent().attr("data-query-type");
