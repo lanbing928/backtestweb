@@ -140,7 +140,7 @@
                     $(".wk-topshow-price").html("¥" + _stock_status.price).addClass(Utility.getUpDownColor(_stock_status.updown));
                     $(".wk-topshow-price-per").html(Utility.getPriceSymbol(_stock_status.updown) + _stock_status.updown.toFixed(2) + "(" + Utility.getPriceSymbol(_stock_status.updown) + _stock_status.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(_stock_status.percent));
                 });
-                $(".wk-topshow-dp span").html(Utility.getTradeTime()).addClass("wk-up");
+                $(".wk-topshow-dp label").html(Utility.getTradeTime()).addClass("wk-up");
                 $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
                 $(".wk-related-info").html("热度总览&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "");
                 $(".latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
