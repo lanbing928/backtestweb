@@ -262,7 +262,7 @@
                             stockHtml.push("<td><a href='../stocks.php?stock=" + list[i].code + "' target='_blank'>" + list[i].name + "</a></td>");
                             stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + list[i].trade.toFixed(2) + "</td>");
                             stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + (list[i].price_change_ratio).toFixed(2) + "%</td>");
-                            stockHtml.push("<td>" + (list[i].volume / 10000).toFixed(2) + "</td>");
+                            stockHtml.push("<td>" + (list[i].volume / 10000 / 100).toFixed(2) + "</td>");
                             stockHtml.push("<td>" + (list[i].amount).toFixed(2) + "</td>");
                             stockHtml.push("<td>" + (list[i].pe).toFixed(2) + "</td>");
                             stockHtml.push("<td>" + list[i].visit_hot + "</td>");
