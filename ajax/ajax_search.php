@@ -16,7 +16,6 @@ if (empty($message)) {
     print_r(json_encode(array("status" => 0, "result" => "搜索关键字为空")));
     return;
 }
-//$url = "http://api.stock.miglab.com/cgi-bin/jarvis/search/1/search.fcgi";
 $url=iwookongConfig::$requireUrl."search/1/search.fcgi";
 $result = RequestUtil::get($url,
     array(

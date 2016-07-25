@@ -32,8 +32,12 @@ if (empty($industryName)) {
 <body>
 <?php include("share/_header.php") ?>
 <div class="container wk-container">
+    <section class="wk-top-title">
+        <label class="wk-topshow-icon"></label>
+        <label class="wk-toshow-name"><?php echo $industryName ?></label>
+    </section>
     <section class="wk-time-hot">
-        <p class="wk-hot-title"><?php echo $industryName ?>行业热度情况&nbsp;
+        <p class="wk-hot-title">行业总览
             <i class="fa fa-question-circle-o" data-toggle="popover" data-content="<?php echo $industryName ?>行业每小时产生的热度量"></i>
         </p>
         <div class="col-md-4 col-md-offset-4 text-right wk-line-toggle" data-query-type="2" data-query-key="<?php echo $industryName ?>">
@@ -77,13 +81,13 @@ if (empty($industryName)) {
             <p class="wk-hot-title relate-infos">关联资讯</p>
             <div class="row right pro_chart">
                 <div class="col-md-5">
-                    <p>新闻情感</p>
+                    <p>最近一周新闻情感</p>
                     <div class="progress_neg">
-                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         <div class="progress_circle"></div>
                     </div>
                     <div class="progress_pos">
-                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         <div class="progress_circle"></div>
                     </div>
                     <div class="sacle">
@@ -92,7 +96,7 @@ if (empty($industryName)) {
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md-5">
-                    <p>新闻趋势</p>
+                    <p>最近一周新闻趋势</p>
                     <div class="left-charts" id="left-double-chart"></div>
                 </div>
             </div>
@@ -102,6 +106,7 @@ if (empty($industryName)) {
                     <li role="presentation"><a href="#wk-selfmedia" aria-controls="wk-selfmedia" role="tab" data-toggle="tab"><label></label>达人观点</a></li>
                     <li role="presentation"><a href="#wk-newsflash" aria-controls="wk-newsflash" role="tab" data-toggle="tab">快讯</a></li>
                     <li role="presentation"><a href="#wk-notice" aria-controls="wk-notice" role="tab" data-toggle="tab">公告</a></li>
+                    <li role="presentation"><a href="#wk-report" aria-controls="wk-report" role="tab" data-toggle="tab">研报</a></li>
                 </ul>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="wk-news"></div>
@@ -114,6 +119,7 @@ if (empty($industryName)) {
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="wk-notice"></div>
+                    <div role="tabpanel" class="tab-pane fade" id="wk-report"></div>
                 </div>
             </div>
         </div>
@@ -344,6 +350,7 @@ if (empty($industryName)) {
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="static/plugins/typeahead/jquery.typeahead.min.js"></script>
+<script src="static/plugins/scrollCtrl.min.js"></script>
 <script src="static/js/all.min.js"></script>
 <script src="static/js/common.min.js"></script>
 <script src="static/js/Utility.min.js"></script>

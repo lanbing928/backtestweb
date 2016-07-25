@@ -1,5 +1,6 @@
 "use strict";
 $(function () {
+    var thisHost = "http://" + window.location.host + "/";
     /**
      * 搜索框自动完成
      */
@@ -15,46 +16,59 @@ $(function () {
         filter: false,
         emptyTemplate: '未找到 "{{query}}" 的相关信息',
         source: {
-            "股票": { url: ["ajax/ajax_search.php?message={{query}},", "stock"] },
-            "行业": { url: ["ajax/ajax_search.php?message={{query}},", "hy"] },
-            "概念": { url: ["ajax/ajax_search.php?message={{query}},", "gn"] },
-            "热点事件": { url: ["ajax/ajax_search.php?message={{query}},", "event"] }
+            "股票": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "stock"]},
+            "行业": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "hy"]},
+            "概念": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "gn"]},
+            "热点事件": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "event"]}
         },
         callback: {
             onClickAfter: function (node, a, item) {
                 if (item.display !== "") {
                     switch (item.group) {
                         case "股票":
-                            window.open("stocks.php?stock=" + item.display.substring(item.display.indexOf("(") + 1, item.display.indexOf(")")), "_blank");
+                            window.open(thisHost + "stocks.php?stock=" + item.display.substring(item.display.indexOf("(") + 1, item.display.indexOf(")")), "_blank");
                             break;
                         case "行业":
-                            window.open("industry.php?name=" + item.display, "_blank");
+                            window.open(thisHost + "industry.php?name=" + item.display, "_blank");
                             break;
                         case "概念":
-                            window.open("concept.php?name=" + item.display, "_blank");
+                            window.open(thisHost + "concept.php?name=" + item.display, "_blank");
                             break;
                         case "热点事件":
-                            window.open("event.php?name=" + item.display, "_blank");
+                            window.open(thisHost + "event.php?name=" + item.display, "_blank");
                             break;
                         default:
-                            window.open("error.php", "_blank");
+                            window.open(thisHost + "error.php", "_blank");
                             break;
                     }
                 }
             }
         }
     });
-    $(".wk-con-news .wk-con-box").mouseenter(function () {
-        //$(document.body).css({"overflow-x": "hidden", "overflow-y": "hidden"});
-    });
-    $(".wk-con-news .wk-con-box").mouseleave(function () {
-        //$(document.body).css({"overflow-x": "auto", "overflow-y": "auto"});
-    });
+    // $(".wk-con-news .wk-con-box").mouseenter(function (e) {
+    //     scrollHanlder.disableScroll();
+    //     e.stopPropagation();
+    // });
+    // $(".wk-con-news .wk-con-box").mouseleave(function (e) {
+    //     scrollHanlder.enableScroll();
+    //     e.stopPropagation();
+    // });
+    Number.prototype.toWanNum = function () {
+        var str = this;
+        return (str / 10000).toFixed(2) + "万";
+    };
+    Number.prototype.toFormatNum = function () {
+        var num = this;
+        return num && (num.toString().indexOf('.') != -1 ? num.toString().replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {
+                return $1 + ",";
+            }) : num.toString().replace(/(\d)(?=(\d{3})+\b)/g, function ($0, $1) {
+                return $1 + ",";
+            }));
+    };
     $("i[data-toggle='popover']").popover({
         container: "body",
         trigger: "hover"
     });
-
     $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
         initTreeMapChart();
     });
@@ -73,7 +87,7 @@ $(function () {
         } else {
             common.getHotRecord(arrData, function () {
                 var myChart = echarts.init(document.getElementById("left-chart"));
-                myChart.showLoading({ "text": "加载中..." });
+                myChart.showLoading({"text": "加载中..."});
             }, function (resultData) {
                 var _viewData = [];
                 var _searchData = [];
@@ -108,7 +122,7 @@ $(function () {
             to.find(".toggle-treemap").show();
             to.find(".toggle-treemap-table-up").hide();
             to.find(".toggle-treemap-table-down").hide();
-            //initTreeMapChart();
+            initTreeMapChart();
         } else if ($(this).html() == "涨幅") {
             to.find(".toggle-treemap").hide();
             to.find(".toggle-treemap-table-up").show();
@@ -138,7 +152,7 @@ $(function () {
         switch (toggle) {
             case "today":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -146,7 +160,7 @@ $(function () {
                 break;
             case "week":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -154,7 +168,7 @@ $(function () {
                 break;
             case "month":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -162,7 +176,7 @@ $(function () {
                 break;
             case "threemonth":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();

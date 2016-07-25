@@ -29,7 +29,7 @@ $msg_cooikes->set('message','1','2592000');
 <?php include("share/_header.php") ?>
 <div class="container wk-container">
     <section class="wk-all-hot">
-        <p class="wk-hot-title">悟空1.3.2版新增功能</p>
+        <p class="wk-hot-title">悟空1.2.2版新增功能</p>
         <div class="msg">
             <b>本次悟空1.3.2版更新包括如下内容：</b>
             <div class="updata_main">

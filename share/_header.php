@@ -21,7 +21,7 @@ if (isset($userInfo)) {
             <ul class="nav navbar-nav">
                 <li class="wk-nav-search">
                     <div class="typeahead__container">
-                        <div class="typeahead__field"><span class="typeahead__query"> <input class="wk-head-search" type="search" placeholder="搜索(股票/行业/概念)" autocomplete="off"> </span> <span class="typeahead__button"> <button> <i class="typeahead__search-icon"></i> </button> </span></div>
+                        <div class="typeahead__field"><span class="typeahead__query"> <input class="wk-head-search" type="search" placeholder="搜索(股票/行业/概念/事件)" autocomplete="off"> </span> <span class="typeahead__button"> <button> <i class="typeahead__search-icon"></i> </button> </span></div>
                     </div>
                 </li>
             </ul>
@@ -35,7 +35,7 @@ if (isset($userInfo)) {
                             <div style="clear:both"></div>
                         </a>
                         <div class="dropdown-menu msg_all">
-                            <div class="msg_title">悟空1.3.0版本更新</div>
+                            <div class="msg_title">悟空1.2.2版本更新</div>
                             <ul>
                                 <li>本次更新包括如下内容：</li>
                                 <li>1.新增主题事件热度情况及热度页</li>

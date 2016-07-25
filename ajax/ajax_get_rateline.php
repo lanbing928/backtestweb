@@ -47,7 +47,7 @@ switch ($query_date) {
         break;
 }
 //获取收益率走势图
-$stock_line_result = RequestUtil::get("http://222.73.34.104/cgi-bin/george/stock/v1/stockhotdiagram.fcgi", $arrData);
+$stock_line_result = RequestUtil::get(iwookongConfig::$requireRateUrl."stock/v1/stockhotdiagram.fcgi", $arrData);
 $json_line = json_decode($stock_line_result, true);
 if ($json_line['status'] != "0") {
     print_r($stock_line_result);

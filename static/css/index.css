@@ -1,4 +1,4 @@
-.wk-time-hot,.wk-stock-hot,.wk-industry-hot,.wk-concept-hot,.wk-all-hotm,.wk-news-detail,.wk-all-hot,.wk-rate-line,.wk-user-center{border: 1px solid #d1d1d1;padding:20px;-webkit-box-shadow: #eeeeee 0px 1px 5px; -moz-box-shadow: #eeeeee 0px 1px 5px; box-shadow: #eeeeee 0px 1px 5px;}
+.wk-time-hot,.wk-stock-hot,.wk-industry-hot,.wk-concept-hot,.wk-all-hotm,.wk-news-detail,.wk-all-hot,.wk-rate-line,.wk-user-center,.wk-relate-map{border: 1px solid #d1d1d1;padding:20px;-webkit-box-shadow: #eeeeee 0px 1px 5px; -moz-box-shadow: #eeeeee 0px 1px 5px; box-shadow: #eeeeee 0px 1px 5px;}
 /*股票 行业 概念 内容*/
 .wk-all-hot{margin-top: 25px;margin-bottom: 40px;}
 .wk-hot-title{font-size: 18px;font-weight: 600;margin-bottom: 15px;}
@@ -50,7 +50,7 @@
 .wk-rate-select label.active{width: 80px;background-color: #7065a3;color: #FFFFFF;border: 1px solid #7065a3;}
 #wk-rate-line-pic{height: 350px;width: 100%;}
 
-#wk-news,#wk-newsflash,#wk-selfmedia,#wk-notice{height: 420px;}
+#wk-news,#wk-newsflash,#wk-selfmedia,#wk-notice,#wk-report{height: 420px;}
 
 .wk-news-list{margin-top: 12px;padding: 0 5px;}
 .wk-news-list table>tbody>tr>td{border-bottom: 1px dashed #eeeeee;border-top: none;}
@@ -263,10 +263,10 @@
 /*我的自选股*/
 .wk-user-mychoose{margin-top: 30px; border-bottom: 1px solid #eee;padding-bottom: 10px;}
 .wk-user-choose-title{display: inline-flex;}
-.wk-user-choose-title div{padding: 0 8px;font-size: 14px;color: #333333;cursor: pointer;}
+.wk-user-choose-title div{padding: 0 8px;font-size: 14px;color: #666666;cursor: pointer;}
 .wk-user-choose-title div.active{color: #303F9F;}
 .wk-user-choose-title div:hover{color: #303F9F;}
-.wk-user-choose-title .btn-group .dropdown-toggle{-webkit-box-shadow: none;box-shadow: none;}
+.wk-user-choose-title .btn-group .dropdown-toggle{-webkit-box-shadow: none;box-shadow: none;vertical-align: sub;}
 .wk-add-zh{border: none;color: #FFFFFF;text-shadow: none; background: #3970b3 none;font-size: 14px;margin-left: 16px;height: 26px;line-height: 1.2;}
 .wk-user-mychoose-table-box,.wk-user-mychoose-table{margin-top: 15px;}
 .wk-user-mychoose-table table{border: 1px solid #dbe4f9;}
@@ -277,6 +277,10 @@
 .wk-user-mychoose-table table>tbody>tr>td{text-align: center;border-style: none;}
 .wk-sub-refresh{cursor: pointer;}
 .btn-del-stock{display: none;cursor: pointer;}
+.wk-btn-mygroup{height: 30px;}
+.btn-group.active .wk-btn-mygroup{border-bottom: 2px solid #303f9f;height: 30px;}
+.wk-mygroup-txt{vertical-align: sub;}
+
 
 .wk-dp-up{background: url("../imgs/i/dp_up.png") no-repeat center;width: 16px;height: 20px;}
 .wk-dp-down{background: url("../imgs/i/dp_down.png") no-repeat center;}
@@ -291,15 +295,16 @@
 .wk-user-time{float: left;}
 .wk-user-hs{float: right;}
 
+
 .wk-user-mynews{margin-top: 22px;border-bottom: 1px solid #e8e8e8;}
-.wk-user-mynews .btn-group{width: 86px;text-align: center;color: #333333;cursor: pointer;padding-bottom: 8px;}
+.wk-user-mynews .btn-group{width: 86px;text-align: center;color: #666666;cursor: pointer;padding-bottom: 8px;}
 .wk-user-mynews .btn-group.active{color: #303F9F;border-bottom: 2px solid #303F9F;padding-bottom: 7px;}
 .wk-user-mynews .btn-group:hover{color: #303F9F;}
 .wk-user-mynews .btn-group .dropdown-toggle{-webkit-box-shadow: none;box-shadow: none;}
 
 .wk-user-news-list,.wk-user-vpoint-list,.wk-user-fastnews-list{margin-top: 15px;}
 .wk-news-list-title a{text-decoration: none;}
-.wk-user-news-slider,.wk-user-vpoint-slider,.wk-user-fastnews-slider{padding: 0 5px;border-right: 1px solid #e8e8e8;}
+.wk-user-news-slider,.wk-user-vpoint-slider,.wk-user-fastnews-slider,.wk-user-notice-slider,.wk-user-report-slider{padding: 0 5px;border-right: 1px solid #e8e8e8;}
 .wk-user-fastnews-todate{margin-bottom: 0;padding: 0;font-weight: 600;color: #011c71;font-size: 14px;}
 .wk-user-fastnews ul{padding-left: 0;margin-bottom: 26px;}
 .wk-user-fastnews li{display: inline-flex;border-bottom: 1px dashed #dbe4f9;padding: 18px 0;width: 100%;}
@@ -324,7 +329,7 @@
 .wk-user-sub-search .typeahead__cancel-button{z-index: 9;}
 
 .news-rel-stock{margin-bottom: 10px;}
-.news-rel-stock a{font-size: 16px;color: #011c71;font-weight: 400; margin: 0 32px 10px 0;text-decoration: none;}
+.news-rel-stock a{font-size: 16px;font-weight: 400; margin: 0 32px 10px 0;text-decoration: none;}
 
 .wk-user-news-loading{width: 100%;text-align: center;display: none;}
 
@@ -376,5 +381,30 @@
 #left-double-chart{border:0;margin:0;padding:0;min-height:125px;}
 
 
+/*关联关系图*/
 .wk-relate-map{margin-top: 25px;min-height: 585px;}
-.wk-rel-cicle{width: 124px;height: 124px;border-radius: 62px;background-color: red;margin: 0 auto;}
+.wk-relate-map .col-md-3{text-align: center;}
+#wk-circle-info{width: 890px;height: 540px;}
+
+/*详细页头部信息显示*/
+.wk-top-title{height: 34px;border-bottom: 2px solid #303F9F;margin-top: 25px;padding-bottom: 5px;}
+.wk-top-title label{margin-bottom: 0;}
+.wk-topshow-icon{
+    vertical-align: text-bottom;
+    width: 8px;
+    height: 20px;
+    background: #a40000; /* Old browsers */
+    background: -moz-linear-gradient(top,  #a40000 50%, #00479d 50%, #a40000 50%, #00479d 50%, #00479d 50%, #00479d 50%, #00479d 50%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top,  #a40000 50%,#00479d 50%,#a40000 50%,#00479d 50%,#00479d 50%,#00479d 50%,#00479d 50%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom,  #a40000 50%,#00479d 50%,#a40000 50%,#00479d 50%,#00479d 50%,#00479d 50%,#00479d 50%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#23ea04', endColorstr='#8f0222',GradientType=0 ); /* IE6-9 */
+}
+.wk-toshow-name{font-size: 18px;}
+.wk-topshow-price{font-size: 18px;}
+.wk-topshow-price-per{font-size: 12px;}
+.wk-topshow-dp{font-size: 13px;vertical-align: sub;margin-right: 15px;}
+.wk-top-title .fa-list-ul{margin: 0 15px;font-size: 18px;}
+.wk-top-title .dropdown-menu{margin: 6px 0 0;padding:0;border-radius: 0;border: 1px solid #dedede;}
+.wk-top-title .dropdown-menu li:not(:first-child){border-top: 1px solid #dedede;}
+.wk-top-title .dropdown-menu li>a{padding: 6px 20px;color: #777777;}
+.wk-topshow-right{float: right;}
