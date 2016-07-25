@@ -238,7 +238,8 @@ var Utility = {
         if (Utility.timeRange("09:30", "11:30") || Utility.timeRange("13:00", "15:00")) {
             return "交易中";
         }
-        return "休市";
+        var myDate = new Date();
+        return myDate == 0 || myDate == 6 ? '已闭市' : "已闭市";
     },
     buildMapTable: function (buildData) {
         var _up = [];
@@ -337,7 +338,7 @@ var Utility = {
         if (stockDetail.currentmoney != 0) {
             var stock_per = stock_updown / stock_price * 100;
         }
-        var stock_status = '休市';
+        var stock_status = '已闭市';
         if (Utility.timeRange("09:15", "09:25")) {
             stock_status = "竞价中";
         }
@@ -346,7 +347,7 @@ var Utility = {
         }
         var myDate = new Date();
         if (myDate == 0 || myDate == 6) {
-            stock_status = '休市';
+            stock_status = '已闭市';
         }
         return {"price": stock_price, "updown": stock_updown, "percent": stock_per || 0, "status": stock_status};
     },
