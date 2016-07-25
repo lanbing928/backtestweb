@@ -186,7 +186,7 @@
                     buildHtml.push("<td class='" + Utility.getPriceColor(buildData[i].mark_z_d) + "'>" + buildData[i].price + "</td>");
                     buildHtml.push("<td>" + (buildData[i].price_change_ratio).toFixed(2) + '%' + Utility.getHotUpDown(buildData[i].price_change_ratio) + "</td>");
                     buildHtml.push("<td>" + buildData[i].differ_price + "</td>");
-                    buildHtml.push("<td>" + buildData[i].volume / 10000 + "</td>");
+                    buildHtml.push("<td>" + (buildData[i].volume / 10000 / 100).toFixed(2) + "</td>");
                     buildHtml.push("<td>" + buildData[i].value + "</td>");
                     buildHtml.push("<td>" + buildData[i].increment + Utility.getHotUpDown(buildData[i].increment) + "</td>");
                     buildHtml.push("</tr>");
@@ -204,7 +204,7 @@
                         buildHtml.push("<td>" + ((j + 1) + (pagenum.fnum - 1) * 24) + "</td>");
                     }
                     buildHtml.push("<td><a href='" + buildType + ".php?name=" + buildData[j].name + "' target='_blank'>" + buildData[j].name + "</a></td>");
-                    buildHtml.push("<td>" + (buildData[j].volume / 10000).toFixed(2) + "</td>");
+                    buildHtml.push("<td>" + (buildData[j].volume / 10000 / 100).toFixed(2) + "</td>");
                     buildHtml.push("<td>" + buildData[j].value + "</td>");
                     //buildHtml.push("<td>" + buildData[j].increment + "</td>");
                     buildHtml.push("<td>" + buildData[j].increment + Utility.getHotUpDown(buildData[j].increment) + "</td>");
