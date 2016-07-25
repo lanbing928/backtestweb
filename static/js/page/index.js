@@ -183,7 +183,9 @@
             }
         });
     }
-
+    $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
+        initTreeMapChart();
+    });
     initTreeMapChart();
     initTimeLine();
 })(jQuery, window, document);

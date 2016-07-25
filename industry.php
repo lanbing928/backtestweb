@@ -76,6 +76,11 @@ if (empty($industryName)) {
         </div>
         <div id="wk-rate-line-pic"></div>
     </section>
+    <section class="wk-relate-map">
+        <p class="wk-hot-title">关联信息</p>
+        <div id="wk-relate-chart">
+        </div>
+    </section>
     <section class="wk-all-hot">
         <div class="wk-con-news">
             <p class="wk-hot-title relate-infos">关联资讯</p>
@@ -131,8 +136,7 @@ if (empty($industryName)) {
                     <li role="presentation"><a href="#industry-search" aria-controls="industry-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#industry-follow" aria-controls="industry-follow" role="tab" data-toggle="tab">关注热度</a></li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?></span>
+                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:00");?></span>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="industry-view">
                         <div class="col-md-5 left">

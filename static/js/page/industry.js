@@ -119,7 +119,18 @@
         });
     }
 
-//新闻情感趋势 双折线图
+    /**
+     * 获取关联信息图
+     */
+    function initReleatedInfo() {
+        common.initRelateSHG(2, name, function (resultData) {
+            if (resultData && resultData.status == 1) {
+                common.buildReleatedInfoChart(name, resultData);
+            }
+        });
+    }
+
+    //新闻情感趋势 双折线图
     function initdoubleLine(type, name) {
         common.getNewsTrend({'query_type': type, 'key_name': name}, null, function (resultData) {
             twoLineChart.hideLoading();//关闭加载中
@@ -154,7 +165,6 @@
             }
         });
     }
-
     var arrData = {query_type: 2, key: name, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") == 0) {
@@ -181,6 +191,9 @@
                 common.getReports(arrData, true);
             }
         }
+    });
+    $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
+        initTreeMapChart();
     });
     $("#wk-news").mCustomScrollbar({
         autoHideScrollbar: true,
@@ -257,8 +270,8 @@
             }
         }
     });
-    common.initRelateSHG(2, name);
     common.getNews(arrData, true);
+    initReleatedInfo();
     initLineChart();
     initTreeMapChart();
     initTodayRateLine();

@@ -383,8 +383,7 @@
 
 /*关联关系图*/
 .wk-relate-map{margin-top: 25px;min-height: 585px;}
-.wk-relate-map .col-md-3{text-align: center;}
-#wk-circle-info{width: 890px;height: 540px;}
+#wk-relate-chart{min-height: 540px;}
 
 /*详细页头部信息显示*/
 .wk-top-title{height: 34px;border-bottom: 2px solid #303F9F;margin-top: 25px;padding-bottom: 5px;}
@@ -403,8 +402,8 @@
 .wk-topshow-price{font-size: 18px;}
 .wk-topshow-price-per{font-size: 12px;}
 .wk-topshow-dp{font-size: 13px;vertical-align: sub;margin-right: 15px;}
-.wk-top-title .fa-list-ul{margin: 0 15px;font-size: 18px;}
-.wk-top-title .dropdown-menu{margin: 6px 0 0;padding:0;border-radius: 0;border: 1px solid #dedede;}
+.wk-top-title .fa-list-ul{margin: 0 15px;font-size: 18px;cursor: pointer;}
+.wk-top-title .dropdown-menu{margin: 12px 0 0;padding:0;border-radius: 0;border: 1px solid #dedede;}
 .wk-top-title .dropdown-menu li:not(:first-child){border-top: 1px solid #dedede;}
 .wk-top-title .dropdown-menu li>a{padding: 6px 20px;color: #777777;}
 .wk-topshow-right{float: right;}

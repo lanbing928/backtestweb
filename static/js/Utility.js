@@ -349,5 +349,15 @@ var Utility = {
             stock_status = '休市';
         }
         return {"price": stock_price, "updown": stock_updown, "percent": stock_per || 0, "status": stock_status};
+    },
+    /**
+     * 获取区间内的随机数
+     * @param max
+     * @param min
+     * @returns {number}
+     */
+    getRandom: function (max, min) {
+        var choice = max - min + 1;
+        return Math.floor(Math.random() * choice + min);
     }
 };

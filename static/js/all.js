@@ -69,9 +69,7 @@ $(function () {
         container: "body",
         trigger: "hover"
     });
-    $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
-        initTreeMapChart();
-    });
+
     $(".wk-line-toggle a").click(function () {
         $(this).addClass("line-active").siblings().removeClass("line-active");
         var query_type = $(this).parent().attr("data-query-type");
@@ -122,7 +120,6 @@ $(function () {
             to.find(".toggle-treemap").show();
             to.find(".toggle-treemap-table-up").hide();
             to.find(".toggle-treemap-table-down").hide();
-            initTreeMapChart();
         } else if ($(this).html() == "涨幅") {
             to.find(".toggle-treemap").hide();
             to.find(".toggle-treemap-table-up").show();

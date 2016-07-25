@@ -76,6 +76,11 @@ if (empty($eventName)) {
         </div>
         <div id="wk-rate-line-pic"></div>
     </section>
+    <section class="wk-relate-map">
+        <p class="wk-hot-title">关联信息</p>
+        <div id="wk-relate-chart">
+        </div>
+    </section>
     <section class="wk-all-hot">
         <div class="wk-con-news">
             <p class="wk-hot-title relate-infos">关联资讯</p>
@@ -83,11 +88,11 @@ if (empty($eventName)) {
                 <div class="col-md-5">
                     <p>最近一周新闻情感</p>
                     <div class="progress_neg">
-                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         <div class="progress_circle"></div>
                     </div>
                     <div class="progress_pos">
-                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
+                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                         <div class="progress_circle"></div>
                     </div>
                     <div class="sacle">
@@ -131,8 +136,7 @@ if (empty($eventName)) {
                     <li role="presentation"><a href="#event-search" aria-controls="event-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#event-follow" aria-controls="event-follow" role="tab" data-toggle="tab">关注热度</a></li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?></span>
+                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:00"); ?></span>
                 <div class="tab-content">
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="event-view">

@@ -880,9 +880,9 @@ var common = {
                 tableHtml.push("<tr>");
                 tableHtml.push("<td>" + (i + 1) + "</td>");
                 tableHtml.push("<td><a href='" + buildType + ".php?name=" + buildData[i].name + "' target='_blank'>" + buildData[i].name + "</a></td>");
-                tableHtml.push("<td>" + buildData[i].hot + "</td>");
-                tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
-                tableHtml.push("<td>" + buildData[i].count + "</td>");
+                tableHtml.push("<td>" + buildData[i].hot.toFormatNum() + "</td>");
+                tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue.toFormatNum() + "</td>");
+                tableHtml.push("<td>" + buildData[i].count.toFormatNum() + "</td>");
                 tableHtml.push("</tr>");
             }
             return tableHtml.join('');
@@ -1003,37 +1003,14 @@ var common = {
     /**
      * 获取关联的行业股票概念
      */
-    initRelateSHG: function (query_type, name) {
+    initRelateSHG: function (query_type, name, backFn) {
+        var relcharts = echarts.init(document.getElementById("wk-relate-chart"));
         common.getRelateSHG({"query_type": query_type, "key_name": name}, function () {
-            $(".relate-infos").html("关联资讯<i class=\"fa fa-circle-o-notch fa-spin fa-fw\"></i>");
+            relcharts.showLoading({"text": "加载中..."});
         }, function (resultData) {
             if (resultData.status == 1) {
-                var relateInfo = [];
-                var relateRank = [];
-                if (resultData.industry.length > 0) {
-                    relateInfo.push("<span class='wk-rel-industry'>关联行业&nbsp;:&nbsp;</span>");
-                    for (var i in resultData.industry) {
-                        relateInfo.push("<a href='industry.php?name=" + resultData.industry[i].industry + "' target='_blank'>" + resultData.industry[i].industry + "</a>");
-                    }
-                }
-                if (resultData.stock.length > 0) {
-                    relateInfo.push("<span class='wk-rel-stock'>关联股票&nbsp;:&nbsp;</span>");
-                    for (var s in resultData.stock) {
-                        relateInfo.push("<a href='stocks.php?stock=" + resultData.stock[s].stock_code + "' target='_blank'>" + resultData.stock[s].stock_name + "</a>");
-                    }
-                }
-                if (resultData.notion.length > 0) {
-                    relateInfo.push("<span class='wk-rel-concept'>关联概念&nbsp;:&nbsp;</span>");
-                    for (var n in resultData.notion) {
-                        relateInfo.push("<a href='concept.php?name=" + resultData.notion[n].section + "' target='_blank'>" + resultData.notion[n].section + "</a>");
-                    }
-                }
-                $(".relate-infos").html("关联资讯" + relateInfo.join(''));
-                if (query_type == 1) {
-                    if (resultData.industry && resultData.industry.length > 0) {
-                        relateRank.push("{ \"industry\": \"" + resultData.industry[0].industry + "\", \"concept\": \"" + resultData.notion[0].section + "\" }");
-                    }
-                }
+                relcharts.hideLoading();
+                backFn && backFn(resultData);
             }
         });
     },
@@ -1141,6 +1118,160 @@ var common = {
         });
         myChart.hideLoading();
         window.onresize = myChart.resize
+    },
+    /**
+     * 构建关联信息图表
+     * @param relName
+     * @param relData
+     */
+    buildReleatedInfoChart: function (relName, relData) {
+        relName = decodeURI(relName);
+        var datas = [
+            {
+                "name": relName,
+                "symbolSize": 60,
+                "category": 0,
+                "draggable": true
+            },
+            {
+                "name": "关联股票",
+                "symbolSize": 30,
+                "category": 1,
+                "draggable": true
+            },
+            {
+                "name": "关联行业",
+                "symbolSize": 30,
+                "category": 2,
+                "draggable": true
+            },
+            {
+                "name": "关联概念",
+                "symbolSize": 30,
+                "category": 3,
+                "draggable": true
+            },
+            {
+                "name": "关联事件",
+                "symbolSize": 30,
+                "category": 4,
+                "draggable": true
+            },
+        ];
+        var links = [
+            {
+                "source": "关联股票",
+                "target": relName,
+                "lineStyle": {"normal": {}}
+            },
+            {
+                "source": "关联行业",
+                "target": relName,
+                "lineStyle": {"normal": {}}
+            },
+            {
+                "source": "关联事件",
+                "target": relName,
+                "lineStyle": {"normal": {}}
+            },
+            {
+                "source": "关联概念",
+                "target": relName,
+                "lineStyle": {"normal": {}}
+            }
+        ];
+        var cate = [
+            {"name": relName},
+            {"name": "关联股票"},
+            {"name": "关联行业"},
+            {"name": "关联概念"},
+            {"name": "关联事件"}
+        ];
+        var _random_max = 30;
+        var _random_min = 10;
+        var _rel_stock = [], _rel_stock_link = [],
+            _rel_industry = [], _rel_industry_link = [],
+            _rel_concept = [], _rel_concept_link = [],
+            _rel_event = [], _rel_event_link = [];
+        if (relData.stock.length > 0) {
+            for (var i = 0, ilen = relData.stock.length; i < ilen; i++) {
+                _rel_stock.push("{\"name\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 1,\"draggable\": true}");
+                _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"lineStyle\": {\"normal\": {}}}");
+            }
+            datas = datas.concat(JSON.parse("[" + _rel_stock + "]"));
+            links = links.concat(JSON.parse("[" + _rel_stock_link + "]"))
+        }
+        if (relData.industry.length > 0) {
+            for (var j = 0, jlen = relData.industry.length; j < jlen; j++) {
+                _rel_industry.push("{\"name\": \"" + relData.industry[j].industry + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 2,\"draggable\": true}");
+                _rel_industry_link.push("{\"source\": \"关联行业\",\"target\": \"" + relData.industry[j].industry + "\",\"lineStyle\": {\"normal\": {}}}");
+            }
+            datas = datas.concat(JSON.parse("[" + _rel_industry + "]"));
+            links = links.concat(JSON.parse("[" + _rel_industry_link + "]"))
+        }
+        if (relData.notion.length > 0) {
+            for (var k = 0, klen = relData.notion.length; k < klen; k++) {
+                _rel_concept.push("{\"name\": \"" + relData.notion[k].section + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 3,\"draggable\": true}");
+                _rel_concept_link.push("{\"source\": \"关联概念\",\"target\": \"" + relData.notion[k].section + "\",\"lineStyle\": {\"normal\": {}}}");
+            }
+            datas = datas.concat(JSON.parse("[" + _rel_concept + "]"));
+            links = links.concat(JSON.parse("[" + _rel_concept_link + "]"))
+        }
+        if (relData.event.length > 0) {
+            for (var l = 0, llen = relData.event.length; l < llen; l++) {
+                _rel_event.push("{\"name\": \"" + relData.event[l].event_name + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 4,\"draggable\": true}");
+                _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relData.event[l].event_name + "\",\"lineStyle\": {\"normal\": {}}}");
+            }
+            datas = datas.concat(JSON.parse("[" + _rel_event + "]"));
+            links = links.concat(JSON.parse("[" + _rel_event_link + "]"))
+        }
+        var relcharts = echarts.init(document.getElementById("wk-relate-chart"));
+        var option = {
+            animation: false,
+            legend: [{data: cate}],
+            series: [
+                {
+                    name: '关联信息',
+                    type: 'graph',
+                    layout: 'force',
+                    draggable: false,
+                    data: datas,
+                    links: links,
+                    categories: cate,
+                    roam: true,
+                    label: {normal: {show: true, position: 'bottom'}},
+                    force: {repulsion: 400}
+                }
+            ]
+        };
+        relcharts.setOption(option);
+        relcharts.on('click', function (params) {
+            var name = params.data.name;
+            switch (params.data.category) {
+                case 1:
+                    if (name != "关联股票") {
+                        window.open("stocks.php?stock=" + name.substring(name.indexOf("(") + 1, name.indexOf(")"))
+                        );
+                    }
+                    break;
+                case 2:
+                    if (name != "关联行业") {
+                        window.open("industry.php?name=" + name);
+                    }
+                    break;
+                case 3:
+                    if (name != "关联概念") {
+                        window.open("concept.php?name=" + name);
+                    }
+                    break;
+                case 4:
+                    if (name != "关联事件") {
+                        window.open("event.php?name=" + name);
+                    }
+                    break;
+            }
+        });
+        window.onresize = relcharts.resize;
     }
 };
 var inforcenter = {

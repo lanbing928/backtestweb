@@ -19,7 +19,7 @@ if (empty($stockCode)) {
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>加载中...</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -37,15 +37,15 @@ if (empty($stockCode)) {
     <section class="wk-top-title">
         <label class="wk-topshow-icon"></label>
         <label class="wk-toshow-name"><i class="fa fa-circle-o-notch fa-spin"></i></label>
-<!--        <div class="btn-group" role="group">-->
-<!--            <i class="fa fa-list-ul" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>-->
-<!--            <ul class="dropdown-menu">-->
-<!--                <li><a href="#">公司概况</a></li>-->
-<!--                <li><a href="#">公司高管</a></li>-->
-<!--                <li><a href="#">股本结构</a></li>-->
-<!--                <li><a href="#">主要股东</a></li>-->
-<!--            </ul>-->
-<!--        </div>-->
+        <div class="btn-group" role="group">
+            <i class="fa fa-list-ul" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+            <ul class="dropdown-menu">
+                <li><a href="#">公司概况</a></li>
+                <li><a href="#">公司高管</a></li>
+                <li><a href="#">股本结构</a></li>
+                <li><a href="#">主要股东</a></li>
+            </ul>
+        </div>
         <label class="wk-topshow-price"></label>
         <label class="wk-topshow-price-per"></label>
         <div class="wk-topshow-right">
@@ -92,23 +92,11 @@ if (empty($stockCode)) {
         </div>
         <div id="wk-rate-line-pic"></div>
     </section>
-    <!--    <section class="wk-relate-map">-->
-    <!--        <p class="wk-hot-title">关联信息</p>-->
-    <!--        <div>-->
-    <!--            <div class="col-md-3">-->
-    <!--                <canvas class="wk-cicle-rel" id="aabbcc">14</canvas>-->
-    <!--            </div>-->
-    <!--            <div class="col-md-3">-->
-    <!--                <canvas class="wk-cicle-rel">90</canvas>-->
-    <!--            </div>-->
-    <!--            <div class="col-md-3">-->
-    <!--                <canvas class="wk-cicle-rel">45</canvas>-->
-    <!--            </div>-->
-    <!--            <div class="col-md-3">-->
-    <!--                <canvas class="wk-cicle-rel">12</canvas>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </section>-->
+    <section class="wk-relate-map">
+        <p class="wk-hot-title">关联信息</p>
+        <div id="wk-relate-chart">
+        </div>
+    </section>
     <section class="wk-all-hot">
         <div class="wk-con-news">
             <p class="wk-hot-title relate-infos">关联资讯</p>
@@ -164,8 +152,7 @@ if (empty($stockCode)) {
                     <li role="presentation"><a href="#industry-search" aria-controls="industry-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#industry-follow" aria-controls="industry-follow" role="tab" data-toggle="tab">关注热度</a></li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?></span>
+                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:00");?></span>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="industry-view">
                         <div class="col-md-5 left">
@@ -374,8 +361,7 @@ if (empty($stockCode)) {
                     <li role="presentation"><a href="#concept-search" aria-controls="concept-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#concept-follow" aria-controls="concept-follow" role="tab" data-toggle="tab">关注热度</a></li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?></span>
+                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:00");?></span>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="concept-view">
                         <div class="col-md-5 left">
@@ -592,62 +578,5 @@ if (empty($stockCode)) {
 <script src="static/js/common.min.js"></script>
 <script src="static/js/Utility.min.js"></script>
 <script src="static/js/page/stock.min.js"></script>
-<script>
-    function drawProcess() {
-        // 选出页面上所有class为process的canvas元素,然后迭代每一个元素画图(这里用Jquery的选择器选的)
-        $('canvas.wk-cicle-rel').each(function () {
-            // 先拿到canvas标签中间的文字
-            var process = $(this).text();
-            // 一个canvas标签
-            var canvas = this;
-            // 拿到绘图上下文
-            var context = canvas.getContext('2d');
-            // 将绘图区域清空,如果是第一次在这个画布上画图,画布上没有东西,这步就不需要了
-            context.clearRect(0, 0, 62, 62);
-
-            //画外部的大圆
-            context.beginPath();        //开始绘图
-            context.moveTo(62, 62);     // 坐标移动到圆心
-            context.arc(62, 62, 55, 0, Math.PI * 2, false);// 画圆,圆心是62,62,半径62,从角度0开始,画到2PI结束,最后一个参数是方向顺时针还是逆时针
-            context.closePath();
-            context.lineWidth = 45; //设置线宽
-            context.fillStyle = '#818a96'; // 填充颜色
-            context.fill();
-
-            //画进度条
-            context.beginPath();//开始绘图
-            context.moveTo(62, 62);// 画扇形的时候这步很重要,画笔不在圆心画出来的不是扇形
-            context.arc(62, 62, 62, 0, Math.PI * 2 * process / 100, false);// 跟上面的圆唯一的区别在这里,不画满圆,画个扇形
-            context.closePath();
-            context.fillStyle = '#9e5a93';
-            context.fill();
-
-
-            // 画内部空白
-            context.beginPath();
-            context.moveTo(62, 62);
-            context.arc(62, 62, 52, 0, Math.PI * 2, true);
-            context.closePath();
-            context.fillStyle = '#fff';
-            context.fill();
-
-            // 画一条线填充中间的圆
-            context.beginPath();
-            context.arc(62, 62, 22.5, 0, Math.PI * 2, true);
-            context.closePath();
-            context.strokeStyle = '#d5b7d0';
-            context.stroke();// 与画实心圆的区别,fill是填充,stroke是画线
-
-            //在中间写字
-            context.font = "normal 16pt Arial";
-            context.fillStyle = '#fff';
-            context.textAlign = 'center';
-            context.textBaseline = 'middle';
-            context.moveTo(62, 62);
-            context.fillText(process, 62, 62);
-        });
-    }
-    drawProcess();
-</script>
 </body>
 </html>
