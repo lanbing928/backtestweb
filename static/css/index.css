@@ -408,3 +408,15 @@
 .wk-top-title .dropdown-menu li:not(:first-child){border-top: 1px solid #dedede;}
 .wk-top-title .dropdown-menu li>a{padding: 6px 20px;color: #777777;}
 .wk-topshow-right{float: right;}
+
+/*公司概况*/
+.wk-company table,table tr{border:1px solid #DBE4F9;width:100%;}
+.wk-company table tr th,.wk-company table tr td{ border: 1px solid #DBE4F9;padding-left:16px;}
+.wk-company .exec_pro tr:last-child{display: none}
+.profile tr:nth-child(2n-1),.executives .row1 tr:nth-child(2n-1),.cap_stru tr:nth-child(2n-1){background-color: #F9FBFC;}
+.wk-company .table_title{background-color:#fafcfe;}
+.wk-company  #cap_stru_title{color:#051b5d;background-color:#fafcfe}
+.wk-stockholder .nav-tabs li {background-color: #fafcfe;border-left:1px solid #DBE4F9}
+.wk-stockholder .nav-tabs li a{padding: 7px 0;color: #212121;border-radius: 0;margin-right: 0;border: 0;}
+#executives_intro {color:#051B5D;}
+.executives .row1 tr td:first-child{font:bold 14px '微软雅黑';}
