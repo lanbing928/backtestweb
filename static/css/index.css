@@ -2,7 +2,7 @@
 /*股票 行业 概念 内容*/
 .wk-all-hot{margin-top: 25px;margin-bottom: 40px;}
 .wk-hot-title{font-size: 18px;font-weight: 600;margin-bottom: 15px;}
-.wk-hot-title span{font-size: 13px;color: #011c71;font-weight: 500;margin-left: 20px;}
+.wk-hot-title span{font-size: 13px;color: #011c71;font-weight: 500;margin-left: 20px;vertical-align: inherit;}
 .wk-hot-title a{font-size: 13px;color: #212121; font-weight: 500;text-decoration: none;margin-right: 8px;}
 .wk-hot-sub-title{font-size: 13px;color: #767676;}
 .wk-hot-sub-tips{font-size: 12px;color: #767676;margin-bottom: 0;line-height: 1;}
@@ -25,6 +25,7 @@
 .wk-time-hot .right-infos table{margin-bottom: 0;}
 
 /*热度*/
+.wk-hot-title .wk-topshow-dp{vertical-align: inherit;margin-bottom: 0;margin-left: 10px;}
 .wk-hot-time{float: right;}
 .wk-con-box{margin-bottom: 28px;}
 .wk-con-box .nav-tabs{border-bottom: none;}
