@@ -854,7 +854,7 @@ var common = {
                 tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].price_change_ratio) + "'>" + (buildData[i].price_change_ratio * 100).toFixed(2) + "%</td>");
                 tableHtml.push("<td>" + buildData[i].hot + "</td>");
                 tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
-                tableHtml.push("<td>" + buildData[i].count + "</td>");
+                tableHtml.push("<td>" + (buildData[i].count / 10000 / 100).toFixed(2) + "</td>");
                 tableHtml.push("</tr>");
             }
             return tableHtml.join('');
@@ -882,7 +882,7 @@ var common = {
                 tableHtml.push("<td><a href='" + buildType + ".php?name=" + buildData[i].name + "' target='_blank'>" + buildData[i].name + "</a></td>");
                 tableHtml.push("<td>" + buildData[i].hot.toFormatNum() + "</td>");
                 tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue.toFormatNum() + "</td>");
-                tableHtml.push("<td>" + buildData[i].count.toFormatNum() + "</td>");
+                tableHtml.push("<td>" + (buildData[i].count / 10000 / 100).toFixed(2) + "</td>");
                 tableHtml.push("</tr>");
             }
             return tableHtml.join('');
@@ -1181,11 +1181,11 @@ var common = {
             }
         ];
         var cate = [
-            {"name": relName},
-            {"name": "关联股票"},
-            {"name": "关联行业"},
-            {"name": "关联概念"},
-            {"name": "关联事件"}
+            {"name": relName, "itemStyle": {normal: {color: "rgba(85,111,181,1)"}}},
+            {"name": "关联股票", "itemStyle": {normal: {color: "rgba(158,90,147,1)"}}},
+            {"name": "关联行业", "itemStyle": {normal: {color: "rgba(55,119,157,1)"}}},
+            {"name": "关联概念", "itemStyle": {normal: {color: "rgba(92,95,135,1)"}}},
+            {"name": "关联事件", "itemStyle": {normal: {color: "rgba(97,150,156,1)"}}}
         ];
         var _random_max = 30;
         var _random_min = 10;
@@ -1195,38 +1195,39 @@ var common = {
             _rel_event = [], _rel_event_link = [];
         if (relData.stock.length > 0) {
             for (var i = 0, ilen = relData.stock.length; i < ilen; i++) {
-                _rel_stock.push("{\"name\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 1,\"draggable\": true}");
-                _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"lineStyle\": {\"normal\": {}}}");
+                _rel_stock.push("{\"name\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 1,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(158,90,147,1)\"}}}");
+                _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(158,90,147,1)\"}}}");
             }
             datas = datas.concat(JSON.parse("[" + _rel_stock + "]"));
             links = links.concat(JSON.parse("[" + _rel_stock_link + "]"))
         }
         if (relData.industry.length > 0) {
             for (var j = 0, jlen = relData.industry.length; j < jlen; j++) {
-                _rel_industry.push("{\"name\": \"" + relData.industry[j].industry + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 2,\"draggable\": true}");
-                _rel_industry_link.push("{\"source\": \"关联行业\",\"target\": \"" + relData.industry[j].industry + "\",\"lineStyle\": {\"normal\": {}}}");
+                _rel_industry.push("{\"name\": \"" + relData.industry[j].industry + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 2,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(55,119,157,1)\"}}}");
+                _rel_industry_link.push("{\"source\": \"关联行业\",\"target\": \"" + relData.industry[j].industry + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(55,119,157,1)\"}}}");
             }
             datas = datas.concat(JSON.parse("[" + _rel_industry + "]"));
             links = links.concat(JSON.parse("[" + _rel_industry_link + "]"))
         }
         if (relData.notion.length > 0) {
             for (var k = 0, klen = relData.notion.length; k < klen; k++) {
-                _rel_concept.push("{\"name\": \"" + relData.notion[k].section + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 3,\"draggable\": true}");
-                _rel_concept_link.push("{\"source\": \"关联概念\",\"target\": \"" + relData.notion[k].section + "\",\"lineStyle\": {\"normal\": {}}}");
+                _rel_concept.push("{\"name\": \"" + relData.notion[k].section + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 3,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(92,95,135,1)\"}}}");
+                _rel_concept_link.push("{\"source\": \"关联概念\",\"target\": \"" + relData.notion[k].section + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(92,95,135,1)\"}}}");
             }
             datas = datas.concat(JSON.parse("[" + _rel_concept + "]"));
             links = links.concat(JSON.parse("[" + _rel_concept_link + "]"))
         }
         if (relData.event.length > 0) {
             for (var l = 0, llen = relData.event.length; l < llen; l++) {
-                _rel_event.push("{\"name\": \"" + relData.event[l].event_name + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 4,\"draggable\": true}");
-                _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relData.event[l].event_name + "\",\"lineStyle\": {\"normal\": {}}}");
+                _rel_event.push("{\"name\": \"" + relData.event[l].event_name + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 4,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(97,150,156,1)\"}}}");
+                _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relData.event[l].event_name + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(97,150,156,1)\"}}}");
             }
             datas = datas.concat(JSON.parse("[" + _rel_event + "]"));
             links = links.concat(JSON.parse("[" + _rel_event_link + "]"))
         }
         var relcharts = echarts.init(document.getElementById("wk-relate-chart"));
         var option = {
+            color: ["rgb(85,111,181)", "rgb(158,90,147)", "rgb(55,119,157)", "rgb(92,95,135)", "rgb(97,150,156)"],
             animation: false,
             legend: [{data: cate}],
             series: [
