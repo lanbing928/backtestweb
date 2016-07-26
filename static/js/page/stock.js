@@ -130,9 +130,18 @@
                 $(".wk-toshow-name").html(_stockName + "(" + stockcode + ")");
                 Utility.getSinaStockData(stockcode, function (stockData) {
                     var _stock_status = Utility.getStockStatus(stockData);
-
                     $(".wk-topshow-price").html("¥" + _stock_status.price).addClass(Utility.getUpDownColor(_stock_status.updown));
                     $(".wk-topshow-price-per").html(Utility.getPriceSymbol(_stock_status.updown) + _stock_status.updown.toFixed(2) + "(" + Utility.getPriceSymbol(_stock_status.updown) + _stock_status.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(_stock_status.percent));
+                    //公司概况下拉框
+                    $(".btn-group li").click(function(){
+                        var type= $(this).attr('data');
+                        switch(type){
+                            case '1':$(this).find('a').attr('href','/company/profile.php?data='+ $(".wk-toshow-name").html()+','+$(".wk-topshow-price").html()+','+ $(".wk-topshow-price-per").html()+','+Utility.getTradeTime());break;//公司简介
+                            case '2':$(this).find('a').attr('href','/company/executives.php?data='+ $(".wk-toshow-name").html()+','+$(".wk-topshow-price").html()+','+ $(".wk-topshow-price-per").html()+','+Utility.getTradeTime());break;//公司高管
+                            case '3':$(this).find('a').attr('href','/company/capital_structure.php?data='+ $(".wk-toshow-name").html()+','+$(".wk-topshow-price").html()+','+ $(".wk-topshow-price-per").html()+','+Utility.getTradeTime());break;//股本结构
+                            case '4':$(this).find('a').attr('href','/company/stockholder.php?data='+ $(".wk-toshow-name").html()+','+$(".wk-topshow-price").html()+','+ $(".wk-topshow-price-per").html()+','+Utility.getTradeTime());break;//主要股东
+                        }
+                    })
                 });
                 $(".wk-topshow-dp span").html(Utility.getTradeTime()).addClass("wk-up");
                 $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
