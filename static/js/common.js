@@ -1125,61 +1125,13 @@ var common = {
      * @param relData
      */
     buildReleatedInfoChart: function (relName, relData) {
+        if (relData.stock.length == 0 && relData.industry.length == 0 && relData.notion.length == 0 && relData.event.length == 0) {
+            $("#wk-relate-chart").html("<div style='font-size: 18px;text-align: center;padding-top: 240px;'><img src=\"/static/imgs/i/index_nodata.png\">&nbsp;&nbsp;&nbsp;&nbsp;暂无关联信息</div>");
+            return;
+        }
         relName = decodeURI(relName);
-        var datas = [
-            {
-                "name": relName,
-                "symbolSize": 60,
-                "category": 0,
-                "draggable": true
-            },
-            {
-                "name": "关联股票",
-                "symbolSize": 30,
-                "category": 1,
-                "draggable": true
-            },
-            {
-                "name": "关联行业",
-                "symbolSize": 30,
-                "category": 2,
-                "draggable": true
-            },
-            {
-                "name": "关联概念",
-                "symbolSize": 30,
-                "category": 3,
-                "draggable": true
-            },
-            {
-                "name": "关联事件",
-                "symbolSize": 30,
-                "category": 4,
-                "draggable": true
-            },
-        ];
-        var links = [
-            {
-                "source": "关联股票",
-                "target": relName,
-                "lineStyle": {"normal": {}}
-            },
-            {
-                "source": "关联行业",
-                "target": relName,
-                "lineStyle": {"normal": {}}
-            },
-            {
-                "source": "关联事件",
-                "target": relName,
-                "lineStyle": {"normal": {}}
-            },
-            {
-                "source": "关联概念",
-                "target": relName,
-                "lineStyle": {"normal": {}}
-            }
-        ];
+        var datas = [{"name": relName, "symbolSize": 60, "category": 0, "draggable": true}];
+        var links = [];
         var cate = [
             {"name": relName, "itemStyle": {normal: {color: "rgba(85,111,181,1)"}}},
             {"name": "关联股票", "itemStyle": {normal: {color: "rgba(158,90,147,1)"}}},
@@ -1194,6 +1146,8 @@ var common = {
             _rel_concept = [], _rel_concept_link = [],
             _rel_event = [], _rel_event_link = [];
         if (relData.stock.length > 0) {
+            _rel_stock.push("{\"name\": \"关联股票\",\"symbolSize\": 30,\"category\": 1,\"draggable\": true}");
+            _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
             for (var i = 0, ilen = relData.stock.length; i < ilen; i++) {
                 _rel_stock.push("{\"name\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 1,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(158,90,147,1)\"}}}");
                 _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(158,90,147,1)\"}}}");
@@ -1202,6 +1156,8 @@ var common = {
             links = links.concat(JSON.parse("[" + _rel_stock_link + "]"))
         }
         if (relData.industry.length > 0) {
+            _rel_industry.push("{\"name\": \"关联行业\",\"symbolSize\": 30,\"category\": 2,\"draggable\": true}");
+            _rel_industry_link.push("{\"source\": \"关联行业\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
             for (var j = 0, jlen = relData.industry.length; j < jlen; j++) {
                 _rel_industry.push("{\"name\": \"" + relData.industry[j].industry + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 2,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(55,119,157,1)\"}}}");
                 _rel_industry_link.push("{\"source\": \"关联行业\",\"target\": \"" + relData.industry[j].industry + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(55,119,157,1)\"}}}");
@@ -1210,6 +1166,8 @@ var common = {
             links = links.concat(JSON.parse("[" + _rel_industry_link + "]"))
         }
         if (relData.notion.length > 0) {
+            _rel_concept.push("{\"name\": \"关联概念\",\"symbolSize\": 30,\"category\": 3,\"draggable\": true}");
+            _rel_concept_link.push("{\"source\": \"关联概念\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
             for (var k = 0, klen = relData.notion.length; k < klen; k++) {
                 _rel_concept.push("{\"name\": \"" + relData.notion[k].section + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 3,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(92,95,135,1)\"}}}");
                 _rel_concept_link.push("{\"source\": \"关联概念\",\"target\": \"" + relData.notion[k].section + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(92,95,135,1)\"}}}");
@@ -1218,6 +1176,8 @@ var common = {
             links = links.concat(JSON.parse("[" + _rel_concept_link + "]"))
         }
         if (relData.event.length > 0) {
+            _rel_event.push("{\"name\": \"关联事件\",\"symbolSize\": 30,\"category\": 4,\"draggable\": true}");
+            _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
             for (var l = 0, llen = relData.event.length; l < llen; l++) {
                 _rel_event.push("{\"name\": \"" + relData.event[l].event_name + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 4,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(97,150,156,1)\"}}}");
                 _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relData.event[l].event_name + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(97,150,156,1)\"}}}");
