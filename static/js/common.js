@@ -1403,3 +1403,28 @@ var inforcenter = {
     }
 };
 
+var company = {
+    /**
+     * 公司简介
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getProfile: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/Company/ajax_get_profile.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data:  arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                console.log(111);
+                backFn && backFn(resultData);
+            }
+        })
+    }
+};
+
