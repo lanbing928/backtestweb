@@ -37,15 +37,15 @@ if (empty($stockCode)) {
     <section class="wk-top-title">
         <label class="wk-topshow-icon"></label>
         <label class="wk-toshow-name"><i class="fa fa-circle-o-notch fa-spin"></i></label>
-<!--        <div class="btn-group" role="group">-->
-<!--            <i class="fa fa-list-ul" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>-->
-<!--            <ul class="dropdown-menu">-->
-<!--                <li><a href="#">公司概况</a></li>-->
-<!--                <li><a href="#">公司高管</a></li>-->
-<!--                <li><a href="#">股本结构</a></li>-->
-<!--                <li><a href="#">主要股东</a></li>-->
-<!--            </ul>-->
-<!--        </div>-->
+        <div class="btn-group" role="group">
+            <i class="fa fa-list-ul" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+            <ul class="dropdown-menu">
+                <li data="1"><a href="#">公司概况</a></li>
+                <li data="2"><a href="#">公司高管</a></li>
+                <li data="3"><a href="#">股本结构</a></li>
+                <li data="4"><a href="#">主要股东</a></li>
+            </ul>
+        </div>
         <label class="wk-topshow-price"></label>
         <label class="wk-topshow-price-per"></label>
         <div class="wk-topshow-right">
