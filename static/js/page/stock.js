@@ -133,6 +133,7 @@
                     $("#concept-follow").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(3, 3, 2, rel_concept[0].sect));
                 }
                 _stockName = resultData.stock_info.stock_name;
+                $(".wk-rate-select").attr("data-stock-name", _stockName);
                 $(".wk-toshow-name").html(_stockName + "(" + _stockcode + ")");
                 Utility.getSinaStockData(_stockcode, function (stockData) {
                     var _stock_status = Utility.getStockStatus(stockData);
@@ -282,22 +283,24 @@
     function initFollowBtn() {
         inforcenter.showGroup(null, function (resultData) {
             if (resultData && resultData.status == 1) {
-                var followBtnHtml = [];
-                followBtnHtml.push("<div class=\"btn-group\" style='float: right;'>");
-                followBtnHtml.push("<button type=\"button\" class=\"btn dropdown-toggle wk-btn-follow\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
-                followBtnHtml.push("+ 关注");
-                followBtnHtml.push("</button>");
-                if (resultData.result.info.group_name.length > 0) {
-                    followBtnHtml.push("<ul class=\"dropdown-menu\">");
-                    var list = resultData.result.info.group_name;
-                    followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='我的自选股'><a href=\"#\">我的自选股</a></li>");
-                    for (var i = 0; i < list.length; i++) {
-                        followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='" + list[i] + "'><a href=\"#\">" + list[i] + "</a></li>");
+                if ($(".wk-topshow-right .btn-group").length <= 0) {
+                    var followBtnHtml = [];
+                    followBtnHtml.push("<div class=\"btn-group\" style='float: right;'>");
+                    followBtnHtml.push("<button type=\"button\" class=\"btn dropdown-toggle wk-btn-follow\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
+                    followBtnHtml.push("+ 关注");
+                    followBtnHtml.push("</button>");
+                    if (resultData.result.info.group_name.length > 0) {
+                        followBtnHtml.push("<ul class=\"dropdown-menu\">");
+                        var list = resultData.result.info.group_name;
+                        followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='我的自选股'><a href=\"#\">我的自选股</a></li>");
+                        for (var i = 0; i < list.length; i++) {
+                            followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='" + list[i] + "'><a href=\"#\">" + list[i] + "</a></li>");
+                        }
+                        followBtnHtml.push("</ul>");
                     }
-                    followBtnHtml.push("</ul>");
+                    followBtnHtml.push("</div>");
+                    $(".wk-topshow-right").append(followBtnHtml.join(''));
                 }
-                followBtnHtml.push("</div>");
-                $(".wk-topshow-right").append(followBtnHtml.join(''));
                 $(".wk-follow-stock").each(function () {
                     var follow_name = $(this).attr("data-follow-name");
                     $(this).unbind("click").bind("click", function () {
