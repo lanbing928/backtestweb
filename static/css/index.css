@@ -416,7 +416,9 @@
 .profile tr:nth-child(2n-1),.executives .row1 tr:nth-child(2n-1),.cap_stru tr:nth-child(2n-1){background-color: #F9FBFC;}
 .wk-company .table_title{background-color:#fafcfe;}
 .wk-company  #cap_stru_title{color:#051b5d;background-color:#fafcfe}
-.wk-stockholder .nav-tabs li {background-color: #fafcfe;border-left:1px solid #DBE4F9}
-.wk-stockholder .nav-tabs li a{padding: 7px 0;color: #212121;border-radius: 0;margin-right: 0;border: 0;}
+.wk-stockholder .nav-tabs li {background-color: #fafcfe;border-left:1px solid #DBE4F9;width:92px;}
+.wk-stockholder .nav-tabs li:not([class*='active']):hover a{color: #fff;}
+.wk-stockholder .nav-tabs>li.active>a,.wk-stockholder .nav-tabs>li.active>a:hover{color:#212121;}
+.wk-stockholder .nav-tabs li a{padding: 7px 0;color:#051b5d;border-radius: 0;margin-right: 0;border: 0;font-weight:600}
 #executives_intro {color:#051B5D;}
 .executives .row1 tr td:first-child{font:bold 14px '微软雅黑';}
