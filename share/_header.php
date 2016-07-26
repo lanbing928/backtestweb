@@ -38,15 +38,13 @@ if (isset($userInfo)) {
                             <div class="msg_title">悟空1.2.2版本更新</div>
                             <ul>
                                 <li>本次更新包括如下内容：</li>
-                                <li>1.新增主题事件热度情况及热度页</li>
-                                <li>2.热力图五涨五跌,新增涨幅/跌幅表</li>
-                                <li>3.总热度排行新增更多Top100</li>
-                                <li>4.热度折线图板块右侧新增"关注"功能按钮</li>
-                                <li>5.新增资讯分类:公告</li>
-                                <li>6.新闻趋势,新闻情感总值</li>
-                                <li>......</li>
+                                <li>1、加入关联信息图表模块</li>
+                                <li>2、成交量数据统一改成--万手</li>
+                                <li>3、首页加入大盘状态显示</li>
+                                <li>4、加入事件搜索</li>
+                                <li>5、其他已知bug的修复</li>
                             </ul>
-                            <div class="detail"><a href="../message.php">了解详情</a></div>
+<!--                            <div class="detail"><a href="../message.php">了解详情</a></div>-->
                         </div>
                     </li>
                     <li>
