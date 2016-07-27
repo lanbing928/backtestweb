@@ -37,6 +37,7 @@ if (CheckLogin::check() == -1) {
             <a class="line-active" data-key="day">实时</a>
             <a data-key="week">周</a>
             <a data-key="month">月</a>
+            <a data-key="minute">分时查看</a>
         </div>
         <div class="col-md-8 left-charts" id="left-chart"></div>
         <div class="col-md-4 right-infos">
@@ -960,6 +961,19 @@ if (CheckLogin::check() == -1) {
             </div>
         </div>
     </section>
+    <div class="modal modal-chart" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">分时查看</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

@@ -47,6 +47,7 @@ if (empty($conceptName)) {
             <a class="line-active" data-key="day">实时</a>
             <a data-key="week">周</a>
             <a data-key="month">月</a>
+            <a data-key="minute">分时查看</a>
         </div>
         <div class="col-md-8 left-charts" id="left-chart"></div>
         <div class="col-md-4 right-infos">
@@ -92,20 +93,17 @@ if (empty($conceptName)) {
                     <p>最近一周新闻情感</p>
                     <div class="progress_neg">
                         <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
-                        <div class="progress_circle"></div>
-                    </div>
-                    <div class="progress_pos">
-                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
-                        <div class="progress_circle"></div>
                     </div>
                     <div class="sacle">
                         <span class="negative"></span>&nbsp;负面<span class="negative_per"></span>%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="positive"></span>&nbsp;非负面<span class="positive_per"></span>%
                     </div>
                 </div>
-                <div class="col-md-2"></div>
-                <div class="col-md-5">
+                <div class="col-md-1"></div>
+                <div class="col-md-6">
                     <p>最近一周新闻趋势</p>
-                    <div class="left-charts" id="left-double-chart"></div>
+                    <div class="col-md-5"><div id="double-chart-a"></div></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-5"><div id="double-chart-b"></div></div>
                 </div>
             </div>
             <div class="wk-con-box">
@@ -352,6 +350,19 @@ if (empty($conceptName)) {
             </div>
         </div>
     </section>
+    <div class="modal modal-chart" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">分时查看</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>

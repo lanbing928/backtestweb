@@ -12,24 +12,25 @@ if (CheckLogin::check() == -1) {
 }
 $query_type = isset($_POST['query_type']) ? $_POST['query_type'] : "";
 $name = isset($_POST['name']) ? $_POST['name'] : "";
-
+$hour_data = isset($_POST['hour_data']) ? $_POST['hour_data'] : "";
+$arrData = array(
+    "user_id" => $_SESSION['user_id'],
+    "token" => $_SESSION["token"],
+    "query_type" => $query_type,
+    "key" => $name
+);
+if (!empty($hour_data)) {
+    $arrData["hour_data"] = $hour_data;
+}
 //获取实时热度
-$stock_line_result = RequestUtil::get(iwookongConfig::$requireUrl . "stock/1/hy_and_gn_hot.fcgi",
-    array(
-        "user_id" => $_SESSION['user_id'],
-        "token" => $_SESSION["token"],
-        "query_type" => $query_type,
-        "key" => $name
-    ));
+$stock_line_result = RequestUtil::get(iwookongConfig::$requireUrl . "stock/1/hy_and_gn_hot.fcgi", $arrData);
 $json_line = json_decode($stock_line_result, true);
 if ($json_line['status'] != "0") {
     print_r($stock_line_result);
     return;
 } else {
-    if ($json_line['msg'] == "权限不够") {
-        print_r(json_encode(array("status" => -100, "result" => $json_line['msg'])));
-    } else {
-        print_r(json_encode(array("status" => 0, "result" => $json_line['msg'])));
+    if ($jsonresult['flag'] == -1302 || $jsonresult['flag'] == -1301) {
+        print_r(json_encode(array("status" => -100, "result" => $jsonresult['msg'])));
         return;
     }
 }

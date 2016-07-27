@@ -454,8 +454,13 @@ var common = {
             //         show: true,
             //         realtime: true
             //     }],
-            grid: {top: "12%", left: "6%", right: "5%", bottom: 40, containLabel: true},
-            legend: {left: "left", data: ["查看", "搜索", "关注"], padding: [0, 0, 0, 15]},
+            grid: {top: "12%", left: "6%", right: "5%", bottom: 0, containLabel: true},
+            legend: {
+                left: "left",
+                data: ["查看", "搜索", "关注"],
+                padding: [0, 0, 0, 15],
+                selected: {"搜索": false, "关注": false}
+            },
             xAxis: {type: "category", boundaryGap: false, data: xdata},
             yAxis: {type: "value", position: "right", scale: true, min: "dataMin", max: "dataMax"},
             calculable: false,
@@ -476,9 +481,6 @@ var common = {
                     name: "关注",
                     type: "line",
                     smooth: true,
-                    // symbolSize: function (value) {
-                    //     return value == 0 ? 0 : 4;
-                    // },
                     data: followData
                 }
             ]
@@ -792,7 +794,7 @@ var common = {
                 top: '25px',
                 left: '0',
                 right: '0',
-                bottom: 40,
+                bottom: 0,
                 containLabel: true
             },
             xAxis: {
@@ -899,8 +901,7 @@ var common = {
             return str;
 
         }
-    }
-    ,
+    },
 
     /**
      * 构建热度表格
@@ -1070,52 +1071,37 @@ var common = {
             }
         })
     },
-    /**
-     *双折线图
-     * @param chartId
-     * @param timeData
-     * @param newsData
-     * @param sentiData
-     */
-    getTwoLineChart: function (chartId, timeData, newsData, sentiData) {
+
+    buildTwoLineChart: function (chartId, color, showname, timeData, showData, ydir) {
         var myChart = echarts.init(document.getElementById(chartId));
-        myChart.showLoading({"text": "加载中..."});
-        myChart.setOption({
-            color: ["rgb(82,153,222)", "rgb(247,163,92)"],
+        var option = {
+            color: [color],
             tooltip: {
                 trigger: "axis"
             },
-            legend: {data: [{name: "新闻数量", icon: 'circle'}, {name: "情感指数"}], bottom: "0"},
+            legend: {data: [{name: showname, icon: 'circle'}], bottom: "0"},
             grid: {top: '10px', left: 'auto', right: 'auto', bottom: '10%', containLabel: true},
             xAxis: {
                 type: "category",
-                boundaryGap: false,
+                boundaryGap: true,
                 data: timeData,
                 splitLine: {show: false},
                 axisLine: {show: false},
                 axisLabel: {show: false}
             },
-            yAxis: [{type: 'value', splitLine: {show: false}, max: "dataMax"}, {
-                type: 'value',
-                splitLine: {show: false},
-                max: "dataMax"
-            }],
+            yAxis: [{type: 'value', position: ydir}],
             series: [
                 {
-                    name: '新闻数量',
-                    type: "line",
+                    name: showname,
+                    type: "bar",
+                    barWidth: 8,
                     smooth: true,
-                    data: newsData
-                },
-                {
-                    name: "情感指数",
-                    type: "line",
-                    smooth: true,
-                    data: sentiData,
-                    yAxisIndex: 1
+                    data: showData
                 }
             ]
-        });
+        };
+        myChart.showLoading({"text": "加载中..."});
+        myChart.setOption(option);
         myChart.hideLoading();
         window.onresize = myChart.resize
     },
@@ -1179,15 +1165,15 @@ var common = {
             _rel_event.push("{\"name\": \"关联事件\",\"symbolSize\": 30,\"category\": 4,\"draggable\": true}");
             _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
             for (var l = 0, llen = relData.event.length; l < llen; l++) {
-                _rel_event.push("{\"name\": \"" + relData.event[l].event_name + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 4,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(97,150,156,1)\"}}}");
-                _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relData.event[l].event_name + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(97,150,156,1)\"}}}");
+                _rel_event.push("{\"name\": \"" + relData.event[l].event_name + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 4,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(98,166,174,1)\"}}}");
+                _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relData.event[l].event_name + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(98,166,174,1)\"}}}");
             }
             datas = datas.concat(JSON.parse("[" + _rel_event + "]"));
             links = links.concat(JSON.parse("[" + _rel_event_link + "]"))
         }
         var relcharts = echarts.init(document.getElementById("wk-relate-chart"));
         var option = {
-            color: ["rgb(85,111,181)", "rgb(158,90,147)", "rgb(55,119,157)", "rgb(92,95,135)", "rgb(97,150,156)"],
+            color: ["rgb(85,111,181)", "rgb(158,90,147)", "rgb(55,119,157)", "rgb(92,95,135)", "rgb(98,166,174)"],
             animation: false,
             legend: [{data: cate}],
             series: [
@@ -1233,6 +1219,42 @@ var common = {
             }
         });
         window.onresize = relcharts.resize;
+    },
+    /**
+     * 新闻情感趋势 双折线图
+     * @param type
+     * @param name
+     */
+    initdoubleLine: function (type, name) {
+        var timeData = [], newsData = [], sentiData = [];
+        var twoLineChart_a = echarts.init(document.getElementById("double-chart-a"));
+        var twoLineChart_b = echarts.init(document.getElementById("double-chart-b"));
+        common.getNewsTrend({'query_type': type, 'key_name': name}, function () {
+            twoLineChart_a.showLoading({"text": "加载中..."});//关闭加载中
+            twoLineChart_b.showLoading({"text": "加载中..."});//关闭加载中
+        }, function (resultData) {
+            twoLineChart_a.hideLoading();//关闭加载中
+            twoLineChart_b.hideLoading();//关闭加载中
+            if (resultData.status == 1) {
+                for (var i = 0, ilen = resultData.infotrend.length; i < ilen; i++) {
+                    timeData.push(resultData.infotrend[i]['date']);
+                    newsData.push(resultData.infotrend[i]['info_count']);
+                    sentiData.push(resultData.infotrend[i]['info_senti']);
+                }
+                if (resultData.senti_per) {
+                    var negData = resultData.senti_per.neg_per;
+                    var posData = resultData.senti_per.pos_per;
+                    $('.pro_chart .progress_neg_per').css("width", negData * 100 + '%');
+                    if (posData > 0) {
+                        $('.progress_neg').css("background-color", "#e96c6c");
+                    }
+                    $('.sacle .negative_per').html((negData * 100).toFixed(0));
+                    $('.sacle .positive_per').html((posData * 100).toFixed(0));
+                }
+                common.buildTwoLineChart("double-chart-a", "rgb(92,164,234)", "新闻数量", timeData, newsData, "left");
+                common.buildTwoLineChart("double-chart-b", "rgb(255,168,95)", "情感指数", timeData, sentiData, "right");
+            }
+        });
     }
 };
 var inforcenter = {
@@ -1254,6 +1276,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         });
@@ -1276,6 +1299,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1298,6 +1322,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1318,6 +1343,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1340,6 +1366,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1362,6 +1389,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1384,6 +1412,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1404,6 +1433,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1425,6 +1455,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1445,6 +1476,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1467,6 +1499,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1489,6 +1522,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })

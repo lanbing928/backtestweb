@@ -360,5 +360,17 @@ var Utility = {
     getRandom: function (max, min) {
         var choice = max - min + 1;
         return Math.floor(Math.random() * choice + min);
+    },
+    /**
+     * 事件点转换为具体时间
+     * @param num
+     */
+    numToTime: function (num) {
+        var min = num % 12 * 5;
+        if (min < 10) {
+            min = "0" + min;
+        }
+        var hour = Math.floor(num / 12);
+        return hour.toFixed(0) + ":" + min;
     }
 };

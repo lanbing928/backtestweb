@@ -11,22 +11,24 @@ if (CheckLogin::check() == -1) {
     return;
 }
 $stockCode = isset($_POST['stock']) ? $_POST['stock'] : "";
+$hour_data = isset($_POST['hour_data']) ? $_POST['hour_data'] : "";
+$arrData = array(
+    "user_id" => $_SESSION['user_id'],
+    "token" => $_SESSION["token"],
+    "stock_code" => $stockCode . ","
+);
+if (!empty($hour_data)) {
+    $arrData["hour_data"] = $hour_data;
+}
 //获取实时热度
-$real_timehot_result = RequestUtil::get(iwookongConfig::$requireUrl . "stock/1/single_real_time_hot.fcgi",
-    array(
-        "user_id" => $_SESSION['user_id'],
-        "token" => $_SESSION["token"],
-        "stock_code" => $stockCode . ","
-    ));
+$real_timehot_result = RequestUtil::get(iwookongConfig::$requireUrl . "stock/1/single_real_time_hot.fcgi", $arrData);
 $json_rtr = json_decode($real_timehot_result, true);
 if ($json_rtr['status'] != "0") {
     print_r($real_timehot_result);
     return;
 } else {
-    if ($json_rtr['msg'] == "权限不够") {
-        print_r(json_encode(array("status" => -100, "result" => $json_rtr['msg'])));
-    } else {
-        print_r(json_encode(array("status" => 0, "result" => $json_rtr['msg'])));
+    if ($jsonresult['flag'] == -1302 || $jsonresult['flag'] == -1301) {
+        print_r(json_encode(array("status" => -100, "result" => $jsonresult['msg'])));
         return;
     }
 }

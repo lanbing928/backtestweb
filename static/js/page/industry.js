@@ -2,15 +2,11 @@
 (function ($, window, document) {
     var name = Utility.getQueryStringByName("name");
     var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
-    var wk_treemap_data, viewData = [], searchData = [], followData = [], timeData = [],
-        newsData = [],
-        sentiData = [];
+    var wk_treemap_data, viewData = [], searchData = [], followData = [];
     var myChart = echarts.init(document.getElementById("left-chart"));
     myChart.showLoading({"text": "加载中..."});
-    var twoLineChart = echarts.init(document.getElementById("left-double-chart"));
-    twoLineChart.showLoading({"text": "加载中..."});
     function initLineChart() {
-        common.getHyAndGnHot({"name": name, "query_type": 1}, null, function (resultData) {
+        common.getHyAndGnHot({"name": name, "query_type": 1, "hour_data": "industry"}, null, function (resultData) {
             if (resultData.status == 1) {
                 var _todayHot = [];
                 var _lastHot = [];
@@ -130,41 +126,70 @@
         });
     }
 
-    //新闻情感趋势 双折线图
-    function initdoubleLine(type, name) {
-        common.getNewsTrend({'query_type': type, 'key_name': name}, null, function (resultData) {
-            twoLineChart.hideLoading();//关闭加载中
+    function initModalChart() {
+        $(".modal-chart").modal("show");
+        var _modalChart = echarts.init(document.getElementById("modal-chart"));
+        common.getHyAndGnHot({"name": name, "query_type": 1}, function () {
+            _modalChart.showLoading({"text": "加载中..."});
+        }, function (resultData) {
+            _modalChart.hideLoading();
+            var _modalViewData = [];
+            var _modalxData = [];
             if (resultData.status == 1) {
-                for (var i = 0, ilen = resultData.infotrend.length; i < ilen; i++) {
-                    timeData.push(resultData.infotrend[i]['date']);
-                    newsData.push(resultData.infotrend[i]['info_count']);
-                    sentiData.push(resultData.infotrend[i]['info_senti']);
-                }
-                if (resultData.senti_per) {
-                    var negData = resultData.senti_per.neg_per;
-                    var posData = resultData.senti_per.pos_per;
-                    $('.pro_chart .progress_neg_per').css("width", negData * 100 + '%');//负面 进度条
-                    if (negData && negData > 0) {
-                        $('.pro_chart .progress_neg .progress_circle').css({
-                            "left": (negData * 100) - 1.5 + '%',
-                            "display": "block"
-                        });
+                if (resultData.visit) {
+                    for (var v in resultData.visit) {
+                        _modalViewData.push(resultData.visit[v]);
+                        _modalxData.push("\"" + Utility.numToTime(v) + "\"");
                     }
-                    $('.sacle .negative_per').html((negData * 100).toFixed(0));
-
-                    $('.pro_chart .progress_pos_per').css("width", posData * 100 + '%');//非负面 进度条
-                    if (posData && posData > 0) {
-                        $('.pro_chart .progress_pos .progress_circle').css({
-                            "left": (posData * 100) - 1.5 + '%',
-                            "display": "block"
-                        });
-                    }
-                    $('.sacle .positive_per').html((posData * 100).toFixed(0));
+                    _modalxData = JSON.parse("[" + _modalxData.join(',') + "]");
+                    _modalViewData = JSON.parse("[" + _modalViewData.join(',') + "]");
                 }
-                common.getTwoLineChart("left-double-chart", timeData, newsData, sentiData);
+                var myChart = echarts.init(document.getElementById("modal-chart"));
+                myChart.showLoading({"text": "加载中..."});
+                myChart.setOption({
+                    color: ["rgb(243, 104, 97)"],
+                    tooltip: {
+                        trigger: "axis",
+                        formatter: function (params) {
+                            var showLabel = "";
+                            showLabel += params[0].name + "<br>";
+                            for (var p in params) {
+                                if (params[p].value && params[p].value != 0) {
+                                    if (params[0].name == params[p].name) {
+                                        showLabel += "<label style='color: " + params[p].color + ";font-size: 14x;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + Utility.formatNum(params[p].value) + "<br>";
+                                    }
+                                }
+                            }
+                            return showLabel;
+                        }
+                    },
+                    dataZoom: [
+                        {type: 'inside', realtime: true},
+                        {
+                            type: 'slider',
+                            show: true,
+                            realtime: true
+                        }],
+                    grid: {top: 10, left: 20, right: 20, bottom: 40, containLabel: true},
+                    legend: {left: "left"},
+                    xAxis: {type: "category", boundaryGap: false, data: _modalxData},
+                    yAxis: {type: "value", position: "right", scale: true},
+                    calculable: false,
+                    series: [
+                        {
+                            name: "查看",
+                            type: "line",
+                            smooth: true,
+                            data: _modalViewData
+                        }
+                    ]
+                });
+                myChart.hideLoading();
+                window.onresize = myChart.resize
             }
         });
     }
+
     var arrData = {query_type: 2, key: name, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") == 0) {
@@ -270,10 +295,127 @@
             }
         }
     });
+    $(".wk-line-toggle a").click(function () {
+        $(this).addClass("line-active").siblings().removeClass("line-active");
+        var query_type = $(this).parent().attr("data-query-type");
+        var key = $(this).parent().attr("data-query-key");
+        var time_type = $(this).attr("data-key");
+        var arrData = {
+            query_type: query_type,
+            key_name: key,
+            time_type: time_type
+        };
+        if(time_type=="minute"){
+            initModalChart();
+            return;
+        }
+        if (time_type == "day") {
+            common.getLineChart("left-chart", xdata, viewData, searchData, followData);
+        } else {
+            common.getHotRecord(arrData, function () {
+                var myChart = echarts.init(document.getElementById("left-chart"));
+                myChart.showLoading({"text": "加载中..."});
+            }, function (resultData) {
+                var _viewData = [];
+                var _searchData = [];
+                var _followData = [];
+                var _xdata = [];
+                if (resultData.status == 1) {
+                    for (var v in resultData.visit) {
+                        for (var vv in resultData.visit[v]) {
+                            _xdata.push(vv);
+                            _viewData.push(resultData.visit[v][vv]);
+                        }
+                    }
+                    for (var s in resultData.search) {
+                        for (var ss in resultData.search[s]) {
+                            _searchData.push(resultData.search[s][ss]);
+                        }
+                    }
+                    for (var f in resultData.follow) {
+                        for (var ff in resultData.follow[f]) {
+                            _followData.push(resultData.follow[f][ff]);
+                        }
+                    }
+                }
+                common.getLineChart("left-chart", _xdata, _viewData, _searchData, _followData);
+            });
+        }
+    });
+    $(".treemap-toggle span").click(function () {
+        $(this).addClass("treemap-active").siblings().removeClass("treemap-active");
+        var to = $(this).parent().parent().parent();
+        if ($(this).html() == "热力图") {
+            to.find(".toggle-treemap").show();
+            to.find(".toggle-treemap-table-up").hide();
+            to.find(".toggle-treemap-table-down").hide();
+        } else if ($(this).html() == "涨幅") {
+            to.find(".toggle-treemap").hide();
+            to.find(".toggle-treemap-table-up").show();
+            to.find(".toggle-treemap-table-down").hide();
+        } else if ($(this).html() == "跌幅") {
+            to.find(".toggle-treemap").hide();
+            to.find(".toggle-treemap-table-up").hide();
+            to.find(".toggle-treemap-table-down").show();
+        }
+    });
+    $(".wk-rate-select label").click(function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        var querykey = $(this).parent().attr("data-query-name");//查询关键字(股票代码||行业/概念关键字)
+        var querytype = $(this).parent().attr("data-query-type");//查询类别(股票/行业/概念)
+        var toggle = $(this).attr("data-toggle");//查询周期(当天/一周/一个月/三个月)
+        var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
+        var queryData = {
+            "query_type": querytype,
+            "query_key": querykey,
+            "query_date": toggle
+        };
+        if (querytype == "stock") {
+            if (_stockName) {
+                querykey = _stockName;
+            }
+        }
+        switch (toggle) {
+            case "today":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            case "week":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            case "month":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            case "threemonth":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            default:
+                break;
+        }
+    })
     common.getNews(arrData, true);
+    common.initdoubleLine(2, name);
     initReleatedInfo();
     initLineChart();
     initTreeMapChart();
     initTodayRateLine();
-    initdoubleLine(2, name);
 })(jQuery, window, document);

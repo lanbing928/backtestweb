@@ -45,10 +45,8 @@ if ($jsonresult['status'] != "0") {
     print_r($result);
     return;
 } else {
-    if ($jsonresult['msg'] == "权限不够") {
+    if ($jsonresult['flag'] == -1302 || $jsonresult['flag'] == -1301) {
         print_r(json_encode(array("status" => -100, "result" => $jsonresult['msg'])));
-    } else {
-        print_r(json_encode(array("status" => 0, "result" => $jsonresult['msg'])));
         return;
     }
 }
