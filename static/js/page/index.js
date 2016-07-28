@@ -148,7 +148,7 @@
     }
 
     function initTimeLine() {
-        common.getRealTimeHot(null, null, function (resultData) {
+        common.getRealTimeHot({"hour_data": "index"}, null, function (resultData) {
             if (resultData.status == 1) {
                 var _todayHot = [];
                 if (resultData.visit) {
@@ -184,6 +184,137 @@
         });
     }
 
+    function initModalChart() {
+        $(".modal-chart").modal("show");
+        var _modalChart = echarts.init(document.getElementById("modal-chart"));
+        common.getRealTimeHot(null, function () {
+            _modalChart.showLoading({"text": "加载中..."});
+        }, function (resultData) {
+            _modalChart.hideLoading();
+            var _modalViewData = [];
+            var _modalxData = [];
+            if (resultData.status == 1) {
+                if (resultData.visit) {
+                    for (var v in resultData.visit) {
+                        _modalViewData.push(resultData.visit[v]);
+                        _modalxData.push("\"" + Utility.numToTime(v) + "\"");
+                    }
+                    _modalxData = JSON.parse("[" + _modalxData.join(',') + "]");
+                    _modalViewData = JSON.parse("[" + _modalViewData.join(',') + "]");
+                }
+                var myChart = echarts.init(document.getElementById("modal-chart"));
+                myChart.showLoading({"text": "加载中..."});
+                myChart.setOption({
+                    color: ["rgb(243, 104, 97)"],
+                    tooltip: {
+                        trigger: "axis",
+                        formatter: function (params) {
+                            var showLabel = "";
+                            showLabel += params[0].name + "<br>";
+                            for (var p in params) {
+                                if (params[p].value && params[p].value != 0) {
+                                    if (params[0].name == params[p].name) {
+                                        showLabel += "<label style='color: " + params[p].color + ";font-size: 14x;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + Utility.formatNum(params[p].value) + "<br>";
+                                    }
+                                }
+                            }
+                            return showLabel;
+                        }
+                    },
+                    dataZoom: [
+                        {type: 'inside', realtime: true},
+                        {
+                            type: 'slider',
+                            show: true,
+                            realtime: true
+                        }],
+                    grid: {top: 10, left: 20, right: 20, bottom: 40, containLabel: true},
+                    legend: {left: "left"},
+                    xAxis: {type: "category", boundaryGap: false, data: _modalxData},
+                    yAxis: {type: "value", position: "right", scale: true},
+                    calculable: false,
+                    series: [
+                        {
+                            name: "查看",
+                            type: "line",
+                            smooth: true,
+                            data: _modalViewData
+                        }
+                    ]
+                });
+                myChart.hideLoading();
+                window.onresize = myChart.resize
+            }
+        });
+    }
+
+    $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
+        initTreeMapChart();
+    });
+    $(".wk-line-toggle a").click(function () {
+        $(this).addClass("line-active").siblings().removeClass("line-active");
+        var query_type = $(this).parent().attr("data-query-type");
+        var key = $(this).parent().attr("data-query-key");
+        var time_type = $(this).attr("data-key");
+        var arrData = {
+            query_type: query_type,
+            key_name: key,
+            time_type: time_type
+        };
+        if (time_type == "minute") {
+            initModalChart();
+            return;
+        }
+        if (time_type == "day") {
+            common.getLineChart("left-chart", xdata, viewData, searchData, followData);
+        } else {
+            common.getHotRecord(arrData, function () {
+                var myChart = echarts.init(document.getElementById("left-chart"));
+                myChart.showLoading({"text": "加载中..."});
+            }, function (resultData) {
+                var _viewData = [];
+                var _searchData = [];
+                var _followData = [];
+                var _xdata = [];
+                if (resultData.status == 1) {
+                    for (var v in resultData.visit) {
+                        for (var vv in resultData.visit[v]) {
+                            _xdata.push(vv);
+                            _viewData.push(resultData.visit[v][vv]);
+                        }
+                    }
+                    for (var s in resultData.search) {
+                        for (var ss in resultData.search[s]) {
+                            _searchData.push(resultData.search[s][ss]);
+                        }
+                    }
+                    for (var f in resultData.follow) {
+                        for (var ff in resultData.follow[f]) {
+                            _followData.push(resultData.follow[f][ff]);
+                        }
+                    }
+                }
+                common.getLineChart("left-chart", _xdata, _viewData, _searchData, _followData);
+            });
+        }
+    });
+    $(".treemap-toggle span").click(function () {
+        $(this).addClass("treemap-active").siblings().removeClass("treemap-active");
+        var to = $(this).parent().parent().parent();
+        if ($(this).html() == "热力图") {
+            to.find(".toggle-treemap").show();
+            to.find(".toggle-treemap-table-up").hide();
+            to.find(".toggle-treemap-table-down").hide();
+        } else if ($(this).html() == "涨幅") {
+            to.find(".toggle-treemap").hide();
+            to.find(".toggle-treemap-table-up").show();
+            to.find(".toggle-treemap-table-down").hide();
+        } else if ($(this).html() == "跌幅") {
+            to.find(".toggle-treemap").hide();
+            to.find(".toggle-treemap-table-up").hide();
+            to.find(".toggle-treemap-table-down").show();
+        }
+    });
     initTreeMapChart();
     initTimeLine();
 })(jQuery, window, document);

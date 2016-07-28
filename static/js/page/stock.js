@@ -1,22 +1,17 @@
 "use strict";
 (function ($, window, document) {
-//获取传过来的股票代码
-    var stockcode = Utility.getQueryStringByName("stock");
+    //获取传过来的股票代码
+    var _stockcode = Utility.getQueryStringByName("stock");
     var _stockName = "";
     var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
     var viewData = [],
         searchData = [],
-        followData = [],
-        timeData = [],
-        newsData = [],
-        sentiData = [];
+        followData = [];
     var wk_treemap_data_industry, wk_treemap_data_concept;
     var query_type = Utility.getQueryStringByName("query_type");//
-    var key_name = stockcode + 's';
+    var key_name = _stockcode + 's';
     var myChart = echarts.init(document.getElementById("left-chart"));
-    var twoLineChart = echarts.init(document.getElementById("left-double-chart"));
     myChart.showLoading({"text": "加载中..."});
-    twoLineChart.showLoading({"text": "加载中..."});
     /**
      * 构建股票页面查看更多的a标签
      * @param a 查看、搜索、关注
@@ -29,9 +24,13 @@
         return "<a href='hotrank.php?key=" + a + "," + b + "," + c + "," + d + "' class='wk-view-more' target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>";
     }
 
+    /**
+     * 初始化热度总览折线图
+     */
     function initLineChart() {
         common.getSingleRealTimeHot({
-            "stock": stockcode
+            "stock": _stockcode,
+            "hour_data": "stock"
         }, null, function (resultData) {
             if (resultData.status == 1) {
                 var _todayHot = [];
@@ -79,9 +78,12 @@
         });
     }
 
+    /**
+     * 初始化热力图
+     */
     function initTreeMapChart() {
         common.getStockBase({
-            "stock": stockcode
+            "stock": _stockcode
         }, function () {
             var waitLogingCharts = ["wk-industry-view-treemap", "wk-concept-view-treemap"];
             for (var i in waitLogingCharts) {
@@ -127,8 +129,9 @@
                     $("#concept-follow").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(3, 3, 2, rel_concept[0].sect));
                 }
                 _stockName = resultData.stock_info.stock_name;
-                $(".wk-toshow-name").html(_stockName + "(" + stockcode + ")");
-                Utility.getSinaStockData(stockcode, function (stockData) {
+                $(".wk-rate-select").attr("data-stock-name", _stockName);
+                $(".wk-toshow-name").html(_stockName + "(" + _stockcode + ")");
+                Utility.getSinaStockData(_stockcode, function (stockData) {
                     var _stock_status = Utility.getStockStatus(stockData);
                     $(".wk-topshow-price").html("¥" + _stock_status.price).addClass(Utility.getUpDownColor(_stock_status.updown));
                     $(".wk-topshow-price-per").html(Utility.getPriceSymbol(_stock_status.updown) + _stock_status.updown.toFixed(2) + "(" + Utility.getPriceSymbol(_stock_status.updown) + _stock_status.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(_stock_status.percent));
@@ -143,7 +146,7 @@
                         }
                     })
                 });
-                $(".wk-topshow-dp span").html(Utility.getTradeTime()).addClass("wk-up");
+                $(".wk-topshow-dp label").html(Utility.getTradeTime()).addClass("wk-up");
                 $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
                 $(".wk-related-info").html("热度总览&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "");
                 $(".latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
@@ -186,10 +189,15 @@
                 }
                 initTodayRateLine();
                 initFollowBtn();
+                initReleatedInfo();
             }
         });
     }
 
+    /**
+     * 构建行业热力图
+     * @param resultData
+     */
     function buildIndustryTreeMap(resultData) {
         if (resultData.result.code_info.shv_.length > 0) {
             var _shv = resultData.result.code_info.shv_;
@@ -220,6 +228,10 @@
         }
     }
 
+    /**
+     * 构建概念热力图
+     * @param resultData
+     */
     function buildConceptTreeMap(resultData) {
         if (resultData.result.code_info.shv_.length > 0) {
             var _shv = resultData.result.code_info.shv_;
@@ -250,11 +262,14 @@
         }
     }
 
+    /**
+     * 初始化热度趋势
+     */
     function initTodayRateLine() {
         var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
         var queryData = {
             "query_type": "stock",
-            "query_key": stockcode,
+            "query_key": _stockcode,
             "query_date": "today"
         };
         common.getRateLine(queryData, function () {
@@ -267,33 +282,38 @@
         });
     }
 
+    /**
+     * 初始化关注按钮
+     */
     function initFollowBtn() {
         inforcenter.showGroup(null, function (resultData) {
             if (resultData && resultData.status == 1) {
-                var followBtnHtml = [];
-                followBtnHtml.push("<div class=\"btn-group\" style='float: right;'>");
-                followBtnHtml.push("<button type=\"button\" class=\"btn dropdown-toggle wk-btn-follow\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
-                followBtnHtml.push("+ 关注");
-                followBtnHtml.push("</button>");
-                if (resultData.result.info.group_name.length > 0) {
-                    followBtnHtml.push("<ul class=\"dropdown-menu\">");
-                    var list = resultData.result.info.group_name;
-                    followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='我的自选股'><a href=\"#\">我的自选股</a></li>");
-                    for (var i = 0; i < list.length; i++) {
-                        followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='" + list[i] + "'><a href=\"#\">" + list[i] + "</a></li>");
+                if ($(".wk-topshow-right .btn-group").length <= 0) {
+                    var followBtnHtml = [];
+                    followBtnHtml.push("<div class=\"btn-group\" style='float: right;'>");
+                    followBtnHtml.push("<button type=\"button\" class=\"btn dropdown-toggle wk-btn-follow\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
+                    followBtnHtml.push("+ 关注");
+                    followBtnHtml.push("</button>");
+                    if (resultData.result.info.group_name.length > 0) {
+                        followBtnHtml.push("<ul class=\"dropdown-menu\">");
+                        var list = resultData.result.info.group_name;
+                        followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='我的自选股'><a href=\"#\">我的自选股</a></li>");
+                        for (var i = 0; i < list.length; i++) {
+                            followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='" + list[i] + "'><a href=\"#\">" + list[i] + "</a></li>");
+                        }
+                        followBtnHtml.push("</ul>");
                     }
-                    followBtnHtml.push("</ul>");
+                    followBtnHtml.push("</div>");
+                    $(".wk-topshow-right").append(followBtnHtml.join(''));
                 }
-                followBtnHtml.push("</div>");
-                $(".wk-topshow-right").append(followBtnHtml.join(''));
                 $(".wk-follow-stock").each(function () {
                     var follow_name = $(this).attr("data-follow-name");
                     $(this).unbind("click").bind("click", function () {
-                        inforcenter.addStock({ori_name: follow_name, code: stockcode}, null, function (addResult) {
+                        inforcenter.addStock({ori_name: follow_name, code: _stockcode}, null, function (addResult) {
                             if (addResult.status == 1) {
                                 swal({
                                     title: "",
-                                    text: "关注个股<span style='color: #F8BB86'>" + stockcode + "</span>成功",
+                                    text: "关注个股<span style='color: #F8BB86'>" + _stockcode + "</span>成功",
                                     html: true,
                                     timer: 1000,
                                     showConfirmButton: false
@@ -301,7 +321,7 @@
                             } else if (addResult.status === 0) {
                                 swal({
                                     title: "",
-                                    text: "关注个股<span style='color: #F8BB86'>" + stockcode + "</span>异常," + resultData.msg + "",
+                                    text: "关注个股<span style='color: #F8BB86'>" + _stockcode + "</span>异常," + resultData.msg + "",
                                     html: true,
                                     timer: 1000,
                                     showConfirmButton: false
@@ -309,7 +329,7 @@
                             } else {
                                 swal({
                                     title: "",
-                                    text: "关注个股<span style='color: #F8BB86'>" + stockcode + "</span>异常,未知原因",
+                                    text: "关注个股<span style='color: #F8BB86'>" + _stockcode + "</span>异常,未知原因",
                                     html: true,
                                     timer: 1000,
                                     showConfirmButton: false
@@ -322,49 +342,89 @@
         });
     }
 
+    /**
+     * 获取关联信息图
+     */
     function initReleatedInfo() {
-
+        common.initRelateSHG(1, _stockcode, function (resultData) {
+            if (resultData && resultData.status == 1) {
+                var relateRank = [];
+                if (resultData.industry && resultData.industry.length > 0) {
+                    relateRank.push("{ \"industry\": \"" + resultData.industry[0].industry + "\", \"concept\": \"" + resultData.notion[0].section + "\" }");
+                }
+                var thisName = _stockName + "(" + _stockcode + ")";
+                common.buildReleatedInfoChart(thisName, resultData);
+            }
+        });
     }
 
-    //新闻情感趋势 双折线图
-    function initdoubleLine(type, name) {
-        common.getNewsTrend({'query_type': type, 'key_name': name}, null, function (resultData) {
-            twoLineChart.hideLoading();//关闭加载中
+    function initModalChart() {
+        $(".modal-chart").modal("show");
+        var _modalChart = echarts.init(document.getElementById("modal-chart"));
+        common.getSingleRealTimeHot({"stock": _stockcode}, function () {
+            _modalChart.showLoading({"text": "加载中..."});
+        }, function (resultData) {
+            _modalChart.hideLoading();
+            var _modalViewData = [];
+            var _modalxData = [];
             if (resultData.status == 1) {
-                for (var i = 0, ilen = resultData.infotrend.length; i < ilen; i++) {
-                    timeData.push(resultData.infotrend[i]['date']);
-                    newsData.push(resultData.infotrend[i]['info_count']);
-                    sentiData.push(resultData.infotrend[i]['info_senti']);
-                }
-                if (resultData.senti_per) {
-                    var negData = resultData.senti_per.neg_per;
-                    var posData = resultData.senti_per.pos_per;
-                    $('.pro_chart .progress_neg_per').css("width", negData * 100 + '%');//负面 进度条
-                    if (negData && negData > 0) {
-                        $('.pro_chart .progress_neg .progress_circle').css({
-                            "left": (negData * 100) - 1.5 + '%',
-                            "display": "block"
-                        });
+                if (resultData.visit) {
+                    for (var v in resultData.visit) {
+                        _modalViewData.push(resultData.visit[v]);
+                        _modalxData.push("\"" + Utility.numToTime(v) + "\"");
                     }
-                    $('.sacle .negative_per').html((negData * 100).toFixed(0));
-
-                    $('.pro_chart .progress_pos_per').css("width", posData * 100 + '%');//非负面 进度条
-                    if (posData && posData > 0) {
-                        $('.pro_chart .progress_pos .progress_circle').css({
-                            "left": (posData * 100) - 1.5 + '%',
-                            "display": "block"
-                        });
-                    }
-                    $('.sacle .positive_per').html((posData * 100).toFixed(0));
+                    _modalxData = JSON.parse("[" + _modalxData.join(',') + "]");
+                    _modalViewData = JSON.parse("[" + _modalViewData.join(',') + "]");
                 }
-                common.getTwoLineChart("left-double-chart", timeData, newsData, sentiData);
+                var myChart = echarts.init(document.getElementById("modal-chart"));
+                myChart.showLoading({"text": "加载中..."});
+                myChart.setOption({
+                    color: ["rgb(243, 104, 97)"],
+                    tooltip: {
+                        trigger: "axis",
+                        formatter: function (params) {
+                            var showLabel = "";
+                            showLabel += params[0].name + "<br>";
+                            for (var p in params) {
+                                if (params[p].value && params[p].value != 0) {
+                                    if (params[0].name == params[p].name) {
+                                        showLabel += "<label style='color: " + params[p].color + ";font-size: 14x;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + Utility.formatNum(params[p].value) + "<br>";
+                                    }
+                                }
+                            }
+                            return showLabel;
+                        }
+                    },
+                    dataZoom: [
+                        {type: 'inside', realtime: true},
+                        {
+                            type: 'slider',
+                            show: true,
+                            realtime: true
+                        }],
+                    grid: {top: 10, left: 20, right: 20, bottom: 40, containLabel: true},
+                    legend: {left: "left"},
+                    xAxis: {type: "category", boundaryGap: false, data: _modalxData},
+                    yAxis: {type: "value", position: "right", scale: true},
+                    calculable: false,
+                    series: [
+                        {
+                            name: "查看",
+                            type: "line",
+                            smooth: true,
+                            data: _modalViewData
+                        }
+                    ]
+                });
+                myChart.hideLoading();
+                window.onresize = myChart.resize
             }
         });
     }
 
     var arrData = {
         query_type: 1,
-        key: stockcode,
+        key: _stockcode,
         start_id: 0,
         info_type_list: "",
         start_time: 0
@@ -472,9 +532,132 @@
             }
         }
     });
-    common.initRelateSHG(1, stockcode);
+    $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
+        initTreeMapChart();
+    });
+    $(".wk-line-toggle a").click(function () {
+        $(this).addClass("line-active").siblings().removeClass("line-active");
+        var query_type = $(this).parent().attr("data-query-type");
+        var key = $(this).parent().attr("data-query-key");
+        var time_type = $(this).attr("data-key");
+        var arrData = {
+            query_type: query_type,
+            key_name: key,
+            time_type: time_type
+        };
+        if (time_type == "minute") {
+            initModalChart();
+            return;
+        }
+        if (time_type == "day") {
+            common.getLineChart("left-chart", xdata, viewData, searchData, followData);
+        } else {
+            common.getHotRecord(arrData, function () {
+                var myChart = echarts.init(document.getElementById("left-chart"));
+                myChart.showLoading({"text": "加载中..."});
+            }, function (resultData) {
+                var _viewData = [];
+                var _searchData = [];
+                var _followData = [];
+                var _xdata = [];
+                if (resultData.status == 1) {
+                    for (var v in resultData.visit) {
+                        for (var vv in resultData.visit[v]) {
+                            _xdata.push(vv);
+                            _viewData.push(resultData.visit[v][vv]);
+                        }
+                    }
+                    for (var s in resultData.search) {
+                        for (var ss in resultData.search[s]) {
+                            _searchData.push(resultData.search[s][ss]);
+                        }
+                    }
+                    for (var f in resultData.follow) {
+                        for (var ff in resultData.follow[f]) {
+                            _followData.push(resultData.follow[f][ff]);
+                        }
+                    }
+                }
+                common.getLineChart("left-chart", _xdata, _viewData, _searchData, _followData);
+            });
+        }
+    });
+    $(".treemap-toggle span").click(function () {
+        $(this).addClass("treemap-active").siblings().removeClass("treemap-active");
+        var to = $(this).parent().parent().parent();
+        if ($(this).html() == "热力图") {
+            to.find(".toggle-treemap").show();
+            to.find(".toggle-treemap-table-up").hide();
+            to.find(".toggle-treemap-table-down").hide();
+        } else if ($(this).html() == "涨幅") {
+            to.find(".toggle-treemap").hide();
+            to.find(".toggle-treemap-table-up").show();
+            to.find(".toggle-treemap-table-down").hide();
+        } else if ($(this).html() == "跌幅") {
+            to.find(".toggle-treemap").hide();
+            to.find(".toggle-treemap-table-up").hide();
+            to.find(".toggle-treemap-table-down").show();
+        }
+    });
+    $(".wk-rate-select label").click(function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        var querykey = $(this).parent().attr("data-query-name");//查询关键字(股票代码||行业/概念关键字)
+        var querytype = $(this).parent().attr("data-query-type");//查询类别(股票/行业/概念)
+        var toggle = $(this).attr("data-toggle");//查询周期(当天/一周/一个月/三个月)
+        var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
+        var queryData = {
+            "query_type": querytype,
+            "query_key": querykey,
+            "query_date": toggle
+        };
+        if (querytype == "stock") {
+            if (_stockName) {
+                querykey = _stockName;
+            }
+        }
+        switch (toggle) {
+            case "today":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            case "week":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            case "month":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            case "threemonth":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    common.buildRateLine(querykey, toggle, resultData);
+                    rateLine.hideLoading();
+                });
+                break;
+            default:
+                break;
+        }
+    });
     common.getNews(arrData, true);
     initLineChart();
     initTreeMapChart();
-    initdoubleLine(1, key_name);
+    common.initdoubleLine(1, key_name);
+
+    $("#test").click(function () {
+
+    })
 })(jQuery, window, document);

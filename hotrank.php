@@ -34,8 +34,7 @@ if (CheckLogin::check() == -1) {
                     <li role="presentation" data-type="2"><a href="#search" aria-controls="search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation" data-type="3"><a href="#follow" aria-controls="follow" role="tab" data-toggle="tab">关注热度</a></li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?></span>
+                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:00");?></span>
                 <div class="tab-content">
                     <!--查看热度-->
                     <div role="tabpanel" class="tab-pane active" id="view">

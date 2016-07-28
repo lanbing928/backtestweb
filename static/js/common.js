@@ -454,8 +454,13 @@ var common = {
             //         show: true,
             //         realtime: true
             //     }],
-            grid: {top: "12%", left: "6%", right: "5%", bottom: 40, containLabel: true},
-            legend: {left: "left", data: ["查看", "搜索", "关注"], padding: [0, 0, 0, 15]},
+            grid: {top: "12%", left: "6%", right: "5%", bottom: 0, containLabel: true},
+            legend: {
+                left: "left",
+                data: ["查看", "搜索", "关注"],
+                padding: [0, 0, 0, 15],
+                selected: {"搜索": false, "关注": false}
+            },
             xAxis: {type: "category", boundaryGap: false, data: xdata},
             yAxis: {type: "value", position: "right", scale: true, min: "dataMin", max: "dataMax"},
             calculable: false,
@@ -476,9 +481,6 @@ var common = {
                     name: "关注",
                     type: "line",
                     smooth: true,
-                    // symbolSize: function (value) {
-                    //     return value == 0 ? 0 : 4;
-                    // },
                     data: followData
                 }
             ]
@@ -792,7 +794,7 @@ var common = {
                 top: '25px',
                 left: '0',
                 right: '0',
-                bottom: 40,
+                bottom: 0,
                 containLabel: true
             },
             xAxis: {
@@ -854,7 +856,7 @@ var common = {
                 tableHtml.push("<td class='" + common.getUpDownColor(buildData[i].price_change_ratio) + "'>" + (buildData[i].price_change_ratio * 100).toFixed(2) + "%</td>");
                 tableHtml.push("<td>" + buildData[i].hot + "</td>");
                 tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
-                tableHtml.push("<td>" + buildData[i].count + "</td>");
+                tableHtml.push("<td>" + (buildData[i].count / 10000 / 100).toFixed(2) + "</td>");
                 tableHtml.push("</tr>");
             }
             return tableHtml.join('');
@@ -880,9 +882,9 @@ var common = {
                 tableHtml.push("<tr>");
                 tableHtml.push("<td>" + (i + 1) + "</td>");
                 tableHtml.push("<td><a href='" + buildType + ".php?name=" + buildData[i].name + "' target='_blank'>" + buildData[i].name + "</a></td>");
-                tableHtml.push("<td>" + buildData[i].hot + "</td>");
-                tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue + "</td>");
-                tableHtml.push("<td>" + buildData[i].count + "</td>");
+                tableHtml.push("<td>" + buildData[i].hot.toFormatNum() + "</td>");
+                tableHtml.push("<td class='" + common.getUpDownColor(tvalue) + "'>" + (tvalue > 0 ? "+" : "") + tvalue.toFormatNum() + "</td>");
+                tableHtml.push("<td>" + (buildData[i].count / 10000 / 100).toFixed(2) + "</td>");
                 tableHtml.push("</tr>");
             }
             return tableHtml.join('');
@@ -899,8 +901,7 @@ var common = {
             return str;
 
         }
-    }
-    ,
+    },
 
     /**
      * 构建热度表格
@@ -1003,37 +1004,14 @@ var common = {
     /**
      * 获取关联的行业股票概念
      */
-    initRelateSHG: function (query_type, name) {
+    initRelateSHG: function (query_type, name, backFn) {
+        var relcharts = echarts.init(document.getElementById("wk-relate-chart"));
         common.getRelateSHG({"query_type": query_type, "key_name": name}, function () {
-            $(".relate-infos").html("关联资讯<i class=\"fa fa-circle-o-notch fa-spin fa-fw\"></i>");
+            relcharts.showLoading({"text": "加载中..."});
         }, function (resultData) {
             if (resultData.status == 1) {
-                var relateInfo = [];
-                var relateRank = [];
-                if (resultData.industry.length > 0) {
-                    relateInfo.push("<span class='wk-rel-industry'>关联行业&nbsp;:&nbsp;</span>");
-                    for (var i in resultData.industry) {
-                        relateInfo.push("<a href='industry.php?name=" + resultData.industry[i].industry + "' target='_blank'>" + resultData.industry[i].industry + "</a>");
-                    }
-                }
-                if (resultData.stock.length > 0) {
-                    relateInfo.push("<span class='wk-rel-stock'>关联股票&nbsp;:&nbsp;</span>");
-                    for (var s in resultData.stock) {
-                        relateInfo.push("<a href='stocks.php?stock=" + resultData.stock[s].stock_code + "' target='_blank'>" + resultData.stock[s].stock_name + "</a>");
-                    }
-                }
-                if (resultData.notion.length > 0) {
-                    relateInfo.push("<span class='wk-rel-concept'>关联概念&nbsp;:&nbsp;</span>");
-                    for (var n in resultData.notion) {
-                        relateInfo.push("<a href='concept.php?name=" + resultData.notion[n].section + "' target='_blank'>" + resultData.notion[n].section + "</a>");
-                    }
-                }
-                $(".relate-infos").html("关联资讯" + relateInfo.join(''));
-                if (query_type == 1) {
-                    if (resultData.industry && resultData.industry.length > 0) {
-                        relateRank.push("{ \"industry\": \"" + resultData.industry[0].industry + "\", \"concept\": \"" + resultData.notion[0].section + "\" }");
-                    }
-                }
+                relcharts.hideLoading();
+                backFn && backFn(resultData);
             }
         });
     },
@@ -1093,54 +1071,190 @@ var common = {
             }
         })
     },
-    /**
-     *双折线图
-     * @param chartId
-     * @param timeData
-     * @param newsData
-     * @param sentiData
-     */
-    getTwoLineChart: function (chartId, timeData, newsData, sentiData) {
+
+    buildTwoLineChart: function (chartId, color, showname, timeData, showData, ydir) {
         var myChart = echarts.init(document.getElementById(chartId));
-        myChart.showLoading({"text": "加载中..."});
-        myChart.setOption({
-            color: ["rgb(82,153,222)", "rgb(247,163,92)"],
+        var option = {
+            color: [color],
             tooltip: {
                 trigger: "axis"
             },
-            legend: {data: [{name: "新闻数量", icon: 'circle'}, {name: "情感指数"}], bottom: "0"},
+            legend: {data: [{name: showname, icon: 'circle'}], bottom: "0"},
             grid: {top: '10px', left: 'auto', right: 'auto', bottom: '10%', containLabel: true},
             xAxis: {
                 type: "category",
-                boundaryGap: false,
+                boundaryGap: true,
                 data: timeData,
                 splitLine: {show: false},
                 axisLine: {show: false},
                 axisLabel: {show: false}
             },
-            yAxis: [{type: 'value', splitLine: {show: false}, max: "dataMax"}, {
-                type: 'value',
-                splitLine: {show: false},
-                max: "dataMax"
-            }],
+            yAxis: [{type: 'value', position: ydir}],
             series: [
                 {
-                    name: '新闻数量',
-                    type: "line",
+                    name: showname,
+                    type: "bar",
+                    barWidth: 8,
                     smooth: true,
-                    data: newsData
-                },
-                {
-                    name: "情感指数",
-                    type: "line",
-                    smooth: true,
-                    data: sentiData,
-                    yAxisIndex: 1
+                    data: showData
                 }
             ]
-        });
+        };
+        myChart.showLoading({"text": "加载中..."});
+        myChart.setOption(option);
         myChart.hideLoading();
         window.onresize = myChart.resize
+    },
+    /**
+     * 构建关联信息图表
+     * @param relName
+     * @param relData
+     */
+    buildReleatedInfoChart: function (relName, relData) {
+        if (relData.stock.length == 0 && relData.industry.length == 0 && relData.notion.length == 0 && relData.event.length == 0) {
+            $("#wk-relate-chart").html("<div style='font-size: 18px;text-align: center;padding-top: 240px;'><img src=\"/static/imgs/i/index_nodata.png\">&nbsp;&nbsp;&nbsp;&nbsp;暂无关联信息</div>");
+            return;
+        }
+        relName = decodeURI(relName);
+        var datas = [{"name": relName, "symbolSize": 60, "category": 0, "draggable": true}];
+        var links = [];
+        var cate = [
+            {"name": relName, "itemStyle": {normal: {color: "rgba(85,111,181,1)"}}},
+            {"name": "关联股票", "itemStyle": {normal: {color: "rgba(158,90,147,1)"}}},
+            {"name": "关联行业", "itemStyle": {normal: {color: "rgba(55,119,157,1)"}}},
+            {"name": "关联概念", "itemStyle": {normal: {color: "rgba(92,95,135,1)"}}},
+            {"name": "关联事件", "itemStyle": {normal: {color: "rgba(97,150,156,1)"}}}
+        ];
+        var _random_max = 30;
+        var _random_min = 10;
+        var _rel_stock = [], _rel_stock_link = [],
+            _rel_industry = [], _rel_industry_link = [],
+            _rel_concept = [], _rel_concept_link = [],
+            _rel_event = [], _rel_event_link = [];
+        if (relData.stock.length > 0) {
+            _rel_stock.push("{\"name\": \"关联股票\",\"symbolSize\": 30,\"category\": 1,\"draggable\": true}");
+            _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
+            for (var i = 0, ilen = relData.stock.length; i < ilen; i++) {
+                _rel_stock.push("{\"name\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 1,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(158,90,147,1)\"}}}");
+                _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(158,90,147,1)\"}}}");
+            }
+            datas = datas.concat(JSON.parse("[" + _rel_stock + "]"));
+            links = links.concat(JSON.parse("[" + _rel_stock_link + "]"))
+        }
+        if (relData.industry.length > 0) {
+            _rel_industry.push("{\"name\": \"关联行业\",\"symbolSize\": 30,\"category\": 2,\"draggable\": true}");
+            _rel_industry_link.push("{\"source\": \"关联行业\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
+            for (var j = 0, jlen = relData.industry.length; j < jlen; j++) {
+                _rel_industry.push("{\"name\": \"" + relData.industry[j].industry + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 2,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(55,119,157,1)\"}}}");
+                _rel_industry_link.push("{\"source\": \"关联行业\",\"target\": \"" + relData.industry[j].industry + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(55,119,157,1)\"}}}");
+            }
+            datas = datas.concat(JSON.parse("[" + _rel_industry + "]"));
+            links = links.concat(JSON.parse("[" + _rel_industry_link + "]"))
+        }
+        if (relData.notion.length > 0) {
+            _rel_concept.push("{\"name\": \"关联概念\",\"symbolSize\": 30,\"category\": 3,\"draggable\": true}");
+            _rel_concept_link.push("{\"source\": \"关联概念\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
+            for (var k = 0, klen = relData.notion.length; k < klen; k++) {
+                _rel_concept.push("{\"name\": \"" + relData.notion[k].section + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 3,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(92,95,135,1)\"}}}");
+                _rel_concept_link.push("{\"source\": \"关联概念\",\"target\": \"" + relData.notion[k].section + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(92,95,135,1)\"}}}");
+            }
+            datas = datas.concat(JSON.parse("[" + _rel_concept + "]"));
+            links = links.concat(JSON.parse("[" + _rel_concept_link + "]"))
+        }
+        if (relData.event.length > 0) {
+            _rel_event.push("{\"name\": \"关联事件\",\"symbolSize\": 30,\"category\": 4,\"draggable\": true}");
+            _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
+            for (var l = 0, llen = relData.event.length; l < llen; l++) {
+                _rel_event.push("{\"name\": \"" + relData.event[l].event_name + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 4,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(98,166,174,1)\"}}}");
+                _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relData.event[l].event_name + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(98,166,174,1)\"}}}");
+            }
+            datas = datas.concat(JSON.parse("[" + _rel_event + "]"));
+            links = links.concat(JSON.parse("[" + _rel_event_link + "]"))
+        }
+        var relcharts = echarts.init(document.getElementById("wk-relate-chart"));
+        var option = {
+            color: ["rgb(85,111,181)", "rgb(158,90,147)", "rgb(55,119,157)", "rgb(92,95,135)", "rgb(98,166,174)"],
+            animation: false,
+            legend: [{data: cate}],
+            series: [
+                {
+                    name: '关联信息',
+                    type: 'graph',
+                    layout: 'force',
+                    draggable: false,
+                    data: datas,
+                    links: links,
+                    categories: cate,
+                    roam: true,
+                    label: {normal: {show: true, position: 'bottom'}},
+                    force: {repulsion: 400}
+                }
+            ]
+        };
+        relcharts.setOption(option);
+        relcharts.on('click', function (params) {
+            var name = params.data.name;
+            switch (params.data.category) {
+                case 1:
+                    if (name != "关联股票") {
+                        window.open("stocks.php?stock=" + name.substring(name.indexOf("(") + 1, name.indexOf(")"))
+                        );
+                    }
+                    break;
+                case 2:
+                    if (name != "关联行业") {
+                        window.open("industry.php?name=" + name);
+                    }
+                    break;
+                case 3:
+                    if (name != "关联概念") {
+                        window.open("concept.php?name=" + name);
+                    }
+                    break;
+                case 4:
+                    if (name != "关联事件") {
+                        window.open("event.php?name=" + name);
+                    }
+                    break;
+            }
+        });
+        window.onresize = relcharts.resize;
+    },
+    /**
+     * 新闻情感趋势 双折线图
+     * @param type
+     * @param name
+     */
+    initdoubleLine: function (type, name) {
+        var timeData = [], newsData = [], sentiData = [];
+        var twoLineChart_a = echarts.init(document.getElementById("double-chart-a"));
+        var twoLineChart_b = echarts.init(document.getElementById("double-chart-b"));
+        common.getNewsTrend({'query_type': type, 'key_name': name}, function () {
+            twoLineChart_a.showLoading({"text": "加载中..."});//关闭加载中
+            twoLineChart_b.showLoading({"text": "加载中..."});//关闭加载中
+        }, function (resultData) {
+            twoLineChart_a.hideLoading();//关闭加载中
+            twoLineChart_b.hideLoading();//关闭加载中
+            if (resultData.status == 1) {
+                for (var i = 0, ilen = resultData.infotrend.length; i < ilen; i++) {
+                    timeData.push(resultData.infotrend[i]['date']);
+                    newsData.push(resultData.infotrend[i]['info_count']);
+                    sentiData.push(resultData.infotrend[i]['info_senti']);
+                }
+                if (resultData.senti_per) {
+                    var negData = resultData.senti_per.neg_per;
+                    var posData = resultData.senti_per.pos_per;
+                    $('.pro_chart .progress_neg_per').css("width", negData * 100 + '%');
+                    if (posData > 0) {
+                        $('.progress_neg').css("background-color", "#e96c6c");
+                    }
+                    $('.sacle .negative_per').html((negData * 100).toFixed(0));
+                    $('.sacle .positive_per').html((posData * 100).toFixed(0));
+                }
+                common.buildTwoLineChart("double-chart-a", "rgb(92,164,234)", "新闻数量", timeData, newsData, "left");
+                common.buildTwoLineChart("double-chart-b", "rgb(255,168,95)", "情感指数", timeData, sentiData, "right");
+            }
+        });
     }
 };
 var inforcenter = {
@@ -1162,6 +1276,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         });
@@ -1184,6 +1299,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1206,6 +1322,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1226,6 +1343,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1248,6 +1366,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1270,6 +1389,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1292,6 +1412,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1312,6 +1433,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1333,6 +1455,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1353,6 +1476,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1375,6 +1499,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1397,6 +1522,7 @@ var inforcenter = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })

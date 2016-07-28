@@ -35,6 +35,9 @@ if (empty($eventName)) {
     <section class="wk-top-title">
         <label class="wk-topshow-icon"></label>
         <label class="wk-toshow-name"><?php echo $eventName ?></label>
+        <div class="wk-topshow-right">
+            <label class="wk-topshow-dp">沪深：<label><i class="fa fa-circle-o-notch fa-spin"></i></label></label>
+        </div>
     </section>
     <section class="wk-time-hot">
         <p class="wk-hot-title">事件总览
@@ -44,6 +47,7 @@ if (empty($eventName)) {
             <a class="line-active" data-key="day">实时</a>
             <a data-key="week">周</a>
             <a data-key="month">月</a>
+            <a data-key="minute">分时查看</a>
         </div>
         <div class="col-md-8 left-charts" id="left-chart"></div>
         <div class="col-md-4 right-infos">
@@ -76,6 +80,11 @@ if (empty($eventName)) {
         </div>
         <div id="wk-rate-line-pic"></div>
     </section>
+    <section class="wk-relate-map">
+        <p class="wk-hot-title">关联信息</p>
+        <div id="wk-relate-chart">
+        </div>
+    </section>
     <section class="wk-all-hot">
         <div class="wk-con-news">
             <p class="wk-hot-title relate-infos">关联资讯</p>
@@ -83,21 +92,18 @@ if (empty($eventName)) {
                 <div class="col-md-5">
                     <p>最近一周新闻情感</p>
                     <div class="progress_neg">
-                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
-                        <div class="progress_circle"></div>
-                    </div>
-                    <div class="progress_pos">
-                        <div class="progress_pos_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" ></div>
-                        <div class="progress_circle"></div>
+                        <div class="progress_neg_per" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div class="sacle">
                         <span class="negative"></span>&nbsp;负面<span class="negative_per"></span>%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="positive"></span>&nbsp;非负面<span class="positive_per"></span>%
                     </div>
                 </div>
-                <div class="col-md-2"></div>
-                <div class="col-md-5">
+                <div class="col-md-1"></div>
+                <div class="col-md-6">
                     <p>最近一周新闻趋势</p>
-                    <div class="left-charts" id="left-double-chart"></div>
+                    <div class="col-md-5"><div id="double-chart-a"></div></div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-5"><div id="double-chart-b"></div></div>
                 </div>
             </div>
             <div class="wk-con-box">
@@ -131,8 +137,7 @@ if (empty($eventName)) {
                     <li role="presentation"><a href="#event-search" aria-controls="event-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#event-follow" aria-controls="event-follow" role="tab" data-toggle="tab">关注热度</a></li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?></span>
+                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:00"); ?></span>
                 <div class="tab-content">
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="event-view">
@@ -182,7 +187,7 @@ if (empty($eventName)) {
                                             <td>价格涨跌幅</td>
                                             <td>查看热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -198,7 +203,7 @@ if (empty($eventName)) {
                                             <td>价格涨跌幅</td>
                                             <td>查看热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -249,7 +254,7 @@ if (empty($eventName)) {
                                             <td>价格涨跌幅</td>
                                             <td>搜索热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -265,7 +270,7 @@ if (empty($eventName)) {
                                             <td>价格涨跌幅</td>
                                             <td>搜索热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -316,7 +321,7 @@ if (empty($eventName)) {
                                             <td>价格涨跌幅</td>
                                             <td>关注热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -332,7 +337,7 @@ if (empty($eventName)) {
                                             <td>价格涨跌幅</td>
                                             <td>关注热度</td>
                                             <td>热度增量</td>
-                                            <td>成交量</td>
+                                            <td>成交量(万手)</td>
                                         </tr>
                                         </thead>
                                         <tbody></tbody>
@@ -345,6 +350,19 @@ if (empty($eventName)) {
             </div>
         </div>
     </section>
+    <div class="modal modal-chart" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">分时查看</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="modal-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
