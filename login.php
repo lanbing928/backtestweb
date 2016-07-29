@@ -92,7 +92,7 @@
         }
     });
     $("#wechat").click(function(){
-        swal({title: "",text: "",imageUrl: "staticimgs/i/qrcode.jpg" });
+        swal({title: "",text: "",imageUrl: "static/imgs/i/qrcode.jpg" });
         $(".sa-custom").css({"width":"258px","height":"258px"});
         $(".showSweetAlert").css({"margin-top":"-230px"});
         //staticimgs/i/qrcode.jpg

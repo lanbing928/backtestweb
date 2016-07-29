@@ -10,8 +10,8 @@
     var wk_treemap_data_industry, wk_treemap_data_concept;
     var query_type = Utility.getQueryStringByName("query_type");//
     var key_name = _stockcode + 's';
-    var myChart = echarts.init(document.getElementById("left-chart"));
-    myChart.showLoading({"text": "加载中..."});
+    var myChart = echarts.init(document.getElementById("left-hot-chart"));
+    myChart.showLoading({ "text": "加载中..." });
     /**
      * 构建股票页面查看更多的a标签
      * @param a 查看、搜索、关注
@@ -28,10 +28,13 @@
      * 初始化热度总览折线图
      */
     function initLineChart() {
+        var leftHotChart = echarts.init(document.getElementById("left-hot-chart"));
         common.getSingleRealTimeHot({
             "stock": _stockcode,
             "hour_data": "stock"
-        }, null, function (resultData) {
+        }, function () {
+            leftHotChart.showLoading({ text: "加载中..." });
+        }, function (resultData) {
             if (resultData.status == 1) {
                 var _todayHot = [];
                 var _lastHot = [];
@@ -73,7 +76,7 @@
                 }
                 $(".todayhot").html(_todayHot.join(''));
                 $(".latesthot").html(_lastHot.join(''));
-                common.getLineChart("left-chart", xdata, viewData, searchData, followData);
+                common.getLineChart("left-hot-chart", xdata, viewData, searchData, followData);
             }
         });
     }
@@ -88,9 +91,7 @@
             var waitLogingCharts = ["wk-industry-view-treemap", "wk-concept-view-treemap"];
             for (var i in waitLogingCharts) {
                 var treemap = echarts.init(document.getElementById(waitLogingCharts[i]));
-                treemap.showLoading({
-                    "text": "加载中..."
-                });
+                treemap.showLoading({ "text": "加载中..." });
             }
         }, function (resultData) {
             if (resultData.status == 1) {
@@ -140,8 +141,10 @@
                 $(".wk-topshow-dp label").html(Utility.getTradeTime()).addClass("wk-up");
                 $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
                 $(".wk-related-info").html("热度总览&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "");
-                $(".latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
-                $(".todayhot-title").html(resultData.stock_info.stock_name + "今日最热度");
+                $("#wk-top-hots .latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
+                $("#wk-top-hots .todayhot-title").html(resultData.stock_info.stock_name + "今日最热度");
+                $("#wk-top-stockdata .latesthot-title").html(resultData.stock_info.stock_name + "最新行情");
+                $("#wk-top-moneyflow .latesthot-title").html(resultData.stock_info.stock_name + "资金流向");
                 $("i[data-toggle='popover']").popover({
                     container: "body",
                     trigger: "hover"
@@ -279,48 +282,72 @@
     function initFollowBtn() {
         inforcenter.showGroup(null, function (resultData) {
             if (resultData && resultData.status == 1) {
+                var followBtnHtml = [];
+                followBtnHtml.push("<div class=\"btn-group\" style='float: right;'>");
                 if ($(".wk-topshow-right .btn-group").length <= 0) {
-                    var followBtnHtml = [];
-                    followBtnHtml.push("<div class=\"btn-group\" style='float: right;'>");
                     followBtnHtml.push("<button type=\"button\" class=\"btn dropdown-toggle wk-btn-follow\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
                     followBtnHtml.push("+ 关注");
                     followBtnHtml.push("</button>");
+                    followBtnHtml.push("<ul class=\"dropdown-menu\">");
+                    followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='我的自选股'><a href=\"#\">我的自选股</a></li>");
                     if (resultData.result.info.group_name.length > 0) {
-                        followBtnHtml.push("<ul class=\"dropdown-menu\">");
                         var list = resultData.result.info.group_name;
-                        followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='我的自选股'><a href=\"#\">我的自选股</a></li>");
                         for (var i = 0; i < list.length; i++) {
                             followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='" + list[i] + "'><a href=\"#\">" + list[i] + "</a></li>");
                         }
-                        followBtnHtml.push("</ul>");
+                        followBtnHtml.push("<li class=\"wk-follow-stock\" id='addNewGroup' data-follow-name=\"addNewGroup\"><a href=\"javascript:\">添加组合</a></li>");
                     }
-                    followBtnHtml.push("</div>");
                     $(".wk-topshow-right").append(followBtnHtml.join(''));
+                    followBtnHtml.push("</ul>");
+                    followBtnHtml.push("</div>");
                 }
-                $(".wk-follow-stock").each(function () {
-                    var follow_name = $(this).attr("data-follow-name");
-                    $(this).unbind("click").bind("click", function () {
-                        inforcenter.addStock({ori_name: follow_name, code: _stockcode}, null, function (addResult) {
-                            if (addResult.status == 1) {
+                initFollowEvent();
+            }
+        });
+    }
+
+    function initFollowEvent() {
+        $(".wk-follow-stock").each(function () {
+            var follow_name = $(this).attr("data-follow-name");
+            $(this).unbind("click").bind("click", function () {
+                if (follow_name == "addNewGroup") {
+                    swal({
+                        title: "添加组合",
+                        text: "组合名称不能超过6个汉字或12个字符",
+                        type: "input",
+                        html: true,
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                        animation: "slide-from-top",
+                        inputPlaceholder: "请输入组合名称"
+                    }, function (inputValue) {
+                        if (inputValue === false) return false;
+                        if (inputValue === "") {
+                            swal.showInputError("请输入组合名称");
+                            return false;
+                        }
+                        if (Utility.getByteLen(inputValue) > 12) {
+                            swal.showInputError("字符数超过限制");
+                            return false;
+                        }
+                        inforcenter.addGroup({ ori_name: inputValue }, null, function (resultData) {
+                            if (resultData.status == 1) {
                                 swal({
                                     title: "",
-                                    text: "关注个股<span style='color: #F8BB86'>" + _stockcode + "</span>成功",
+                                    text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合成功",
                                     html: true,
                                     timer: 1000,
                                     showConfirmButton: false
                                 });
-                            } else if (addResult.status === 0) {
+                                $("#addNewGroup").before("<li class='wk-follow-stock' data-follow-name='" + inputValue + "'><a href=\"#\">" + inputValue + "</a></li>");
+                                initAddStock(inputValue, _stockcode, false);
+                                initFollowEvent();
+                            } else if (resultData.status == 0) {
                                 swal({
                                     title: "",
-                                    text: "关注个股<span style='color: #F8BB86'>" + _stockcode + "</span>异常," + resultData.msg + "",
-                                    html: true,
-                                    timer: 1000,
-                                    showConfirmButton: false
-                                });
-                            } else {
-                                swal({
-                                    title: "",
-                                    text: "关注个股<span style='color: #F8BB86'>" + _stockcode + "</span>异常,未知原因",
+                                    text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合异常," + resultData.msg + "",
                                     html: true,
                                     timer: 1000,
                                     showConfirmButton: false
@@ -328,6 +355,45 @@
                             }
                         });
                     });
+                } else {
+                    initAddStock(follow_name, _stockcode, true);
+                }
+            });
+        });
+    }
+    /**
+     * 添加股票
+     * @param {} follow_name 
+     * @param {} _stockcode 
+     * @returns {} 
+     */
+    function initAddStock(follow_name, _stockcode, showAlert) {
+        inforcenter.addStock({ ori_name: follow_name, code: _stockcode }, null, function (addResult) {
+            if (addResult.status == 1) {
+                if (showAlert) {
+                    swal({
+                        title: "",
+                        text: "关注个股<span style='color: #F8BB86'>" + _stockcode + "</span>成功",
+                        html: true,
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                }
+            } else if (addResult.status === 0) {
+                swal({
+                    title: "",
+                    text: "关注个股<span style='color: #F8BB86'>" + _stockcode + "</span>异常," + addResult.msg + "",
+                    html: true,
+                    timer: 1000,
+                    showConfirmButton: false
+                });
+            } else {
+                swal({
+                    title: "",
+                    text: "关注个股<span style='color: #F8BB86'>" + _stockcode + "</span>异常,未知原因",
+                    html: true,
+                    timer: 1000,
+                    showConfirmButton: false
                 });
             }
         });
@@ -352,8 +418,8 @@
     function initModalChart() {
         $(".modal-chart").modal("show");
         var _modalChart = echarts.init(document.getElementById("modal-chart"));
-        common.getSingleRealTimeHot({"stock": _stockcode}, function () {
-            _modalChart.showLoading({"text": "加载中..."});
+        common.getSingleRealTimeHot({ "stock": _stockcode }, function () {
+            _modalChart.showLoading({ "text": "加载中..." });
         }, function (resultData) {
             _modalChart.hideLoading();
             var _modalViewData = [];
@@ -368,7 +434,7 @@
                     _modalViewData = JSON.parse("[" + _modalViewData.join(',') + "]");
                 }
                 var myChart = echarts.init(document.getElementById("modal-chart"));
-                myChart.showLoading({"text": "加载中..."});
+                myChart.showLoading({ "text": "加载中..." });
                 myChart.setOption({
                     color: ["rgb(243, 104, 97)"],
                     tooltip: {
@@ -387,16 +453,16 @@
                         }
                     },
                     dataZoom: [
-                        {type: 'inside', realtime: true},
+                        { type: 'inside', realtime: true },
                         {
                             type: 'slider',
                             show: true,
                             realtime: true
                         }],
-                    grid: {top: 10, left: 20, right: 20, bottom: 40, containLabel: true},
-                    legend: {left: "left"},
-                    xAxis: {type: "category", boundaryGap: false, data: _modalxData},
-                    yAxis: {type: "value", position: "right", scale: true},
+                    grid: { top: 10, left: 20, right: 20, bottom: 40, containLabel: true },
+                    legend: { left: "left" },
+                    xAxis: { type: "category", boundaryGap: false, data: _modalxData },
+                    yAxis: { type: "value", position: "right", scale: true },
                     calculable: false,
                     series: [
                         {
@@ -409,6 +475,89 @@
                 });
                 myChart.hideLoading();
                 window.onresize = myChart.resize
+            }
+        });
+    }
+
+    function initTopStockData() {
+        $("#wk-show-chart-tip").html("<label>当前价：<span>--</span></label><label>成交量：<span>--</span>股</label><label>时间：<span>--</span></label><label>涨幅：<span>--</span></label>");
+        var charts = echarts.init(document.getElementById("left-stockdata-chart"));
+        common.getCurve({ code: _stockcode }, function () {
+            charts.showLoading({ text: "加载中..." });
+        }, function (resultData) {
+            var userData = [];
+            var datas = [];
+            var times = [];
+            if (resultData.status == 1) {
+                charts.hideLoading();
+                var list = resultData.result.code_info || [];
+                if (list.length > 0) {
+                    for (var i = 0, len = list.length; i < len; i++) {
+                        times.push(Utility.unixToTime(list[i].time * 1000));
+                        datas.push(list[i].price);
+                        userData.push({ price: list[i].price, average_price: list[i].average_price, pcr: list[i].price_change_ratio, volume: list[i].volume, time: list[i].time });
+                    }
+                }
+                charts.setOption({
+                    color: ["rgb(12, 145, 179)"],
+                    tooltip: {
+                        trigger: "axis",
+                        formatter: function (params) {
+                            var showData = userData[params[0].dataIndex];
+                            var showLabel = "";
+                            showLabel += params[0].name + "<br>";
+                            for (var p in params) {
+                                if (params.hasOwnProperty(p)) {
+                                    if (params[p].value && params[p].value != 0) {
+                                        if (params[0].name == params[p].name) {
+                                            showLabel += "<label style='color: " + params[p].color + ";font-size: 12x;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + Utility.formatNum(params[p].value) + "<br>";
+                                        }
+                                    }
+                                }
+                            }
+                            $("#wk-show-chart-tip").html("<label>当前价:<span class='" + Utility.getPriceColor(showData.pcr) + "'>" + showData.price + "</span></label><label>成交量:<span>" + (showData.volume).toChineseNum() + "</span>股</label><label>时间:<span>" + Utility.unixToTime(showData.time * 1000) + "</span></label><label>涨幅：<span class='" + Utility.getPriceColor(showData.pcr) + "'>" + Utility.getPriceSymbol(showData.pcr) + "" + showData.pcr + "</span></label>");
+                            $(".wk-top-panelcon").mouseleave(function () {
+                                $("#wk-show-chart-tip").html("<label>当前价：<span>--</span></label><label>成交量：<span>--</span>股</label><label>时间：<span>--</span></label><label>涨幅：<span>--</span></label>");
+                            });
+                            return showLabel;
+                        }
+                    },
+                    grid: { top: "10px", left: "3%", right: "3%", bottom: 10, containLabel: true },
+                    xAxis: {
+                        type: "category", boundaryGap: false, data: times, axisLabel: {
+                            interval: 60
+                        }
+                    },
+                    yAxis: { type: "value", position: "right", scale: true },
+                    calculable: false,
+                    series: [
+                        {
+                            name: "大盘数据",
+                            type: "line",
+                            smooth: true,
+                            showSymbol: false,
+                            symbolSize: 2,
+                            data: userData.map(function (item) {
+                                return item.price;
+                            }),
+                            lineStyle: { normal: { width: 1 } }
+                        }
+                    ]
+                });
+                window.onresize = charts.resize;
+            }
+        });
+        common.getGrail({ code: _stockcode }, null, function (resultData) {
+            var grailHtml = [];
+            if (resultData.status == 1) {
+                var datas = resultData.result.code_info;
+                grailHtml.push("<tr><td>今开：<span>" + datas.open.toFixed(2) + "</span></td><td>换手率：<span>" + datas.amount.toFixed(2) + "</span></td></tr>");
+                grailHtml.push("<tr><td>昨收：<span>" + datas.settlement_.toFixed(2) + "</span></td><td>每股收益：<span>" + datas.eps.toFixed(2) + "</span></td></tr>");
+                grailHtml.push("<tr><td>最高：<span>" + datas.high.toFixed(2) + "</span></td><td>总股本：<span>" + (datas.totals * 10000).toChineseNum() + "</span></td></tr>");
+                grailHtml.push("<tr><td>最低：<span>" + datas.low.toFixed(2) + "</span></td><td>总市值：<span>" + (datas.zsz * 10000).toChineseNum() + "</span></td></tr>");
+                grailHtml.push("<tr><td>市盈率：<span>" + datas.pe.toFixed(2) + "</span></td><td>流通市值：<span>" + (datas.ltsz * 10000).toChineseNum() + "</span></td></tr>");
+                grailHtml.push("<tr><td>市净率：<span>" + datas.pb.toFixed(2) + "</span></td><td>成交量：<span>" + (datas.volume).toChineseNum() + "股</span></td></tr>");
+                $("#wk-top-stockdata .right-infos table>tbody").html(grailHtml.join(''));
             }
         });
     }
@@ -541,11 +690,11 @@
             return;
         }
         if (time_type == "day") {
-            common.getLineChart("left-chart", xdata, viewData, searchData, followData);
+            common.getLineChart("left-hot-chart", xdata, viewData, searchData, followData);
         } else {
             common.getHotRecord(arrData, function () {
-                var myChart = echarts.init(document.getElementById("left-chart"));
-                myChart.showLoading({"text": "加载中..."});
+                var myChart = echarts.init(document.getElementById("left-hot-chart"));
+                myChart.showLoading({ "text": "加载中..." });
             }, function (resultData) {
                 var _viewData = [];
                 var _searchData = [];
@@ -569,7 +718,7 @@
                         }
                     }
                 }
-                common.getLineChart("left-chart", _xdata, _viewData, _searchData, _followData);
+                common.getLineChart("left-hot-chart", _xdata, _viewData, _searchData, _followData);
             });
         }
     });
@@ -609,7 +758,7 @@
         switch (toggle) {
             case "today":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({"text": "加载中..."});
+                    rateLine.showLoading({ "text": "加载中..." });
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -617,7 +766,7 @@
                 break;
             case "week":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({"text": "加载中..."});
+                    rateLine.showLoading({ "text": "加载中..." });
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -625,7 +774,7 @@
                 break;
             case "month":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({"text": "加载中..."});
+                    rateLine.showLoading({ "text": "加载中..." });
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -633,7 +782,7 @@
                 break;
             case "threemonth":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({"text": "加载中..."});
+                    rateLine.showLoading({ "text": "加载中..." });
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -643,12 +792,13 @@
                 break;
         }
     });
+    $(".wk-topcharts-box ul>li>a").bind("click", function () {
+        if ($(this).attr("aria-controls") == "wk-top-stockdata") {
+            initTopStockData();
+        }
+    });
     common.getNews(arrData, true);
     initLineChart();
     initTreeMapChart();
     common.initdoubleLine(1, key_name);
-
-    $("#test").click(function () {
-
-    })
 })(jQuery, window, document);

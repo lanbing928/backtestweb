@@ -63,14 +63,14 @@
                 filter: false,
                 emptyTemplate: '未找到 "{{query}}" 的相关信息',
                 source: {
-                    "股票": {url: ["../ajax/ajax_search.php?message={{query}},", "stock"]}
+                    "股票": { url: ["../ajax/ajax_search.php?message={{query}},", "stock"] }
                 },
                 callback: {
                     onClickAfter: function (node, a, item) {
                         if (item.display !== "") {
                             var stockCode = item.display.substring(item.display.indexOf("(") + 1, item.display.indexOf(")"));
                             var groupName = $(".wk-sub-refresh").attr("data-refresh");
-                            inforcenter.addStock({ori_name: groupName, code: stockCode}, null, function (resultData) {
+                            inforcenter.addStock({ ori_name: groupName, code: stockCode }, null, function (resultData) {
                                 if (resultData && resultData.status == 1) {
                                     ctrlInfo.getGroupStock(groupName);
                                     $(".wk-user-stock-search").val("");
@@ -107,7 +107,7 @@
                         swal.showInputError("字符数超过限制");
                         return false;
                     }
-                    inforcenter.addGroup({ori_name: inputValue}, null, function (resultData) {
+                    inforcenter.addGroup({ ori_name: inputValue }, null, function (resultData) {
                         if (resultData.status == 1) {
                             swal({
                                 title: "",
@@ -220,7 +220,7 @@
                                 closeOnCancel: true
                             }, function (isConfirm) {
                                 if (isConfirm) {
-                                    inforcenter.delGroup({ori_name: group_name}, null, function (resultData) {
+                                    inforcenter.delGroup({ ori_name: group_name }, null, function (resultData) {
                                         if (resultData.status == 1) {
                                             swal({
                                                 title: "",
@@ -245,7 +245,7 @@
          * @param groupName
          */
         getGroupStock: function (groupName) {
-            inforcenter.showstock({ori_name: groupName}, function () {
+            inforcenter.showstock({ ori_name: groupName }, function () {
                 $(".wk-sub-refresh").addClass("fa-spin");
                 $(".wk-user-mychoose-table table>tbody").html("<tr><td colspan='11'><div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div></td></tr>");
             }, function (resultData) {
@@ -428,13 +428,13 @@
                             var $this = $(this);
                             var _plat_id = $this.attr("data-platform");
                             if ($this.hasClass("fa-times-circle")) {
-                                inforcenter.delUserPlatform({plat_id: _plat_id}, null, function (resultData) {
+                                inforcenter.delUserPlatform({ plat_id: _plat_id }, null, function (resultData) {
                                     if (resultData.status == 1) {
                                         $this.removeClass("fa-times-circle").addClass("fa-plus").siblings().removeClass("active");
                                     }
                                 });
                             } else {
-                                inforcenter.addUserPlatform({plat_id: _plat_id}, null, function (resultData) {
+                                inforcenter.addUserPlatform({ plat_id: _plat_id }, null, function (resultData) {
                                     if (resultData.status == 1) {
                                         $this.removeClass("fa-plus").addClass("fa-times-circle").siblings().addClass("active");
                                     }
@@ -849,7 +849,7 @@
             $(".wk-sub-refresh").click(function () {
                 var refreshName = $(this).attr("data-refresh");
                 ctrlInfo.getGroupStock(refreshName);
-            })
+            });
         }
     };
     //获取大盘数据
@@ -875,31 +875,31 @@
         $("#" + target).show().siblings().hide();
         if (target == "wk-user-news-list") {
             $("#" + target).find(".wk-con").html("");
-            ctrlInfo.getNews({"query_type": 1, "start_time": 0, "info_type": 0, "stock_list": stock_list});
+            ctrlInfo.getNews({ "query_type": 1, "start_time": 0, "info_type": 0, "stock_list": stock_list });
             $(".wk-user-mynews").attr("data-info-type", 0);
             $(".wk-user-mynews").attr("data-query-type", 1);
         }
         if (target == "wk-user-fastnews-list") {
             $("#" + target).find(".wk-con").html("");
-            ctrlInfo.getFastNews({"query_type": 1, "start_time": 0, "info_type": 1, "stock_list": stock_list});
+            ctrlInfo.getFastNews({ "query_type": 1, "start_time": 0, "info_type": 1, "stock_list": stock_list });
             $(".wk-user-mynews").attr("data-info-type", 1);
             $(".wk-user-mynews").attr("data-query-type", 1);
         }
         if (target == "wk-user-vpoint-list") {
             $("#" + target).find(".wk-con").html("");
-            ctrlInfo.getMedia({"query_type": 1, "start_time": 0, "info_type": 2, "stock_list": stock_list});
+            ctrlInfo.getMedia({ "query_type": 1, "start_time": 0, "info_type": 2, "stock_list": stock_list });
             $(".wk-user-mynews").attr("data-info-type", 2);
             $(".wk-user-mynews").attr("data-query-type", 1);
         }
         if (target == "wk-user-notice-list") {
             $("#" + target).find(".wk-con").html("");
-            ctrlInfo.getNotice({"query_type": 1, "start_time": 0, "info_type": 4, "stock_list": stock_list});
+            ctrlInfo.getNotice({ "query_type": 1, "start_time": 0, "info_type": 4, "stock_list": stock_list });
             $(".wk-user-mynews").attr("data-info-type", 4);
             $(".wk-user-mynews").attr("data-query-type", 1);
         }
         if (target == "wk-user-report-list") {
             $("#" + target).find(".wk-con").html("");
-            ctrlInfo.getReport({"query_type": 1, "start_time": 0, "info_type": 3, "stock_list": stock_list});
+            ctrlInfo.getReport({ "query_type": 1, "start_time": 0, "info_type": 3, "stock_list": stock_list });
             $(".wk-user-mynews").attr("data-info-type", 3);
             $(".wk-user-mynews").attr("data-query-type", 1);
         }

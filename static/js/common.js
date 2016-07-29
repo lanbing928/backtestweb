@@ -6,7 +6,7 @@ var common = {
      */
     initCheckLogin: function (resultData) {
         if (resultData.status == -100) {
-            window.location.href = "login.php";
+            window.location.href = "http://" + window.location.host + "/login.php";
         }
     },
     /**
@@ -429,7 +429,6 @@ var common = {
      */
     getLineChart: function (chartId, xdata, viewData, searchData, followData) {
         var myChart = echarts.init(document.getElementById(chartId));
-        myChart.showLoading({"text": "加载中..."});
         myChart.setOption({
             color: ["rgb(243, 104, 97)", "rgb(76, 93, 186)", "rgb(118, 172, 245)"],
             tooltip: {
@@ -485,7 +484,6 @@ var common = {
                 }
             ]
         });
-        myChart.hideLoading();
         window.onresize = myChart.resize
     },
     /**
@@ -794,7 +792,7 @@ var common = {
                 top: '25px',
                 left: '0',
                 right: '0',
-                bottom: 0,
+                bottom: 40,
                 containLabel: true
             },
             xAxis: {
@@ -1063,15 +1061,24 @@ var common = {
             dataType: "json",
             cache: false,
             data: arrData,
-            beforeSend: function () {
+            beforeSend: function() {
                 beforeFn && beforeFn();
             },
-            success: function (resultData) {
+            success: function(resultData) {
                 backFn && backFn(resultData);
             }
-        })
+        });
     },
 
+    /**
+     * 构建情感趋势图表
+     * @param chartId
+     * @param color
+     * @param showname
+     * @param timeData
+     * @param showData
+     * @param ydir
+     */
     buildTwoLineChart: function (chartId, color, showname, timeData, showData, ydir) {
         var myChart = echarts.init(document.getElementById(chartId));
         var option = {
@@ -1079,7 +1086,7 @@ var common = {
             tooltip: {
                 trigger: "axis"
             },
-            legend: {data: [{name: showname, icon: 'circle'}], bottom: "0"},
+            legend: {data: [{name: showname, icon: 'circle'}], bottom: "0", itemWidth: 10, itemHeight: 10},
             grid: {top: '10px', left: 'auto', right: 'auto', bottom: '10%', containLabel: true},
             xAxis: {
                 type: "category",
@@ -1089,7 +1096,7 @@ var common = {
                 axisLine: {show: false},
                 axisLabel: {show: false}
             },
-            yAxis: [{type: 'value', position: ydir}],
+            yAxis: [{type: 'value', position: ydir, splitNumber: 3}],
             series: [
                 {
                     name: showname,
@@ -1103,7 +1110,7 @@ var common = {
         myChart.showLoading({"text": "加载中..."});
         myChart.setOption(option);
         myChart.hideLoading();
-        window.onresize = myChart.resize
+        window.onresize = myChart.resize;
     },
     /**
      * 构建关联信息图表
@@ -1133,10 +1140,10 @@ var common = {
             _rel_event = [], _rel_event_link = [];
         if (relData.stock.length > 0) {
             _rel_stock.push("{\"name\": \"关联股票\",\"symbolSize\": 30,\"category\": 1,\"draggable\": true}");
-            _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
+            _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {\"color\":\"source\"}}}");
             for (var i = 0, ilen = relData.stock.length; i < ilen; i++) {
                 _rel_stock.push("{\"name\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 1,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(158,90,147,1)\"}}}");
-                _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(158,90,147,1)\"}}}");
+                _rel_stock_link.push("{\"source\": \"关联股票\",\"target\": \"" + relData.stock[i].stock_name + "(" + relData.stock[i].stock_code + ")" + "\",\"lineStyle\": {\"normal\": {\"color\": \"source\"}}}");
             }
             datas = datas.concat(JSON.parse("[" + _rel_stock + "]"));
             links = links.concat(JSON.parse("[" + _rel_stock_link + "]"))
@@ -1146,7 +1153,7 @@ var common = {
             _rel_industry_link.push("{\"source\": \"关联行业\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
             for (var j = 0, jlen = relData.industry.length; j < jlen; j++) {
                 _rel_industry.push("{\"name\": \"" + relData.industry[j].industry + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 2,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(55,119,157,1)\"}}}");
-                _rel_industry_link.push("{\"source\": \"关联行业\",\"target\": \"" + relData.industry[j].industry + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(55,119,157,1)\"}}}");
+                _rel_industry_link.push("{\"source\": \"关联行业\",\"target\": \"" + relData.industry[j].industry + "\",\"lineStyle\": {\"normal\": {\"color\": \"source\"}}}");
             }
             datas = datas.concat(JSON.parse("[" + _rel_industry + "]"));
             links = links.concat(JSON.parse("[" + _rel_industry_link + "]"))
@@ -1156,7 +1163,7 @@ var common = {
             _rel_concept_link.push("{\"source\": \"关联概念\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
             for (var k = 0, klen = relData.notion.length; k < klen; k++) {
                 _rel_concept.push("{\"name\": \"" + relData.notion[k].section + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 3,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(92,95,135,1)\"}}}");
-                _rel_concept_link.push("{\"source\": \"关联概念\",\"target\": \"" + relData.notion[k].section + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(92,95,135,1)\"}}}");
+                _rel_concept_link.push("{\"source\": \"关联概念\",\"target\": \"" + relData.notion[k].section + "\",\"lineStyle\": {\"normal\": {\"color\": \"source\"}}}");
             }
             datas = datas.concat(JSON.parse("[" + _rel_concept + "]"));
             links = links.concat(JSON.parse("[" + _rel_concept_link + "]"))
@@ -1166,7 +1173,7 @@ var common = {
             _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relName + "\",\"lineStyle\": {\"normal\": {}}}");
             for (var l = 0, llen = relData.event.length; l < llen; l++) {
                 _rel_event.push("{\"name\": \"" + relData.event[l].event_name + "\",\"symbolSize\": " + Utility.getRandom(_random_max, _random_min) + ",\"category\": 4,\"draggable\": true,\"itemStyle\": {\"normal\": {\"color\": \"rgba(98,166,174,1)\"}}}");
-                _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relData.event[l].event_name + "\",\"lineStyle\": {\"normal\": {\"color\": \"rgba(98,166,174,1)\"}}}");
+                _rel_event_link.push("{\"source\": \"关联事件\",\"target\": \"" + relData.event[l].event_name + "\",\"lineStyle\": {\"normal\": {\"color\": \"source\"}}}");
             }
             datas = datas.concat(JSON.parse("[" + _rel_event + "]"));
             links = links.concat(JSON.parse("[" + _rel_event_link + "]"))
@@ -1255,6 +1262,50 @@ var common = {
                 common.buildTwoLineChart("double-chart-b", "rgb(255,168,95)", "情感指数", timeData, sentiData, "right");
             }
         });
+    },
+    /**
+     * 获取股票页面大盘数据折线图
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getCurve: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "ajax/ajax_get_curve.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function() {
+                beforeFn && beforeFn();
+            },
+            success: function(resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        });
+    },
+    /**
+     * 获取股票页面大盘数据最新行情
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getGrail: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "ajax/ajax_get_grail.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function() {
+                beforeFn && beforeFn();
+            },
+            success: function(resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        });
     }
 };
 var inforcenter = {
@@ -1338,15 +1389,15 @@ var inforcenter = {
             type: "post",
             dataType: "json",
             cache: false,
-            data: {operate_code: 4},
-            beforeSend: function () {
+            data: { operate_code: 4 },
+            beforeSend: function() {
                 beforeFn && beforeFn();
             },
-            success: function (resultData) {
+            success: function(resultData) {
                 common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
-        })
+        });
     },
     /**
      * 添加股票
