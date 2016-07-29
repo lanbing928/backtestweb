@@ -821,7 +821,7 @@
                             var stock_code = resultData[i].related_stock[j].stock_code;
                             var price_up_down = resultData[i].related_stock[j].price_up_down;
                             if (stock_name != "" && stock_code != "") {
-                                reportHtml.push("<a href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
+                                reportHtml.push("<a class='" + Utility.getPriceColor(price_up_down) + "' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
                             }
                         }
                     }
