@@ -11,7 +11,7 @@
     var query_type = Utility.getQueryStringByName("query_type");//
     var key_name = _stockcode + 's';
     var myChart = echarts.init(document.getElementById("left-hot-chart"));
-    myChart.showLoading({ "text": "加载中..." });
+    myChart.showLoading({"text": "加载中..."});
     /**
      * 构建股票页面查看更多的a标签
      * @param a 查看、搜索、关注
@@ -24,6 +24,7 @@
         return "<a href='hotrank.php?key=" + a + "," + b + "," + c + "," + d + "' class='wk-view-more' target='_blank'>更多&nbsp;<i class='fa fa-angle-double-right'></i></a>";
     }
 
+
     /**
      * 初始化热度总览折线图
      */
@@ -33,7 +34,7 @@
             "stock": _stockcode,
             "hour_data": "stock"
         }, function () {
-            leftHotChart.showLoading({ text: "加载中..." });
+            leftHotChart.showLoading({text: "加载中..."});
         }, function (resultData) {
             if (resultData.status == 1) {
                 var _todayHot = [];
@@ -84,108 +85,103 @@
     /**
      * 初始化热力图
      */
-    function initTreeMapChart() {
-        common.getStockBase({
-            "stock": _stockcode
-        }, function () {
-            var waitLogingCharts = ["wk-industry-view-treemap", "wk-concept-view-treemap"];
-            for (var i in waitLogingCharts) {
-                var treemap = echarts.init(document.getElementById(waitLogingCharts[i]));
-                treemap.showLoading({ "text": "加载中..." });
+    function initTreeMapChart(resultData) {
+        var waitLogingCharts = ["wk-industry-view-treemap", "wk-concept-view-treemap"];
+        for (var i in waitLogingCharts) {
+            var treemap = echarts.init(document.getElementById(waitLogingCharts[i]));
+            treemap.showLoading({"text": "加载中..."});
+        }
+        if (resultData.status == 1) {
+            var rel_industry = resultData.stock_info.industry;
+            var rel_concept = resultData.stock_info.section;
+            var rel_indus_link = "";
+            var rel_con_link = "";
+            if (rel_industry.length > 0) {
+                $(".hy-title").html(rel_industry[0].indus + "行业热度情况");
+                for (var i in rel_industry) {
+                    rel_indus_link += "<a href='industry.php?name=" + rel_industry[i].indus + "' target='_blank'>" + rel_industry[i].indus + "</a>";
+                }
             }
-        }, function (resultData) {
-            if (resultData.status == 1) {
-                var rel_industry = resultData.stock_info.industry;
-                var rel_concept = resultData.stock_info.section;
-                var rel_indus_link = "";
-                var rel_con_link = "";
-                if (rel_industry.length > 0) {
-                    $(".hy-title").html(rel_industry[0].indus + "行业热度情况");
-                    for (var i in rel_industry) {
-                        rel_indus_link += "<a href='industry.php?name=" + rel_industry[i].indus + "' target='_blank'>" + rel_industry[i].indus + "</a>";
-                    }
+            if (rel_concept.length > 0) {
+                $(".gn-title").html(rel_concept[0].sect + "概念热度情况");
+                for (var j in rel_concept) {
+                    rel_con_link += "<a href='concept.php?name=" + rel_concept[j].sect + "' target='_blank'>" + rel_concept[j].sect + "</a>";
                 }
-                if (rel_concept.length > 0) {
-                    $(".gn-title").html(rel_concept[0].sect + "概念热度情况");
-                    for (var j in rel_concept) {
-                        rel_con_link += "<a href='concept.php?name=" + rel_concept[j].sect + "' target='_blank'>" + rel_concept[j].sect + "</a>";
-                    }
-                }
-                if ($("#industry-view").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
-                    $("#industry-view").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(1, 2, 2, rel_industry[0].indus));
-                }
-                if ($("#industry-search").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
-                    $("#industry-search").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(2, 2, 2, rel_industry[0].indus));
-                }
-                if ($("#industry-follow").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
-                    $("#industry-follow").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(3, 2, 2, rel_industry[0].indus));
-                }
-                if ($("#concept-view").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
-                    $("#concept-view").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(1, 3, 2, rel_concept[0].sect));
-                }
-                if ($("#concept-search").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
-                    $("#concept-search").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(2, 3, 2, rel_concept[0].sect));
-                }
-                if ($("#concept-follow").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
-                    $("#concept-follow").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(3, 3, 2, rel_concept[0].sect));
-                }
-                _stockName = resultData.stock_info.stock_name;
-                $(".wk-rate-select").attr("data-stock-name", _stockName);
-                $(".wk-toshow-name").html(_stockName + "(" + _stockcode + ")");
-                Utility.getSinaStockData(_stockcode, function (stockData) {
-                    var _stock_status = Utility.getStockStatus(stockData);
+            }
+            if ($("#industry-view").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#industry-view").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(1, 2, 2, rel_industry[0].indus));
+            }
+            if ($("#industry-search").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#industry-search").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(2, 2, 2, rel_industry[0].indus));
+            }
+            if ($("#industry-follow").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#industry-follow").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(3, 2, 2, rel_industry[0].indus));
+            }
+            if ($("#concept-view").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#concept-view").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(1, 3, 2, rel_concept[0].sect));
+            }
+            if ($("#concept-search").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#concept-search").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(2, 3, 2, rel_concept[0].sect));
+            }
+            if ($("#concept-follow").find(".col-md-5 .wk-hot-sub-title a").length <= 0) {
+                $("#concept-follow").find(".col-md-5 .wk-hot-sub-title").append(buildRankAtag(3, 3, 2, rel_concept[0].sect));
+            }
+            _stockName = resultData.stock_info.stock_name;
+            $(".wk-rate-select").attr("data-stock-name", _stockName);
+            $(".wk-toshow-name").html(_stockName + "(" + _stockcode + ")");
+            Utility.getSinaStockData(_stockcode, function (stockData) {
+                var _stock_status = Utility.getStockStatus(stockData);
 
-                    $(".wk-topshow-price").html("¥" + _stock_status.price).addClass(Utility.getUpDownColor(_stock_status.updown));
-                    $(".wk-topshow-price-per").html(Utility.getPriceSymbol(_stock_status.updown) + _stock_status.updown.toFixed(2) + "(" + Utility.getPriceSymbol(_stock_status.updown) + _stock_status.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(_stock_status.percent));
+                $(".wk-topshow-price").html("¥" + _stock_status.price).addClass(Utility.getUpDownColor(_stock_status.updown));
+                $(".wk-topshow-price-per").html(Utility.getPriceSymbol(_stock_status.updown) + _stock_status.updown.toFixed(2) + "(" + Utility.getPriceSymbol(_stock_status.updown) + _stock_status.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(_stock_status.percent));
+            });
+            $(".wk-topshow-dp label").html(Utility.getTradeTime()).addClass("wk-up");
+            $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
+            $(".wk-related-info").html("热度总览&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "");
+            $("#wk-top-hots .latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
+            $("#wk-top-hots .todayhot-title").html(resultData.stock_info.stock_name + "今日最热度");
+            $("#wk-top-stockdata .latesthot-title").html(resultData.stock_info.stock_name + "最新行情");
+            $("#wk-top-moneyflow .latesthot-title").html(resultData.stock_info.stock_name + "资金流向");
+            $("i[data-toggle='popover']").popover({
+                container: "body",
+                trigger: "hover"
+            });
+            var $related_concept = rel_concept[0].sect;
+            var $related_industry = rel_industry[0].indus;
+            if (!wk_treemap_data_concept) {
+                common.getTopTwentyStock({
+                    "hottype": "gn",
+                    "hotval": $related_concept
+                }, function () {
+                    $("#concept-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
+                }, function (resultData) {
+                    if (resultData.status == 1) {
+                        buildConceptTreeMap(resultData);
+                        wk_treemap_data_concept = resultData;
+                    }
                 });
-                $(".wk-topshow-dp label").html(Utility.getTradeTime()).addClass("wk-up");
-                $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
-                $(".wk-related-info").html("热度总览&nbsp;<i class=\"fa fa-question-circle-o\" data-toggle=\"popover\" data-content=\"" + resultData.stock_info.stock_name + "每小时产生的热度量\"></i><span>行业：" + rel_indus_link + "</span><span>概念：" + rel_con_link + "");
-                $("#wk-top-hots .latesthot-title").html(resultData.stock_info.stock_name + "最近热度");
-                $("#wk-top-hots .todayhot-title").html(resultData.stock_info.stock_name + "今日最热度");
-                $("#wk-top-stockdata .latesthot-title").html(resultData.stock_info.stock_name + "最新行情");
-                $("#wk-top-moneyflow .latesthot-title").html(resultData.stock_info.stock_name + "资金流向");
-                $("i[data-toggle='popover']").popover({
-                    container: "body",
-                    trigger: "hover"
-                });
-                var $related_concept = rel_concept[0].sect;
-                var $related_industry = rel_industry[0].indus;
-                if (!wk_treemap_data_concept) {
-                    common.getTopTwentyStock({
-                        "hottype": "gn",
-                        "hotval": $related_concept
-                    }, function () {
-                        $("#concept-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
-                    }, function (resultData) {
-                        if (resultData.status == 1) {
-                            buildConceptTreeMap(resultData);
-                            wk_treemap_data_concept = resultData;
-                        }
-                    });
-                } else {
-                    buildConceptTreeMap(wk_treemap_data_concept);
-                }
-                if (!wk_treemap_data_industry) {
-                    common.getTopTwentyStock({
-                        "hottype": "hy",
-                        "hotval": $related_industry
-                    }, function () {
-                        $("#industry-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
-                    }, function (resultData) {
-                        if (resultData.status == 1) {
-                            buildIndustryTreeMap(resultData);
-                            wk_treemap_data_industry = resultData;
-                        }
-                    });
-                } else {
-                    buildIndustryTreeMap(wk_treemap_data_industry);
-                }
-                initTodayRateLine();
-                initFollowBtn();
-                initReleatedInfo();
+            } else {
+                buildConceptTreeMap(wk_treemap_data_concept);
             }
-        });
+            if (!wk_treemap_data_industry) {
+                common.getTopTwentyStock({
+                    "hottype": "hy",
+                    "hotval": $related_industry
+                }, function () {
+                    $("#industry-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
+                }, function (resultData) {
+                    if (resultData.status == 1) {
+                        buildIndustryTreeMap(resultData);
+                        wk_treemap_data_industry = resultData;
+                    }
+                });
+            } else {
+                buildIndustryTreeMap(wk_treemap_data_industry);
+            }
+            initTodayRateLine();
+            initFollowBtn();
+            initReleatedInfo();
+        }
     }
 
     /**
@@ -306,6 +302,9 @@
         });
     }
 
+    /**
+     * 绑定关注按钮事件
+     */
     function initFollowEvent() {
         $(".wk-follow-stock").each(function () {
             var follow_name = $(this).attr("data-follow-name");
@@ -332,7 +331,7 @@
                             swal.showInputError("字符数超过限制");
                             return false;
                         }
-                        inforcenter.addGroup({ ori_name: inputValue }, null, function (resultData) {
+                        inforcenter.addGroup({ori_name: inputValue}, null, function (resultData) {
                             if (resultData.status == 1) {
                                 swal({
                                     title: "",
@@ -361,14 +360,15 @@
             });
         });
     }
+
     /**
      * 添加股票
-     * @param {} follow_name 
-     * @param {} _stockcode 
-     * @returns {} 
+     * @param {} follow_name
+     * @param {} _stockcode
+     * @returns {}
      */
     function initAddStock(follow_name, _stockcode, showAlert) {
-        inforcenter.addStock({ ori_name: follow_name, code: _stockcode }, null, function (addResult) {
+        inforcenter.addStock({ori_name: follow_name, code: _stockcode}, null, function (addResult) {
             if (addResult.status == 1) {
                 if (showAlert) {
                     swal({
@@ -415,11 +415,14 @@
         });
     }
 
+    /**
+     * 初始化查看数据详细图表
+     */
     function initModalChart() {
         $(".modal-chart").modal("show");
         var _modalChart = echarts.init(document.getElementById("modal-chart"));
-        common.getSingleRealTimeHot({ "stock": _stockcode }, function () {
-            _modalChart.showLoading({ "text": "加载中..." });
+        common.getSingleRealTimeHot({"stock": _stockcode}, function () {
+            _modalChart.showLoading({"text": "加载中..."});
         }, function (resultData) {
             _modalChart.hideLoading();
             var _modalViewData = [];
@@ -434,7 +437,7 @@
                     _modalViewData = JSON.parse("[" + _modalViewData.join(',') + "]");
                 }
                 var myChart = echarts.init(document.getElementById("modal-chart"));
-                myChart.showLoading({ "text": "加载中..." });
+                myChart.showLoading({"text": "加载中..."});
                 myChart.setOption({
                     color: ["rgb(243, 104, 97)"],
                     tooltip: {
@@ -453,16 +456,16 @@
                         }
                     },
                     dataZoom: [
-                        { type: 'inside', realtime: true },
+                        {type: 'inside', realtime: true},
                         {
                             type: 'slider',
                             show: true,
                             realtime: true
                         }],
-                    grid: { top: 10, left: 20, right: 20, bottom: 40, containLabel: true },
-                    legend: { left: "left" },
-                    xAxis: { type: "category", boundaryGap: false, data: _modalxData },
-                    yAxis: { type: "value", position: "right", scale: true },
+                    grid: {top: 10, left: 20, right: 20, bottom: 40, containLabel: true},
+                    legend: {left: "left"},
+                    xAxis: {type: "category", boundaryGap: false, data: _modalxData},
+                    yAxis: {type: "value", position: "right", scale: true},
                     calculable: false,
                     series: [
                         {
@@ -479,11 +482,14 @@
         });
     }
 
+    /**
+     * 初始化头部股票价格及时间信息
+     */
     function initTopStockData() {
         $("#wk-show-chart-tip").html("<label>当前价：<span>--</span></label><label>成交量：<span>--</span>股</label><label>时间：<span>--</span></label><label>涨幅：<span>--</span></label>");
         var charts = echarts.init(document.getElementById("left-stockdata-chart"));
-        common.getCurve({ code: _stockcode }, function () {
-            charts.showLoading({ text: "加载中..." });
+        common.getCurve({code: _stockcode}, function () {
+            charts.showLoading({text: "加载中..."});
         }, function (resultData) {
             var userData = [];
             var datas = [];
@@ -495,7 +501,13 @@
                     for (var i = 0, len = list.length; i < len; i++) {
                         times.push(Utility.unixToTime(list[i].time * 1000));
                         datas.push(list[i].price);
-                        userData.push({ price: list[i].price, average_price: list[i].average_price, pcr: list[i].price_change_ratio, volume: list[i].volume, time: list[i].time });
+                        userData.push({
+                            price: list[i].price,
+                            average_price: list[i].average_price,
+                            pcr: list[i].price_change_ratio,
+                            volume: list[i].volume,
+                            time: list[i].time
+                        });
                     }
                 }
                 charts.setOption({
@@ -522,13 +534,13 @@
                             return showLabel;
                         }
                     },
-                    grid: { top: "10px", left: "3%", right: "3%", bottom: 10, containLabel: true },
+                    grid: {top: "10px", left: "3%", right: "3%", bottom: 10, containLabel: true},
                     xAxis: {
                         type: "category", boundaryGap: false, data: times, axisLabel: {
                             interval: 60
                         }
                     },
-                    yAxis: { type: "value", position: "right", scale: true },
+                    yAxis: {type: "value", position: "right", scale: true},
                     calculable: false,
                     series: [
                         {
@@ -540,14 +552,14 @@
                             data: userData.map(function (item) {
                                 return item.price;
                             }),
-                            lineStyle: { normal: { width: 1 } }
+                            lineStyle: {normal: {width: 1}}
                         }
                     ]
                 });
                 window.onresize = charts.resize;
             }
         });
-        common.getGrail({ code: _stockcode }, null, function (resultData) {
+        common.getGrail({code: _stockcode}, null, function (resultData) {
             var grailHtml = [];
             if (resultData.status == 1) {
                 var datas = resultData.result.code_info;
@@ -672,9 +684,7 @@
             }
         }
     });
-    $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
-        initTreeMapChart();
-    });
+
     $(".wk-line-toggle a").click(function () {
         $(this).addClass("line-active").siblings().removeClass("line-active");
         var query_type = $(this).parent().attr("data-query-type");
@@ -694,7 +704,7 @@
         } else {
             common.getHotRecord(arrData, function () {
                 var myChart = echarts.init(document.getElementById("left-hot-chart"));
-                myChart.showLoading({ "text": "加载中..." });
+                myChart.showLoading({"text": "加载中..."});
             }, function (resultData) {
                 var _viewData = [];
                 var _searchData = [];
@@ -758,7 +768,7 @@
         switch (toggle) {
             case "today":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -766,7 +776,7 @@
                 break;
             case "week":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -774,7 +784,7 @@
                 break;
             case "month":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -782,23 +792,154 @@
                 break;
             case "threemonth":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
+                });
+                break;
+            case "datacompare":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    rateLine.hideLoading();
+                    buildRateCompare(resultData);
                 });
                 break;
             default:
                 break;
         }
     });
+    function buildRateCompare(buildData) {
+        var dateArr = [];
+        var r1Data = [];
+        var r2Data = [];
+        if (buildData.body && buildData.body.list.length > 0) {
+            var list = buildData.body.list;
+            for (var i = 0; i < list.length; i++) {
+                dateArr.push(Utility.unixToTime(list[i].trade_time * 1000));
+                r1Data.push(list[i].day_yield);
+                r2Data.push(list[i].hs300_day_yield);
+            }
+        }
+        common.getSingleRealTimeHot({"stock": _stockcode}, null, function (resultData) {
+            var _compare_view_data = [];
+            if (resultData.status == 1) {
+                if (resultData.visit) {
+                    for (var v in resultData.visit) {
+                        _compare_view_data.push(resultData.visit[v]);
+                    }
+                    var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
+                    var option = {
+                        tooltip: {
+                            trigger: "axis",
+                            formatter: function (params) {
+                                var showLabel = "";
+                                showLabel += params[0].name + "<br>";
+                                for (var p in params) {
+                                    if (params[p].seriesName != "查看热度") {
+                                        if (params[p].value && params[p].value != 0) {
+                                            if (params[0].name == params[p].name) {
+                                                showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
+                                            }
+                                        }
+                                    } else {
+                                        showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + params[p].value + "<br>";
+                                    }
+                                }
+                                return showLabel;
+                            }
+                        },
+                        color: ["rgb(151,47,134)", "rgb(65,77,92)", "rgb(250,100,100)"],
+                        legend: {
+                            data: ["收益率", '沪深300', "查看热度"],
+                            top: 0
+                        },
+                        grid: {
+                            top: '25px',
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            containLabel: true
+                        },
+                        xAxis: {
+                            type: 'category',
+                            boundaryGap: false,
+                            data: dateArr,
+                            axisLabel: {
+                                interval: 30
+                            }
+                        },
+                        yAxis: [
+                            {
+                                type: 'value',
+                                position: 'right',
+                                axisLabel: {
+                                    formatter: function (value) {
+                                        if (value != 0) {
+                                            return (value * 100).toFixed(2) + "%";
+                                        } else {
+                                            return 0;
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                type: 'value',
+                                position: 'left'
+                            }
+                        ],
+                        series: [
+                            {
+                                name: "收益率",
+                                type: 'line',
+                                smooth: true,
+                                yAxisIndex: 0,
+                                data: JSON.parse("[" + r1Data + "]")
+                            },
+                            {
+                                name: '沪深300',
+                                type: 'line',
+                                smooth: true,
+                                yAxisIndex: 0,
+                                data: JSON.parse("[" + r2Data + "]")
+                            }
+                            ,
+                            {
+                                name: '查看热度',
+                                type: 'line',
+                                smooth: true,
+                                yAxisIndex: 1,
+                                data: JSON.parse("[" + _compare_view_data + "]")
+                            }
+                        ]
+                    };
+                    rateChart.setOption(option);
+                    window.onresize = rateChart.resize
+                }
+            }
+        });
+    }
+
     $(".wk-topcharts-box ul>li>a").bind("click", function () {
         if ($(this).attr("aria-controls") == "wk-top-stockdata") {
             initTopStockData();
         }
     });
+    /**
+     * 初始化关联股票基础信息
+     */
+    common.getStockBase({
+        "stock": _stockcode
+    }, function () {
+
+    }, function (resultData) {
+        initTreeMapChart(resultData);
+        $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
+            initTreeMapChart(resultData);
+        });
+    });
     common.getNews(arrData, true);
     initLineChart();
-    initTreeMapChart();
     common.initdoubleLine(1, key_name);
 })(jQuery, window, document);

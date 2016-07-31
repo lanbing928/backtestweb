@@ -48,6 +48,7 @@
 .wk-rate-select{margin-top: 16px;margin-bottom: 20px;}
 .wk-rate-select label{width: 80px;background-color: #FFFFFF;text-align: center;border: 1px solid #cccccc;font-size: 12px;margin-bottom: 0;margin-right: -5px;height: 20px;font-weight: 400;}
 .wk-rate-select label.active{width: 80px;background-color: #7065a3;color: #FFFFFF;border: 1px solid #7065a3;}
+.wk-rate-select label:last-child{margin-left: 10px;}
 #wk-rate-line-pic{height: 350px;width: 100%;}
 
 #wk-news,#wk-newsflash,#wk-selfmedia,#wk-notice,#wk-report{height: 420px;}
@@ -356,3 +357,8 @@
 #wk-show-chart-tip{ margin-left: 20px;height: 20px;}
 #wk-show-chart-tip label{ width: 130px;margin-bottom: 0;font-weight: 400;}
 #addNewGroup{border-top: 2px solid #4963ae;}
+
+/*收益率对比*/
+.wk-rate-compare{padding: 0 10px;}
+.wk-rate-compare-li{width: 140px;}
+.wk-rate-compare-li label:last-child{float: right;}

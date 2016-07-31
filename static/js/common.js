@@ -746,9 +746,12 @@ var common = {
         var dateArr = [];
         var r1Data = [];
         var r2Data = [];
+        var labelInterval = "auto";
         if (buildData.body && buildData.body.list.length > 0) {
+
             var list = buildData.body.list;
-            if (query_date === "today") {
+            if (query_date === "today" || query_date === "datacompare") {
+                labelInterval = 30;
                 for (var i = 0; i < list.length; i++) {
                     dateArr.push(Utility.unixToTime(list[i].trade_time * 1000));
                     r1Data.push(list[i].day_yield);
@@ -790,9 +793,9 @@ var common = {
             //dataZoom: [{show: true, realtime: true}, {type: 'inside', realtime: true}],
             grid: {
                 top: '25px',
-                left: '0',
+                left: '15px',
                 right: '0',
-                bottom: 40,
+                bottom: 0,
                 containLabel: true
             },
             xAxis: {
@@ -800,7 +803,7 @@ var common = {
                 boundaryGap: false,
                 data: dateArr,
                 axisLabel: {
-                    rotate: 45
+                    interval: labelInterval
                 }
             },
             yAxis: {
@@ -1061,10 +1064,10 @@ var common = {
             dataType: "json",
             cache: false,
             data: arrData,
-            beforeSend: function() {
+            beforeSend: function () {
                 beforeFn && beforeFn();
             },
-            success: function(resultData) {
+            success: function (resultData) {
                 backFn && backFn(resultData);
             }
         });
@@ -1276,10 +1279,10 @@ var common = {
             dataType: "json",
             cache: false,
             data: arrData,
-            beforeSend: function() {
+            beforeSend: function () {
                 beforeFn && beforeFn();
             },
-            success: function(resultData) {
+            success: function (resultData) {
                 common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
@@ -1298,10 +1301,10 @@ var common = {
             dataType: "json",
             cache: false,
             data: arrData,
-            beforeSend: function() {
+            beforeSend: function () {
                 beforeFn && beforeFn();
             },
-            success: function(resultData) {
+            success: function (resultData) {
                 common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
@@ -1389,11 +1392,11 @@ var inforcenter = {
             type: "post",
             dataType: "json",
             cache: false,
-            data: { operate_code: 4 },
-            beforeSend: function() {
+            data: {operate_code: 4},
+            beforeSend: function () {
                 beforeFn && beforeFn();
             },
-            success: function(resultData) {
+            success: function (resultData) {
                 common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
