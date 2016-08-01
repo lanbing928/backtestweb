@@ -14,7 +14,7 @@
 .wk-hot-table a{color: #545454;}
 
 /*实时热度*/
-.wk-time-hot{min-height:448px;margin-top: 25px;}
+.wk-time-hot{min-height:400px;margin-top: 25px;}
 .wk-time-hot .left-charts{height: 100%; min-height: 295px;padding-left: 0;}
 .wk-time-hot .right-infos{border: 1px solid #dddddd;min-height: 293px;padding: 15px 20px;font-size: 13px;}
 .wk-time-hot .right-infos p{margin-bottom: 7px;color: #011c71;}
@@ -48,7 +48,7 @@
 .wk-rate-select{margin-top: 16px;margin-bottom: 20px;}
 .wk-rate-select label{width: 80px;background-color: #FFFFFF;text-align: center;border: 1px solid #cccccc;font-size: 12px;margin-bottom: 0;margin-right: -5px;height: 20px;font-weight: 400;}
 .wk-rate-select label.active{width: 80px;background-color: #7065a3;color: #FFFFFF;border: 1px solid #7065a3;}
-.wk-rate-select label:last-child{margin-left: 10px;}
+.wk-rate-select label:last-child[data-toggle*='datacompare']{margin-left: 10px;}
 #wk-rate-line-pic{height: 350px;width: 100%;}
 
 #wk-news,#wk-newsflash,#wk-selfmedia,#wk-notice,#wk-report{height: 420px;}
@@ -346,14 +346,14 @@
 .wk-update-browser p{font-size:24px;color: #4b4b4b;font-weight: 600;padding-top: 110px;padding-left: 260px;margin-bottom: 0;}
 .wk-update-browser label{font-size:16px;color: #545454;font-weight: 400;padding-top: 30px;padding-left: 300px;margin-bottom: 0;}
 
-/*页面头部的tab标签*/
-.wk-topcharts-box .wk-top-panelcon{padding-top: 15px;border: 1px solid #dddddd;min-height: 348px;border-top: none;}
+/*股票页面头部的tab标签*/
+.wk-topcharts-box .wk-top-panelcon{padding: 15px;border: 1px solid #dddddd;min-height: 348px;border-top: none;}
 #wk-top-stockdata .table>tbody>tr>td{padding: 10px 2px;font-size: 13px;color: #767676;}
 #wk-top-stockdata .table>tbody>tr>td span{color: #212121;}
 .wk-table-moneyflow thead>tr>td{font-size: 12px;color: #051b5d;vertical-align: middle;border: 1px solid #dddddd;text-align: center;height: 20px;padding: 0;}
 .wk-table-moneyflow thead{border-top: 1px solid #ddd;}
 .wk-table-moneyflow tbody>tr>td{color: #212121;text-align: center;font-size: 12px;border: 1px solid #ddd;}
-#left-stockdata-chart{width: 590px; min-width: 590px;height: 295px;}
+#left-stockdata-chart{width: 570px; min-width: 570px;height: 295px;}
 #wk-show-chart-tip{ margin-left: 20px;height: 20px;}
 #wk-show-chart-tip label{ width: 130px;margin-bottom: 0;font-weight: 400;}
 #addNewGroup{border-top: 2px solid #4963ae;}

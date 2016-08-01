@@ -446,13 +446,6 @@ var common = {
                     return showLabel;
                 }
             },
-            // dataZoom: [
-            //     {type: 'inside', realtime: true},
-            //     {
-            //         type: 'slider',
-            //         show: true,
-            //         realtime: true
-            //     }],
             grid: {top: "12%", left: "6%", right: "5%", bottom: 0, containLabel: true},
             legend: {
                 left: "left",
