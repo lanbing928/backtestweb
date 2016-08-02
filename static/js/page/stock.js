@@ -139,9 +139,18 @@
             $(".wk-toshow-name").html(stockName + "(" + stockcode + ")");
             Utility.getSinaStockData(stockcode, function (stockData) {
                 var stockStatus = Utility.getStockStatus(stockData);
-
                 $(".wk-topshow-price").html("¥" + stockStatus.price).addClass(Utility.getUpDownColor(stockStatus.updown));
                 $(".wk-topshow-price-per").html(Utility.getPriceSymbol(stockStatus.updown) + stockStatus.updown.toFixed(2) + "(" + Utility.getPriceSymbol(stockStatus.updown) + stockStatus.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(stockStatus.percent));
+                //公司概况下拉框
+                $(".btn-group li").click(function(){
+                    var type= $(this).attr('data');
+                    switch(type){
+                        case '1':$(this).find('a').attr('href','/company/profile.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//公司简介
+                        case '2':$(this).find('a').attr('href','/company/executives.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//公司高管
+                        case '3':$(this).find('a').attr('href','/company/capital_structure.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//股本结构
+                        case '4':$(this).find('a').attr('href','/company/stockholder.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//主要股东
+                    }
+                })
             });
             $(".wk-topshow-dp label").html(Utility.getTradeTime()).addClass("wk-up");
             $("title").html(resultData.stock_info.stock_name + "(" + resultData.stock_info.stock_code + ")热度情况");
@@ -796,7 +805,7 @@
                 break;
             case "month":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -804,90 +813,22 @@
                 break;
             case "threemonth":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
-                });
-                break;
-            case "datacompare":
-                common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
-                }, function (resultData) {
-                    rateLine.hideLoading();
-                    buildRateCompare(resultData);
                 });
                 break;
             default:
                 break;
         }
     });
-    function buildRateCompare(buildData) {
-        var dateArr = [];
-        var r1Data = [];
-        var r2Data = [];
-        var r3Data = [];
-        if (buildData.body && buildData.body.list.length > 0) {
-            var list = buildData.body.list;
-            for (var i = 0; i < list.length; i++) {
-                dateArr.push(Utility.unixToTime(list[i].trade_time * 1000));
-                r1Data.push(list[i].day_yield);
-                r2Data.push(list[i].hs300_day_yield);
-                r3Data.push(list[i].visit);
-            }
-        }
-        var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
-        var option = {
-            tooltip: {
-                trigger: "axis",
-                formatter: function (params) {
-                    var showLabel = "";
-                    showLabel += params[0].name + "<br>";
-                    for (var p in params) {
-                        if (params.hasOwnProperty(p)) {
-                            if (params[p].seriesName !== "查看热度") {
-                                if (params[p].value && params[p].value !== 0) {
-                                    if (params[0].name === params[p].name) {
-                                        showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
-                                    }
-                                }
-                            } else {
-                                showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + params[p].value + "<br>";
-                            }
-                        }
-                    }
-                    return showLabel;
-                }
-            },
-            color: ["rgb(151,47,134)", "rgb(65,77,92)", "rgb(250,100,100)"],
-            legend: { data: ["收益率", '沪深300', "查看热度"], top: 0 },
-            grid: { top: '25px', left: 0, right: 0, bottom: 0, containLabel: true },
-            xAxis: { type: 'category', boundaryGap: false, data: dateArr, axisLabel: { interval: 10 } },
-            yAxis: [{ type: 'value', position: 'right', axisLabel: { formatter: function (value) { if (value !== 0) { return (value * 100).toFixed(2) + "%"; } else { return 0; } } } }, { type: 'value', position: 'left' }],
-            series: [
-                { name: "收益率", type: 'line', smooth: true, yAxisIndex: 0, data: JSON.parse("[" + r1Data + "]") },
-                { name: '沪深300', type: 'line', smooth: true, yAxisIndex: 0, data: JSON.parse("[" + r2Data + "]") },
-                { name: '查看热度', type: 'line', smooth: true, yAxisIndex: 1, data: JSON.parse("[" + r3Data + "]") }
-            ]
-        };
-        rateChart.setOption(option);
-        window.onresize = rateChart.resize;
-    }
-    $(".wk-topcharts-box ul>li>a").bind("click", function () { if ($(this).attr("aria-controls") === "wk-top-stockdata") { initTopStockData(); } });
-    /**
-     * 初始化关联股票基础信息
-     */
-    common.getStockBase({
-        "stock": stockcode
-    }, function () {
-
-    }, function (resultData) {
-        initTreeMapChart(resultData);
-        $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
-            initTreeMapChart(resultData);
-        });
-    });
     common.getNews(arrData, true);
     initLineChart();
-    common.initdoubleLine(1, keyName);
+    initTreeMapChart();
+    common.initdoubleLine(1, key_name);
+
+    $("#test").click(function () {
+
+    })
 })(jQuery, window, document);
