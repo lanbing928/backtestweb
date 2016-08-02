@@ -24,7 +24,7 @@ if (CheckLogin::check() == -1) {
     <link rel="stylesheet" href="../static/css/index.min.css">
 <body>
 <?php include(dirname(__FILE__) . "/../share/_header.php") ?>
-<div class="container wk-container wk-company">
+<div class="container wk-container wk-company" html_type="stockholder">
     <section class="wk-top-title">
         <label class="wk-topshow-icon"></label>
         <label class="wk-toshow-name"></label>
@@ -40,7 +40,7 @@ if (CheckLogin::check() == -1) {
         <label class="wk-topshow-price"></label>
         <label class="wk-topshow-price-per"></label>
         <div class="wk-topshow-right">
-            <span class="wk-topshow-dp">沪深：<span class="wk-up wk-topshow-status"></span><span>
+            <label class="wk-topshow-dp">沪深：<label><i class="fa fa-circle-o-notch fa-spin"></i></label></label>
             <div class="btn-group" style="float: right;">
                 <button type="button" class="btn dropdown-toggle wk-btn-follow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">+ 关注</button>
                 <ul class="dropdown-menu">
@@ -50,16 +50,16 @@ if (CheckLogin::check() == -1) {
         </div>
     </section>
     <section class="wk-all-hot wk-stockholder">
-        <div class="wk-con-box">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#top_opt1" aria-controls="top_opt1" role="tab" data-toggle="tab">2016-03-01</a></li>
-                <li role="presentation"><a href="#top_opt2" aria-controls="top_opt2" role="tab" data-toggle="tab">2015-12-31</a></li>
-                <li role="presentation"><a href="#top_opt3" aria-controls="top_opt3" role="tab" data-toggle="tab">2015-09-30</a></li>
-                <li role="presentation"><a href="#top_opt4" aria-controls="top_opt4" role="tab" data-toggle="tab">2015-06-30</a></li>
-                <li role="presentation"><a href="#top_opt5" aria-controls="top_opt5" role="tab" data-toggle="tab">2016-03-31</a></li>
+        <div class="wk-con-box stockholder">
+            <ul class="nav nav-tabs" role="tablist" id="float_stock_holder_ul">
+                <li role="presentation" class="active"><a href="#top_opt1" aria-controls="top_opt1" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation"><a href="#top_opt2" aria-controls="top_opt2" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation"><a href="#top_opt3" aria-controls="top_opt3" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation"><a href="#top_opt4" aria-controls="top_opt4" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation"><a href="#top_opt5" aria-controls="top_opt5" role="tab" data-toggle="tab"></a></li>
             </ul>
             <div class="tab-content">
-                <!--2016-03-01-->
+                <!--top day1-->
                 <div role="tabpanel" class="tab-pane active" id="top_opt1">
                     <table class="table-condensed">
                         <thead>
@@ -75,30 +75,13 @@ if (CheckLogin::check() == -1) {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>国家开发投资公司</td>
-                                <td>投资公司</td>
-                                <td>a股</td>
-                                <td>3,484,729,752</td>
-                                <td>51.34%</td>
-                                <td>不变</td>
-                                <td>--</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>国家开发投资公司</td>
-                                <td>投资公司</td>
-                                <td>a股</td>
-                                <td>3,484,729,752</td>
-                                <td>51.34%</td>
-                                <td>不变</td>
-                                <td>--</td>
-                            </tr>
+                        <tr style="text-align: center">
+                            <td colspan="8">加载中...</td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--2015-12-31-->
+                <!--top day2-->
                 <div role="tabpanel" class="tab-pane fade" id="top_opt2">
                     <table class="table-condensed">
                         <thead>
@@ -114,20 +97,13 @@ if (CheckLogin::check() == -1) {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>3</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
+                        <tr style="text-align: center">
+                            <td colspan="8">加载中...</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--2015-09-30-->
+                <!--top day3-->
                 <div role="tabpanel" class="tab-pane fade" id="top_opt3">
                     <table class="table-condensed">
                         <thead>
@@ -143,30 +119,13 @@ if (CheckLogin::check() == -1) {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>4</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
+                        <tr style="text-align: center">
+                            <td colspan="8">加载中...</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--2015-06-30-->
+                <!--top day4-->
                 <div role="tabpanel" class="tab-pane fade" id="top_opt4">
                     <table class="table-condensed">
                         <thead>
@@ -182,20 +141,13 @@ if (CheckLogin::check() == -1) {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>6</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
+                        <tr style="text-align: center">
+                            <td colspan="8">加载中...</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--2016-03-31-->
+                <!--top day5-->
                 <div role="tabpanel" class="tab-pane fade" id="top_opt5">
                     <table class="table-condensed">
                         <thead>
@@ -211,25 +163,8 @@ if (CheckLogin::check() == -1) {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>7</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
+                        <tr style="text-align: center">
+                            <td colspan="8">加载中...</td>
                         </tr>
                         </tbody>
                     </table>
@@ -238,23 +173,22 @@ if (CheckLogin::check() == -1) {
             </div>
         </div>
 
-        <div class="wk-con-box">
-            <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active"><a href="#botttom_opt1" aria-controls="botttom_opt1" role="tab" data-toggle="tab">2016-03-01</a></li>
-                <li role="presentation"><a href="#bottom_opt2" aria-controls="bottom_opt2" role="tab" data-toggle="tab">2015-12-31</a></li>
-                <li role="presentation"><a href="#bottom_opt3" aria-controls="bottom_opt3" role="tab" data-toggle="tab">2015-09-30</a></li>
-                <li role="presentation"><a href="#bottom_opt4" aria-controls="bottom_opt4" role="tab" data-toggle="tab">2015-06-30</a></li>
-                <li role="presentation"><a href="#bottom_opt5" aria-controls="bottom_opt5" role="tab" data-toggle="tab">2016-03-31</a></li>
+        <div class="wk-con-box float_stockholder">
+            <ul class="nav nav-tabs" role="tablist" id="stock_holder_ul">
+                <li role="presentation" class="active"><a href="#bottom_opt1" aria-controls="bottom_opt1" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation"><a href="#bottom_opt2" aria-controls="bottom_opt2" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation"><a href="#bottom_opt3" aria-controls="bottom_opt3" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation"><a href="#bottom_opt4" aria-controls="bottom_opt4" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation"><a href="#bottom_opt5" aria-controls="bottom_opt5" role="tab" data-toggle="tab"></a></li>
             </ul>
             <div class="tab-content">
-                <!--2016-03-01-->
+                <!--bottom day1-->
                 <div role="tabpanel" class="tab-pane active" id="bottom_opt1">
                     <table class="table-condensed">
                         <thead>
                         <tr id="cap_stru_title">
                             <td>名次</td>
-                            <td>十大流通股东名称</td>
-                            <td>股东性质</td>
+                            <td>十大股东名称</td>
                             <td>股份类型</td>
                             <td>持股数(股)</td>
                             <td>占总流通股本比</td>
@@ -263,37 +197,19 @@ if (CheckLogin::check() == -1) {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
+                        <tr style="text-align: center">
+                            <td colspan="7">加载中...</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--2015-12-31-->
+                <!--bottom day2-->
                 <div role="tabpanel" class="tab-pane fade" id="bottom_opt2">
                     <table class="table-condensed">
                         <thead>
                         <tr id="cap_stru_title">
                             <td>名次</td>
-                            <td>十大流通股东名称</td>
-                            <td>股东性质</td>
+                            <td>十大股东名称</td>
                             <td>股份类型</td>
                             <td>持股数(股)</td>
                             <td>占总流通股本比</td>
@@ -302,27 +218,19 @@ if (CheckLogin::check() == -1) {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>3</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
+                        <tr style="text-align: center">
+                            <td colspan="7">加载中...</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--2015-09-30-->
+                <!--bottom day3-->
                 <div role="tabpanel" class="tab-pane fade" id="bottom_opt3">
                     <table class="table-condensed">
                         <thead>
                         <tr id="cap_stru_title">
                             <td>名次</td>
-                            <td>十大流通股东名称</td>
-                            <td>股东性质</td>
+                            <td>十大股东名称</td>
                             <td>股份类型</td>
                             <td>持股数(股)</td>
                             <td>占总流通股本比</td>
@@ -331,37 +239,19 @@ if (CheckLogin::check() == -1) {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>4</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
+                        <tr style="text-align: center">
+                            <td colspan="7">加载中...</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--2015-06-30-->
+                <!--bottom day4-->
                 <div role="tabpanel" class="tab-pane fade" id="bottom_opt4">
                     <table class="table-condensed">
                         <thead>
                         <tr id="cap_stru_title">
                             <td>名次</td>
-                            <td>十大流通股东名称</td>
-                            <td>股东性质</td>
+                            <td>十大股东名称</td>
                             <td>股份类型</td>
                             <td>持股数(股)</td>
                             <td>占总流通股本比</td>
@@ -370,27 +260,19 @@ if (CheckLogin::check() == -1) {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>6</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
+                        <tr style="text-align: center">
+                            <td colspan="7">加载中...</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
-                <!--2016-03-31-->
+                <!--bottom day5-->
                 <div role="tabpanel" class="tab-pane fade" id="bottom_opt5">
                     <table class="table-condensed">
                         <thead>
                         <tr id="cap_stru_title">
                             <td>名次</td>
-                            <td>十大流通股东名称</td>
-                            <td>股东性质</td>
+                            <td>十大股东名称</td>
                             <td>股份类型</td>
                             <td>持股数(股)</td>
                             <td>占总流通股本比</td>
@@ -399,25 +281,8 @@ if (CheckLogin::check() == -1) {
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>7</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>国家开发投资公司</td>
-                            <td>投资公司</td>
-                            <td>a股</td>
-                            <td>3,484,729,752</td>
-                            <td>51.34%</td>
-                            <td>不变</td>
-                            <td>--</td>
+                        <tr style="text-align: center">
+                            <td colspan="3">加载中...</td>
                         </tr>
                         </tbody>
                     </table>
@@ -433,6 +298,7 @@ if (CheckLogin::check() == -1) {
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script src="../static/plugins/typeahead/jquery.typeahead.min.js"></script>
 <script src="../static/js/all.min.js"></script>
 <script src="../static/js/common.min.js"></script>
 <script src="../static/js/Utility.min.js"></script>
