@@ -74,7 +74,6 @@
     //股本结构
     function capitalStru(){
         company.getCompany({"stockcode": spl[1],"htmltype":htmltype}, null, function (resultData) {
-            console.log(resultData);
             var dateHtml=[];
             var title=['公告日期','总股本','国家持股','流通受限股份','国家持股(受限)','国有法人持股','国有法人持股(受限)','外资持股(受限)','其他内资持股(受限)','已流通股份','发起人股份','未流通股份','已上市流通A股','已上市流通B股','自然人持股','境内自然人持股','境外上市流通股','境外法人持股','境内法人持股','募集法人持股','变动原因'];
             var arr_key=['date','general_capital','state_backing','float_stock_limit','state_backing_limit','legalperson_sharehold','legalperson_sharehold_limit','foreign_sharehold_limit','other_domes_sharehold','float_share','sponsor_share','not_float_share','float_A_stock','float_B_stock','natural_sharehold','in_natural_sharehold','out_float_stock','out_legalperson_sharehold','in_legalperson_sharehold','raise_sharehold','change_reason'];
@@ -110,7 +109,6 @@
     //公司高管
     function executives(){
         company.getCompany({"stockcode": spl[1],"htmltype":htmltype}, null, function (resultData) {
-            console.log(resultData);
             var stockHtml=[];
             var profileHtml=[];
             if (resultData && resultData.status == 1) {
@@ -151,7 +149,6 @@
     //主要股东
     function stockHolder() {
         company.getCompany({"stockcode": spl[1],"htmltype":htmltype}, null, function (resultData) {
-            console.log(resultData);
             if (resultData && resultData.status == 1) {
                 //十大流通股东 top表格所有数据
                 var float_stock_holder_arr = resultData['float_stockholder'];
