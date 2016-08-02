@@ -6,9 +6,8 @@
     var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
     var viewData = [], searchData = [], followData = [];
     var wkTreemapDataIndustry, wkTreemapDataConcept;
-    var keyName = stockcode + 's';
-    var myChart = echarts.init(document.getElementById("left-hot-chart"));
-    myChart.showLoading({ "text": "加载中..." });
+    var keyName = stockcode + "s";
+
     /**
      * 构建股票页面查看更多的a标签
      * @param a 查看、搜索、关注
@@ -30,9 +29,9 @@
             "stock": stockcode,
             "hour_data": "stock"
         }, function () {
-            leftHotChart.showLoading({ text: "加载中..." });
+            leftHotChart.showLoading({text: "加载中..."});
         }, function (resultData) {
-            if (resultData.status == 1) {
+            if (resultData.status === 1) {
                 var todayHot = [];
                 var lastHot = [];
                 if (resultData.visit) {
@@ -92,7 +91,7 @@
         for (var i in waitLogingCharts) {
             if (waitLogingCharts.hasOwnProperty(i)) {
                 var treemap = echarts.init(document.getElementById(waitLogingCharts[i]));
-                treemap.showLoading({ "text": "加载中..." });
+                treemap.showLoading({"text": "加载中..."});
             }
         }
         if (resultData.status === 1) {
@@ -159,10 +158,7 @@
             $("#wk-top-hots .todayhot-title").html(resultData.stock_info.stock_name + "今日最热度");
             $("#wk-top-stockdata .latesthot-title").html(resultData.stock_info.stock_name + "最新行情");
             $("#wk-top-moneyflow .latesthot-title").html(resultData.stock_info.stock_name + "资金流向");
-            $("i[data-toggle='popover']").popover({
-                container: "body",
-                trigger: "hover"
-            });
+            $("i[data-toggle='popover']").popover({container: "body", trigger: "hover"});
             var $relatedConcept = relConcept[0].sect;
             var $relatedIndustry = relIndustry[0].indus;
             if (!wkTreemapDataConcept) {
@@ -328,7 +324,7 @@
         $(".wk-follow-stock").each(function () {
             var followName = $(this).attr("data-follow-name");
             $(this).unbind("click").bind("click", function () {
-                if (followName == "addNewGroup") {
+                if (followName === "addNewGroup") {
                     swal({
                         title: "添加组合",
                         text: "组合名称不能超过6个汉字或12个字符",
@@ -350,7 +346,7 @@
                             swal.showInputError("字符数超过限制");
                             return false;
                         }
-                        inforcenter.addGroup({ ori_name: inputValue }, null, function (resultData) {
+                        inforcenter.addGroup({ori_name: inputValue}, null, function (resultData) {
                             if (resultData.status == 1) {
                                 swal({
                                     title: "",
@@ -422,8 +418,8 @@
     function initModalChart() {
         $(".modal-chart").modal("show");
         var modalChart = echarts.init(document.getElementById("modal-chart"));
-        common.getSingleRealTimeHot({ "stock": stockcode }, function () {
-            modalChart.showLoading({ "text": "加载中..." });
+        common.getSingleRealTimeHot({"stock": stockcode}, function () {
+            modalChart.showLoading({"text": "加载中..."});
         }, function (resultData) {
             modalChart.hideLoading();
             var modalViewData = [];
@@ -440,7 +436,7 @@
                     modalViewData = JSON.parse("[" + modalViewData.join(',') + "]");
                 }
                 var myChart = echarts.init(document.getElementById("modal-chart"));
-                myChart.showLoading({ "text": "加载中..." });
+                myChart.showLoading({"text": "加载中..."});
                 myChart.setOption({
                     color: ["rgb(243, 104, 97)"],
                     tooltip: {
@@ -460,27 +456,13 @@
                             return showLabel;
                         }
                     },
-                    dataZoom: [
-                        { type: 'inside', realtime: true },
-                        {
-                            type: 'slider',
-                            show: true,
-                            realtime: true
-                        }
-                    ],
-                    grid: { top: 10, left: 20, right: 20, bottom: 40, containLabel: true },
-                    legend: { left: "left" },
-                    xAxis: { type: "category", boundaryGap: false, data: modalxData },
-                    yAxis: { type: "value", position: "right", scale: true },
+                    dataZoom: [{type: 'inside', realtime: true}, {type: 'slider', show: true, realtime: true}],
+                    grid: {top: 10, left: 20, right: 20, bottom: 40, containLabel: true},
+                    legend: {left: "left"},
+                    xAxis: {type: "category", boundaryGap: false, data: modalxData},
+                    yAxis: {type: "value", position: "right", scale: true},
                     calculable: false,
-                    series: [
-                        {
-                            name: "查看",
-                            type: "line",
-                            smooth: true,
-                            data: modalViewData
-                        }
-                    ]
+                    series: [{name: "查看", type: "line", smooth: true, data: modalViewData}]
                 });
                 myChart.hideLoading();
                 window.onresize = myChart.resize;
@@ -494,8 +476,8 @@
     function initTopStockData() {
         $("#wk-show-chart-tip").html("<label>当前价：<span>--</span></label><label>成交量：<span>--</span>股</label><label>时间：<span>--</span></label><label>涨幅：<span>--</span></label>");
         var charts = echarts.init(document.getElementById("left-stockdata-chart"));
-        common.getCurve({ code: stockcode }, function () {
-            charts.showLoading({ text: "加载中..." });
+        common.getCurve({code: stockcode}, function () {
+            charts.showLoading({text: "加载中..."});
         }, function (resultData) {
             var userData = [];
             var datas = [];
@@ -540,13 +522,13 @@
                             return showLabel;
                         }
                     },
-                    grid: { top: "10px", left: "3%", right: "3%", bottom: 10, containLabel: true },
+                    grid: {top: "10px", left: "3%", right: "3%", bottom: 10, containLabel: true},
                     xAxis: {
                         type: "category", boundaryGap: false, data: times, axisLabel: {
                             interval: 60
                         }
                     },
-                    yAxis: { type: "value", position: "right", scale: true },
+                    yAxis: {type: "value", position: "right", scale: true},
                     calculable: false,
                     series: [
                         {
@@ -558,14 +540,14 @@
                             data: userData.map(function (item) {
                                 return item.price;
                             }),
-                            lineStyle: { normal: { width: 1 } }
+                            lineStyle: {normal: {width: 1}}
                         }
                     ]
                 });
                 window.onresize = charts.resize;
             }
         });
-        common.getGrail({ code: stockcode }, null, function (resultData) {
+        common.getGrail({code: stockcode}, null, function (resultData) {
             var grailHtml = [];
             if (resultData.status === 1) {
                 var datas = resultData.result.code_info;
@@ -710,20 +692,20 @@
         } else {
             common.getHotRecord(arrData, function () {
                 var myChart = echarts.init(document.getElementById("left-hot-chart"));
-                myChart.showLoading({ "text": "加载中..." });
+                myChart.showLoading({"text": "加载中..."});
             }, function (resultData) {
-                var _viewData = [];
-                var _searchData = [];
-                var _followData = [];
-                var _xdata = [];
-                if (resultData.status == 1) {
+                var viewDataAll = [];
+                var searchDataAll = [];
+                var followDataAll = [];
+                var xdataAll = [];
+                if (resultData.status === 1) {
                     for (var v in resultData.visit) {
                         if (resultData.visit.hasOwnProperty(v)) {
                             var visit = resultData.visit[v];
                             for (var vv in visit) {
                                 if (visit.hasOwnProperty(vv)) {
-                                    _xdata.push(vv);
-                                    _viewData.push(visit[vv]);
+                                    xdataAll.push(vv);
+                                    viewDataAll.push(visit[vv]);
                                 }
                             }
                         }
@@ -733,7 +715,7 @@
                             var search = resultData.search[s];
                             for (var ss in search) {
                                 if (search.hasOwnProperty(ss)) {
-                                    _searchData.push(search[ss]);
+                                    searchDataAll.push(search[ss]);
                                 }
                             }
                         }
@@ -743,13 +725,13 @@
                             var follow = resultData.follow[f];
                             for (var ff in follow) {
                                 if (follow.hasOwnProperty(ff)) {
-                                    _followData.push(follow[ff]);
+                                    followDataAll.push(follow[ff]);
                                 }
                             }
                         }
                     }
                 }
-                common.getLineChart("left-hot-chart", _xdata, _viewData, _searchData, _followData);
+                common.getLineChart("left-hot-chart", xdataAll, viewDataAll, searchDataAll, followDataAll);
             });
         }
     });
@@ -789,7 +771,7 @@
         switch (toggle) {
             case "today":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -797,7 +779,7 @@
                 break;
             case "week":
                 common.getRateLine(queryData, function () {
-                    rateLine.showLoading({ "text": "加载中..." });
+                    rateLine.showLoading({"text": "加载中..."});
                 }, function (resultData) {
                     common.buildRateLine(querykey, toggle, resultData);
                     rateLine.hideLoading();
@@ -819,16 +801,84 @@
                     rateLine.hideLoading();
                 });
                 break;
+            case "datacompare":
+                common.getRateLine(queryData, function () {
+                    rateLine.showLoading({"text": "加载中..."});
+                }, function (resultData) {
+                    rateLine.hideLoading();
+                    buildRateCompare(resultData);
+                });
+                break;
             default:
                 break;
         }
     });
+    function buildRateCompare(buildData) {
+        var dateArr = [];
+        var r1Data = [];
+        var r2Data = [];
+        var r3Data = [];
+        if (buildData.body && buildData.body.list.length > 0) {
+            var list = buildData.body.list;
+            for (var i = 0; i < list.length; i++) {
+                dateArr.push(Utility.unixToTime(list[i].trade_time * 1000));
+                r1Data.push(list[i].day_yield);
+                r2Data.push(list[i].hs300_day_yield);
+                r3Data.push(list[i].visit);
+            }
+        }
+        var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
+        var option = {
+            tooltip: {
+                trigger: "axis",
+                formatter: function (params) {
+                    var showLabel = "";
+                    showLabel += params[0].name + "<br>";
+                    for (var p in params) {
+                        if (params.hasOwnProperty(p)) {
+                            if (params[p].seriesName !== "查看热度") {
+                                if (params[p].value && params[p].value !== 0) {
+                                    if (params[0].name === params[p].name) {
+                                        showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
+                                    }
+                                }
+                            } else {
+                                showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + params[p].value + "<br>";
+                            }
+                        }
+                    }
+                    return showLabel;
+                }
+            },
+            color: ["rgb(151,47,134)", "rgb(65,77,92)", "rgb(250,100,100)"],
+            legend: { data: ["收益率", '沪深300', "查看热度"], top: 0 },
+            grid: { top: '25px', left: 0, right: 0, bottom: 0, containLabel: true },
+            xAxis: { type: 'category', boundaryGap: false, data: dateArr, axisLabel: { interval: 10 } },
+            yAxis: [{ type: 'value', position: 'right', axisLabel: { formatter: function (value) { if (value !== 0) { return (value * 100).toFixed(2) + "%"; } else { return 0; } } } }, { type: 'value', position: 'left' }],
+            series: [
+                { name: "收益率", type: 'line', smooth: true, yAxisIndex: 0, data: JSON.parse("[" + r1Data + "]") },
+                { name: '沪深300', type: 'line', smooth: true, yAxisIndex: 0, data: JSON.parse("[" + r2Data + "]") },
+                { name: '查看热度', type: 'line', smooth: true, yAxisIndex: 1, data: JSON.parse("[" + r3Data + "]") }
+            ]
+        };
+        rateChart.setOption(option);
+        window.onresize = rateChart.resize;
+    }
+    $(".wk-topcharts-box ul>li>a").bind("click", function () { if ($(this).attr("aria-controls") === "wk-top-stockdata") { initTopStockData(); } });
+    /**
+     * 初始化关联股票基础信息
+     */
+    common.getStockBase({
+        "stock": stockcode
+    }, function () {
+
+    }, function (resultData) {
+        initTreeMapChart(resultData);
+        $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
+            initTreeMapChart(resultData);
+        });
+    });
     common.getNews(arrData, true);
     initLineChart();
-    initTreeMapChart();
-    common.initdoubleLine(1, key_name);
-
-    $("#test").click(function () {
-
-    })
+    common.initdoubleLine(1, keyName);
 })(jQuery, window, document);
