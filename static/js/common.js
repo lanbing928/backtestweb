@@ -1576,3 +1576,27 @@ var inforcenter = {
     }
 };
 
+var company = {
+    /**
+     * 公司概况
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getCompany: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/Company/ajax_get_company.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data:  arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    }
+};
+
