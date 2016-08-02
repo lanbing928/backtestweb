@@ -52,11 +52,11 @@ if (CheckLogin::check() == -1) {
     <section class="wk-all-hot wk-stockholder">
         <div class="wk-con-box float_stockholder">
             <ul class="nav nav-tabs" role="tablist" id="float_stock_holder_ul">
-                <li role="presentation" class="active"><a href="#top_opt1" aria-controls="top_opt1" role="tab" data-toggle="tab"></a></li>
-                <li role="presentation"><a href="#top_opt2" aria-controls="top_opt2" role="tab" data-toggle="tab"></a></li>
-                <li role="presentation"><a href="#top_opt3" aria-controls="top_opt3" role="tab" data-toggle="tab"></a></li>
-                <li role="presentation"><a href="#top_opt4" aria-controls="top_opt4" role="tab" data-toggle="tab"></a></li>
-                <li role="presentation"><a href="#top_opt5" aria-controls="top_opt5" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation" class="active" class="topli1"><a href="#top_opt1" aria-controls="top_opt1" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation" class="topli2"><a href="#top_opt2" aria-controls="top_opt2" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation" class="topli3"><a href="#top_opt3" aria-controls="top_opt3" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation" class="topli4"><a href="#top_opt4" aria-controls="top_opt4" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation" class="topli5"><a href="#top_opt5" aria-controls="top_opt5" role="tab" data-toggle="tab"></a></li>
             </ul>
             <div class="tab-content">
                 <!--top day1-->
@@ -175,11 +175,11 @@ if (CheckLogin::check() == -1) {
 
         <div class="wk-con-box stockholder">
             <ul class="nav nav-tabs" role="tablist" id="stock_holder_ul">
-                <li role="presentation" class="active"><a href="#bottom_opt1" aria-controls="bottom_opt1" role="tab" data-toggle="tab"></a></li>
-                <li role="presentation"><a href="#bottom_opt2" aria-controls="bottom_opt2" role="tab" data-toggle="tab"></a></li>
-                <li role="presentation"><a href="#bottom_opt3" aria-controls="bottom_opt3" role="tab" data-toggle="tab"></a></li>
-                <li role="presentation"><a href="#bottom_opt4" aria-controls="bottom_opt4" role="tab" data-toggle="tab"></a></li>
-                <li role="presentation"><a href="#bottom_opt5" aria-controls="bottom_opt5" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation" class="active botli1"><a href="#bottom_opt1" aria-controls="bottom_opt1" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation" class="botli2"><a href="#bottom_opt2" aria-controls="bottom_opt2" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation" class="botli3"><a href="#bottom_opt3" aria-controls="bottom_opt3" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation" class="botli4"><a href="#bottom_opt4" aria-controls="bottom_opt4" role="tab" data-toggle="tab"></a></li>
+                <li role="presentation" class="botli5"><a href="#bottom_opt5" aria-controls="bottom_opt5" role="tab" data-toggle="tab"></a></li>
             </ul>
             <div class="tab-content">
                 <!--bottom day1-->
