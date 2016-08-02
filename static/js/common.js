@@ -1531,14 +1531,14 @@ var inforcenter = {
 
 var company = {
     /**
-     * 公司简介
+     * 公司概况
      * @param arrData
      * @param beforeFn
      * @param backFn
      */
-    getProfile: function (arrData, beforeFn, backFn) {
+    getCompany: function (arrData, beforeFn, backFn) {
         $.ajax({
-            url: "../ajax/Company/ajax_get_profile.php",
+            url: "../ajax/Company/ajax_get_company.php",
             type: "post",
             dataType: "json",
             cache: false,
@@ -1547,7 +1547,6 @@ var company = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
-                console.log(111);
                 backFn && backFn(resultData);
             }
         })
