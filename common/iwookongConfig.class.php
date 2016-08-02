@@ -13,8 +13,10 @@ class iwookongConfig
     public static $requireUrl = "http://61.147.80.227/cgi-bin/test_wookong/";
     public static $requireCompanyUrl = "http://192.168.2.87/cgi-bin/northsea/prsim/";
 
+    //public static $requireUrl = "http://222.73.34.97/cgi-bin/twookong122/";//接口前缀地址
+    //public static $requireUrl = "http://61.147.80.236/cgi-bin/test_wookong/";
     //收益率接口前缀地址
-    public static $requireRateUrl = "http://222.73.34.104/cgi-bin/george/";//接口前缀地址
+    public static $requireRateUrl = "http://61.147.80.227/cgi-bin/george/";//接口前缀地址
 
     /**
      * 获取接口地址前缀

@@ -184,7 +184,7 @@
                     buildHtml.push("<td><a href='stocks.php?stock=" + buildData[i].code + "' target='_blank'>" + buildData[i].code + "</a></td>");
                     buildHtml.push("<td><a href='stocks.php?stock=" + buildData[i].code + "' target='_blank'>" + buildData[i].name + "</a></td>");
                     buildHtml.push("<td class='" + Utility.getPriceColor(buildData[i].mark_z_d) + "'>" + buildData[i].price + "</td>");
-                    buildHtml.push("<td>" + (buildData[i].price_change_ratio).toFixed(2) + '%' + Utility.getHotUpDown(buildData[i].price_change_ratio) + "</td>");
+                    buildHtml.push("<td>" + (buildData[i].price_change_ratio * 100).toFixed(2) + '%' + Utility.getHotUpDown(buildData[i].price_change_ratio) + "</td>");
                     buildHtml.push("<td>" + buildData[i].differ_price + "</td>");
                     buildHtml.push("<td>" + (buildData[i].volume / 10000 / 100).toFixed(2) + "</td>");
                     buildHtml.push("<td>" + buildData[i].value + "</td>");

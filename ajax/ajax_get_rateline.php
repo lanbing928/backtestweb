@@ -45,16 +45,21 @@ switch ($query_date) {
         $arrData["start_date"] = "," . $start_date;
         $arrData["cycle_type"] = "bydate";
         break;
+    case "datacompare":
+        $arrData["cycle_type"] = "current";
+        $arrData["name"] = "visit";
+        break;
 }
 //获取收益率走势图
-$stock_line_result = RequestUtil::get(iwookongConfig::$requireRateUrl."stock/v1/stockhotdiagram.fcgi", $arrData);
+$stock_line_result = RequestUtil::get(iwookongConfig::$requireRateUrl . "stock/v1/stockhotdiagram.fcgi", $arrData);
 $json_line = json_decode($stock_line_result, true);
-if ($json_line['status'] != "0") {
-    print_r($stock_line_result);
-    return;
-} else {
-    if ($jsonresult['flag'] == -1302 || $jsonresult['flag'] == -1301) {
-        print_r(json_encode(array("status" => -100, "result" => $jsonresult['msg'])));
-        return;
-    }
-}
+print_r($stock_line_result);
+//if ($json_line['status'] != "0") {
+//    print_r($stock_line_result);
+//    return;
+//} else {
+//    if ($jsonresult['flag'] == -1302 || $jsonresult['flag'] == -1301) {
+//        print_r(json_encode(array("status" => -100, "result" => $jsonresult['msg'])));
+//        return;
+//    }
+//}

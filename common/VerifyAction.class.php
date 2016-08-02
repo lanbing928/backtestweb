@@ -235,4 +235,29 @@ class VerifyAction
         }
         return false;
     }
+
+    /**
+     * 获取浏览器
+     * @return string
+     */
+    public static function getBrowser()
+    {
+        if (strpos($_SERVER["HTTP_USER_AGENT"], "MSIE 8.0"))
+            return "Internet Explorer 8.0";
+        else if (strpos($_SERVER["HTTP_USER_AGENT"], "MSIE 7.0"))
+            return "Internet Explorer 7.0";
+        else if (strpos($_SERVER["HTTP_USER_AGENT"], "MSIE 6.0"))
+            return "Internet Explorer 6.0";
+        else if (strpos($_SERVER["HTTP_USER_AGENT"], "Firefox/3"))
+            return "Firefox 3";
+        else if (strpos($_SERVER["HTTP_USER_AGENT"], "Firefox/2"))
+            return "Firefox 2";
+        else if (strpos($_SERVER["HTTP_USER_AGENT"], "Chrome"))
+            return "Google Chrome";
+        else if (strpos($_SERVER["HTTP_USER_AGENT"], "Safari"))
+            return "Safari";
+        else if (strpos($_SERVER["HTTP_USER_AGENT"], "Opera"))
+            return "Opera";
+        else return $_SERVER["HTTP_USER_AGENT"];
+    }
 }

@@ -84,8 +84,7 @@ if (CheckLogin::check() == -1) {
                     </li>
                 </ul>
                 <span class="wk-hot-time">
-                    数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?>
+                    更新时间:<?php echo date("Y-m-d H:00"); ?>
                 </span>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="stock-view">
@@ -318,8 +317,7 @@ if (CheckLogin::check() == -1) {
                         <a href="#industry-follow" aria-controls="industry-follow" role="tab" data-toggle="tab">关注热度</a>
                     </li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?></span>
+                <span class="wk-hot-time">更新时间:<?php echo date("Y-m-d H:00"); ?></span>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="industry-view">
                         <div class="col-md-5 left">
@@ -538,8 +536,7 @@ if (CheckLogin::check() == -1) {
                         <a href="#concept-follow" aria-controls="concept-follow" role="tab" data-toggle="tab">关注热度</a>
                     </li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?></span>
+                <span class="wk-hot-time">更新时间:<?php echo date("Y-m-d H:00"); ?></span>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="concept-view">
                         <div class="col-md-5 left">
@@ -756,8 +753,7 @@ if (CheckLogin::check() == -1) {
                         <a href="#event-follow" aria-controls="event-follow" role="tab" data-toggle="tab">关注热度</a>
                     </li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:");
-                    echo UtilityTools::getNowMinute() ?></span>
+                <span class="wk-hot-time">更新时间:<?php echo date("Y-m-d H:00"); ?></span>
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="event-view">
                         <div class="col-md-5 left">
@@ -961,7 +957,7 @@ if (CheckLogin::check() == -1) {
             </div>
         </div>
     </section>
-    <div class="modal modal-chart" tabindex="-1" role="dialog">
+    <div class="modal fade modal-chart" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">

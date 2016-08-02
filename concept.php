@@ -81,7 +81,7 @@ if (empty($conceptName)) {
         <div id="wk-rate-line-pic"></div>
     </section>
     <section class="wk-relate-map">
-        <p class="wk-hot-title">关联信息</p>
+        <p class="wk-hot-title">关联图谱</p>
         <div id="wk-relate-chart">
         </div>
     </section>
@@ -137,7 +137,7 @@ if (empty($conceptName)) {
                     <li role="presentation"><a href="#concept-search" aria-controls="concept-search" role="tab" data-toggle="tab">搜索热度</a></li>
                     <li role="presentation"><a href="#concept-follow" aria-controls="concept-follow" role="tab" data-toggle="tab">关注热度</a></li>
                 </ul>
-                <span class="wk-hot-time">数据日期:<?php echo date("Y-m-d H:00");?></span>
+                <span class="wk-hot-time">更新时间:<?php echo date("Y-m-d H:00");?></span>
                 <div class="tab-content">
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="concept-view">
@@ -350,7 +350,7 @@ if (empty($conceptName)) {
             </div>
         </div>
     </section>
-    <div class="modal modal-chart" tabindex="-1" role="dialog">
+    <div class="modal fade modal-chart" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">

@@ -57,6 +57,19 @@ $(function () {
         var str = this;
         return (str / 10000).toFixed(2) + "万";
     };
+    Number.prototype.toChineseNum = function () {
+        var str = this;
+        if (str == 0) {
+            return str;
+        }
+        if (str > 9999 && str < 99999999) {
+            return (str / 10000).toFixed(2) + "万";
+        }
+        if (str >= 100000000) {
+            return (str / 100000000).toFixed(2) + "亿";
+        }
+        return str.toFixed(2);
+    };
     Number.prototype.toFormatNum = function () {
         var num = this;
         return num && (num.toString().indexOf('.') != -1 ? num.toString().replace(/(\d)(?=(\d{3})+\.)/g, function ($0, $1) {

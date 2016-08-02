@@ -1,4 +1,5 @@
-body,html{font-family:'微软雅黑','Microsoft Yahei', Helvetica, Arial, sans-serif;}
+/*body,html{font-family:'微软雅黑','Microsoft Yahei', Helvetica, Arial, sans-serif;}*/
+body,html{font-family:"Lantinghei SC","Open Sans","Hiragino Sans GB",'微软雅黑',"Microsoft YaHei",STHeiti,"WenQuanYi Micro Hei",SimSun,Arial,sans-serif;}
 
 /*头部导航*/
 .wk-header{background-color: #303f9f; -webkit-box-shadow: #919191 0 2px 10px; -moz-box-shadow: #919191 0 2px 10px; box-shadow: #919191 0 2px 10px;}

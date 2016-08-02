@@ -6,11 +6,18 @@ session_start();
 require_once("Request.class.php");
 require_once("iwookongConfig.class.php");
 require_once("Cookies.class.php");
+require_once("VerifyAction.class.php");
 
 class CheckLogin
 {
     public static function check()
     {
+        //先验证浏览器
+        $getbrowser = VerifyAction::getBrowser();
+        if ($getbrowser == "Internet Explorer 8.0" || $getbrowser == "Internet Explorer 7.0" || $getbrowser == "Internet Explorer 6.0") {
+            header("Location:updatebrowser.php");
+            exit();
+        }
         $userCookie = new Cookies();
         $userInfo = $userCookie->get(iwookongConfig::$usercookie);
         $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "";
