@@ -365,7 +365,7 @@
 #modal-chart{height: 500px;}
 
 /*公司概况*/
-.wk-company table,table tr{border:1px solid #DBE4F9;width:100%;}
+.wk-company table,.wk-companytable tr{border:1px solid #DBE4F9;width:100%;}
 .wk-company table tr th,.wk-company table tr td{ border: 1px solid #DBE4F9;padding-left:16px;}
 .executives .row1 tr:nth-child(2n),.cap_stru tr:nth-child(2n-1){background-color: #F9FBFC;}
 .profile .pro_bg{background-color: #F9FBFC;}
