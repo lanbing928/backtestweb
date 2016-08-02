@@ -156,12 +156,19 @@
                 var stock_holder_arr = resultData['stockholder'];
 
                 if(float_stock_holder_arr.length>0){
-                    for (var i = 0; i<Object.keys(float_stock_holder_arr[0]).length; i++) {
+                    var top_length=Object.keys(float_stock_holder_arr).length;
+                    var top_opt=top_length;//对应不显示li下标
+                    for (var i = 0; i<top_length; i++) {
                         var key_index = i + 1;
-                        var time_top = float_stock_holder_arr['0']['day' + key_index][0]['date'];//top 获取日期
+                        var time_top = float_stock_holder_arr[i]['day' + key_index][i]['date'];//top 获取日期
                         $("#float_stock_holder_ul li").eq(i).find('a').html(time_top); //追加日期数据
-                        var data_top = float_stock_holder_arr['0']['day' + key_index]; //日期对应的数据
+                        var data_top = float_stock_holder_arr[i]['day' + key_index]; //日期对应的数据
                         addTrTd('top_opt' + key_index, data_top, 'top'); //传选项卡对应表格id 数据
+                    }
+                    //没有数据的li不显示
+                    for(var k=0;k<5-top_length;k++){
+                        top_opt++;
+                        $('.float_stockholder ul').find($('.topli'+top_opt)).hide();
                     }
                 }else{
                     $('.float_stockholder ul').hide();
@@ -169,12 +176,19 @@
                 }
 
                 if(stock_holder_arr.length>0){
-                    for (var j = 0; j<Object.keys(stock_holder_arr[0]).length; i++) {
+                    var bot_length=Object.keys(stock_holder_arr).length;
+                    var bot_opt=bot_length;//对应不显示li下标
+                    for (var j = 0; j<bot_length; j++) {
                         var key_index_bot = j + 1;
-                        var time_bottom = float_stock_holder_arr['day' + key_index_bot][0]['date'];//bottom
-                        $("#stock_holder_ul li").eq(i).find('a').html(time_bottom);
-                        var data_bottom = stock_holder_arr['day' + key_index];
-                        addTrTd('bottom_opt' + key_index, data_bottom, 'bottom');
+                        var time_bottom = stock_holder_arr[j]['day' + key_index_bot][j]['date'];//bottom
+                        $("#stock_holder_ul li").eq(j).find('a').html(time_bottom);
+                        var data_bottom = stock_holder_arr[j]['day' + key_index_bot];
+                        addTrTd('bottom_opt' + key_index_bot, data_bottom, 'bottom');
+                    }
+                    //没有数据的li不显示
+                    for(var m=0;m<5-bot_length;m++){
+                        bot_opt++;
+                        $('.stockholder ul').find($('.botli'+bot_opt)).hide();
                     }
                 }else{
                     $('.stockholder ul').hide();
