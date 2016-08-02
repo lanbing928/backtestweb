@@ -144,10 +144,10 @@
                 $(".btn-group li").click(function(){
                     var type= $(this).attr('data');
                     switch(type){
-                        case '1':$(this).find('a').attr('href','/company/profile.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//公司简介
-                        case '2':$(this).find('a').attr('href','/company/executives.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//公司高管
-                        case '3':$(this).find('a').attr('href','/company/capital_structure.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//股本结构
-                        case '4':$(this).find('a').attr('href','/company/stockholder.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//主要股东
+                        case '1':$(this).find('a').attr('href','/company/profile.php?data='+ stockName+','+stockcode+','+stockStatus.price+','+stockStatus.updown+','+stockStatus.percent+','+Utility.getTradeTime());break;//公司简介
+                        case '2':$(this).find('a').attr('href','/company/executives.php?data='+ stockName+','+stockcode+','+stockStatus.price+','+stockStatus.updown+','+stockStatus.percent+','+Utility.getTradeTime());break;//公司高管
+                        case '3':$(this).find('a').attr('href','/company/capital_structure.php?data='+ stockName+','+stockcode+','+stockStatus.price+','+stockStatus.updown+','+stockStatus.percent+','+Utility.getTradeTime());break;//股本结构
+                        case '4':$(this).find('a').attr('href','/company/stockholder.php?data='+ stockName+','+stockcode+','+stockStatus.price+','+stockStatus.updown+','+stockStatus.percent+','+Utility.getTradeTime());break;//主要股东
                     }
                 })
             });
