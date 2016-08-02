@@ -15,10 +15,10 @@
     $(".btn-group li").click(function(){
         var type= $(this).attr('data');
         switch(type){
-            case '1':$(this).find('a').attr('href','/company/profile.php?data='+ spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//公司简介
-            case '2':$(this).find('a').attr('href','/company/executives.php?data='+ spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//公司高管
-            case '3':$(this).find('a').attr('href','/company/capital_structure.php?data='+spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//股本结构
-            case '4':$(this).find('a').attr('href','/company/stockholder.php?data='+spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//主要股东
+            case '1':$(this).find('a').attr('target','_blank').attr('href','/company/profile.php?data='+ spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//公司简介
+            case '2':$(this).find('a').attr('target','_blank').attr('href','/company/executives.php?data='+ spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//公司高管
+            case '3':$(this).find('a').attr('target','_blank').attr('href','/company/capital_structure.php?data='+spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//股本结构
+            case '4':$(this).find('a').attr('target','_blank').attr('href','/company/stockholder.php?data='+spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//主要股东
         }
     })
 
