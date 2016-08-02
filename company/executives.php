@@ -24,7 +24,7 @@ if (CheckLogin::check() == -1) {
     <link rel="stylesheet" href="../static/css/index.min.css">
 <body>
 <?php include(dirname(__FILE__) . "/../share/_header.php") ?>
-<div class="container wk-container wk-company">
+<div class="container wk-container wk-company " html_type="executives">
     <section class="wk-top-title">
         <label class="wk-topshow-icon"></label>
         <label class="wk-toshow-name"></label>
@@ -40,7 +40,7 @@ if (CheckLogin::check() == -1) {
         <label class="wk-topshow-price"></label>
         <label class="wk-topshow-price-per"></label>
         <div class="wk-topshow-right">
-            <span class="wk-topshow-dp">沪深：<span class="wk-up wk-topshow-status"></span><span>
+            <label class="wk-topshow-dp">沪深：<label><i class="fa fa-circle-o-notch fa-spin"></i></label></label>
             <div class="btn-group" style="float: right;">
                 <button type="button" class="btn dropdown-toggle wk-btn-follow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">+ 关注</button>
                 <ul class="dropdown-menu">
@@ -53,96 +53,38 @@ if (CheckLogin::check() == -1) {
     <section class="wk-all-hot executives">
         <div class="row1">
             <table class="table-condensed">
-                <tr style="background-color:#fafcfe">
-                    <th>序号</th>
-                    <th>姓名</th>
-                    <th>性别</th>
-                    <th>年龄</th>
-                    <th>学历</th>
-                    <th>职务</th>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>胡刚</td>
-                    <td>男</td>
-                    <td>53</td>
-                    <td>本科</td>
-                    <td>董事长,法定代表人，非独立董事</td>
-                </tr>
-                <tr class="bg_color">
-                    <td>1</td>
-                    <td>胡刚</td>
-                    <td>男</td>
-                    <td>53</td>
-                    <td>本科</td>
-                    <td>董事长,法定代表人，非独立董事</td>
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>胡刚</td>
-                    <td>男</td>
-                    <td>53</td>
-                    <td>本科</td>
-                    <td>董事长,法定代表人，非独立董事</td>
-                </tr>
-                <tr class="bg_color">
-                    <td>1</td>
-                    <td>胡刚</td>
-                    <td>男</td>
-                    <td>53</td>
-                    <td>本科</td>
-                    <td>董事长,法定代表人，非独立董事</td>
-                </tr>
+                <thead>
+                    <tr class="tr_title">
+                        <th>序号</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>年龄</th>
+                        <th>学历</th>
+                        <th>职务</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="text-align: center">
+                        <td colspan="6">加载中...</td>
+                    </tr>
+                </tbody>
             </table>
-
         </div>
 
         <br/>
 
         <div class="row2">
-            <table class="table-condensed exec_pro">
-                <tr id="executives_intro">
-                    <th colspan="3">管理层简介</th>
-                </tr>
-
-                <tr>
-                    <th colspan='2' width="20%">胡刚</th>
-                    <td rowspan="3">胡刚详细介绍。。。。。。</td>
-                </tr>
-                <tr>
-                    <td>性别：男</td>
-                    <td>本科</td>
-                </tr>
-                <tr>
-                    <td colspan="2">董事长,法定代表人，非独立董事</td>
-                </tr>
-                <tr><td colspan="3"></td></tr>
-
-                <tr>
-                    <th colspan='2' width="20%">胡刚</th>
-                    <td rowspan="3">胡刚详细介绍。。。。。。</td>
-                </tr>
-                <tr>
-                    <td>性别：男</td>
-                    <td>本科</td>
-                </tr>
-                <tr>
-                    <td colspan="2">董事长,法定代表人，非独立董事</td>
-                </tr>
-                <tr><td colspan="3"></td></tr>
-
-                <tr>
-                    <th colspan='2' width="20%">胡刚</th>
-                    <td rowspan="3">胡刚详细介绍。。。。。。</td>
-                </tr>
-                <tr>
-                    <td>性别：男</td>
-                    <td>本科</td>
-                </tr>
-                <tr>
-                    <td colspan="2">董事长,法定代表人，非独立董事</td>
-                </tr>
-                <tr><td colspan="3"></td></tr>
+            <table class="table-condensed">
+               <thead>
+                    <tr class="tr_title">
+                        <th colspan="3">管理层简介</th>
+                    </tr>
+               </thead>
+                <tbody>
+                    <tr style="text-align: center">
+                        <td colspan="3">加载中...</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </section>
@@ -154,6 +96,7 @@ if (CheckLogin::check() == -1) {
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script src="../static/plugins/typeahead/jquery.typeahead.min.js"></script>
 <script src="../static/js/all.min.js"></script>
 <script src="../static/js/common.min.js"></script>
 <script src="../static/js/Utility.min.js"></script>
