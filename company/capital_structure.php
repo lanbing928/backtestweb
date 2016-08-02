@@ -24,7 +24,7 @@ if (CheckLogin::check() == -1) {
     <link rel="stylesheet" href="../static/css/index.min.css">
 <body>
 <?php include(dirname(__FILE__) . "/../share/_header.php") ?>
-<div class="container wk-container wk-company">
+<div class="container wk-container wk-company" html_type="cap_stru">
     <section class="wk-top-title">
         <label class="wk-topshow-icon"></label>
         <label class="wk-toshow-name"></label>
@@ -40,7 +40,7 @@ if (CheckLogin::check() == -1) {
         <label class="wk-topshow-price"></label>
         <label class="wk-topshow-price-per"></label>
         <div class="wk-topshow-right">
-            <span class="wk-topshow-dp">沪深：<span class="wk-up wk-topshow-status"></span><span>
+            <label class="wk-topshow-dp">沪深：<label><i class="fa fa-circle-o-notch fa-spin"></i></label></label>
             <div class="btn-group" style="float: right;">
                 <button type="button" class="btn dropdown-toggle wk-btn-follow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">+ 关注</button>
                 <ul class="dropdown-menu">
@@ -52,76 +52,7 @@ if (CheckLogin::check() == -1) {
 
     <section class="wk-all-hot cap_stru">
         <table class="table-condensed">
-            <tr id="cap_stru_title">
-                <td>公告日期</td>
-                <td>2015-12-31</td>
-                <td>2015-06-30</td>
-                <td>2014-12-31</td>
-                <td>2014-06-30</td>
-                <td>2013-12-31</td>
-                <td>2013-07-05</td>
-                <td>2013-06-30</td>
-            </tr>
-            <tr>
-                <td>总股本</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-            </tr>
-            <tr>
-                <td>总股本</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-            </tr>
-            <tr>
-                <td>总股本</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-            </tr>
-            <tr>
-                <td>总股本</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-            </tr>
-            <tr>
-                <td>总股本</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-            </tr>
-            <tr>
-                <td>总股本</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-                <td>678,602.33</td>
-            </tr>
+            <tr style="text-align: center;background: #fff"><td>加载中...</td></tr>
         </table>
     </section>
 </div>
@@ -131,6 +62,7 @@ if (CheckLogin::check() == -1) {
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script src="../static/plugins/typeahead/jquery.typeahead.min.js"></script>
 <script src="../static/js/all.min.js"></script>
 <script src="../static/js/common.min.js"></script>
 <script src="../static/js/Utility.min.js"></script>
