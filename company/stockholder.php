@@ -34,7 +34,7 @@ if (CheckLogin::check() == -1) {
                 <li data="1"><a href="#">公司概况</a></li>
                 <li data="2"><a href="#">公司高管</a></li>
                 <li data="3"><a href="#">股本结构</a></li>
-                <li data="4"><a href="#">主要股东</a></li>
+                <li data="4" class="company_active"><a href="#">主要股东</a></li>
             </ul>
         </div>
         <label class="wk-topshow-price"></label>
@@ -50,7 +50,7 @@ if (CheckLogin::check() == -1) {
         </div>
     </section>
     <section class="wk-all-hot wk-stockholder">
-        <div class="wk-con-box stockholder">
+        <div class="wk-con-box float_stockholder">
             <ul class="nav nav-tabs" role="tablist" id="float_stock_holder_ul">
                 <li role="presentation" class="active"><a href="#top_opt1" aria-controls="top_opt1" role="tab" data-toggle="tab"></a></li>
                 <li role="presentation"><a href="#top_opt2" aria-controls="top_opt2" role="tab" data-toggle="tab"></a></li>
@@ -173,7 +173,7 @@ if (CheckLogin::check() == -1) {
             </div>
         </div>
 
-        <div class="wk-con-box float_stockholder">
+        <div class="wk-con-box stockholder">
             <ul class="nav nav-tabs" role="tablist" id="stock_holder_ul">
                 <li role="presentation" class="active"><a href="#bottom_opt1" aria-controls="bottom_opt1" role="tab" data-toggle="tab"></a></li>
                 <li role="presentation"><a href="#bottom_opt2" aria-controls="bottom_opt2" role="tab" data-toggle="tab"></a></li>
@@ -302,6 +302,6 @@ if (CheckLogin::check() == -1) {
 <script src="../static/js/all.min.js"></script>
 <script src="../static/js/common.min.js"></script>
 <script src="../static/js/Utility.min.js"></script>
-<script  src="../static/js/page/company.min.js"></script>
+<script  src="../static/js/page/company.js"></script>
 </body>
 </html>
