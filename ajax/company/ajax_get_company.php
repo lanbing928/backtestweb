@@ -19,7 +19,7 @@ if($htmltype=="profile"){
 }elseif($htmltype=="executives"){
     $url = iwookongConfig::$requireCompanyUrl . "hot/1/company_administer.fcgi";
 }elseif($htmltype=="stockholder"){
-    $url = iwookongConfig::$requireCompanyUrl . "information/1/stock_base.fcgi";
+    $url = iwookongConfig::$requireCompanyUrl . "hot/1/major_shareholder.fcgi";
 }
 $result = RequestUtil::get($url, array(
     "user_id" => $_SESSION['user_id'],
