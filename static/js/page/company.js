@@ -1,33 +1,35 @@
 "use strict";
 (function ($, window, document) {
+    var stockCode, stockName;
     var data = Utility.getQueryStringByName("data");//头部标题信息
-    var htmltype=$('.wk-company').attr("html_type");//公司概况四个页面分类
-
-    if (data && data.split(',').length > 0) {
-        var spl = data.split(',');//0名称 1股票代码 2价格 3小数 4百分百 5状态
-        $(".wk-toshow-name").html(decodeURI(spl[0]) + "(" + spl[1] + ")");
-        $(".wk-topshow-price").html("¥" + spl[2]).addClass(Utility.getUpDownColor(spl[3]));
-        $(".wk-topshow-price-per").html(Utility.getPriceSymbol(spl[3]) + parseFloat(spl[3]).toFixed(2) + "(" + Utility.getPriceSymbol(spl[3]) + parseFloat(spl[4]).toFixed(2) + "%)").addClass(Utility.getUpDownColor(spl[4]));
-        $(".wk-topshow-dp label").html(decodeURI(spl[5])).addClass("wk-up");
+    var htmltype = $('.wk-company').attr("data-html-type");//公司概况四个页面分类
+    if (data) {
+        stockName = data.split(',')[0];
+        stockCode = data.split(',')[1];
     }
-
-    //公司概况下拉框
-    $(".btn-group li").click(function(){
-        var type= $(this).attr('data');
-        switch(type){
-            case '1':$(this).find('a').attr('href','/company/profile.php?data='+ spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//公司简介
-            case '2':$(this).find('a').attr('href','/company/executives.php?data='+ spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//公司高管
-            case '3':$(this).find('a').attr('href','/company/capital_structure.php?data='+spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//股本结构
-            case '4':$(this).find('a').attr('href','/company/stockholder.php?data='+spl[0]+','+spl[1]+','+spl[2]+','+spl[3]+','+spl[4]+','+spl[5]);break;//主要股东
+    $(".wk-toshow-name").html(decodeURI(stockName) + "(" + stockCode + ")");
+    $(document).attr("title", decodeURI(stockName) + "(" + stockCode + ")" + $(document).attr("title"));
+    Utility.getSinaStockData(stockCode, function (stockData) {
+        var stockStatus = Utility.getStockStatus(stockData);
+        $(".wk-topshow-price").html("¥" + stockStatus.price).addClass(Utility.getUpDownColor(stockStatus.updown));
+        $(".wk-topshow-price-per").html(Utility.getPriceSymbol(stockStatus.updown) + stockStatus.updown.toFixed(2) + "(" + Utility.getPriceSymbol(stockStatus.updown) + stockStatus.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(stockStatus.percent));
+    });
+    $(".btn-group li a").click(function () {
+        var url = $(this).attr('href');
+        if (url.indexOf("data") < 0) {
+            $(this).attr("target", "_blank").attr("href", url + "?data=" + stockName + "," + stockCode);
         }
-    })
+    });
+    initFollowBtn();
 
-    //公司简介
+    /**
+     * 公司简介
+     */
     function profile() {
-        company.getCompany({"stockcode": spl[1],"htmltype":htmltype},null,function (resultData) {
-            var profileHtml=[];
+        company.getCompany({"stockcode": stockCode, "htmltype": htmltype}, null, function (resultData) {
+            var profileHtml = [];
             if (resultData && resultData.status == 1) {
-                if(Object.keys(resultData.company_profile).length>0){
+                if (Object.keys(resultData.company_profile).length > 0) {
                     profileHtml.push("<tr class='tr_title'><th width='32%'>公司名称</th><td width='68%'>" + resultData.company_profile.company_name + "</td></tr>");
                     profileHtml.push("<tr><th>公司英文名称</th><td>" + resultData.company_profile.company_eng_name + "</td></tr>");
                     profileHtml.push("<tr class='pro_bg'><th>曾用名</th><td>" + resultData.company_profile.used_name + "</td></tr>");
@@ -61,7 +63,7 @@
                     profileHtml.push("<tr class='pro_bg'><th>会计师事务所</th><td>" + resultData.company_profile.accounting_firm + "</td></tr>");
                     profileHtml.push("<tr><th>公司简介</th><td>" + resultData.company_profile.company_intro + "</td></tr>");
                     profileHtml.push("<tr class='pro_bg'><th>经营范围</th><td>" + resultData.company_profile.business_scope + "</td></tr>");
-                }else{
+                } else {
                     profileHtml.push("<tr class='no_date'><td colspan='2'><img src='../../static/imgs/i/index_nodata.png'>&nbsp;&nbsp;暂无数据</td>");
                 }
                 $('.profile table').html(profileHtml.join(''));
@@ -71,32 +73,34 @@
         });
     }
 
-    //股本结构
-    function capitalStru(){
-        company.getCompany({"stockcode": spl[1],"htmltype":htmltype}, null, function (resultData) {
-            var dateHtml=[];
-            var title=['公告日期','总股本','国家持股','流通受限股份','国家持股(受限)','国有法人持股','国有法人持股(受限)','外资持股(受限)','其他内资持股(受限)','已流通股份','发起人股份','未流通股份','已上市流通A股','已上市流通B股','自然人持股','境内自然人持股','境外上市流通股','境外法人持股','境内法人持股','募集法人持股','变动原因'];
-            var arr_key=['date','general_capital','state_backing','float_stock_limit','state_backing_limit','legalperson_sharehold','legalperson_sharehold_limit','foreign_sharehold_limit','other_domes_sharehold','float_share','sponsor_share','not_float_share','float_A_stock','float_B_stock','natural_sharehold','in_natural_sharehold','out_float_stock','out_legalperson_sharehold','in_legalperson_sharehold','raise_sharehold','change_reason'];
+    /**
+     * 股本结构
+     */
+    function capitalStru() {
+        company.getCompany({"stockcode": stockCode, "htmltype": htmltype}, null, function (resultData) {
+            var dateHtml = [];
+            var title = ['公告日期', '总股本', '国家持股', '流通受限股份', '国家持股(受限)', '国有法人持股', '国有法人持股(受限)', '外资持股(受限)', '其他内资持股(受限)', '已流通股份', '发起人股份', '未流通股份', '已上市流通A股', '已上市流通B股', '自然人持股', '境内自然人持股', '境外上市流通股', '境外法人持股', '境内法人持股', '募集法人持股', '变动原因'];
+            var arr_key = ['date', 'general_capital', 'state_backing', 'float_stock_limit', 'state_backing_limit', 'legalperson_sharehold', 'legalperson_sharehold_limit', 'foreign_sharehold_limit', 'other_domes_sharehold', 'float_share', 'sponsor_share', 'not_float_share', 'float_A_stock', 'float_B_stock', 'natural_sharehold', 'in_natural_sharehold', 'out_float_stock', 'out_legalperson_sharehold', 'in_legalperson_sharehold', 'raise_sharehold', 'change_reason'];
             //填充表格
             if (resultData && resultData.status == 1) {
-                if(resultData.result.length >0){
-                    for(var i=0 ;i<21;i++){ //总共数据行数
-                        if(i%2 == 0 && i==0){
-                            dateHtml.push("<tr style='color:#051b5d;background:#fafcfe'><td>"+title[i]+"</td>");
+                if (resultData.result.length > 0) {
+                    for (var i = 0; i < 21; i++) { //总共数据行数
+                        if (i % 2 == 0 && i == 0) {
+                            dateHtml.push("<tr style='color:#051b5d;background:#fafcfe'><td>" + title[i] + "</td>");
                             // }
-                        }else if(i%2 == 0){
-                            dateHtml.push("<tr class='table_title'><td>"+title[i]+"</td>");
+                        } else if (i % 2 == 0) {
+                            dateHtml.push("<tr class='table_title'><td>" + title[i] + "</td>");
 
-                        }else{
-                            dateHtml.push("<tr'><td>"+title[i]+"</td>");
+                        } else {
+                            dateHtml.push("<tr'><td>" + title[i] + "</td>");
                         }
 
-                        for(var j=0;j<7;j++){ //数据列数
-                            dateHtml.push("<td>"+checkIsNull(resultData.result[j][arr_key[i]])+"</td>");
+                        for (var j = 0; j < 7; j++) { //数据列数
+                            dateHtml.push("<td>" + checkIsNull(resultData.result[j][arr_key[i]]) + "</td>");
                         }
                         dateHtml.push("</tr>");
                     }
-                }else{
+                } else {
                     dateHtml.push("<tr class='no_date'><td><img src='../../static/imgs/i/index_nodata.png'>&nbsp;&nbsp;暂无数据</td>");
                 }
 
@@ -106,37 +110,39 @@
         })
     }
 
-    //公司高管
-    function executives(){
-        company.getCompany({"stockcode": spl[1],"htmltype":htmltype}, null, function (resultData) {
-            var stockHtml=[];
-            var profileHtml=[];
+    /**
+     * 公司高管
+     */
+    function executives() {
+        company.getCompany({"stockcode": stockCode, "htmltype": htmltype}, null, function (resultData) {
+            var stockHtml = [];
+            var profileHtml = [];
             if (resultData && resultData.status == 1) {
                 //公司高管
-                if(resultData.stock_executive.length > 0){
-                    for(var i =0 ;i<resultData.stock_executive.length;i++){
+                if (resultData.stock_executive.length > 0) {
+                    for (var i = 0; i < resultData.stock_executive.length; i++) {
                         stockHtml.push("<tr>");
-                        stockHtml.push("<td><b>"+resultData.stock_executive[i].number+"</b></td>");
-                        stockHtml.push("<td>"+resultData.stock_executive[i].name+"</td>");
-                        stockHtml.push("<td>"+resultData.stock_executive[i].sex+"</td>");
-                        stockHtml.push("<td>"+resultData.stock_executive[i].age+"</td>");
-                        stockHtml.push("<td>"+resultData.stock_executive[i].education+"</td>");
-                        stockHtml.push("<td>"+resultData.stock_executive[i].duty+"</td>");
+                        stockHtml.push("<td><b>" + resultData.stock_executive[i].number + "</b></td>");
+                        stockHtml.push("<td>" + resultData.stock_executive[i].name + "</td>");
+                        stockHtml.push("<td>" + resultData.stock_executive[i].sex + "</td>");
+                        stockHtml.push("<td>" + resultData.stock_executive[i].age + "</td>");
+                        stockHtml.push("<td>" + resultData.stock_executive[i].education + "</td>");
+                        stockHtml.push("<td>" + resultData.stock_executive[i].duty + "</td>");
                         stockHtml.push("</tr>");
                     }
-                }else{
+                } else {
                     stockHtml.push("<tr class='no_date' style='background:#fff'><td colspan='6'><img src='../../static/imgs/i/index_nodata.png'>&nbsp;&nbsp;暂无数据</td></tr>");
                 }
 
                 //高管介绍
-                if(resultData.executive_profile.length > 0){
-                    for(var j =0 ;j<resultData.executive_profile.length;j++){
-                        profileHtml.push("<tr><th colspan='2' width='20%'>"+resultData.executive_profile[j].name+"</th><td rowspan='3'>"+resultData.executive_profile[j].brief_intro+"</td></tr>");
-                        profileHtml.push("<tr><td>性别："+resultData.executive_profile[j].sex+"</td> <td>"+resultData.executive_profile[j].education+"</td></tr>");
-                        profileHtml.push(" <tr><td colspan='2'>"+resultData.executive_profile[j].position+"</td></tr><tr><td colspan='3'></td></tr>");
+                if (resultData.executive_profile.length > 0) {
+                    for (var j = 0; j < resultData.executive_profile.length; j++) {
+                        profileHtml.push("<tr><th colspan='2' width='20%'>" + resultData.executive_profile[j].name + "</th><td rowspan='3'>" + resultData.executive_profile[j].brief_intro + "</td></tr>");
+                        profileHtml.push("<tr><td>性别：" + resultData.executive_profile[j].sex + "</td> <td>" + resultData.executive_profile[j].education + "</td></tr>");
+                        profileHtml.push(" <tr><td colspan='2'>" + resultData.executive_profile[j].position + "</td></tr><tr><td colspan='3'></td></tr>");
                         profileHtml.push("</tr>");
                     }
-                }else{
+                } else {
                     profileHtml.push("<tr class='no_date' style='background:#fff'><td colspan='3'><img src='../../static/imgs/i/index_nodata.png'>&nbsp;&nbsp;暂无数据</td></tr>");
                 }
                 $('.row1 tbody').html(stockHtml.join(''));
@@ -146,19 +152,21 @@
         })
     }
 
-    //主要股东
+    /**
+     * 主要股东
+     */
     function stockHolder() {
-        company.getCompany({"stockcode": spl[1],"htmltype":htmltype}, null, function (resultData) {
+        company.getCompany({"stockcode": stockCode, "htmltype": htmltype}, null, function (resultData) {
             if (resultData && resultData.status == 1) {
                 //十大流通股东 top表格所有数据
                 var float_stock_holder_arr = resultData['float_stockholder'];
                 //十大股东 bottom表格所有数据
                 var stock_holder_arr = resultData['stockholder'];
 
-                if(float_stock_holder_arr.length>0){
-                    var top_length=Object.keys(float_stock_holder_arr).length;
-                    var top_opt=top_length;//对应不显示li下标
-                    for (var i = 0; i<top_length; i++) {
+                if (float_stock_holder_arr.length > 0) {
+                    var top_length = Object.keys(float_stock_holder_arr).length;
+                    var top_opt = top_length;//对应不显示li下标
+                    for (var i = 0; i < top_length; i++) {
                         var key_index = i + 1;
                         var time_top = float_stock_holder_arr[i]['day' + key_index][i]['date'];//top 获取日期
                         $("#float_stock_holder_ul li").eq(i).find('a').html(time_top); //追加日期数据
@@ -166,19 +174,19 @@
                         addTrTd('top_opt' + key_index, data_top, 'top'); //传选项卡对应表格id 数据
                     }
                     //没有数据的li不显示
-                    for(var k=0;k<5-top_length;k++){
+                    for (var k = 0; k < 5 - top_length; k++) {
                         top_opt++;
-                        $('.float_stockholder ul').find($('.topli'+top_opt)).hide();
+                        $('.float_stockholder ul').find($('.topli' + top_opt)).hide();
                     }
-                }else{
+                } else {
                     $('.float_stockholder ul').hide();
                     $('.float_stockholder table').html("<tr class='no_date'><td><img src='../../static/imgs/i/index_nodata.png'>&nbsp;&nbsp;十大流通股东暂无数据</td>");
                 }
 
-                if(stock_holder_arr.length>0){
-                    var bot_length=Object.keys(stock_holder_arr).length;
-                    var bot_opt=bot_length;//对应不显示li下标
-                    for (var j = 0; j<bot_length; j++) {
+                if (stock_holder_arr.length > 0) {
+                    var bot_length = Object.keys(stock_holder_arr).length;
+                    var bot_opt = bot_length;//对应不显示li下标
+                    for (var j = 0; j < bot_length; j++) {
                         var key_index_bot = j + 1;
                         var time_bottom = stock_holder_arr[j]['day' + key_index_bot][j]['date'];//bottom
                         $("#stock_holder_ul li").eq(j).find('a').html(time_bottom);
@@ -186,11 +194,11 @@
                         addTrTd('bottom_opt' + key_index_bot, data_bottom, 'bottom');
                     }
                     //没有数据的li不显示
-                    for(var m=0;m<5-bot_length;m++){
+                    for (var m = 0; m < 5 - bot_length; m++) {
                         bot_opt++;
-                        $('.stockholder ul').find($('.botli'+bot_opt)).hide();
+                        $('.stockholder ul').find($('.botli' + bot_opt)).hide();
                     }
-                }else{
+                } else {
                     $('.stockholder ul').hide();
                     $('.stockholder table').html("<tr class='no_date'><td><img src='../../static/imgs/i/index_nodata.png'>&nbsp;&nbsp;十大股东暂无数据</td>");
                 }
@@ -198,11 +206,15 @@
         });
     }
 
-
-    /*主要股东 填充对应的表格数据*/
-    function addTrTd(appendid,data,type){
+    /**
+     * 主要股东 填充对应的表格数据
+     * @param appendid
+     * @param data
+     * @param type
+     */
+    function addTrTd(appendid, data, type) {
         $("#" + appendid).find('tbody').html(' ');
-        for (var i = 0;i< data.length; i++) {
+        for (var i = 0; i < data.length; i++) {
             var rank = checkIsNull(data[i]['rank']);
             var stockholder_name = checkIsNull(data[i]['stockholder_name']);
             var stockholder_nature = checkIsNull(data[i]['stockholder_nature']);
@@ -212,67 +224,125 @@
             var change_share = checkIsNull(data[i]['change_share']);
             var change_ratio = checkIsNull(data[i]['change_ratio']);
             //表格追加内容
-            if(type=="top"){
+            if (type == "top") {
                 var em = '<tr><td>' + rank + '</td><td>' + stockholder_name + '</td><td>' + stockholder_nature + '</td><td>' + share_type + '</td><td>' + shares_number + '</td><td>' + total_ratio + '%</td><td>' + change_share + '</td><td>' + change_ratio + '</td></tr>';
-            }else if(type=="bottom"){
+            } else if (type == "bottom") {
                 var em = '<tr><td>' + rank + '</td><td>' + stockholder_name + '</td><td>' + share_type + '</td><td>' + shares_number + '</td><td>' + total_ratio + '%</td><td>' + change_share + '</td><td>' + change_ratio + '</td></tr>';
             }
             $("#" + appendid).find('tbody').append(em);
         }
     }
 
-    /*检查字段是否为空*/
-    function checkIsNull(str){
-        if(str){
+    /**
+     * 检查字段是否为空
+     * @param str
+     * @returns {*}
+     */
+    function checkIsNull(str) {
+        if (str) {
             return str;
-        }else{
+        } else {
             return '--';
         }
     }
 
-    //关注按钮
-    $(".wk-follow-stock").each(function () {
-        var follow_name = $(this).attr("data-follow-name");
-        $(this).unbind("click").bind("click", function () {
-            inforcenter.addStock({ori_name: follow_name, code:spl[1]}, null, function (addResult) {
-                if (addResult.status == 1) {
+    /**
+     * 初始化关注按钮
+     */
+    function initFollowBtn() {
+        inforcenter.showGroup(null, function (resultData) {
+            if (resultData && resultData.status === 1) {
+                var followBtnHtml = [];
+                followBtnHtml.push("<div class=\"btn-group\" style='float: right;'>");
+                if ($(".wk-topshow-right .btn-group").length <= 0) {
+                    followBtnHtml.push("<button type=\"button\" class=\"btn dropdown-toggle wk-btn-follow\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">");
+                    followBtnHtml.push("+ 关注");
+                    followBtnHtml.push("</button>");
+                    followBtnHtml.push("<ul class=\"dropdown-menu\">");
+                    followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='我的自选股'><a href=\"#\">我的自选股</a></li>");
+                    if (resultData.result.info.group_name.length > 0) {
+                        var list = resultData.result.info.group_name;
+                        for (var i = 0; i < list.length; i++) {
+                            followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='" + list[i] + "'><a href=\"#\">" + list[i] + "</a></li>");
+                        }
+                        followBtnHtml.push("<li class=\"wk-follow-stock\" id='addNewGroup' data-follow-name=\"addNewGroup\"><a href=\"javascript:\">添加组合</a></li>");
+                    }
+                    $(".wk-topshow-right").append(followBtnHtml.join(""));
+                    followBtnHtml.push("</ul>");
+                    followBtnHtml.push("</div>");
+                }
+                initFollowEvent();
+            }
+        });
+    }
+
+    /**
+     * 绑定关注按钮事件
+     */
+    function initFollowEvent() {
+        $(".wk-follow-stock").each(function () {
+            var followName = $(this).attr("data-follow-name");
+            $(this).unbind("click").bind("click", function () {
+                if (followName === "addNewGroup") {
                     swal({
-                        title: "",
-                        text: "关注个股<span style='color: #F8BB86'>" +spl[1] + "</span>成功",
+                        title: "添加组合",
+                        text: "组合名称不能超过6个汉字或12个字符",
+                        type: "input",
                         html: true,
-                        timer: 1000,
-                        showConfirmButton: false
-                    });
-                } else if (addResult.status === 0) {
-                    swal({
-                        title: "",
-                        text: "关注个股<span style='color: #F8BB86'>" + spl[1] + "</span>异常," + resultData.msg + "",
-                        html: true,
-                        timer: 1000,
-                        showConfirmButton: false
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                        animation: "slide-from-top",
+                        inputPlaceholder: "请输入组合名称"
+                    }, function (inputValue) {
+                        if (inputValue === false) return false;
+                        if (inputValue === "") {
+                            swal.showInputError("请输入组合名称");
+                            return false;
+                        }
+                        if (Utility.getByteLen(inputValue) > 12) {
+                            swal.showInputError("字符数超过限制");
+                            return false;
+                        }
+                        inforcenter.addGroup({ori_name: inputValue}, null, function (resultData) {
+                            if (resultData.status == 1) {
+                                swal({
+                                    title: "",
+                                    text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合成功",
+                                    html: true,
+                                    timer: 1000,
+                                    showConfirmButton: false
+                                });
+                                $("#addNewGroup").before("<li class='wk-follow-stock' data-follow-name='" + inputValue + "'><a href=\"#\">" + inputValue + "</a></li>");
+                                initAddStock(inputValue, stockcode, false);
+                                initFollowEvent();
+                            } else if (resultData.status == 0) {
+                                swal({
+                                    title: "",
+                                    text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合异常," + resultData.msg + "",
+                                    html: true,
+                                    timer: 1000,
+                                    showConfirmButton: false
+                                });
+                            }
+                        });
                     });
                 } else {
-                    swal({
-                        title: "",
-                        text: "关注个股<span style='color: #F8BB86'>" + spl[1] + "</span>异常,未知原因",
-                        html: true,
-                        timer: 1000,
-                        showConfirmButton: false
-                    });
+                    initAddStock(followName, stockcode, true);
                 }
             });
         });
-    });
-
-    if(htmltype=="profile"){
-        profile();
-    }else if(htmltype=="cap_stru"){
-        capitalStru();
-    }else if(htmltype=="executives"){
-        executives();
-    }else if(htmltype=="stockholder"){
-        stockHolder();
     }
 
+    if (htmltype == "profile") {
+        profile();
+    } else if (htmltype == "cap_stru") {
+        capitalStru();
+    } else if (htmltype == "executives") {
+        executives();
+    } else if (htmltype == "stockholder") {
+        stockHolder();
+    }
 
 })(jQuery, window, document);

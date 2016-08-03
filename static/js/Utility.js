@@ -372,5 +372,8 @@ var Utility = {
         }
         var hour = Math.floor(num / 12);
         return hour.toFixed(0) + ":" + min;
+    },
+    getThisHost: function () {
+        return "http://" + window.location.host;
     }
 };

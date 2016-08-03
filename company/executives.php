@@ -24,29 +24,30 @@ if (CheckLogin::check() == -1) {
     <link rel="stylesheet" href="../static/css/index.min.css">
 <body>
 <?php include(dirname(__FILE__) . "/../share/_header.php") ?>
-<div class="container wk-container wk-company " html_type="executives">
+<div class="container wk-container wk-company " data-html-type="executives">
     <section class="wk-top-title">
         <label class="wk-topshow-icon"></label>
-        <label class="wk-toshow-name"></label>
+        <label class="wk-toshow-name">
+            <i class="fa fa-circle-o-notch fa-spin"></i>
+        </label>
         <div class="btn-group" role="group">
             <i class="fa fa-list-ul" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <ul class="dropdown-menu">
-                <li data="1"><a href="#">公司概况</a></li>
-                <li data="2" class="company_active"><a href="#">公司高管</a></li>
-                <li data="3"><a href="#">股本结构</a></li>
-                <li data="4"><a href="#">主要股东</a></li>
+                <li><a href="profile.php">公司概况</a></li>
+                <li class="company_active"><a href="executives.php">公司高管</a></li>
+                <li><a href="capital_structure.php">股本结构</a></li>
+                <li><a href="stockholder.php">主要股东</a></li>
             </ul>
         </div>
         <label class="wk-topshow-price"></label>
         <label class="wk-topshow-price-per"></label>
         <div class="wk-topshow-right">
-            <label class="wk-topshow-dp">沪深：<label><i class="fa fa-circle-o-notch fa-spin"></i></label></label>
-            <div class="btn-group" style="float: right;">
-                <button type="button" class="btn dropdown-toggle wk-btn-follow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">+ 关注</button>
-                <ul class="dropdown-menu">
-                    <li class="wk-follow-stock" data-follow-name="我的自选股"><a href="#">我的自选股</a></li>
-                    <li class="wk-follow-stock" data-follow-name="组合A"><a href="#">组合A</a></li></ul>
-            </div>
+            <label class="wk-topshow-dp">
+                沪深：
+                <label>
+                    <i class="fa fa-circle-o-notch fa-spin"></i>
+                </label>
+            </label>
         </div>
     </section>
 

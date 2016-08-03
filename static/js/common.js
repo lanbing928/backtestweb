@@ -1585,11 +1585,11 @@ var company = {
      */
     getCompany: function (arrData, beforeFn, backFn) {
         $.ajax({
-            url: "../ajax/Company/ajax_get_company.php",
+            url: "../ajax/company/ajax_get_company.php",
             type: "post",
             dataType: "json",
             cache: false,
-            data:  arrData,
+            data: arrData,
             beforeSend: function () {
                 beforeFn && beforeFn();
             },

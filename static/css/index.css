@@ -374,6 +374,7 @@
 .wk-stockholder .nav-tabs li {background-color: #fafcfe;border-left:1px solid #DBE4F9;width:92px;}
 .wk-stockholder .nav-tabs li:not([class*='active']):hover a{color: #fff;}
 .wk-stockholder .nav-tabs>li.active>a,.wk-stockholder .nav-tabs>li.active>a:hover{color:#212121;}
-.wk-stockholder .nav-tabs li a{padding: 7px 0;color:#051b5d;border-radius: 0;margin-right: 0;border: 0;font-weight:600}
+.wk-stockholder .nav-tabs li a{color:#051b5d;border-radius: 0;margin-right: 0;border: 0;font-weight:600}
 .wk-company .no_date{text-align: center;height:200px;}
 .wk-company .company_active{background-color:#F5F5F5;}
+.wk-top-title .dropdown-menu li a{cursor: pointer;}

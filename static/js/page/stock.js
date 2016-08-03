@@ -141,13 +141,10 @@
                 $(".wk-topshow-price").html("¥" + stockStatus.price).addClass(Utility.getUpDownColor(stockStatus.updown));
                 $(".wk-topshow-price-per").html(Utility.getPriceSymbol(stockStatus.updown) + stockStatus.updown.toFixed(2) + "(" + Utility.getPriceSymbol(stockStatus.updown) + stockStatus.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(stockStatus.percent));
                 //公司概况下拉框
-                $(".btn-group li").click(function(){
-                    var type= $(this).attr('data');
-                    switch(type){
-                        case '1':$(this).find('a').attr('href','/company/profile.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//公司简介
-                        case '2':$(this).find('a').attr('href','/company/executives.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//公司高管
-                        case '3':$(this).find('a').attr('href','/company/capital_structure.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//股本结构
-                        case '4':$(this).find('a').attr('href','/company/stockholder.php?data='+ _stockName+','+_stockcode+','+_stock_status.price+','+_stock_status.updown+','+_stock_status.percent+','+Utility.getTradeTime());break;//主要股东
+                $(".btn-group li a").click(function () {
+                    var url = $(this).attr('href');
+                    if (url.indexOf("data") < 0) {
+                        $(this).attr("target", "_blank").attr("href", url + "?data=" + stockName + "," + stockcode);
                     }
                 })
             });
@@ -378,20 +375,38 @@
 
     /**
      * 添加股票
-     * @param {} followName
-     * @param {} _stockcode
-     * @returns {}
+     * @param followName
+     * @param addCode
+     * @param showAlert
      */
     function initAddStock(followName, addCode, showAlert) {
-        inforcenter.addStock({ ori_name: followName, code: addCode }, null, function (addResult) {
+        inforcenter.addStock({ori_name: followName, code: addCode}, null, function (addResult) {
             if (addResult.status === 1) {
                 if (showAlert) {
-                    swal({ title: "", text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>成功", html: true, timer: 1000, showConfirmButton: false });
+                    swal({
+                        title: "",
+                        text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>成功",
+                        html: true,
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
                 }
             } else if (addResult.status === 0) {
-                swal({ title: "", text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>异常," + addResult.msg + "", html: true, timer: 1000, showConfirmButton: false });
+                swal({
+                    title: "",
+                    text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>异常," + addResult.msg + "",
+                    html: true,
+                    timer: 1000,
+                    showConfirmButton: false
+                });
             } else {
-                swal({ title: "", text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>异常,未知原因", html: true, timer: 1000, showConfirmButton: false });
+                swal({
+                    title: "",
+                    text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>异常,未知原因",
+                    html: true,
+                    timer: 1000,
+                    showConfirmButton: false
+                });
             }
         });
     }
@@ -851,28 +866,41 @@
                 }
             },
             color: ["rgb(151,47,134)", "rgb(65,77,92)", "rgb(250,100,100)"],
-            legend: { data: ["收益率", '沪深300', "查看热度"], top: 0 },
-            grid: { top: '25px', left: 0, right: 0, bottom: 0, containLabel: true },
-            xAxis: { type: 'category', boundaryGap: false, data: dateArr, axisLabel: { interval: 10 } },
-            yAxis: [{ type: 'value', position: 'right', axisLabel: { formatter: function (value) { if (value !== 0) { return (value * 100).toFixed(2) + "%"; } else { return 0; } } } }, { type: 'value', position: 'left' }],
+            legend: {data: ["收益率", '沪深300', "查看热度"], top: 0},
+            grid: {top: '25px', left: 0, right: 0, bottom: 0, containLabel: true},
+            xAxis: {type: 'category', boundaryGap: false, data: dateArr, axisLabel: {interval: 10}},
+            yAxis: [{
+                type: 'value', position: 'right', axisLabel: {
+                    formatter: function (value) {
+                        if (value !== 0) {
+                            return (value * 100).toFixed(2) + "%";
+                        } else {
+                            return 0;
+                        }
+                    }
+                }
+            }, {type: 'value', position: 'left'}],
             series: [
-                { name: "收益率", type: 'line', smooth: true, yAxisIndex: 0, data: JSON.parse("[" + r1Data + "]") },
-                { name: '沪深300', type: 'line', smooth: true, yAxisIndex: 0, data: JSON.parse("[" + r2Data + "]") },
-                { name: '查看热度', type: 'line', smooth: true, yAxisIndex: 1, data: JSON.parse("[" + r3Data + "]") }
+                {name: "收益率", type: 'line', smooth: true, yAxisIndex: 0, data: JSON.parse("[" + r1Data + "]")},
+                {name: '沪深300', type: 'line', smooth: true, yAxisIndex: 0, data: JSON.parse("[" + r2Data + "]")},
+                {name: '查看热度', type: 'line', smooth: true, yAxisIndex: 1, data: JSON.parse("[" + r3Data + "]")}
             ]
         };
         rateChart.setOption(option);
         window.onresize = rateChart.resize;
     }
-    $(".wk-topcharts-box ul>li>a").bind("click", function () { if ($(this).attr("aria-controls") === "wk-top-stockdata") { initTopStockData(); } });
+
+    $(".wk-topcharts-box ul>li>a").bind("click", function () {
+        if ($(this).attr("aria-controls") === "wk-top-stockdata") {
+            initTopStockData();
+        }
+    });
     /**
      * 初始化关联股票基础信息
      */
     common.getStockBase({
         "stock": stockcode
-    }, function () {
-
-    }, function (resultData) {
+    }, null, function (resultData) {
         initTreeMapChart(resultData);
         $('.wk-hotmap a[data-toggle="tab"]').on('shown.bs.tab', function () {
             initTreeMapChart(resultData);
