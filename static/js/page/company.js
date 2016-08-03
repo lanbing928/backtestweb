@@ -315,7 +315,7 @@
                                     showConfirmButton: false
                                 });
                                 $("#addNewGroup").before("<li class='wk-follow-stock' data-follow-name='" + inputValue + "'><a href=\"#\">" + inputValue + "</a></li>");
-                                initAddStock(inputValue, stockcode, false);
+                                initAddStock(inputValue, stockCode, false);
                                 initFollowEvent();
                             } else if (resultData.status == 0) {
                                 swal({
@@ -329,9 +329,47 @@
                         });
                     });
                 } else {
-                    initAddStock(followName, stockcode, true);
+                    initAddStock(followName, stockCode, true);
                 }
             });
+        });
+    }
+
+    /**
+     * 添加股票
+     * @param followName
+     * @param addCode
+     * @param showAlert
+     */
+    function initAddStock(followName, addCode, showAlert) {
+        inforcenter.addStock({ori_name: followName, code: addCode}, null, function (addResult) {
+            if (addResult.status === 1) {
+                if (showAlert) {
+                    swal({
+                        title: "",
+                        text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>成功",
+                        html: true,
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                }
+            } else if (addResult.status === 0) {
+                swal({
+                    title: "",
+                    text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>异常," + addResult.msg + "",
+                    html: true,
+                    timer: 1000,
+                    showConfirmButton: false
+                });
+            } else {
+                swal({
+                    title: "",
+                    text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>异常,未知原因",
+                    html: true,
+                    timer: 1000,
+                    showConfirmButton: false
+                });
+            }
         });
     }
 
