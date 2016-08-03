@@ -1589,7 +1589,7 @@ var company = {
             type: "post",
             dataType: "json",
             cache: false,
-            data:  arrData,
+            data: arrData,
             beforeSend: function () {
                 beforeFn && beforeFn();
             },
