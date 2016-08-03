@@ -94,7 +94,7 @@
                                 dateHtml.push("<tr class='table_title'><td>" + title[i] + "</td>");
 
                             } else {
-                                dateHtml.push("<tr'><td>" + title[i] + "</td>");
+                                dateHtml.push("<tr><td>" + title[i] + "</td>");
                             }
 
                             for (var j = 0; j < 7; j++) { //数据列数
