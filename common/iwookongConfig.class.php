@@ -6,18 +6,33 @@
 class iwookongConfig
 {
     public static $usercookie = "Uj8$!mhy";
-    //正式版地址
-    //222.73.34.104
-    //public static $requireUrl = "http://222.73.34.104/cgi-bin/wookong/";//接口前缀地址
-    //public static $requireUrl = "http://222.73.34.104/cgi-bin/wookong130/";//接口前缀地址
+    /**
+     * 测试版地址
+     * @var string
+     */
     public static $requireUrl = "http://61.147.80.227/cgi-bin/test_wookong/";
-    public static $requireCompanyUrl = "http://61.147.80.227/cgi-bin/northsea/prsim/";
+    /**
+     * 测试版公司概况的地址
+     * @var string
+     */
+    //public static $requireCompanyUrl = "http://61.147.80.227/cgi-bin/northsea/prsim/";
+    /**
+     * 正式版公司概况的地址
+     * @var string
+     */
+    public static $requireCompanyUrl = "http://61.147.80.236/cgi-bin/company/companyprofile/";
+    /**
+     * 测试收益率接口前缀地址
+     * @var string
+     */
+    public static $requireRateUrl = "http://61.147.80.227/cgi-bin/george/";
+    /**
+     * 正式版收益率接口
+     * @var string
+     */
+    //public static $requireRateUrl = "http://61.147.80.236/cgi-bin/george/";
 
-    //public static $requireUrl = "http://222.73.34.97/cgi-bin/twookong122/";//接口前缀地址
-    //public static $requireUrl = "http://61.147.80.236/cgi-bin/test_wookong/";
-    //收益率接口前缀地址
-    public static $requireRateUrl = "http://61.147.80.227/cgi-bin/george/";//接口前缀地址
-
+    #region 无用的代码
     /**
      * 获取接口地址前缀
      * @return string
@@ -61,4 +76,5 @@ class iwookongConfig
     {
         return self::$requireUrl . "stock/1/single_stock.fcgi";
     }
+    #endregion
 }

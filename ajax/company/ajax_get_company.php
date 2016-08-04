@@ -13,13 +13,13 @@ $stockCode = isset($_POST['stockcode']) ? $_POST['stockcode'] : "";
 $stockCode=$stockCode.'s';
 $htmltype = ($_POST['htmltype']);
 if($htmltype=="profile"){
-    $url = iwookongConfig::$requireCompanyUrl . "hot/1/company_profile.fcgi";
+    $url = iwookongConfig::$requireCompanyUrl . "company_profile.fcgi";
 }elseif($htmltype=="cap_stru"){
-    $url = iwookongConfig::$requireCompanyUrl . "hot/1/capital_structure.fcgi";
+    $url = iwookongConfig::$requireCompanyUrl . "capital_structure.fcgi";
 }elseif($htmltype=="executives"){
-    $url = iwookongConfig::$requireCompanyUrl . "hot/1/company_administer.fcgi";
+    $url = iwookongConfig::$requireCompanyUrl . "company_administer.fcgi";
 }elseif($htmltype=="stockholder"){
-    $url = iwookongConfig::$requireCompanyUrl . "hot/1/major_shareholder.fcgi";
+    $url = iwookongConfig::$requireCompanyUrl . "major_shareholder.fcgi";
 }
 $result = RequestUtil::get($url, array(
     "user_id" => $_SESSION['user_id'],
