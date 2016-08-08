@@ -129,7 +129,7 @@
     function initModalChart() {
         $(".modal-chart").modal("show");
         var _modalChart = echarts.init(document.getElementById("modal-chart"));
-        common.getHyAndGnHot({"name": name, "query_type": 2}, function () {
+        common.getHyAndGnHot({"name": name, "query_type": 2, "minute_data": "minute_data"}, function () {
             _modalChart.showLoading({"text": "加载中..."});
         }, function (resultData) {
             _modalChart.hideLoading();

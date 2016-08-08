@@ -141,7 +141,7 @@
                 $(".wk-topshow-price").html("¥" + stockStatus.price).addClass(Utility.getUpDownColor(stockStatus.updown));
                 $(".wk-topshow-price-per").html(Utility.getPriceSymbol(stockStatus.updown) + stockStatus.updown.toFixed(2) + "(" + Utility.getPriceSymbol(stockStatus.updown) + stockStatus.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(stockStatus.percent));
                 //公司概况下拉框
-                $(".btn-group li a").click(function () {
+                $(".wk-com-info li a").click(function () {
                     var url = $(this).attr('href');
                     if (url.indexOf("data") < 0) {
                         $(this).attr("target", "_blank").attr("href", url + "?data=" + stockName + "," + stockcode);
@@ -433,7 +433,7 @@
     function initModalChart() {
         $(".modal-chart").modal("show");
         var modalChart = echarts.init(document.getElementById("modal-chart"));
-        common.getSingleRealTimeHot({"stock": stockcode}, function () {
+        common.getSingleRealTimeHot({"stock": stockcode, "minute_data": "minute_data"}, function () {
             modalChart.showLoading({"text": "加载中..."});
         }, function (resultData) {
             modalChart.hideLoading();
@@ -448,7 +448,9 @@
                         }
                     }
                     modalxData = JSON.parse("[" + modalxData.join(',') + "]");
-                    modalViewData = JSON.parse("[" + modalViewData.join(',') + "]");
+                    modalViewData = JSON.parse("[" + modalViewData.sort(function (a, b) {
+                            return a - b;
+                        }).join(',') + "]");
                 }
                 var myChart = echarts.init(document.getElementById("modal-chart"));
                 myChart.showLoading({"text": "加载中..."});

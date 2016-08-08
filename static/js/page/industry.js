@@ -4,13 +4,13 @@
     var xdata = ["0:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00", "9:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "24：00"];
     var wk_treemap_data, viewData = [], searchData = [], followData = [];
     var myChart = echarts.init(document.getElementById("left-chart"));
-    myChart.showLoading({ "text": "加载中..." });
-   /**
-    * 加载热度总览图表
-    * @returns {} 
-    */
+    myChart.showLoading({"text": "加载中..."});
+    /**
+     * 加载热度总览图表
+     * @returns {}
+     */
     function initLineChart() {
-        common.getHyAndGnHot({ "name": name, "query_type": 1, "hour_data": "industry" }, null, function (resultData) {
+        common.getHyAndGnHot({"name": name, "query_type": 1, "hour_data": "industry"}, null, function (resultData) {
             if (resultData.status == 1) {
                 var _todayHot = [];
                 var _lastHot = [];
@@ -59,13 +59,13 @@
 
     /**
      * 加载热度热力图
-     * @returns {} 
+     * @returns {}
      */
     function initTreeMapChart() {
         if (!wk_treemap_data) {
-            common.getTopTwentyStock({ "hottype": "hy", "hotval": name }, function () {
+            common.getTopTwentyStock({"hottype": "hy", "hotval": name}, function () {
                 var treemap = echarts.init(document.getElementById("wk-stock-view-treemap"));
-                treemap.showLoading({ "text": "加载中..." });
+                treemap.showLoading({"text": "加载中..."});
                 $("#industry-view .wk-hot-table tbody").html("<tr><td colspan='5'>加载中...</td></tr>");
             }, function (resultData) {
                 if (resultData.status == 1) {
@@ -80,8 +80,8 @@
 
     /**
      * 构建热力图
-     * @param {} resultData 
-     * @returns {} 
+     * @param {} resultData
+     * @returns {}
      */
     function buildTreeMap(resultData) {
         if (resultData.result.code_info.shv_.length > 0) {
@@ -115,7 +115,7 @@
 
     /**
      * 加载收益率图表
-     * @returns {} 
+     * @returns {}
      */
     function initTodayRateLine() {
         var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
@@ -125,7 +125,7 @@
             "query_date": "today"
         };
         common.getRateLine(queryData, function () {
-            rateLine.showLoading({ "text": "加载中..." });
+            rateLine.showLoading({"text": "加载中..."});
         }, function (resultData) {
             common.buildRateLine(decodeURI(name), "today", resultData);
             rateLine.hideLoading();
@@ -145,13 +145,13 @@
 
     /**
      * 加载查看详细热度
-     * @returns {} 
+     * @returns {}
      */
     function initModalChart() {
         $(".modal-chart").modal("show");
         var _modalChart = echarts.init(document.getElementById("modal-chart"));
-        common.getHyAndGnHot({ "name": name, "query_type": 1 }, function () {
-            _modalChart.showLoading({ "text": "加载中..." });
+        common.getHyAndGnHot({"name": name, "query_type": 1, "minute_data": "minute_data"}, function () {
+            _modalChart.showLoading({"text": "加载中..."});
         }, function (resultData) {
             _modalChart.hideLoading();
             var _modalViewData = [];
@@ -166,7 +166,7 @@
                     _modalViewData = JSON.parse("[" + _modalViewData.join(',') + "]");
                 }
                 var myChart = echarts.init(document.getElementById("modal-chart"));
-                myChart.showLoading({ "text": "加载中..." });
+                myChart.showLoading({"text": "加载中..."});
                 myChart.setOption({
                     color: ["rgb(243, 104, 97)"],
                     tooltip: {
@@ -185,16 +185,16 @@
                         }
                     },
                     dataZoom: [
-                        { type: 'inside', realtime: true },
+                        {type: 'inside', realtime: true},
                         {
                             type: 'slider',
                             show: true,
                             realtime: true
                         }],
-                    grid: { top: 10, left: 20, right: 20, bottom: 40, containLabel: true },
-                    legend: { left: "left" },
-                    xAxis: { type: "category", boundaryGap: false, data: _modalxData },
-                    yAxis: { type: "value", position: "right", scale: true },
+                    grid: {top: 10, left: 20, right: 20, bottom: 40, containLabel: true},
+                    legend: {left: "left"},
+                    xAxis: {type: "category", boundaryGap: false, data: _modalxData},
+                    yAxis: {type: "value", position: "right", scale: true},
                     calculable: false,
                     series: [
                         {
@@ -211,7 +211,7 @@
         });
     }
 
-    var arrData = { query_type: 2, key: name, start_id: 0, info_type_list: "", "start_time": 0 };
+    var arrData = {query_type: 2, key: name, start_id: 0, info_type_list: "", "start_time": 0};
     $(".nav-tabs li a").bind("click", function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") == 0) {
             if ($("#mCSB_2_container").html().trim() == "") {
@@ -335,7 +335,7 @@
         } else {
             common.getHotRecord(arrData, function () {
                 var myChart = echarts.init(document.getElementById("left-chart"));
-                myChart.showLoading({ "text": "加载中..." });
+                myChart.showLoading({"text": "加载中..."});
             }, function (resultData) {
                 var _viewData = [];
                 var _searchData = [];
@@ -415,7 +415,7 @@
             case "today":
                 common.getRateLine(queryData,
                     function () {
-                        rateLine.showLoading({ "text": "加载中..." });
+                        rateLine.showLoading({"text": "加载中..."});
                     },
                     function (resultData) {
                         common.buildRateLine(querykey, toggle, resultData);
@@ -425,7 +425,7 @@
             case "week":
                 common.getRateLine(queryData,
                     function () {
-                        rateLine.showLoading({ "text": "加载中..." });
+                        rateLine.showLoading({"text": "加载中..."});
                     },
                     function (resultData) {
                         common.buildRateLine(querykey, toggle, resultData);
@@ -435,7 +435,7 @@
             case "month":
                 common.getRateLine(queryData,
                     function () {
-                        rateLine.showLoading({ "text": "加载中..." });
+                        rateLine.showLoading({"text": "加载中..."});
                     },
                     function (resultData) {
                         common.buildRateLine(querykey, toggle, resultData);
@@ -445,7 +445,7 @@
             case "threemonth":
                 common.getRateLine(queryData,
                     function () {
-                        rateLine.showLoading({ "text": "加载中..." });
+                        rateLine.showLoading({"text": "加载中..."});
                     },
                     function (resultData) {
                         common.buildRateLine(querykey, toggle, resultData);

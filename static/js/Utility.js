@@ -366,11 +366,11 @@ var Utility = {
      * @param num
      */
     numToTime: function (num) {
-        var min = num % 12 * 5;
+        var min = num % 60;
         if (min < 10) {
             min = "0" + min;
         }
-        var hour = Math.floor(num / 12);
+        var hour = Math.floor(num / 60);
         return hour.toFixed(0) + ":" + min;
     },
     getThisHost: function () {

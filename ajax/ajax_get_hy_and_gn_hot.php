@@ -13,6 +13,7 @@ if (CheckLogin::check() == -1) {
 $query_type = isset($_POST['query_type']) ? $_POST['query_type'] : "";
 $name = isset($_POST['name']) ? $_POST['name'] : "";
 $hour_data = isset($_POST['hour_data']) ? $_POST['hour_data'] : "";
+$minute_data = isset($_POST['minute_data']) ? $_POST['minute_data'] : "";
 $arrData = array(
     "user_id" => $_SESSION['user_id'],
     "token" => $_SESSION["token"],
@@ -21,6 +22,9 @@ $arrData = array(
 );
 if (!empty($hour_data)) {
     $arrData["hour_data"] = $hour_data;
+}
+if (!empty($minute_data)) {
+    $arrData["minute_data"] = $minute_data;
 }
 //获取实时热度
 $stock_line_result = RequestUtil::get(iwookongConfig::$requireUrl . "stock/1/hy_and_gn_hot.fcgi", $arrData);
