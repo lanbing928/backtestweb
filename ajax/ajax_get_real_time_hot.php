@@ -11,12 +11,16 @@ if (CheckLogin::check() == -1) {
     return;
 }
 $hour_data = isset($_POST['hour_data']) ? $_POST['hour_data'] : "";
+$minute_data = isset($_POST['minute_data']) ? $_POST['minute_data'] : "";
 $arrData = array(
     "user_id" => $_SESSION['user_id'],
     "token" => $_SESSION["token"]
 );
 if (!empty($hour_data)) {
     $arrData["hour_data"] = $hour_data;
+}
+if (!empty($minute_data)) {
+    $arrData["minute_data"] = $minute_data;
 }
 //获取实时热度
 $real_timehot_result = RequestUtil::get(iwookongConfig::$requireUrl . "stock/1/real_time_hot.fcgi", $arrData);

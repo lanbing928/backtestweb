@@ -448,9 +448,7 @@
                         }
                     }
                     modalxData = JSON.parse("[" + modalxData.join(',') + "]");
-                    modalViewData = JSON.parse("[" + modalViewData.sort(function (a, b) {
-                            return a - b;
-                        }).join(',') + "]");
+                    modalViewData = JSON.parse("[" + modalViewData.join(',') + "]");
                 }
                 var myChart = echarts.init(document.getElementById("modal-chart"));
                 myChart.showLoading({"text": "加载中..."});
