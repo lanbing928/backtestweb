@@ -377,4 +377,4 @@
 .wk-stockholder .nav-tabs li a{color:#051b5d;border-radius: 0;margin-right: 0;border: 0;font-weight:600}
 .wk-company .no_date{text-align: center;height:200px;}
 .wk-company .company_active{background-color:#F5F5F5;}
-.wk-top-title .dropdown-menu li a{cursor: pointer;}
+.wk-top-title .dropdown-menu li a,.wk-follow-stock a{cursor: pointer;}
