@@ -143,7 +143,7 @@
                         _modalxData.push("\"" + Utility.numToTime(v) + "\"");
                     }
                     _modalxData = JSON.parse("[" + _modalxData.join(',') + "]");
-                    _modalViewData = JSON.parse("[" + _modalViewData.join(',') + "]");
+                    _modalViewData = JSON.parse("[" + _modalViewData.sort(function(a,b){return a-b;}).join(',') + "]");
                 }
                 var myChart = echarts.init(document.getElementById("modal-chart"));
                 myChart.showLoading({"text": "加载中..."});
