@@ -39,7 +39,7 @@ if (empty($stockCode)) {
         <label class="wk-toshow-name">
             <i class="fa fa-circle-o-notch fa-spin"></i>
         </label>
-        <div class="btn-group" role="group">
+        <div class="btn-group wk-com-info" role="group">
             <i class="fa fa-list-ul" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <ul class="dropdown-menu">
                 <li><a href="/company/profile.php">公司概况</a></li>
