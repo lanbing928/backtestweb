@@ -287,6 +287,8 @@
 /*热度排行榜hotrank*/
 .tab-content .hot_text{border:1px solid #abb1d8;height:26px;width:24%;line-height:26px;text-align: center;margin:0 0 10px 12px;box-shadow:1px 1px 1px #ccc }
 .tab-content .hot_more{margin:auto;text-align: center;color:#c0c0c0;cursor: pointer}
+td span{cursor: pointer}
+.sort_active{color:red}
 
 /*股票页面的关注按钮*/
 .wk-btn-follow{height: 26px;padding: 0;width: 80px;border-radius: 0;background-color: #4963ae;color: #FFFFFF;}
