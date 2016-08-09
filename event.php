@@ -70,6 +70,38 @@ if (empty($eventName)) {
             </table>
         </div>
     </section>
+    <section class="wk-hotevent-chart">
+        <p class="wk-hot-title">
+            用户访问和转载
+            <i class="fa fa-question-circle-o" data-toggle="popover" data-content="主题事件每个小时产生的访问量"></i>
+        </p>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    用户访问
+                    <i class="fa fa-question-circle-o" data-toggle="popover" data-content="主题事件每个小时产生的访问量"></i>
+                </p>
+                <div id="wk-event-visit">
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    转载量
+                    <i class="fa fa-question-circle-o" data-toggle="popover" data-content="主题事件每个小时产生的转载量"></i>
+                </p>
+                <div id="wk-event-reprint"></div>
+            </div>
+        </div>
+        <div class="wk-hotevent-tips">
+            <span class="orange-block">■</span><span>用户访问数：<em>--</em></span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="pink-block">■</span><span>转载量：<em>--</em></span>
+        </div>
+        <div class="wk-hotevent-plat">
+            <span class="blue-block">■</span><span class="wk-reprint-platform">转载平台：--</span>
+        </div>
+    </section>
     <section class="wk-rate-line">
         <p class="wk-hot-title">
             收益率走势

@@ -116,6 +116,87 @@
         });
     }
 
+    function initHotEvent() {
+        var visit = echarts.init(document.getElementById("wk-event-visit"));
+        var reprint = echarts.init(document.getElementById("wk-event-reprint"));
+        common.getHotEvent({"identifier": name}, function () {
+            visit.showLoading({text: "加载中..."});
+            reprint.showLoading({text: "加载中..."});
+        }, function (resultData) {
+            if (resultData.status == 1) {
+                visit.hideLoading();
+                reprint.hideLoading();
+                if (resultData.result.hot_info.length > 0) {
+                    var visitData = [];
+                    var reprintData = [];
+                    var xData = [];
+                    for (var i in resultData.result.hot_info) {
+                        visitData.push(resultData.result.hot_info[i].visit_num);
+                        reprintData.push(resultData.result.hot_info[i].exposure_num);
+                        xData.push(Utility.unixToTime(resultData.result.hot_info[i].time * 1000));
+                    }
+                    setHotEventCharts("行为热度", visit, "line", resultData.result.hot_info, xData, visitData, ["rgb(244,125,101)"]);
+                    setHotEventCharts("转载量", reprint, "bar", resultData.result.hot_info, xData, reprintData, ["rgb(229,165,191)"]);
+                } else {
+                    $("#wk-event-visit").html("暂无数据");
+                    $("#wk-event-reprint").html("暂无数据");
+                }
+            }
+        })
+    }
+
+    function setHotEventCharts(name, chartId, type, showData, xData, yData, color) {
+        chartId.setOption({
+            color: color,
+            tooltip: {
+                trigger: "axis",
+                formatter: function (params) {
+                    var tipData = showData[params[0].dataIndex];
+                    var showLabel = "";
+                    showLabel += params[0].name + "<br>";
+                    for (var p in params) {
+                        if (params.hasOwnProperty(p)) {
+                            if (params[p].value && params[p].value !== 0) {
+                                if (params[0].name === params[p].name) {
+                                    showLabel += "<label style='color: " + params[p].color + ";font-size: 12x;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + Utility.formatNum(params[p].value) + "<br>";
+                                }
+                            }
+                        }
+                    }
+                    $(".wk-hotevent-tips em:first-child").html(tipData.visit_num);
+                    $(".wk-hotevent-tips em:last-child").html(tipData.exposure_num);
+                    var plat = [];
+                    for (var p in tipData.platform) {
+                        plat.push("<span>" + tipData.platform[p] + "</span>");
+                    }
+                    $(".wk-reprint-platform").html("转载平台：" + plat.join(""));
+                    $(".wk-hotevent-chart").mouseleave(function () {
+                        $(".wk-hotevent-tips em:first-child").html("--");
+                        $(".wk-hotevent-tips em:last-child").html("--");
+                        $(".wk-reprint-platform").html("转载平台：--");
+                    });
+                    return showLabel;
+                }
+            },
+            grid: {top: "10px", left: "5%", right: "5%", bottom: 0, containLabel: true},
+            xAxis: {
+                type: "category", boundaryGap: type == "bar", data: xData
+            },
+            yAxis: {type: "value", position: "right", scale: true},
+            calculable: false,
+            series: [
+                {
+                    barWidth: 30,
+                    name: name,
+                    type: type,
+                    smooth: true,
+                    data: yData
+                }
+            ]
+        });
+        window.onresize = chartId.resize;
+    }
+
     /**
      * 获取关联信息图
      */
@@ -422,5 +503,6 @@
     initLineChart();
     initTreeMapChart();
     initTodayRateLine();
+    initHotEvent();
     common.initdoubleLine(4, name);
 })(jQuery, window, document);

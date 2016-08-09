@@ -1302,6 +1302,28 @@ var common = {
                 backFn && backFn(resultData);
             }
         });
+    },
+    /**
+     * 获取事件页用户访问和转载图表数据
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getHotEvent:function(arrData, beforeFn, backFn){
+        $.ajax({
+            url: "ajax/ajax_get_hot_event.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        });
     }
 };
 var inforcenter = {
