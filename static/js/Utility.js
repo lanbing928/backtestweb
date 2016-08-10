@@ -375,5 +375,24 @@ var Utility = {
     },
     getThisHost: function () {
         return "http://" + window.location.host;
+    },
+    /**
+     * 文字转换相应的单词显示
+     * @param group
+     * @returns {*}
+     */
+    getCheckType: function (group) {
+        switch (group) {
+            case "股票":
+                return "stock";
+            case "行业":
+                return "industry";
+            case "概念":
+                return "concept";
+            case "主题事件":
+                return "event";
+            default:
+                return "";
+        }
     }
 };

@@ -131,34 +131,43 @@ if (empty($stockCode)) {
             <i class="fa fa-question-circle-o" data-toggle="popover" data-content="展示其近期的收益率与沪深300的收益走势，自定义选择股票/行业/概念/主题事件对比收益率/热度"></i>
         </p>
         <div class="wk-rate-select" data-query-name="<?php echo $stockCode ?>" data-query-type="stock">
-            <label class="active" data-toggle="today">当天</label>
-            <label data-toggle="week">最近一周</label>
-            <label data-toggle="month">最近一个月</label>
-            <label data-toggle="threemonth">最近三个月</label>
-            <label data-toggle="datacompare">数据对比</label>
-        </div>
-
-        <div id="wk-rate-compare">
-            <div class="btn-group" style="display: none;">
-                <button type="button" class="btn dropdown-toggle wk-btn-follow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    数据对比
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu wk-rate-compare">
-                    <li class="wk-rate-compare-li">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox"/>热度
-                            </label>
-                            <label>
-                                <input type="checkbox"/>收益率
-                            </label>
+            <div class="wk-rate-select-label pull-left">
+                <label class="active" data-toggle="today">当天</label>
+                <label data-toggle="week">最近一周</label>
+                <label data-toggle="month">最近一个月</label>
+                <label data-toggle="threemonth">最近三个月</label>
+            </div>
+            <div class="wk-rate-compare btn-group">
+                <label class="wk-compare-btn">数据对比</label>
+                <label class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="fa fa-chevron-down"></span>
+                </label>
+                <ul class="dropdown-menu">
+                    <li role="separator" class="divider"></li>
+                    <li class="wk-hotevent-select">
+                        <div class="pull-left">
+                            <input type="checkbox" name="wk-check-hot" checked="checked"><span>查看热度</span>
+                        </div>
+                        <div class="pull-right">
+                            <input type="checkbox" name="wk-check-rate" checked="checked"><span>收益率</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="typeahead__container">
+                            <div class="typeahead__field">
+                                <span class="typeahead__query">
+                                    <input class="wk-compare-search" type="search" placeholder="请输入/股票/行业/概念/事件" autocomplete="off">
+                                </span>
+                                <span class="typeahead__button">
+                                    <i class="typeahead__search-icon"></i>
+                                </span>
+                            </div>
                         </div>
                     </li>
                 </ul>
             </div>
-            <div id="wk-rate-line-pic"></div>
         </div>
+        <div id="wk-rate-line-pic"></div>
     </section>
     <section class="wk-relate-map">
         <p class="wk-hot-title">
@@ -757,6 +766,6 @@ if (empty($stockCode)) {
 <script src="static/js/all.min.js"></script>
 <script src="static/js/common.min.js"></script>
 <script src="static/js/Utility.min.js"></script>
-<script src="static/js/page/stock.min.js"></script>
+<script src="static/js/page/stock.js"></script>
 </body>
 </html>

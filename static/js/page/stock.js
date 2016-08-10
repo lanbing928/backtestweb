@@ -7,6 +7,29 @@
     var viewData = [], searchData = [], followData = [];
     var wkTreemapDataIndustry, wkTreemapDataConcept;
     var keyName = stockcode + "s";
+    var arrData = {
+        query_type: 1,
+        key: stockcode,
+        start_id: 0,
+        info_type_list: "",
+        start_time: 0
+    };
+    var thisHost = "http://" + window.location.host + "/";
+    var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
+    //默认选中查看热度，收益率复选框
+    var rateCheck = true, hotCheck = true;
+
+    /**
+     * 存储数据对比的临时信息
+     * @type {{}}
+     */
+    var tempData = {rate: {}, hot: {}};
+
+    /**
+     * 收益率数据对比
+     * @type {Array}
+     */
+    var compareData = [];
 
     /**
      * 构建股票页面查看更多的a标签
@@ -577,13 +600,7 @@
         });
     }
 
-    var arrData = {
-        query_type: 1,
-        key: stockcode,
-        start_id: 0,
-        info_type_list: "",
-        start_time: 0
-    };
+
     $(".nav-tabs li a").bind("click", function () {
         if ($(this).attr("href").indexOf("#wk-selfmedia") === 0) {
             if ($("#mCSB_2_container").html().trim() === "") {
@@ -687,7 +704,6 @@
             }
         }
     });
-
     $(".wk-line-toggle a").click(function () {
         $(this).addClass("line-active").siblings().removeClass("line-active");
         var queryType = $(this).parent().attr("data-query-type");
@@ -767,12 +783,13 @@
             to.find(".toggle-treemap-table-down").show();
         }
     });
-    $(".wk-rate-select label").click(function () {
+    $(".wk-rate-select-label label").click(function () {
+        $(".wk-rate-compare label").removeClass("active");
         $(this).addClass("active").siblings().removeClass("active");
-        var querykey = $(this).parent().attr("data-query-name");//查询关键字(股票代码||行业/概念关键字)
-        var querytype = $(this).parent().attr("data-query-type");//查询类别(股票/行业/概念)
+        var querykey = $(this).parent().parent().attr("data-query-name");//查询关键字(股票代码||行业/概念关键字)
+        var querytype = $(this).parent().parent().attr("data-query-type");//查询类别(股票/行业/概念)
         var toggle = $(this).attr("data-toggle");//查询周期(当天/一周/一个月/三个月)
-        var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
+
         var queryData = {
             "query_type": querytype,
             "query_key": querykey,
@@ -816,61 +833,58 @@
                     rateLine.hideLoading();
                 });
                 break;
-            case "datacompare":
-                common.getRateLine(queryData, function () {
-                    rateLine.showLoading({"text": "加载中..."});
-                }, function (resultData) {
-                    rateLine.hideLoading();
-                    buildRateCompare(resultData);
-                });
-                break;
             default:
                 break;
         }
     });
-    function buildRateCompare(buildData) {
-        var dateArr = [];
-        var r1Data = [];
-        var r2Data = [];
-        var r3Data = [];
-        if (buildData.body && buildData.body.list.length > 0) {
-            var list = buildData.body.list;
-            for (var i = 0; i < list.length; i++) {
-                dateArr.push(Utility.unixToTime(list[i].trade_time * 1000));
-                r1Data.push(list[i].day_yield);
-                r2Data.push(list[i].hs300_day_yield);
-                r3Data.push(list[i].visit);
-            }
+    $(".wk-topcharts-box ul>li>a").bind("click", function () {
+        if ($(this).attr("aria-controls") === "wk-top-stockdata") {
+            initTopStockData();
         }
-        var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
-        var option = {
-            tooltip: {
-                trigger: "axis",
-                formatter: function (params) {
-                    var showLabel = "";
-                    showLabel += params[0].name + "<br>";
-                    for (var p in params) {
-                        if (params.hasOwnProperty(p)) {
-                            if (params[p].seriesName !== "查看热度") {
-                                if (params[p].value && params[p].value !== 0) {
-                                    if (params[0].name === params[p].name) {
-                                        showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
-                                    }
-                                }
-                            } else {
+    });
+
+    var compareOption = {
+        //color: ["rgba(243,104,97,1)", "rgba(66,82,181,1)", "rgba(250,167,1,1)", "rgba(107,159,43,1)", "rgba(109,171,222,1)", "rgba(169,148,230,1)", "rgba(107,205,163,1)"],
+        tooltip: {
+            trigger: "axis",
+            formatter: function (params) {
+                var showLabel = "";
+                showLabel += params[0].name + "<br>";
+                for (var p in params) {
+                    if (params[p].value && params[p].value != 0) {
+                        if (params[0].name == params[p].name) {
+                            if (params[p].seriesName.indexOf("热度") >= 0) {
                                 showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + params[p].value + "<br>";
+                            } else {
+                                showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
                             }
                         }
                     }
-                    return showLabel;
                 }
+                return showLabel;
+            }
+        },
+        legend: {
+            data: [],
+            top: 0
+        },
+        grid: {top: "5px", left: 0, right: 0, bottom: 40, containLabel: true},
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: [],
+            axisLabel: {interval: 10}
+        },
+        dataZoom: [{type: 'inside', realtime: true}, {type: 'slider', show: true, realtime: true}],
+        yAxis: [
+            {
+                type: 'value',
+                position: 'left'
             },
-            color: ["rgb(151,47,134)", "rgb(65,77,92)", "rgb(250,100,100)"],
-            legend: {data: ["收益率", '沪深300', "查看热度"], top: 0},
-            grid: {top: '25px', left: 0, right: 0, bottom: 0, containLabel: true},
-            xAxis: {type: 'category', boundaryGap: false, data: dateArr, axisLabel: {interval: 10}},
-            yAxis: [{
-                type: 'value', position: 'right', axisLabel: {
+            {
+                type: 'value',
+                position: 'right',
+                axisLabel: {
                     formatter: function (value) {
                         if (value !== 0) {
                             return (value * 100).toFixed(2) + "%";
@@ -879,21 +893,232 @@
                         }
                     }
                 }
-            }, {type: 'value', position: 'left'}],
-            series: [
-                {name: "收益率", type: 'line', smooth: true, yAxisIndex: 0, data: JSON.parse("[" + r1Data + "]")},
-                {name: '沪深300', type: 'line', smooth: true, yAxisIndex: 0, data: JSON.parse("[" + r2Data + "]")},
-                {name: '查看热度', type: 'line', smooth: true, yAxisIndex: 1, data: JSON.parse("[" + r3Data + "]")}
-            ]
-        };
-        rateChart.setOption(option);
-        window.onresize = rateChart.resize;
+            }
+        ],
+        series: []
+    };
+
+    /**
+     * 构建收益率对比数据
+     * @param buildData
+     */
+    function buildRateCompare(buildData) {
+        var dateArr = [];   //时间线
+        var rateData = [];  //当前股票的收益率数据
+        var hsData = [];    //当前股票的沪深300数据
+        var hotData = [];   //当前股票的热度数据
+        if (buildData.body && buildData.body.list.length > 0) {
+            var list = buildData.body.list;
+            for (var i = 0; i < list.length; i++) {
+                dateArr.push(Utility.unixToTime(list[i].trade_time * 1000));
+                rateData.push(list[i].day_yield);
+                hsData.push(list[i].hs300_day_yield);
+                hotData.push(list[i].visit);
+            }
+        }
+        var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
+        compareOption.xAxis.data = dateArr;
+        if (compareOption.series.length == 0) {
+            compareOption.series.push({
+                name: '沪深300',
+                type: 'line',
+                smooth: true,
+                yAxisIndex: 1,
+                data: JSON.parse("[" + hsData + "]"),
+                itemStyle: {normal: {color: "rgb(65,77,92)"}},
+                lineStyle: {normal: {width: 1.5}}
+            });
+            compareOption.series.push({
+                name: "【" + stockName + "(" + stockcode + ")】收益率",
+                type: 'line',
+                smooth: true,
+                yAxisIndex: 1,
+                data: JSON.parse("[" + rateData + "]"),
+                itemStyle: {normal: {color: "rgb(151,47,134)"}},
+                lineStyle: {normal: {width: 1.5}}
+            });
+            compareOption.series.push({
+                name: "【" + stockName + "(" + stockcode + ")】热度",
+                type: 'line',
+                smooth: true,
+                yAxisIndex: 0,
+                data: JSON.parse("[" + hotData + "]"),
+                itemStyle: {normal: {color: "rgba(151,47,134,.3)"}},
+                lineStyle: {normal: {width: 1.5}}
+            });
+        }
+
+        rateChart.setOption(compareOption);
+        window.onresize = rateLine.resize;
     }
 
-    $(".wk-topcharts-box ul>li>a").bind("click", function () {
-        if ($(this).attr("aria-controls") === "wk-top-stockdata") {
-            initTopStockData();
+    /**
+     * 收益款走势数据对比
+     */
+    $(".wk-compare-search").typeahead({
+        minLength: 1,
+        maxItem: 20,
+        order: "asc",
+        hint: true,
+        group: true,
+        maxItemPerGroup: 5,
+        backdrop: false,
+        dynamic: true,
+        filter: false,
+        emptyTemplate: '未找到 "{{query}}" 的相关信息',
+        source: {
+            "股票": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "stock"]},
+            "行业": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "hy"]},
+            "概念": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "gn"]},
+            "主题事件": {url: [thisHost + "ajax/ajax_search.php?message={{query}},", "event"]}
+        },
+        callback: {
+            onClickAfter: function (node, a, item) {
+                if (item.display !== "") {
+                    if ($.inArray(item.display, compareData) == -1 && item.display.indexOf(stockcode) <= 0) {
+                        if (compareData.length < 8) {
+                            $(".wk-rate-compare .dropdown-menu li:first-child").before("<li><input type=\"checkbox\" name='wk-check-info' checked='checked' data-check-type='" + Utility.getCheckType(item.group) + "' data-check-info='" + item.display + "'><span>" + item.display + "</span></li>");
+                            compareData.push(item.display);
+                            common.getRateLine({
+                                "query_type": Utility.getCheckType(item.group),
+                                "query_key": Utility.getCheckType(item.group) == "stock" ? item.display.substring(item.display.indexOf("(") + 1, item.display.indexOf(")")) : item.display,
+                                "query_date": "datacompare"
+                            }, null, function (resultData) {
+                                var searchRateData = [];  //搜索股票的收益率数据
+                                var searchHotData = [];   //搜索股票的热度数据
+                                if (resultData.body && resultData.body.list.length > 0) {
+                                    var list = resultData.body.list;
+                                    for (var i = 0; i < list.length; i++) {
+                                        searchRateData.push(list[i].day_yield);
+                                        searchHotData.push(list[i].visit);
+                                    }
+                                }
+                                var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
+                                tempData.rate[item.display] = {
+                                    name: "【" + item.display + "】收益率",
+                                    type: 'line',
+                                    smooth: true,
+                                    yAxisIndex: 1,
+                                    data: JSON.parse("[" + searchRateData + "]"),
+                                    lineStyle: {normal: {width: 1.5}}
+                                };
+                                tempData.hot[item.display] = {
+                                    name: "【" + item.display + "】热度",
+                                    type: 'line',
+                                    smooth: true,
+                                    yAxisIndex: 0,
+                                    data: JSON.parse("[" + searchHotData + "]"),
+                                    lineStyle: {normal: {width: 1.5}}
+                                };
+                                if (rateCheck) {
+                                    compareOption.series.push(tempData.rate[item.display]);
+                                }
+                                if (hotCheck) {
+                                    compareOption.series.push(tempData.hot[item.display]);
+                                }
+                                rateChart.setOption(compareOption);
+                            });
+                            //查看所有添加的信息
+                            $(".wk-rate-compare input[name='wk-check-info']").each(function (i, e) {
+                                $(e).change(function (event) {
+                                    var dataCheckInfo = $(e).attr("data-check-info");
+                                    var canAdd = true;
+                                    if (!$(e).is(":checked")) {
+                                        for (var s in compareOption.series) {
+                                            if (compareOption.series[s].name.indexOf(dataCheckInfo) >= 0) {
+                                                compareOption.series.splice(s, 2);
+                                            }
+                                        }
+                                    } else {
+                                        for (var ss in compareOption.series) {
+                                            if (compareOption.series[ss].name.indexOf(dataCheckInfo) >= 0) {
+                                                canAdd = false;
+                                            }
+                                        }
+                                        if (canAdd) {
+                                            if (rateCheck) {
+                                                compareOption.series.push(tempData.rate[dataCheckInfo]);
+                                            }
+                                            if (hotCheck) {
+                                                compareOption.series.push(tempData.hot[dataCheckInfo]);
+                                            }
+                                        }
+                                    }
+                                    var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
+                                    rateChart.setOption(compareOption);
+                                    event.stopPropagation();
+                                });
+                            });
+                        }
+                    }
+                }
+            }
         }
+    });
+
+    /**
+     * 检查已经选择的对比信息
+     */
+    function checkSelectCompare() {
+        $("input[name='wk-check-hot']").change(function (event) {
+            hotCheck = !!$(this).is(":checked");
+            if (hotCheck) {
+                for (var h in tempData.hot) {
+                    compareOption.series.push(tempData.hot[h]);
+                }
+            } else {
+                for (var s in compareOption.series) {
+                    if (compareOption.series[s].name.indexOf("热度") >= 0) {
+                        if (compareOption.series[s].name.indexOf(stockcode) < 0) {
+                            compareOption.series.splice(s, 1);
+                        }
+                    }
+                }
+            }
+            var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
+            rateChart.setOption(compareOption);
+            event.stopPropagation();
+        });
+        $("input[name='wk-check-rate']").change(function (event) {
+            rateCheck = !!$(this).is(":checked");
+            if (rateCheck) {
+                for (var r in tempData.rate) {
+                    compareOption.series.push(tempData.rate[r]);
+                }
+            } else {
+                for (var s in compareOption.series) {
+                    if (compareOption.series[s].name.indexOf("收益率") >= 0) {
+                        if (compareOption.series[s].name.indexOf(stockcode) < 0) {
+                            compareOption.series.splice(s, 1);
+                        }
+                    }
+                }
+            }
+            var rateChart = echarts.init(document.getElementById("wk-rate-line-pic"));
+            rateChart.setOption(compareOption);
+            event.stopPropagation();
+        });
+    }
+
+    /**
+     * 数据对比功能
+     */
+    $(".wk-rate-compare").bind("click", function () {
+        $(this).find("label").addClass("active");
+        $(".wk-rate-select-label").find("label").removeClass("active");
+    });
+    $(".wk-compare-btn").bind("click", function () {
+        var queryData = {
+            "query_type": $(this).parent().parent().attr("data-query-type"),
+            "query_key": $(this).parent().parent().attr("data-query-name"),
+            "query_date": "datacompare"
+        };
+        common.getRateLine(queryData, function () {
+            rateLine.showLoading({"text": "加载中..."});
+        }, function (resultData) {
+            rateLine.hideLoading();
+            buildRateCompare(resultData);
+        });
     });
     /**
      * 初始化关联股票基础信息
@@ -909,4 +1134,5 @@
     common.getNews(arrData, true);
     initLineChart();
     common.initdoubleLine(1, keyName);
+    checkSelectCompare();
 })(jQuery, window, document);
