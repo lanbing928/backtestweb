@@ -10,7 +10,7 @@ class iwookongConfig
      * 测试版地址
      * @var string
      */
-    public static $requireUrl = "http://61.147.80.227/cgi-bin/test_wookong/";
+    public static $requireUrl = "http://61.147.114.67/cgi-bin/test_wookong/";
     /**
      * 测试版公司概况的地址
      * @var string
@@ -20,12 +20,12 @@ class iwookongConfig
      * 正式版公司概况的地址
      * @var string
      */
-    public static $requireCompanyUrl = "http://61.147.80.236/cgi-bin/company/companyprofile/";
+    public static $requireCompanyUrl = "http://61.147.114.76/cgi-bin/company/companyprofile/";
     /**
      * 测试收益率接口前缀地址
      * @var string
      */
-    public static $requireRateUrl = "http://61.147.80.227/cgi-bin/george/";
+    public static $requireRateUrl = "http://61.147.114.67/cgi-bin/george/";
     /**
      * 正式版收益率接口
      * @var string
