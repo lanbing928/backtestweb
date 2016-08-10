@@ -21,6 +21,16 @@
     var request_s = true;
     var request_f = true;
 
+    var alldata_v = []; //查看热度 显示的所有数据
+    var alldata_s = []; //搜索热度 显示的所有数据
+    var alldata_f = []; //关注热度 显示的所有数据
+    var sort_opt_v; //查看热度 排序字段名称
+    var sort_opt_s;
+    var sort_opt_f;
+    var page_type; //热度名称 stock , industry , concept , event
+    var sortid;
+    var sort_type; //排序类型 desc降序 asc升序
+
     var key = Utility.getQueryStringByName("key");
     var data_type = 1,
         hot_type = 1,
@@ -48,6 +58,7 @@
     }
 
     function showData(page, type, showid) {
+        sortid = showid; //当前选项卡的id
         var postData = {
             'leaf_num': page,
             'datatype': type,
@@ -140,11 +151,11 @@
                     }
                     var html = buildRankTable(_newdata, hot_type_name);
                     if (hot_type == 1 || operate_code == 2) {
-                        $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>股票代码</td><td>股票名称</td><td>价格</td><td>涨跌幅</td><td>涨跌额</td><td>成交量(万手)</td><td>" + getHotName(data_type) + "</td><td>热度增量</td></tr>");
+                        $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>股票代码</td><td>股票名称</td><td>价格<span hot-sort='price' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>涨跌幅<span hot-sort='price_change_ratio' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>涨跌额<span hot-sort='differ_price' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>成交量(万手)<span hot-sort='volume' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>" + getHotName(data_type) + "<span hot-sort='value' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>热度增量<span hot-sort='increment' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td></tr>");
                     } else {
-                        $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>名称</td><td>成交量(万手)</td><td>" + getHotName(data_type) + "</td><td>热度增量</td></tr>");
+                        $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>名称</td><td>成交量(万手)<span hot-sort='volume' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>" + getHotName(data_type) + "<span hot-sort='value' sort_type='desc' class='sort_active'><img src='/static/imgs/i/icon_desc.png'></span></td><td>热度增量<span hot-sort='increment' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td></tr>");
                     }
-                    $("#" + showid).find("table>tbody").append(html);
+                    $("#" + showid).find("table>tbody").append(html);//追加表格内容
                 }
             } else { //数据不存在
                 if (data_type == 1) {
@@ -159,6 +170,7 @@
                     $("#follow_hot_more").hide();
                     request_f = false;
                 }
+
             }
         });
     }
@@ -167,6 +179,39 @@
      *构建排行榜页面
      */
     function buildRankTable(buildData, buildType) {
+        page_type = buildType;
+        if (data_type == 1) {
+            alldata_v = alldata_v.concat(buildData); //合并查看热度的数据
+            if (sort_opt_v) {
+                if (sort_type == 'desc') {
+                    alldata_v = alldata_v.sort(desc_by(sort_opt_v));
+                } else {
+                    alldata_v = alldata_v.sort(asc_by(sort_opt_v));
+                }
+                return buildSortRankTable(alldata_v, buildType);
+            }
+        } else if (data_type == 2) {
+            alldata_s = alldata_s.concat(buildData); //合并搜索热度的数据
+            if (sort_opt_s) {
+                if (sort_type == 'desc') {
+                    alldata_s = alldata_s.sort(desc_by(sort_opt_s));
+                } else {
+                    alldata_s = alldata_s.sort(asc_by(sort_opt_s));
+                }
+                return buildSortRankTable(alldata_s, buildType);
+            }
+        } else if (data_type == 3) {
+            alldata_f = alldata_f.concat(buildData);//合并关注热度的数据
+            if (sort_opt_f) {
+                if (sort_type == 'desc') {
+                    alldata_f = alldata_f.sort(desc_by(sort_opt_f));
+                } else {
+                    alldata_f = alldata_f.sort(asc_by(sort_opt_f));
+                }
+                return buildSortRankTable(alldata_f, buildType);
+            }
+        }
+
         var buildHtml = [];
         if (buildData && buildData.length > 0) {
             if (buildType == "stocks" || operate_code == 2) {
@@ -213,6 +258,58 @@
             }
         }
         return buildHtml.join('');
+    }
+
+    /**
+     * 重构排序页码
+     */
+    function buildSortRankTable(buildData, buildType) {
+        var buildHtml = [];
+        if (buildData && buildData.length > 0) {
+            if (buildType == "stocks" || operate_code == 2) {
+                for (var i = 0, len = buildData.length; i < len; i++) {
+                    buildHtml.push("<tr>");
+                    if (data_type == 1) {
+                        buildHtml.push("<td>" + (i + 1) + "</td>");
+                    }
+                    if (data_type == 2) {
+                        buildHtml.push("<td>" + (i + 1) + "</td>");
+                    }
+                    if (data_type == 3) {
+                        buildHtml.push("<td>" + (i + 1) + "</td>");
+                    }
+                    buildHtml.push("<td><a href='stocks.php?stock=" + buildData[i].code + "' target='_blank'>" + buildData[i].code + "</a></td>");
+                    buildHtml.push("<td><a href='stocks.php?stock=" + buildData[i].code + "' target='_blank'>" + buildData[i].name + "</a></td>");
+                    buildHtml.push("<td class='" + Utility.getPriceColor(buildData[i].mark_z_d) + "'>" + buildData[i].price + "</td>");
+                    buildHtml.push("<td>" + (buildData[i].price_change_ratio * 100).toFixed(2) + '%' + Utility.getHotUpDown(buildData[i].price_change_ratio) + "</td>");
+                    buildHtml.push("<td>" + buildData[i].differ_price + "</td>");
+                    buildHtml.push("<td>" + (buildData[i].volume / 10000 / 100).toFixed(2) + "</td>");
+                    buildHtml.push("<td>" + buildData[i].value + "</td>");
+                    buildHtml.push("<td>" + buildData[i].increment + Utility.getHotUpDown(buildData[i].increment) + "</td>");
+                    buildHtml.push("</tr>");
+                }
+            } else {
+                for (var j = 0, jlen = buildData.length; j < jlen; j++) {
+                    buildHtml.push("<tr>");
+                    if (data_type == 1) {
+                        buildHtml.push("<td>" + (j + 1) + "</td>");
+                    }
+                    if (data_type == 2) {
+                        buildHtml.push("<td>" + (j + 1) + "</td>");
+                    }
+                    if (data_type == 3) {
+                        buildHtml.push("<td>" + (j + 1) + "</td>");
+                    }
+                    buildHtml.push("<td><a href='" + buildType + ".php?name=" + buildData[j].name + "' target='_blank'>" + buildData[j].name + "</a></td>");
+                    buildHtml.push("<td>" + (buildData[j].volume / 10000 / 100).toFixed(2) + "</td>");
+                    buildHtml.push("<td>" + buildData[j].value + "</td>");
+                    //buildHtml.push("<td>" + buildData[j].increment + "</td>");
+                    buildHtml.push("<td>" + buildData[j].increment + Utility.getHotUpDown(buildData[j].increment) + "</td>");
+                    buildHtml.push("</tr>");
+                }
+            }
+        }
+        $("#" + sortid).find("table>tbody").html(buildHtml.join(''));//追加表格内容
     }
 
     function getHotName(hotNum) {
@@ -308,4 +405,87 @@
             }
         }
     });
+
+    /**
+     * 根据点击字段名称排序
+     */
+    $("body").on("click", "thead td span", function () {
+        var sortdata;
+        sort_type = $(this).attr('sort_type'); //desc asc
+        if (data_type == 1) { //对数据进行排序
+            sort_opt_v = $(this).attr('hot-sort');
+            if (sort_type == 'desc') {
+                $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('sort_type', 'ase').parent().siblings().find('span');
+                sortdata = alldata_v.sort(desc_by(sort_opt_v));
+            } else {
+                $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('sort_type', 'desc').parent().siblings().find('span');
+                sortdata = alldata_v.sort(asc_by(sort_opt_v));
+            }
+        } else if (data_type == 2) {
+            sort_opt_s = $(this).attr('hot-sort');
+            if (sort_type == 'desc') {
+                $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('sort_type', 'ase').parent().siblings().find('span');
+                sortdata = alldata_s.sort(desc_by(sort_opt_s));
+            } else {
+                $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('sort_type', 'desc').parent().siblings().find('span');
+                sortdata = alldata_s.sort(asc_by(sort_opt_s));
+            }
+        } else if (data_type == 3) {
+            sort_opt_f = $(this).attr('hot-sort');
+            if (sort_type == 'desc') {
+                $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('sort_type', 'ase').parent().siblings().find('span');
+                sortdata = alldata_f.sort(desc_by(sort_opt_f));
+            } else {
+                $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('sort_type', 'desc').parent().siblings().find('span');
+                sortdata = alldata_f.sort(asc_by(sort_opt_f));
+            }
+        }
+        buildSortRankTable(sortdata, page_type);//加载排序页码
+    });
+
+    /**
+     * 逆序排序函数
+     */
+    var desc_by = function (name) {
+        return function (o, p) {
+            var a, b;
+            if (typeof o === "object" && typeof p === "object" && o && p) {
+                a = o[name];
+                b = p[name];
+                if (a === b) {
+                    return 0;
+                }
+                if (typeof a === typeof b) {
+                    return a > b ? -1 : 1;
+                }
+                return typeof a > typeof b ? -1 : 1;
+            }
+            else {
+                throw ("error");
+            }
+        }
+    }
+    /**
+     * 正序排序函数
+     */
+    var asc_by = function (name) {
+        return function (o, p) {
+            var a, b;
+            if (typeof o === "object" && typeof p === "object" && o && p) {
+                a = o[name];
+                b = p[name];
+                if (a === b) {
+                    return 0;
+                }
+                if (typeof a === typeof b) {
+                    return a < b ? -1 : 1;
+                }
+                return typeof a < typeof b ? -1 : 1;
+            }
+            else {
+                throw ("error");
+            }
+        }
+    }
+
 })(jQuery, window, document);
