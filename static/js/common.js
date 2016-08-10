@@ -1255,7 +1255,7 @@ var common = {
                     $('.sacle .positive_per').html((posData * 100).toFixed(0));
                 }
                 common.buildTwoLineChart("double-chart-a", "rgb(92,164,234)", "新闻数量", timeData, newsData, "left");
-                common.buildTwoLineChart("double-chart-b", "rgb(255,168,95)", "情感指数", timeData, sentiData, "right");
+                common.buildTwoLineChart("double-chart-b", "rgb(255,168,95)", "负面指数", timeData, sentiData, "right");
             }
         });
     },
