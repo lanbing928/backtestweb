@@ -15,7 +15,7 @@
             $(".wk-topshow-price").html("¥" + stockStatus.price).addClass(Utility.getUpDownColor(stockStatus.updown));
             $(".wk-topshow-price-per").html(Utility.getPriceSymbol(stockStatus.updown) + stockStatus.updown.toFixed(2) + "(" + Utility.getPriceSymbol(stockStatus.updown) + stockStatus.percent.toFixed(2) + "%)").addClass(Utility.getUpDownColor(stockStatus.percent));
         });
-    $(".btn-group li a").click(function () {
+    $(".wk-com-info li a").click(function () {
         var url = $(this).attr("href");
         if (url.indexOf("data") < 0) {
             $(this).attr("target", "_blank").attr("href", url + "?data=" + stockName + "," + stockCode);
@@ -27,7 +27,7 @@
      * 公司简介
      */
     function profile() {
-        company.getCompany({ "stockcode": stockCode, "htmltype": htmltype },
+        company.getCompany({"stockcode": stockCode, "htmltype": htmltype},
             null,
             function (resultData) {
                 var profileHtml = [];
@@ -78,7 +78,7 @@
      * 股本结构
      */
     function capitalStru() {
-        company.getCompany({ "stockcode": stockCode, "htmltype": htmltype },
+        company.getCompany({"stockcode": stockCode, "htmltype": htmltype},
             null,
             function (resultData) {
                 var dateHtml = [];
@@ -115,7 +115,7 @@
      * 公司高管
      */
     function executives() {
-        company.getCompany({ "stockcode": stockCode, "htmltype": htmltype },
+        company.getCompany({"stockcode": stockCode, "htmltype": htmltype},
             null,
             function (resultData) {
                 var stockHtml = [];
@@ -158,7 +158,7 @@
      * 主要股东
      */
     function stockHolder() {
-        company.getCompany({ "stockcode": stockCode, "htmltype": htmltype },
+        company.getCompany({"stockcode": stockCode, "htmltype": htmltype},
             null,
             function (resultData) {
                 if (resultData && resultData.status === 1) {
@@ -252,11 +252,11 @@
                         followBtnHtml.push("+ 关注");
                         followBtnHtml.push("</button>");
                         followBtnHtml.push("<ul class=\"dropdown-menu\">");
-                        followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='我的自选股'><a href=\"#\">我的自选股</a></li>");
+                        followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='我的自选股'><a>我的自选股</a></li>");
                         if (resultData.result.info.group_name.length > 0) {
                             var list = resultData.result.info.group_name;
                             for (var i = 0; i < list.length; i++) {
-                                followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='" + list[i] + "'><a href=\"#\">" + list[i] + "</a></li>");
+                                followBtnHtml.push("<li class='wk-follow-stock' data-follow-name='" + list[i] + "'><a>" + list[i] + "</a></li>");
                             }
                             followBtnHtml.push("<li class=\"wk-follow-stock\" id='addNewGroup' data-follow-name=\"addNewGroup\"><a href=\"javascript:\">添加组合</a></li>");
                         }
@@ -278,17 +278,17 @@
             $(this).unbind("click").bind("click", function () {
                 if (followName === "addNewGroup") {
                     swal({
-                        title: "添加组合",
-                        text: "组合名称不能超过6个汉字或12个字符",
-                        type: "input",
-                        html: true,
-                        showCancelButton: true,
-                        closeOnConfirm: false,
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        animation: "slide-from-top",
-                        inputPlaceholder: "请输入组合名称"
-                    },
+                            title: "添加组合",
+                            text: "组合名称不能超过6个汉字或12个字符",
+                            type: "input",
+                            html: true,
+                            showCancelButton: true,
+                            closeOnConfirm: false,
+                            confirmButtonText: "确定",
+                            cancelButtonText: "取消",
+                            animation: "slide-from-top",
+                            inputPlaceholder: "请输入组合名称"
+                        },
                         function (inputValue) {
                             if (inputValue === false) return false;
                             if (inputValue === "") {
@@ -299,7 +299,7 @@
                                 swal.showInputError("字符数超过限制");
                                 return false;
                             }
-                            inforcenter.addGroup({ ori_name: inputValue },
+                            inforcenter.addGroup({ori_name: inputValue},
                                 null,
                                 function (resultData) {
                                     if (resultData.status === 1) {
@@ -338,15 +338,33 @@
      * @param showAlert
      */
     function initAddStock(followName, addCode, showAlert) {
-        inforcenter.addStock({ ori_name: followName, code: addCode }, null, function (addResult) {
+        inforcenter.addStock({ori_name: followName, code: addCode}, null, function (addResult) {
             if (addResult.status === 1) {
                 if (showAlert) {
-                    swal({ title: "", text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>成功", html: true, timer: 1000, showConfirmButton: false });
+                    swal({
+                        title: "",
+                        text: "关注个股<span style='color: #F8BB86'>" + decodeURI(stockName) + "(" + stockCode + ")</span>成功",
+                        html: true,
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
                 }
             } else if (addResult.status === 0) {
-                swal({ title: "", text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>异常," + addResult.msg + "", html: true, timer: 1000, showConfirmButton: false });
+                swal({
+                    title: "",
+                    text: "关注个股<span style='color: #F8BB86'>" + decodeURI(stockName) + "(" + stockCode + ")</span>异常," + addResult.msg + "",
+                    html: true,
+                    timer: 1000,
+                    showConfirmButton: false
+                });
             } else {
-                swal({ title: "", text: "关注个股<span style='color: #F8BB86'>" + addCode + "</span>异常,未知原因", html: true, timer: 1000, showConfirmButton: false });
+                swal({
+                    title: "",
+                    text: "关注个股<span style='color: #F8BB86'>" + decodeURI(stockName) + "(" + stockCode + ")</span>异常,未知原因",
+                    html: true,
+                    timer: 1000,
+                    showConfirmButton: false
+                });
             }
         });
     }

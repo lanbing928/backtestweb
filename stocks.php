@@ -39,7 +39,7 @@ if (empty($stockCode)) {
         <label class="wk-toshow-name">
             <i class="fa fa-circle-o-notch fa-spin"></i>
         </label>
-        <div class="btn-group" role="group">
+        <div class="btn-group wk-com-info" role="group">
             <i class="fa fa-list-ul" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
             <ul class="dropdown-menu">
                 <li><a href="/company/profile.php">公司概况</a></li>
@@ -126,7 +126,10 @@ if (empty($stockCode)) {
         </div>
     </section>
     <section class="wk-rate-line">
-        <p class="wk-hot-title">收益率走势</p>
+        <p class="wk-hot-title">
+            收益率走势
+            <i class="fa fa-question-circle-o" data-toggle="popover" data-content="展示其近期的收益率与沪深300的收益走势，自定义选择股票/行业/概念/主题事件对比收益率/热度"></i>
+        </p>
         <div class="wk-rate-select" data-query-name="<?php echo $stockCode ?>" data-query-type="stock">
             <label class="active" data-toggle="today">当天</label>
             <label data-toggle="week">最近一周</label>
@@ -158,12 +161,18 @@ if (empty($stockCode)) {
         </div>
     </section>
     <section class="wk-relate-map">
-        <p class="wk-hot-title">关联图谱</p>
+        <p class="wk-hot-title">
+            关联图谱
+            <i class="fa fa-question-circle-o" data-toggle="popover" data-content="通过关系网，将其相关联的股票/行业/概念/主题事件依次展示"></i>
+        </p>
         <div id="wk-relate-chart"></div>
     </section>
     <section class="wk-all-hot">
         <div class="wk-con-news">
-            <p class="wk-hot-title relate-infos">关联资讯</p>
+            <p class="wk-hot-title relate-infos">
+                关联资讯
+                <i class="fa fa-question-circle-o" data-toggle="popover" data-content="展示与之相关的资讯、分为新闻、达人观点、快讯、公告和研报"></i>
+            </p>
             <div class="row right pro_chart">
                 <div class="col-md-5">
                     <p>最近一周新闻情感</p>

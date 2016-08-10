@@ -70,8 +70,43 @@ if (empty($eventName)) {
             </table>
         </div>
     </section>
+    <section class="wk-hotevent-chart">
+        <p class="wk-hot-title">
+            用户访问和转载
+            <i class="fa fa-question-circle-o" data-toggle="popover" data-content="主题事件每个小时产生的访问量"></i>
+        </p>
+        <div class="row">
+            <div class="col-md-6">
+                <p>
+                    用户访问
+                    <i class="fa fa-question-circle-o" data-toggle="popover" data-content="主题事件每个小时产生的访问量"></i>
+                </p>
+                <div id="wk-event-visit">
+
+                </div>
+            </div>
+            <div class="col-md-6">
+                <p>
+                    转载量
+                    <i class="fa fa-question-circle-o" data-toggle="popover" data-content="主题事件每个小时产生的转载量"></i>
+                </p>
+                <div id="wk-event-reprint"></div>
+            </div>
+        </div>
+        <div class="wk-hotevent-tips">
+            <span class="orange-block">■</span><span>用户访问数：<em>--</em></span>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="pink-block">■</span><span>转载量：<em>--</em></span>
+        </div>
+        <div class="wk-hotevent-plat">
+            <span class="blue-block">■</span><span class="wk-reprint-platform">转载平台：--</span>
+        </div>
+    </section>
     <section class="wk-rate-line">
-        <p class="wk-hot-title">收益率走势</p>
+        <p class="wk-hot-title">
+            收益率走势
+            <i class="fa fa-question-circle-o" data-toggle="popover" data-content="展示其近期的收益率与沪深300的收益走势，自定义选择股票/行业/概念/主题事件对比收益率/热度"></i>
+        </p>
         <div class="wk-rate-select" data-query-name="<?php echo $eventName ?>" data-query-type="event">
             <label class="active" data-toggle="today">当天</label>
             <label data-toggle="week">最近一周</label>
@@ -81,13 +116,19 @@ if (empty($eventName)) {
         <div id="wk-rate-line-pic"></div>
     </section>
     <section class="wk-relate-map">
-        <p class="wk-hot-title">关联图谱</p>
+        <p class="wk-hot-title">
+            关联图谱
+            <i class="fa fa-question-circle-o" data-toggle="popover" data-content="通过关系网，将其相关联的股票/行业/概念/主题事件依次展示"></i>
+        </p>
         <div id="wk-relate-chart">
         </div>
     </section>
     <section class="wk-all-hot">
         <div class="wk-con-news">
-            <p class="wk-hot-title relate-infos">关联资讯</p>
+            <p class="wk-hot-title relate-infos">
+                关联资讯
+                <i class="fa fa-question-circle-o" data-toggle="popover" data-content="展示与之相关的资讯、分为新闻、达人观点、快讯、公告和研报"></i>
+            </p>
             <div class="row right pro_chart">
                 <div class="col-md-5">
                     <p>最近一周新闻情感</p>
@@ -101,9 +142,13 @@ if (empty($eventName)) {
                 <div class="col-md-1"></div>
                 <div class="col-md-6">
                     <p>最近一周新闻趋势</p>
-                    <div class="col-md-5"><div id="double-chart-a"></div></div>
+                    <div class="col-md-5">
+                        <div id="double-chart-a"></div>
+                    </div>
                     <div class="col-md-2"></div>
-                    <div class="col-md-5"><div id="double-chart-b"></div></div>
+                    <div class="col-md-5">
+                        <div id="double-chart-b"></div>
+                    </div>
                 </div>
             </div>
             <div class="wk-con-box">

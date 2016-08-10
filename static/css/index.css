@@ -1,4 +1,4 @@
-.wk-time-hot,.wk-stock-hot,.wk-industry-hot,.wk-concept-hot,.wk-all-hotm,.wk-news-detail,.wk-all-hot,.wk-rate-line,.wk-user-center,.wk-relate-map{border: 1px solid #d1d1d1;padding:20px;-webkit-box-shadow: #eeeeee 0px 1px 5px; -moz-box-shadow: #eeeeee 0px 1px 5px; box-shadow: #eeeeee 0px 1px 5px;}
+.wk-time-hot,.wk-stock-hot,.wk-industry-hot,.wk-concept-hot,.wk-all-hotm,.wk-news-detail,.wk-all-hot,.wk-rate-line,.wk-user-center,.wk-relate-map,.wk-hotevent-chart{border: 1px solid #d1d1d1;padding:20px;-webkit-box-shadow: #eeeeee 0px 1px 5px; -moz-box-shadow: #eeeeee 0px 1px 5px; box-shadow: #eeeeee 0px 1px 5px;}
 /*股票 行业 概念 内容*/
 .wk-all-hot{margin-top: 25px;margin-bottom: 40px;}
 .wk-hot-title{font-size: 18px;font-weight: 600;margin-bottom: 15px;}
@@ -379,4 +379,15 @@ td span img{width:13px;margin-left:2px;}
 .wk-stockholder .nav-tabs li a{color:#051b5d;border-radius: 0;margin-right: 0;border: 0;font-weight:600}
 .wk-company .no_date{text-align: center;height:200px;}
 .wk-company .company_active{background-color:#F5F5F5;}
-.wk-top-title .dropdown-menu li a{cursor: pointer;}
+.wk-top-title .dropdown-menu li a,.wk-follow-stock a{cursor: pointer;}
+
+/*主题事件页用户访问和转载图表*/
+.wk-hotevent-chart{margin-top: 25px;}
+.wk-hotevent-chart .col-md-6 p{font-size:14px;color: #212121; }
+.orange-block{color: #f47d65;}
+.pink-block{color: #e5a5bf;}
+.blue-block{color: #81a0d7;}
+.orange-block,.pink-block,.blue-block{font-size: 24px;margin-right: 5px;}
+.wk-hotevent-tips em{font-size: 13px;font-style: normal;}
+#wk-event-visit,#wk-event-reprint{min-width: 400px;min-height: 200px;}
+.wk-reprint-platform span{margin: 0 5px;}

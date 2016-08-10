@@ -10,7 +10,7 @@
                 for (var i in waitLogingCharts) {
                     if (waitLogingCharts.hasOwnProperty(i)) {
                         var treemap = echarts.init(document.getElementById(waitLogingCharts[i]));
-                        treemap.showLoading({ "text": "加载中..." });
+                        treemap.showLoading({"text": "加载中..."});
                     }
                 }
             }, function (resultData) {
@@ -188,7 +188,7 @@
     function initModalChart() {
         $(".modal-chart").modal("show");
         var modalChart = echarts.init(document.getElementById("modal-chart"));
-        common.getRealTimeHot(null, function () {
+        common.getRealTimeHot({"minute_data": "minute_data"}, function () {
             modalChart.showLoading({"text": "加载中..."});
         }, function (resultData) {
             modalChart.hideLoading();
@@ -228,14 +228,14 @@
                     },
                     dataZoom: [
                         {type: 'inside', realtime: true},
-                        { type: 'slider', show: true, realtime: true }
+                        {type: 'slider', show: true, realtime: true}
                     ],
                     grid: {top: 10, left: 20, right: 20, bottom: 40, containLabel: true},
                     legend: {left: "left"},
                     xAxis: {type: "category", boundaryGap: false, data: modalxData},
                     yAxis: {type: "value", position: "right", scale: true},
                     calculable: false,
-                    series: [ { name: "查看", type: "line", smooth: true, data: modalViewData } ]
+                    series: [{name: "查看", type: "line", smooth: true, data: modalViewData}]
                 });
                 myChart.hideLoading();
                 window.onresize = myChart.resize
