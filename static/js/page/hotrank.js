@@ -151,9 +151,9 @@
                     }
                     var html = buildRankTable(_newdata, hot_type_name);
                     if (hot_type == 1 || operate_code == 2) {
-                        $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>股票代码</td><td>股票名称</td><td>价格<span hot-sort='price' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>涨跌幅<span hot-sort='price_change_ratio' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>涨跌额<span hot-sort='differ_price' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>成交量(万手)<span hot-sort='volume' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>" + getHotName(data_type) + "<span hot-sort='value' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>热度增量<span hot-sort='increment' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td></tr>");
+                        $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>股票代码</td><td>股票名称</td><td>价格<span hot-sort='price' sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>涨跌幅<span hot-sort='price_change_ratio' sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>涨跌额<span hot-sort='differ_price' sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>成交量(万手)<span hot-sort='volume' sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>" + getHotName(data_type) + "<span hot-sort='value' sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>热度增量<span hot-sort='increment' sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td></tr>");
                     } else {
-                        $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>名称</td><td>成交量(万手)<span hot-sort='volume' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>" + getHotName(data_type) + "<span hot-sort='value' sort_type='desc' class='sort_active'><img src='/static/imgs/i/icon_desc.png'></span></td><td>热度增量<span hot-sort='increment' sort_type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td></tr>");
+                        $("#" + showid).find("table>thead").html("<tr><td>序号</td><td>名称</td><td>成交量(万手)<span hot-sort='volume' sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td><td>" + getHotName(data_type) + "<span hot-sort='value' sort-type='desc' class='sort_active'><img src='/static/imgs/i/icon_desc.png'></span></td><td>热度增量<span hot-sort='increment' sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td></tr>");
                     }
                     $("#" + showid).find("table>tbody").append(html);//追加表格内容
                 }
@@ -261,7 +261,7 @@
     }
 
     /**
-     * 重构排序页码
+     * 重构排序页面
      */
     function buildSortRankTable(buildData, buildType) {
         var buildHtml = [];
@@ -411,32 +411,32 @@
      */
     $("body").on("click", "thead td span", function () {
         var sortdata;
-        sort_type = $(this).attr('sort_type'); //desc asc
+        sort_type = $(this).attr('sort-type'); //desc asc
         if (data_type == 1) { //对数据进行排序
             sort_opt_v = $(this).attr('hot-sort');
             if (sort_type == 'desc') {
-                $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('sort_type', 'ase').parent().siblings().find('span');
+                $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('sort-type', 'ase').parent().siblings().find('span');
                 sortdata = alldata_v.sort(desc_by(sort_opt_v));
             } else {
-                $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('sort_type', 'desc').parent().siblings().find('span');
+                $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('sort-type', 'desc').parent().siblings().find('span');
                 sortdata = alldata_v.sort(asc_by(sort_opt_v));
             }
         } else if (data_type == 2) {
             sort_opt_s = $(this).attr('hot-sort');
             if (sort_type == 'desc') {
-                $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('sort_type', 'ase').parent().siblings().find('span');
+                $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('sort-type', 'ase').parent().siblings().find('span');
                 sortdata = alldata_s.sort(desc_by(sort_opt_s));
             } else {
-                $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('sort_type', 'desc').parent().siblings().find('span');
+                $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('sort-type', 'desc').parent().siblings().find('span');
                 sortdata = alldata_s.sort(asc_by(sort_opt_s));
             }
         } else if (data_type == 3) {
             sort_opt_f = $(this).attr('hot-sort');
             if (sort_type == 'desc') {
-                $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('sort_type', 'ase').parent().siblings().find('span');
+                $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('sort-type', 'ase').parent().siblings().find('span');
                 sortdata = alldata_f.sort(desc_by(sort_opt_f));
             } else {
-                $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('sort_type', 'desc').parent().siblings().find('span');
+                $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('sort-type', 'desc').parent().siblings().find('span');
                 sortdata = alldata_f.sort(asc_by(sort_opt_f));
             }
         }
