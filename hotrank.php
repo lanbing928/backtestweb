@@ -78,6 +78,6 @@ if (CheckLogin::check() == -1) {
 <script src="static/js/all.min.js"></script>
 <script src="static/js/common.min.js"></script>
 <script src="static/js/Utility.min.js"></script>
-<script src="static/js/page/hotrank.js"></script>
+<script src="static/js/page/hotrank.min.js"></script>
 </body>
 </html>
