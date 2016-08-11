@@ -44,7 +44,41 @@ if (CheckLogin::check() == -1) {
         </div>
         <div class="wk-user-mychoose-table-box">
             <div class="wk-user-sub-search text-right">
-                <div class="col-md-4 col-md-offset-4">
+                <div class="col-md-8 person-backtest">
+                    <span><img src="/static/imgs/i/person_backtest1.png">对比数据选择</span>&nbsp;&nbsp;
+                    <span class="position_ratio"><img src="/static/imgs/i/person_backtest2.png">持仓比</span>&nbsp;&nbsp;
+                    <ul class="progress_bar">
+                        <li>剩余调仓比:
+                            <div class="scale_panel">
+                                <div class="scale" id="bar1">
+                                    <div></div>  <!--拖拽的距离-->
+                                    <span id="btn1"/span> <!--拖拽按钮-->
+                                </div>
+                                <span id="title1">0</span>
+                            </div>
+                        </li>
+                        <li>腾达建设:
+                            <div class="scale_panel">
+                                <div class="scale" id="bar2">
+                                    <div></div>
+                                    <span id="btn2"</span>
+                                </div>
+                                <span id="title2">0</span>
+                            </div>
+                        </li>
+                        <li>国泰君安:
+                            <div class="scale_panel">
+                                <div class="scale" id="bar3">
+                                    <div></div>
+                                    <span id="btn3"></span>
+                                </div>
+                                <span id="title3">0</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <input type="date" value="<?php echo date('Y-m-d',time()) ?>"> -
+                    <input type="date" value="<?php echo date('Y-m-d',time()) ?>">&nbsp;&nbsp;
+                    <button>回测</button>
 <!--                    <label class="wk-user-time"><span>北京</span><span></span></label>-->
 <!--                    <label class="wk-user-hs"></label>-->
                 </div>
@@ -159,5 +193,64 @@ if (CheckLogin::check() == -1) {
 <script src="../static/js/common.min.js"></script>
 <script src="../static/js/Utility.min.js"></script>
 <script src="../static/js/page/infocenter.min.js"></script>
+<script>
+    var bar_scale=[];//持仓百分比数值 key从1开始
+    var scale_count=$('.person-backtest ul li').length;//持仓的进度条数量
+    $('.position_ratio').click(function(){
+        $('.person-backtest .progress_bar').show();
+    })
+    $('.person-backtest ul').mouseleave(function(){
+        $('.person-backtest .progress_bar').hide();
+    })
+
+    /**
+     * 拖拽持仓进度条
+     * */
+    scale=function (btn,bar,title){
+        this.btn=document.getElementById(btn);//拖拽按钮
+        this.bar=document.getElementById(bar);//进度条
+        this.title=document.getElementById(title);//显示拖拽的百分百
+        this.step=this.bar.getElementsByTagName("DIV")[0];//拖拽长度
+        this.init();
+    };
+    scale.prototype={
+        init:function (){
+            var f=this,g=document,b=window,m=Math;
+            f.btn.onmousedown=function (e){
+                var x=(e||b.event).clientX;
+                var l=this.offsetLeft;
+                var max=f.bar.offsetWidth-this.offsetWidth;
+                g.onmousemove=function (e){
+                    var thisX=(e||b.event).clientX;
+                    var to=m.min(max,m.max(-2,l+(thisX-x)));
+                    f.btn.style.left=to+'px';
+                    f.ondrag(m.round(m.max(0,to/max)*100),to);
+                    b.getSelection ? b.getSelection().removeAllRanges() : g.selection.empty();
+                };
+                g.onmouseup=new Function('this.onmousemove=null');
+            };
+
+        },
+        ondrag:function (pos,x){
+            this.step.style.width=Math.max(0,x)+'px';
+            this.title.innerHTML=pos+'%';
+        }
+    }
+    for(var i=1;i<scale_count+1;i++){
+        new scale('btn'+i,'bar'+i,'title'+i);
+    }
+
+    /**
+     * 获取每个股票的持仓百分比数值
+     * */
+    $('body').on('click','.person-backtest button',function(){
+        var count=$('.person-backtest ul li').length;
+        for(var i=1; i<count+1; i++) {
+            bar_scale[i]=$("#title"+i).html().split('%');//取页面每个进度条的百分百数值
+            bar_scale[i]=parseInt(bar_scale[i]);
+        }
+        console.log(bar_scale);
+    })
+</script>
 </body>
 </html>
