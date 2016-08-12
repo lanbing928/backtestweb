@@ -17,7 +17,7 @@ if (CheckLogin::check() == -1) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/,./bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="../static/plugins/typeahead/jquery.typeahead.min.css">
@@ -44,12 +44,8 @@ if (CheckLogin::check() == -1) {
         </div>
         <div class="wk-user-mychoose-table-box">
             <div class="wk-user-sub-search text-right">
-                <div class="col-md-4 col-md-offset-4">
-<!--                    <label class="wk-user-time"><span>北京</span><span></span></label>-->
-<!--                    <label class="wk-user-hs"></label>-->
-                </div>
-                <div class="col-md-4">
-                    <div class="input-group">
+                <div class="col-md-4 col-md-offset-8">
+                    <div class="input-group" style="width: 100%;">
                         <div class="typeahead__container">
                             <div class="typeahead__field">
                                 <span class="typeahead__query">

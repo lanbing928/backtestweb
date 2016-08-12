@@ -213,9 +213,9 @@
 
 .wk-dp-up{background: url("../imgs/i/dp_up.png") no-repeat center;width: 16px;height: 20px;}
 .wk-dp-down{background: url("../imgs/i/dp_down.png") no-repeat center;}
-.wk-user-sub-search{padding: 0;display: inline-flex;}
-.wk-user-sub-search .col-md-4:last-child{padding-right: 0;}
-.wk-user-sub-search .col-md-4:first-child{min-width: 250px;}
+.wk-user-sub-search{padding: 0;display: inline-flex;width: 100%;}
+.wk-user-sub-search .col-md-4{padding-right: 0;}
+.wk-user-sub-search .col-md-4{min-width: 250px;}
 .wk-user-stock-search{height: 24px;border-right: none;}
 .input-group-addon{padding: 6px;background: none;border: none;}
 
