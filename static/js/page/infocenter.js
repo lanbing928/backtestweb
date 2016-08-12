@@ -251,6 +251,7 @@
             }, function (resultData) {
                 $(".wk-sub-refresh").removeClass("fa-spin");
                 var stockHtml = [];
+                var bar_html=[];//回测持仓比股票名称
                 var _all_stock_code = [];
                 if (resultData && resultData.status == 1) {
                     if (resultData.result.info.group_info.length > 0) {
@@ -270,8 +271,21 @@
                             stockHtml.push("<td>" + list[i].follow_hot + "</td>");
                             stockHtml.push("<td><i class='fa fa-minus-circle text-danger btn-del-stock' data-stock-code='" + list[i].code + "'></i></td>");
                             stockHtml.push("</tr>");
+
+                            bar_html.push('<li>'+list[i].name+':');
+                            bar_html.push('<div class="scale_panel">');
+                            bar_html.push('<div class="scale" id="bar'+(i+1)+'">');
+                            bar_html.push('<div></div>');
+                            bar_html.push('<span id="btn'+(i+1)+'"></span>');
+                            bar_html.push('</div>');
+                            bar_html.push('<span id="title'+(i+1)+'">0</span>');
+                            bar_html.push('</div></li>');
                         }
                         $(".wk-user-mynews").attr("data-stock", _all_stock_code.join('|') + "|");
+                        $('.progress_bar').append(bar_html.join(''));//追加回测持仓比进度条
+                        for(var i=1;i<(list.length+1);i++){
+                            new scale('btn'+i,'bar'+i,'title'+i);//调用拖拽进度条函数
+                        }
 
                     } else {
                         $(".wk-user-mynews").attr("data-stock", "00000x|");
