@@ -44,44 +44,50 @@ if (CheckLogin::check() == -1) {
         </div>
         <div class="wk-user-mychoose-table-box">
             <div class="wk-user-sub-search text-right">
+                <!--历史回测-->
                 <div class="col-md-8 person-backtest">
-                    <span><img src="/static/imgs/i/person_backtest1.png">对比数据选择</span>&nbsp;&nbsp;
-                    <span class="position_ratio"><img src="/static/imgs/i/person_backtest2.png">持仓比</span>&nbsp;&nbsp;
+                    <span class="compare_select"><img src="/static/imgs/i/person_backtest1.png">对比数据选择</span>&nbsp;&nbsp;
+                    <ul class="compare_data">
+                        <li class="yield"><input type="checkbox" value="1"> <span>收益率&nbsp;&nbsp;&nbsp;</span></li>
+                        <li class="hot_degree"><input type="checkbox" value="2"> <span>热度</span></li>
+                        <li style="clear: both;"></li>
+                    </ul>
+
+                    <span class="position_ratio"><img src="/static/imgs/i/person_backtest3.png">持仓比</span>&nbsp;&nbsp;
                     <ul class="progress_bar">
                         <li>剩余调仓比:
                             <div class="scale_panel">
-                                <div class="scale" id="bar1">
-                                    <div></div>  <!--拖拽的距离-->
-                                    <span id="btn1"/span> <!--拖拽按钮-->
+                                <div class="scale" id="surplus_bar">
+                                    <div id="surplus_scale"></div>  <!--拖拽的距离-->
                                 </div>
-                                <span id="title1">0</span>
+                                <span id="surplus_title">0</span>
                             </div>
                         </li>
-                        <li>腾达建设:
-                            <div class="scale_panel">
-                                <div class="scale" id="bar2">
-                                    <div></div>
-                                    <span id="btn2"</span>
-                                </div>
-                                <span id="title2">0</span>
-                            </div>
-                        </li>
-                        <li>国泰君安:
-                            <div class="scale_panel">
-                                <div class="scale" id="bar3">
-                                    <div></div>
-                                    <span id="btn3"></span>
-                                </div>
-                                <span id="title3">0</span>
-                            </div>
-                        </li>
+<!--                        <li>腾达建设:-->
+<!--                            <div class="scale_panel">-->
+<!--                                <div class="scale" id="bar2">-->
+<!--                                    <div></div>-->
+<!--                                    <span id="btn2"</span>-->
+<!--                                </div>-->
+<!--                                <span id="title2">0</span>-->
+<!--                            </div>-->
+<!--                        </li>-->
+<!--                        <li>国泰君安:-->
+<!--                            <div class="scale_panel">-->
+<!--                                <div class="scale" id="bar3">-->
+<!--                                    <div></div>-->
+<!--                                    <span id="btn3"></span>-->
+<!--                                </div>-->
+<!--                                <span id="title3">0</span>-->
+<!--                            </div>-->
+<!--                        </li>-->
                     </ul>
-                    <input type="date" value="<?php echo date('Y-m-d',time()) ?>"> -
-                    <input type="date" value="<?php echo date('Y-m-d',time()) ?>">&nbsp;&nbsp;
-                    <button>回测</button>
-<!--                    <label class="wk-user-time"><span>北京</span><span></span></label>-->
-<!--                    <label class="wk-user-hs"></label>-->
+
+                    <input type="date" class="testfrom" value="<?php echo date('Y-m-d',time()) ?>"> -
+                    <input type="date" class="testto" value="<?php echo date('Y-m-d',time()) ?>">&nbsp;&nbsp;
+                    <button data-toggle="modal" data-target=".modal-chart">回测</button>
                 </div>
+
                 <div class="col-md-4">
                     <div class="input-group">
                         <div class="typeahead__container">
@@ -182,6 +188,16 @@ if (CheckLogin::check() == -1) {
             </div>
         </div>
     </section>
+    <!--历史回测模态框-->
+    <div class="modal fade modal-chart backtest-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="modal-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -194,14 +210,30 @@ if (CheckLogin::check() == -1) {
 <script src="../static/js/Utility.min.js"></script>
 <script src="../static/js/page/infocenter.min.js"></script>
 <script>
-    var bar_scale=[];//持仓百分比数值 key从1开始
-    var scale_count=$('.person-backtest ul li').length;//持仓的进度条数量
-    $('.position_ratio').click(function(){
-        $('.person-backtest .progress_bar').show();
-    })
-    $('.person-backtest ul').mouseleave(function(){
-        $('.person-backtest .progress_bar').hide();
-    })
+    var scale_count=$('.person-backtest .progress_bar li').length;//持仓比进度条数量
+    var yield; //数据对比 收益率复选框
+    var hot_degree; //数据对比 热度复选框
+    $('.person-backtest .progress_bar').mouseleave(function(){
+        $('.person-backtest .progress_bar').hide();//持仓比进度条下拉框 鼠标离开不显示
+    });
+
+    $('.compare_select').click(function(){
+        $('.person-backtest .compare_data').show();//对比数据选择 点击下拉框显示
+    });
+
+    $('.person-backtest .compare_data').mouseleave(function(){//对比数据选择 鼠标离开
+        yield=$('.yield input:checked').val();
+        hot_degree=$('.hot_degree input:checked').val();
+        $('.person-backtest .compare_data').hide();
+        if(yield || hot_degree){   //如果收益率或热度选中 则持仓比下拉框点击可显示
+            $('.position_ratio').click(function(){
+                $('.person-backtest .progress_bar').show();
+            })
+            $('.position_ratio').css('color','#475586').find('img').attr('src','/static/imgs/i/person_backtest2.png');
+        }else{
+            $('.position_ratio').css('color','#BEBEBE').find('img').attr('src','/static/imgs/i/person_backtest3.png');
+        }
+    });
 
     /**
      * 拖拽持仓进度条
@@ -234,23 +266,34 @@ if (CheckLogin::check() == -1) {
         ondrag:function (pos,x){
             this.step.style.width=Math.max(0,x)+'px';
             this.title.innerHTML=pos+'%';
-        }
-    }
-    for(var i=1;i<scale_count+1;i++){
-        new scale('btn'+i,'bar'+i,'title'+i);
+            var sheng=100-Math.max(0,x);
+            var surplus_scale=document.getElementById('surplus_scale');
+            var surplus_title=document.getElementById('surplus_title');
+            surplus_scale.style.width=sheng+'px';
+            surplus_title.innerHTML=(100-pos)+'%';        }
     }
 
+//    $('body').on('click','.position_ratio',function(){
+//
+//    })
+
     /**
-     * 获取每个股票的持仓百分比数值
+     * 点击进行回测
      * */
     $('body').on('click','.person-backtest button',function(){
-        var count=$('.person-backtest ul li').length;
-        for(var i=1; i<count+1; i++) {
-            bar_scale[i]=$("#title"+i).html().split('%');//取页面每个进度条的百分百数值
+        var bar_scale=[];//持仓百分比数值 key从1开始
+        var backtest_timefrom=$('.testfrom').val();//回测时间
+        var test_timeto=$('.testto').val();
+        for(var i=1; i<scale_count+1; i++) {//获取持仓比每只股票百分百数值
+            bar_scale[i]=$("#title"+i).html().split('%');
             bar_scale[i]=parseInt(bar_scale[i]);
         }
-        console.log(bar_scale);
     })
+
+    /**
+     * 画回测折线图
+     * */
+
 </script>
 </body>
 </html>
