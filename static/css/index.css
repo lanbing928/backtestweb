@@ -213,9 +213,9 @@
 
 .wk-dp-up{background: url("../imgs/i/dp_up.png") no-repeat center;width: 16px;height: 20px;}
 .wk-dp-down{background: url("../imgs/i/dp_down.png") no-repeat center;}
-.wk-user-sub-search{padding: 0;display: inline-flex;}
-.wk-user-sub-search .col-md-4:last-child{padding-right: 0;}
-.wk-user-sub-search .col-md-4:first-child{min-width: 250px;}
+.wk-user-sub-search{padding: 0;display: inline-flex;width: 100%;}
+.wk-user-sub-search .col-md-4{padding-right: 0;}
+.wk-user-sub-search .col-md-4{min-width: 250px;}
 .wk-user-stock-search{height: 24px;border-right: none;}
 .input-group-addon{padding: 6px;background: none;border: none;}
 
@@ -361,9 +361,22 @@ td span img{width:13px;margin-left:2px;}
 #addNewGroup{border-top: 2px solid #4963ae;}
 
 /*收益率对比*/
-.wk-rate-compare{padding: 0 10px;}
-.wk-rate-compare-li{width: 140px;}
-.wk-rate-compare-li label:last-child{float: right;}
+.wk-rate-compare{vertical-align: inherit;margin-left: 10px;}
+.wk-rate-compare .dropdown-toggle{width: 20px;}
+.wk-rate-compare .dropdown-toggle.active{width: 20px;}
+.wk-rate-compare ul{width: 210px;padding: 8px 6px;}
+.wk-rate-compare ul li{margin: 6px;}
+.wk-rate-compare ul li span{margin-left: 5px;font-size: 13px;color: #545454;}
+.wk-rate-compare li input{vertical-align: text-top;}
+.wk-rate-compare .typeahead__container{width: 100%;height:22px;clear: both;}
+.wk-rate-compare .typeahead__container .typeahead__list{width: 184px;}
+.wk-rate-compare .typeahead__container .typeahead__list li{margin: 0;}
+.wk-rate-compare .typeahead__container .typeahead__list li>a{padding: 6px;}
+.wk-rate-compare .typeahead__container .typeahead__search-icon{padding: 0 0.8rem;}
+.wk-rate-compare .typeahead__container .typeahead__field{border: 1px solid #b3b3b3;}
+.wk-rate-compare .typeahead__container .wk-compare-search{padding: 0 2px;font-size: 12px;font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;}
+.wk-rate-compare .typeahead__button button{padding: 0;}
+.wk-hotevent-select div{margin-bottom: 10px;}
 #modal-chart{height: 500px;}
 
 /*公司概况*/

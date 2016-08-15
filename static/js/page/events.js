@@ -182,7 +182,7 @@
             xAxis: {
                 type: "category", boundaryGap: type == "bar", data: xData
             },
-            yAxis: {type: "value", position: "right", scale: true},
+            yAxis: {type: "value", position: "right"},
             calculable: false,
             series: [
                 {
