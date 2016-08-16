@@ -65,7 +65,7 @@ class RequestUtil
         $ch = curl_init();
         //设置头信息
         $this_header = array(
-            "content-type: application/x-www-form-urlencoded; 
+            "content-type: application/x-www-form-urlencoded;
              charset=UTF-8"
         );
         //参数设置
