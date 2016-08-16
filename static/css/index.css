@@ -409,11 +409,9 @@ td span img{width:13px;margin-left:2px;}
 .person-backtest{text-align: left;}
 .person-backtest img{width:17px;margin-right:2px}
 .person-backtest span:hover{cursor: pointer}
-.person-backtest input{width:97px;text-align:center;font-size:12px}
-.person-backtest ::-webkit-inner-spin-button {-webkit-appearance: none;}
-.person-backtest ::-webkit-clear-button {-webkit-appearance: none;}
+.person-backtest input{width:87px;font-size:12px}
 .person-backtest button{background: #4963AE;color:#fff;border:0px;width:60px;height:22px;font-size: 12px;}
-.person-backtest .progress_bar{display:none;width:300px;padding:10px;margin-top:10px;border:1px solid #eee; box-shadow: 0 1px 3px rgba(0,0,0,.175);background:#fff;position: absolute}
+.person-backtest .progress_bar{display:none;width:300px;padding:10px;margin-top:10px;border:1px solid #eee; box-shadow: 0 1px 3px rgba(0,0,0,.175);background:#fff;position: absolute;z-index:9}
 .person-backtest .progress_bar li{font-size:12px;line-height:25px;position:relative; height:25px; list-style:none;}
 .person-backtest .position_ratio{color:#bebebe}
 .person-backtest .scale + span {position: absolute;right:-2px;top:-6px; color:#333}
@@ -421,13 +419,12 @@ td span img{width:13px;margin-left:2px;}
 .person-backtest .scale span{background-color: #fff;border-radius:10px;box-shadow: 1px 1px 2px;border:1px solid #ddd;width:12px;height:12px; position:absolute; left:-2px;top:-2px;cursor:pointer;}
 .person-backtest .scale{ background-repeat: repeat-x; background-position: 0 100%; background-color: #E4E4E4; border-left: 1px #83BBD9 solid;  width: 170px; height: 8px; position: relative; font-size: 0px; border-radius:5px;}
 .person-backtest .scale div{ background-repeat: repeat-x; background-color: #5C98E1; width: 0px; position: absolute; height: 8px; width: 0; left:0; bottom: 0; border-radius:5px 0 0 5px;}
-.person-backtest #surplus_scale{background-color: #5bbcd8;}
+.person-backtest #surplus_scale{background-color: #5bbcd8;width:168px;border-radius: 5px}
 .person-backtest #surplus_title{color: #fa4d4d;}
 .person-backtest .compare_select{color:#475586}
 .person-backtest .compare_data{display:none;width:150px;padding:3px 0 3px 10px;margin-top:10px;border:1px solid #eee; box-shadow: 0 1px 3px rgba(0,0,0,.175);background:#fff;position: absolute;left:0px}
 .person-backtest .compare_data li{float:left;height:12px;line-height:24px;list-style:none;margin:0 auto}
 .person-backtest .compare_data li  input {width:15px;}
-
 .backtest-modal{position: absolute;top:250px;}
 
 
