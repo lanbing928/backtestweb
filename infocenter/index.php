@@ -55,36 +55,9 @@ if (CheckLogin::check() == -1) {
 
                     <span class="position_ratio"><img src="/static/imgs/i/person_backtest3.png">持仓比</span>&nbsp;&nbsp;
                     <ul class="progress_bar">
-                        <li>剩余调仓比:
-                            <div class="scale_panel">
-                                <div class="scale" id="surplus_bar">
-                                    <div id="surplus_scale"></div>  <!--拖拽的距离-->
-                                </div>
-                                <span id="surplus_title">0</span>
-                            </div>
-                        </li>
-<!--                        <li>腾达建设:-->
-<!--                            <div class="scale_panel">-->
-<!--                                <div class="scale" id="bar2">-->
-<!--                                    <div></div>-->
-<!--                                    <span id="btn2"</span>-->
-<!--                                </div>-->
-<!--                                <span id="title2">0</span>-->
-<!--                            </div>-->
-<!--                        </li>-->
-<!--                        <li>国泰君安:-->
-<!--                            <div class="scale_panel">-->
-<!--                                <div class="scale" id="bar3">-->
-<!--                                    <div></div>-->
-<!--                                    <span id="btn3"></span>-->
-<!--                                </div>-->
-<!--                                <span id="title3">0</span>-->
-<!--                            </div>-->
-<!--                        </li>-->
                     </ul>
-
-                    <input type="date" class="testfrom" value="<?php echo date('Y-m-d',time()) ?>"> -
-                    <input type="date" class="testto" value="<?php echo date('Y-m-d',time()) ?>">&nbsp;&nbsp;
+                    <input class="Wdate testfrom" onFocus="WdatePicker({lang:'zh-cn',maxDate:new Date()})" value="<?php echo date('Y-m-d',time()) ?>">&nbsp;&nbsp;
+                    <input class="Wdate testto" onFocus="WdatePicker({lang:'zh-cn',maxDate:new Date()})" value="<?php echo date('Y-m-d',time()) ?>" >&nbsp;&nbsp;
                     <button data-toggle="modal" data-target=".modal-chart">回测</button>
                 </div>
 
@@ -204,96 +177,12 @@ if (CheckLogin::check() == -1) {
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://js.97uimg.com/js/My97DatePicker/WdatePicker.js"></script>
 <script src="../static/plugins/typeahead/jquery.typeahead.min.js"></script>
+<script src="../static/plugins/My97DatePicker/WdatePicker.min.js"></script>
 <script src="../static/js/all.min.js"></script>
 <script src="../static/js/common.min.js"></script>
 <script src="../static/js/Utility.min.js"></script>
-<script src="../static/js/page/infocenter.min.js"></script>
-<script>
-    var scale_count=$('.person-backtest .progress_bar li').length;//持仓比进度条数量
-    var yield; //数据对比 收益率复选框
-    var hot_degree; //数据对比 热度复选框
-    $('.person-backtest .progress_bar').mouseleave(function(){
-        $('.person-backtest .progress_bar').hide();//持仓比进度条下拉框 鼠标离开不显示
-    });
-
-    $('.compare_select').click(function(){
-        $('.person-backtest .compare_data').show();//对比数据选择 点击下拉框显示
-    });
-
-    $('.person-backtest .compare_data').mouseleave(function(){//对比数据选择 鼠标离开
-        yield=$('.yield input:checked').val();
-        hot_degree=$('.hot_degree input:checked').val();
-        $('.person-backtest .compare_data').hide();
-        if(yield || hot_degree){   //如果收益率或热度选中 则持仓比下拉框点击可显示
-            $('.position_ratio').click(function(){
-                $('.person-backtest .progress_bar').show();
-            })
-            $('.position_ratio').css('color','#475586').find('img').attr('src','/static/imgs/i/person_backtest2.png');
-        }else{
-            $('.position_ratio').css('color','#BEBEBE').find('img').attr('src','/static/imgs/i/person_backtest3.png');
-        }
-    });
-
-    /**
-     * 拖拽持仓进度条
-     * */
-    scale=function (btn,bar,title){
-        this.btn=document.getElementById(btn);//拖拽按钮
-        this.bar=document.getElementById(bar);//进度条
-        this.title=document.getElementById(title);//显示拖拽的百分百
-        this.step=this.bar.getElementsByTagName("DIV")[0];//拖拽长度
-        this.init();
-    };
-    scale.prototype={
-        init:function (){
-            var f=this,g=document,b=window,m=Math;
-            f.btn.onmousedown=function (e){
-                var x=(e||b.event).clientX;
-                var l=this.offsetLeft;
-                var max=f.bar.offsetWidth-this.offsetWidth;
-                g.onmousemove=function (e){
-                    var thisX=(e||b.event).clientX;
-                    var to=m.min(max,m.max(-2,l+(thisX-x)));
-                    f.btn.style.left=to+'px';
-                    f.ondrag(m.round(m.max(0,to/max)*100),to);
-                    b.getSelection ? b.getSelection().removeAllRanges() : g.selection.empty();
-                };
-                g.onmouseup=new Function('this.onmousemove=null');
-            };
-
-        },
-        ondrag:function (pos,x){
-            this.step.style.width=Math.max(0,x)+'px';
-            this.title.innerHTML=pos+'%';
-            var sheng=100-Math.max(0,x);
-            var surplus_scale=document.getElementById('surplus_scale');
-            var surplus_title=document.getElementById('surplus_title');
-            surplus_scale.style.width=sheng+'px';
-            surplus_title.innerHTML=(100-pos)+'%';        }
-    }
-
-//    $('body').on('click','.position_ratio',function(){
-//
-//    })
-
-    /**
-     * 点击进行回测
-     * */
-    $('body').on('click','.person-backtest button',function(){
-        var bar_scale=[];//持仓百分比数值 key从1开始
-        var backtest_timefrom=$('.testfrom').val();//回测时间
-        var test_timeto=$('.testto').val();
-        for(var i=1; i<scale_count+1; i++) {//获取持仓比每只股票百分百数值
-            bar_scale[i]=$("#title"+i).html().split('%');
-            bar_scale[i]=parseInt(bar_scale[i]);
-        }
-    })
-
-    /**
-     * 画回测折线图
-     * */
-
-</script>
+<script src="../static/js/page/infocenter.js"></script>
 </body>
 </html>
