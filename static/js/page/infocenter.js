@@ -141,6 +141,14 @@
                     if (resultData.result.info.group_name.length > 0) {
                         var list = resultData.result.info.group_name;
                         var groupHtml = [];
+                        var bar_html=[];//回测持仓比股票名称
+                        bar_html.push('<li>剩余调仓比:');
+                        bar_html.push('<div class="scale_panel">');
+                        bar_html.push(' <div class="scale" id="surplus_bar">');
+                        bar_html.push(' <div id="surplus_scale"></div>');
+                        bar_html.push('</div>');
+                        bar_html.push('<span id="surplus_title">100%</span>');
+                        bar_html.push('</div></li>');
                         groupHtml.push("<div class=\"btn-group active\" data-group-name=\"我的自选股\"><div class='wk-btn-mygroup'><span class='wk-mygroup-txt'>我的自选股</span></div></div>");
                         for (var i = 0; i < list.length; i++) {
                             groupHtml.push("<div class=\"btn-group\" data-group-name='" + list[i] + "'>");
@@ -153,8 +161,18 @@
                             groupHtml.push("<li class='change-name'><a href=\"#\"><i class=\"fa fa-pencil fa-fw\"></i>更改名称</a></li>");
                             groupHtml.push("<li class='del-group'><a href=\"#\"><i class=\"fa fa-trash-o fa-fw\"></i>删除组合</a></li>");
                             groupHtml.push("</ul></div></div>");
+
+                            bar_html.push('<li>'+list[i].name+':');
+                            bar_html.push('<div class="scale_panel">');
+                            bar_html.push('<div class="scale" id="bar'+(i+1)+'">');
+                            bar_html.push('<div></div>');
+                            bar_html.push('<span id="btn'+(i+1)+'"></span>');
+                            bar_html.push('</div>');
+                            bar_html.push('<span class="percent_num" self-num="0" id="title'+(i+1)+'">0</span>');
+                            bar_html.push('</div></li>');
                         }
                         $(".wk-user-choose-title").html(groupHtml.join(''));
+                        $('.progress_bar').html(bar_html.join(''));//追加回测持仓比进度条
                         //我的自选组合点击事件
                         $(".wk-user-choose-title .wk-btn-mygroup span").unbind("click").bind("click", function () {
                             var stockName = $(this).parent().parent().attr("data-group-name");
@@ -256,6 +274,13 @@
                 if (resultData && resultData.status == 1) {
                     if (resultData.result.info.group_info.length > 0) {
                         var list = resultData.result.info.group_info[0].stock_info;
+                        bar_html.push('<li>剩余调仓比:');
+                        bar_html.push('<div class="scale_panel">');
+                        bar_html.push(' <div class="scale" id="surplus_bar">');
+                        bar_html.push(' <div id="surplus_scale"></div>');
+                        bar_html.push('</div>');
+                        bar_html.push('<span id="surplus_title">100%</span>');
+                        bar_html.push('</div></li>');
                         for (var i = 0; i < list.length; i++) {
                             _all_stock_code.push(list[i].code);
                             stockHtml.push("<tr>");
@@ -278,16 +303,19 @@
                             bar_html.push('<div></div>');
                             bar_html.push('<span id="btn'+(i+1)+'"></span>');
                             bar_html.push('</div>');
-                            bar_html.push('<span id="title'+(i+1)+'">0</span>');
+                            bar_html.push('<span class="percent_num" self-num="0" id="title'+(i+1)+'">0</span>');
                             bar_html.push('</div></li>');
                         }
                         $(".wk-user-mynews").attr("data-stock", _all_stock_code.join('|') + "|");
-                        $('.progress_bar').append(bar_html.join(''));//追加回测持仓比进度条
+                        $('.progress_bar').html(bar_html.join(''));//追加回测持仓比进度条
+
                         for(var i=1;i<(list.length+1);i++){
                             new scale('btn'+i,'bar'+i,'title'+i);//调用拖拽进度条函数
                         }
 
+
                     } else {
+                        $('.progress_bar').html('');//追加回测持仓比进度条
                         $(".wk-user-mynews").attr("data-stock", "00000x|");
                         stockHtml.push("<tr><td colspan='11'><div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>您尚未添加自选股</span></div></td></tr>");
                     }
@@ -1033,4 +1061,170 @@
             }
         }
     });
+
+
+    /**
+     * 历史回测
+     * */
+    var yield_checkbox; //数据对比 收益率复选框
+    var hot_degree; //数据对比 热度复选框
+    $('.person-backtest .progress_bar').mouseleave(function () {
+        $('.person-backtest .progress_bar').hide();//持仓比进度条下拉框 鼠标离开不显示
+    });
+
+    $('.compare_select').click(function () {
+        $('.person-backtest .compare_data').show();//对比数据选择 点击下拉框显示
+        $('.person-backtest .progress_bar').hide();
+    });
+
+    $('.person-backtest .compare_data').mouseleave(function () {//对比数据选择 鼠标离开
+        yield_checkbox = $('.yield input:checked').val();
+        hot_degree = $('.hot_degree input:checked').val();
+        $('.person-backtest .compare_data').hide();
+        if (yield_checkbox || hot_degree) {   //如果收益率或热度选中 则持仓比下拉框点击可显示
+            $('.position_ratio').css('color', '#475586').find('img').attr('src', '/static/imgs/i/person_backtest2.png');
+        } else {
+            $('.position_ratio').css('color', '#BEBEBE').find('img').attr('src', '/static/imgs/i/person_backtest3.png');
+            $('.person-backtest .progress_bar').hide();
+        }
+        $('.position_ratio').click(function () {
+            if (yield_checkbox || hot_degree && $('.progress_bar').html()) {
+                $('.person-backtest .progress_bar').show();
+                $('.person-backtest .compare_data').hide();
+            } else {
+                $('.person-backtest .progress_bar').hide();
+            }
+
+        })
+    });
+
+    /**
+     * 拖拽持仓进度条
+     * */
+    var scale = function (btn, bar, title) {
+        this.btn = document.getElementById(btn);//拖拽按钮
+        this.bar = document.getElementById(bar);//进度条
+        this.title = document.getElementById(title);//显示拖拽的百分百
+        this.step = this.bar.getElementsByTagName("DIV")[0];//拖拽长度
+        this.init();
+    };
+    scale.prototype = {
+        init: function () {
+            var f = this, g = document, b = window, m = Math;
+            f.btn.onmousedown = function (e) {
+                var x = (e || b.event).clientX;
+                var l = this.offsetLeft;
+                var max = f.bar.offsetWidth - this.offsetWidth;
+                g.onmousemove = function (e) {
+                    var thisX = (e || b.event).clientX;
+                    var to = m.min(max, m.max(-2, l + (thisX - x)));
+                    f.btn.style.left = to + 'px';
+                    f.ondrag(m.round(m.max(0, to / max) * 100), to);
+                    b.getSelection ? b.getSelection().removeAllRanges() : g.selection.empty();
+                };
+                g.onmouseup = new Function('this.onmousemove=null');
+            };
+
+        },
+        ondrag: function (pos, x) {
+            /*获取当前进度条的所有百分比*/
+            var percent_all = $(".percent_num"); //获取所有的进度条的综合
+            var sum = 0;
+            for (var i = 0; i < percent_all.length; i++) {
+                var temp_num = parseInt(percent_all.eq(i).attr('self-num'));
+                sum += temp_num;//已拖拽距离总和
+            }
+            var posMax = 100 - sum; //可拉动的最大距离
+            console.log(sum);
+            if (sum >= 100) {
+                var sheng = posMax;
+                if (sheng > 0) {
+                    sheng = sheng + 66;
+                } else {
+                    sheng = 0;
+                }
+                var surplus_scale = document.getElementById('surplus_scale');
+                var surplus_title = document.getElementById('surplus_title');
+                surplus_scale.style.width = sheng + 'px';
+                surplus_title.innerHTML = posMax + '%';
+                posMax = 0;
+                document.onmousemove = function () {
+                    return false;
+                };
+                document.onmousemove = null;
+
+            }
+
+            //  本身的进度条显示
+            this.step.style.width = Math.max(0, x) + 'px';
+            this.title.innerHTML = pos + '%';
+            this.title.setAttribute("self-num", pos);//把进度条长度赋值给属性
+
+            //剩余的进度条显示
+            var sheng = posMax;
+            if (sheng > 0) {
+                sheng = sheng + 66;
+            } else {
+                sheng = 0;
+            }
+
+            var surplus_scale = document.getElementById('surplus_scale');
+            var surplus_title = document.getElementById('surplus_title');
+            surplus_scale.style.width = sheng + 'px';
+            surplus_title.innerHTML = posMax + '%';
+        }
+    }
+
+
+    /**
+     * 点击进行回测
+     * */
+    $('body').on('click', '.person-backtest button', function () {
+        var percent_all = $('.percent_num');
+        var bar_scale = [];//持仓百分比数值 key从1开始
+        var timefrom = ',' + $('.testfrom').val();
+        var timeto = ',' + $('.testto').val();
+        var stocks_info = '';
+        for (var i = 0; i < percent_all.length; i++) {
+            var stock_key = $('.wk-user-mychoose-table tbody tr').eq(i).find('td').eq(0).html();
+            var temp_num = parseInt(percent_all.eq(i).attr('self-num')) / 100;
+            if (temp_num != 0) {
+                bar_scale[stock_key] = temp_num;
+            }
+        }
+        for (var key in bar_scale) {
+            stocks_info = stocks_info + ',' + key + ',' + bar_scale[key];
+        }
+
+        console.log(stocks_info + '---' + timefrom + '--' + timeto)
+        getBackTest(stocks_info, timefrom, timeto);
+    })
+    /**
+     * 画回测折线图
+     * */
+    function getBackTest(stocks_info, timefrom, timeto) {
+        inforcenter.getBackTest({"stocks_info": stocks_info, "end_time": timefrom, "name": timeto}, null
+            // function () {
+            // $(".wk-user-datas").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>")};
+            , function (resultData) {
+                console.log(resultData);
+                if (resultData) {
+                    var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
+                    var queryData = {
+                        "query_type": "stock",
+                        "query_key": stockcode,
+                        "query_date": "today"
+                    };
+                    common.getRateLine(queryData, function () {
+                        rateLine.showLoading({
+                            "text": "加载中..."
+                        });
+                    }, function (resultData) {
+                        common.buildRateLine(stockName, "today", resultData);
+                        rateLine.hideLoading();
+                    });
+                }
+            })
+    }
+
 })(jQuery, window, document);
