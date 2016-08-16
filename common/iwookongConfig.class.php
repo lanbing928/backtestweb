@@ -12,6 +12,11 @@ class iwookongConfig
      */
     public static $requireUrl = "http://61.147.114.67/cgi-bin/test_wookong/";
     /**
+     * 测试版回测地址
+     * @var string
+     */
+    public static $requireBackUrl = "http://61.147.114.67/cgi-bin/george/stock/v1/";
+    /**
      * 测试版公司概况的地址
      * @var string
      */
