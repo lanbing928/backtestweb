@@ -730,7 +730,7 @@ var common = {
         })
     },
     /**
-     * 构建热度趋势图
+     * 构建热度趋势图 历史回测
      * @param query_name
      * @param query_date
      * @param buildData
@@ -771,7 +771,11 @@ var common = {
                     for (var p in params) {
                         if (params[p].value && params[p].value != 0) {
                             if (params[0].name == params[p].name) {
-                                showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
+                                if (params[p].seriesName.indexOf("热度") >= 0) {
+                                    showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + params[p].value + "<br>";
+                                } else {
+                                    showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
+                                }
                             }
                         }
                     }
@@ -780,7 +784,7 @@ var common = {
             },
             color: ["rgb(151,47,134)", "rgb(65,77,92)"],
             legend: {
-                data: [query_name, '沪深300'],
+                data: [query_name, '沪深300',"热度"],
                 top: 0
             },
             //dataZoom: [{show: true, realtime: true}, {type: 'inside', realtime: true}],
@@ -799,19 +803,25 @@ var common = {
                     interval: labelInterval
                 }
             },
-            yAxis: {
-                type: 'value',
-                position: 'right',
-                axisLabel: {
-                    formatter: function (value) {
-                        if (value != 0) {
-                            return (value * 100).toFixed(2) + "%";
-                        } else {
-                            return 0;
+            yAxis: [
+                {
+                    type: 'value',
+                    position: 'left'
+                },
+                {
+                    type: 'value',
+                    position: 'right',
+                    axisLabel: {
+                        formatter: function (value) {
+                            if (value !== 0) {
+                                return (value * 100).toFixed(2) + "%";
+                            } else {
+                                return 0;
+                            }
                         }
                     }
                 }
-            },
+            ],
             series: [
                 {
                     name: query_name,
@@ -824,6 +834,13 @@ var common = {
                     type: 'line',
                     smooth: true,
                     data: JSON.parse("[" + r2Data + "]")
+                },
+                {
+                    name: 'redu',
+                    type: 'line',
+                    smooth: true,
+                    data: JSON.parse("[" + r2Data + "]"),
+                    yAxisIndex: 1
                 }
             ]
         };
@@ -1309,7 +1326,7 @@ var common = {
      * @param beforeFn
      * @param backFn
      */
-    getHotEvent:function(arrData, beforeFn, backFn){
+    getHotEvent: function (arrData, beforeFn, backFn) {
         $.ajax({
             url: "ajax/ajax_get_hot_event.php",
             type: "post",
@@ -1583,6 +1600,29 @@ var inforcenter = {
         arrData.custom_type = 3;
         $.ajax({
             url: "../ajax/infocenter/ajax_ctrl_customplat.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 历史回测
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getBackTest: function (arrData, beforeFn, backFn) {
+        arrData.operate_code = 3;
+        $.ajax({
+            url: "../ajax/infocenter/ajax_get_back_test.php",
             type: "post",
             dataType: "json",
             cache: false,

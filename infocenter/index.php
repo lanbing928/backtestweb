@@ -17,7 +17,7 @@ if (CheckLogin::check() == -1) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/,./bootstrap-theme.min.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.min.css">
     <link rel="stylesheet" href="../static/plugins/typeahead/jquery.typeahead.min.css">
@@ -44,8 +44,25 @@ if (CheckLogin::check() == -1) {
         </div>
         <div class="wk-user-mychoose-table-box">
             <div class="wk-user-sub-search text-right">
-                <div class="col-md-4 col-md-offset-8">
-                    <div class="input-group" style="width: 100%;">
+                <!--历史回测-->
+                <div class="col-md-8 person-backtest">
+                    <span class="compare_select"><img src="/static/imgs/i/person_backtest1.png">对比数据选择</span>&nbsp;&nbsp;
+                    <ul class="compare_data">
+                        <li class="yield"><input type="checkbox" value="1"> <span>收益率&nbsp;&nbsp;&nbsp;</span></li>
+                        <li class="hot_degree"><input type="checkbox" value="2"> <span>热度</span></li>
+                        <li style="clear: both;"></li>
+                    </ul>
+
+                    <span class="position_ratio"><img src="/static/imgs/i/person_backtest3.png">持仓比</span>&nbsp;&nbsp;
+                    <ul class="progress_bar">
+                    </ul>
+                    <input class="Wdate testfrom" onFocus="WdatePicker({lang:'zh-cn',maxDate:new Date()})" value="<?php echo date('Y-m-d',time()) ?>">&nbsp;&nbsp;
+                    <input class="Wdate testto" onFocus="WdatePicker({lang:'zh-cn',maxDate:new Date()})" value="<?php echo date('Y-m-d',time()) ?>" >&nbsp;&nbsp;
+                    <button data-toggle="modal" data-target=".modal-chart">回测</button>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-group">
                         <div class="typeahead__container">
                             <div class="typeahead__field">
                                 <span class="typeahead__query">
@@ -144,16 +161,28 @@ if (CheckLogin::check() == -1) {
             </div>
         </div>
     </section>
+    <!--历史回测模态框-->
+    <div class="modal fade modal-chart backtest-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="modal-chart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
 <script src="http://cdn.bootcss.com/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js"></script>
 <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script language="javascript" type="text/javascript" src="http://js.97uimg.com/js/My97DatePicker/WdatePicker.js"></script>
 <script src="../static/plugins/typeahead/jquery.typeahead.min.js"></script>
+<script src="../static/plugins/My97DatePicker/WdatePicker.min.js"></script>
 <script src="../static/js/all.min.js"></script>
 <script src="../static/js/common.min.js"></script>
 <script src="../static/js/Utility.min.js"></script>
-<script src="../static/js/page/infocenter.min.js"></script>
+<script src="../static/js/page/infocenter.js"></script>
 </body>
 </html>
