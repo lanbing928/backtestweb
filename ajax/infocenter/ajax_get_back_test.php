@@ -1,7 +1,6 @@
 <?php
-set_time_limit(0);//设置超时时间
 /**
- * 获取所有平台
+ * 获取回测数据
  */
 require_once(dirname(__FILE__) . "/../../common/Request.class.php");
 require_once(dirname(__FILE__) . "/../../common/iwookongConfig.class.php");
@@ -23,14 +22,8 @@ $arrData = array(
 );
 $url = iwookongConfig::$requireBackUrl . "stockhotdiagram.fcgi";
 
-$result = RequestUtil::post($url, $arrData);
+$result = RequestUtil::get($url, $arrData);
 $jsonresult = json_decode($result, true);
-if ($jsonresult['status'] != "0") {
-    print_r($result);
-    return;
-} else {
-    if ($jsonresult['flag'] == -1302 || $jsonresult['flag'] == -1301) {
-        print_r(json_encode(array("status" => -100, "result" => $jsonresult['msg'])));
-        return;
-    }
-}
+print_r($result);
+return;
+

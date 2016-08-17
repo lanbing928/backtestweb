@@ -48,8 +48,8 @@ if (CheckLogin::check() == -1) {
                 <div class="col-md-8 person-backtest">
                     <span class="compare_select"><img src="/static/imgs/i/person_backtest1.png">对比数据选择</span>&nbsp;&nbsp;
                     <ul class="compare_data">
-                        <li class="yield"><input type="checkbox" value="1"> <span>收益率&nbsp;&nbsp;&nbsp;</span></li>
-                        <li class="hot_degree"><input type="checkbox" value="2"> <span>热度</span></li>
+                        <li class="yield"><input type="checkbox" value="收益率"> <span>收益率&nbsp;&nbsp;&nbsp;</span></li>
+                        <li class="hot_degree"><input type="checkbox" value="查看热度"> <span>热度</span></li>
                         <li style="clear: both;"></li>
                     </ul>
 
@@ -164,9 +164,8 @@ if (CheckLogin::check() == -1) {
     <!--历史回测模态框-->
     <div class="modal fade modal-chart backtest-modal" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div id="modal-chart"></div>
+            <div class="modal-content" >
+                <div class="modal-body" id="modal-chart">
                 </div>
             </div>
         </div>
