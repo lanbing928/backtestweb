@@ -855,6 +855,9 @@ var common = {
                 r1Data.reverse();
                 r2Data.reverse();
                 r3Data.reverse();
+        }else{
+            yield_checkbox = '';
+            hot_degree = '';
         }
         if(!yield_checkbox){r1Data='';}else{ hs = '沪深指数';}
         if(!hot_degree){r3Data='';}else{hs = '沪深指数';}
