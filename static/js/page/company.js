@@ -230,9 +230,9 @@
             //表格追加内容
             var em = "";
             if (type === "top") {
-                em = "<tr><td>" + rank + "</td><td>" + stockholderName + "</td><td>" + stockholderNature + "</td><td>" + shareType + "</td><td>" + sharesNumber + "</td><td>" + totalRatio + "%</td><td>" + changeShare + "</td><td>" + changeRatio + "</td></tr>";
+                em = "<tr><td>" + rank + "</td><td>" + stockholderName + "</td><td>" + stockholderNature + "</td><td>" + shareType + "</td><td>" + sharesNumber + "</td><td>" + totalRatio + "</td><td>" + changeShare + "</td><td>" + changeRatio + "</td></tr>";
             } else if (type === "bottom") {
-                em = "<tr><td>" + rank + "</td><td>" + stockholderName + "</td><td>" + shareType + "</td><td>" + sharesNumber + "</td><td>" + totalRatio + "%</td><td>" + changeShare + "</td><td>" + changeRatio + "</td></tr>";
+                em = "<tr><td>" + rank + "</td><td>" + stockholderName + "</td><td>" + shareType + "</td><td>" + sharesNumber + "</td><td>" + totalRatio + "</td><td>" + changeShare + "</td><td>" + changeRatio + "</td></tr>";
             }
             $("#" + appendid).find("tbody").append(em);
         }
