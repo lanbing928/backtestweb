@@ -168,7 +168,7 @@
                             bar_html.push('<div></div>');
                             bar_html.push('<span id="btn'+(i+1)+'"></span>');
                             bar_html.push('</div>');
-                            bar_html.push('<span class="percent_num" self-num="0" id="title'+(i+1)+'">0</span>');
+                            bar_html.push('<span class="percent_num" data-self-num="0" id="title'+(i+1)+'">0</span>');
                             bar_html.push('</div></li>');
                         }
                         $(".wk-user-choose-title").html(groupHtml.join(''));
@@ -297,13 +297,13 @@
                             stockHtml.push("<td><i class='fa fa-minus-circle text-danger btn-del-stock' data-stock-code='" + list[i].code + "'></i></td>");
                             stockHtml.push("</tr>");
 
-                            bar_html.push('<li>'+list[i].name+':');
+                            bar_html.push('<li>' + list[i].name + ':');
                             bar_html.push('<div class="scale_panel">');
-                            bar_html.push('<div class="scale" id="bar'+(i+1)+'">');
+                            bar_html.push('<div class="scale" id="bar' + (i + 1) + '">');
                             bar_html.push('<div></div>');
-                            bar_html.push('<span id="btn'+(i+1)+'"></span>');
+                            bar_html.push('<span id="btn' + (i + 1) + '"></span>');
                             bar_html.push('</div>');
-                            bar_html.push('<span class="percent_num" self-num="0" id="title'+(i+1)+'">0</span>');
+                            bar_html.push('<span class="percent_num" data-self-num="0" id="title' + (i + 1) + '">0</span>');
                             bar_html.push('</div></li>');
                         }
                         $(".wk-user-mynews").attr("data-stock", _all_stock_code.join('|') + "|");
@@ -1062,7 +1062,6 @@
         }
     });
 
-
     /**
      * 历史回测
      * */
@@ -1131,11 +1130,10 @@
             var percent_all = $(".percent_num"); //获取所有的进度条的综合
             var sum = 0;
             for (var i = 0; i < percent_all.length; i++) {
-                var temp_num = parseInt(percent_all.eq(i).attr('self-num'));
+                var temp_num = parseInt(percent_all.eq(i).attr('data-self-num'));
                 sum += temp_num;//已拖拽距离总和
             }
             var posMax = 100 - sum; //可拉动的最大距离
-            console.log(sum);
             if (sum >= 100) {
                 var sheng = posMax;
                 if (sheng > 0) {
@@ -1148,17 +1146,14 @@
                 surplus_scale.style.width = sheng + 'px';
                 surplus_title.innerHTML = posMax + '%';
                 posMax = 0;
-                document.onmousemove = function () {
+                document.onmousemove = function () { //滑动总和大于等于100 停止滑动
                     return false;
                 };
-                document.onmousemove = null;
-
             }
-
             //  本身的进度条显示
             this.step.style.width = Math.max(0, x) + 'px';
             this.title.innerHTML = pos + '%';
-            this.title.setAttribute("self-num", pos);//把进度条长度赋值给属性
+            this.title.setAttribute("data-self-num", pos);//把进度条长度赋值给属性
 
             //剩余的进度条显示
             var sheng = posMax;
@@ -1181,13 +1176,13 @@
      * */
     $('body').on('click', '.person-backtest button', function () {
         var percent_all = $('.percent_num');
-        var bar_scale = [];//持仓百分比数值 key从1开始
+        var bar_scale = [];//持仓百分比数值
         var timefrom = ',' + $('.testfrom').val();
         var timeto = ',' + $('.testto').val();
         var stocks_info = '';
         for (var i = 0; i < percent_all.length; i++) {
             var stock_key = $('.wk-user-mychoose-table tbody tr').eq(i).find('td').eq(0).html();
-            var temp_num = parseInt(percent_all.eq(i).attr('self-num')) / 100;
+            var temp_num = parseInt(percent_all.eq(i).attr('data-self-num')) / 100;
             if (temp_num != 0) {
                 bar_scale[stock_key] = temp_num;
             }
@@ -1195,35 +1190,24 @@
         for (var key in bar_scale) {
             stocks_info = stocks_info + ',' + key + ',' + bar_scale[key];
         }
-
-        console.log(stocks_info + '---' + timefrom + '--' + timeto)
         getBackTest(stocks_info, timefrom, timeto);
     })
+
     /**
      * 画回测折线图
      * */
     function getBackTest(stocks_info, timefrom, timeto) {
-        inforcenter.getBackTest({"stocks_info": stocks_info, "end_time": timefrom, "name": timeto}, null
-            // function () {
-            // $(".wk-user-datas").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>")};
+        inforcenter.getBackTest({"stocks_info": stocks_info, "end_time": timefrom, "name": timeto},
+            function () {
+                $("#modal-chart").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>")
+            }
             , function (resultData) {
-                console.log(resultData);
-                if (resultData) {
-                    var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
-                    var queryData = {
-                        "query_type": "stock",
-                        "query_key": stockcode,
-                        "query_date": "today"
-                    };
-                    common.getRateLine(queryData, function () {
-                        rateLine.showLoading({
-                            "text": "加载中..."
-                        });
-                    }, function (resultData) {
-                        common.buildRateLine(stockName, "today", resultData);
-                        rateLine.hideLoading();
-                    });
-                }
+                var rateLine = echarts.init(document.getElementById("modal-chart"));
+                rateLine.showLoading({
+                    "text": "加载中..."
+                })
+                common.buildRateLineBack(resultData, yield_checkbox, hot_degree);
+                rateLine.hideLoading();
             })
     }
 
