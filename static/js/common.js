@@ -836,120 +836,121 @@ var common = {
      * @param hot_degree
      * @param buildData
      */
-    buildRateLineBack: function (buildData, yield_checkbox, hot_degree) {
+    buildRateLineBack: function (buildData) {
         var dateArr = [];//日期
         var r1Data = [];//收益率
         var r2Data = [];//沪深
         var r3Data = [];//热度
-        var hs;
         var labelInterval = "auto";
         if (buildData.body && buildData.body.list.length > 0) {
             var list = buildData.body.list;
-                for (var j = 0; j < list.length; j++) {
-                    dateArr.push(list[j].date);
-                    r1Data.push(list[j].adjusted_day_yield);
-                    r2Data.push(list[j].hs300_adjusted_day_yield);
-                    r3Data.push(list[j].visit);
-                }
-                dateArr.reverse();
-                r1Data.reverse();
-                r2Data.reverse();
-                r3Data.reverse();
-        }else{
-            yield_checkbox = '';
-            hot_degree = '';
+            for (var j = 0; j < list.length; j++) {
+                dateArr.push(list[j].date);
+                r1Data.push(list[j].adjusted_day_yield);
+                r2Data.push(list[j].hs300_adjusted_day_yield);
+                r3Data.push(list[j].visit);
+            }
+            dateArr.reverse();
+            r1Data.reverse();
+            r2Data.reverse();
+            r3Data.reverse();
         }
-        if(!yield_checkbox){r1Data='';}else{ hs = '沪深指数';}
-        if(!hot_degree){r3Data='';}else{hs = '沪深指数';}
-        if(!yield_checkbox && !hot_degree){r2Data='';}
+        var legend = {
+            data: [
+                {name: "沪深指数", icon: 'line'}
+            ],
+            bottom: "40", left: 60, itemWidth: 20, itemHeight: 15,
+        };
+        var series = [
+            {
+                name: '沪深指数',
+                type: 'line',
+                smooth: true,
+                data: JSON.parse("[" + r2Data + "]"),
+                itemStyle: {normal: {color: "rgb(39,105,180)"}}
+            }
+        ];
+        var yAxis = [
+            {
+                type: 'value',
+                position: 'left',
+                axisLabel: {
+                    formatter: function (value) {
+                        if (value !== 0) {
+                            return (value * 100).toFixed(0) + "%";
+                        } else {
+                            return 0;
+                        }
+                    }
+                }
+            }
+        ];
+        if ($("input[name='wk-check-rate']").is(":checked")) {
+            series.push({
+                name: '收益率',
+                type: 'line',
+                smooth: true,
+                data: JSON.parse("[" + r1Data + "]"),
+                itemStyle: {normal: {color: "rgb(151,47,134)"}}
+            });
+            legend.data.push({name: "收益率", icon: 'line'});
+        }
+        if ($("input[name='wk-check-hot']").is(":checked")) {
+            yAxis.push({
+                type: 'value',
+                position: 'right'
+            });
+            series.push({
+                name: '查看热度',
+                type: 'line',
+                smooth: true,
+                data: JSON.parse("[" + r3Data + "]"),
+                yAxisIndex: 1,
+                itemStyle: {normal: {color: "rgb(243,104,97)"}}
+            });
+
+            legend.data.push({name: "查看热度", icon: 'line'});
+        }
         var rateChart = echarts.init(document.getElementById("modal-chart"));
         var option = {
             tooltip: {
-                    trigger: "axis",
-                    formatter: function (params) {
-                        var showLabel = "";
-                        showLabel += params[0].name + "<br>";
-                        for (var p in params) {
-                            if (params[p].value || params[p].value == 0) {
-                                if (params[0].name == params[p].name) {
-                                    if(params[p].seriesName == '查看热度'){
-                                        showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + params[p].value + "<br>";
-                                    }else{
-                                        showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
-                                    }
+                trigger: "axis",
+                formatter: function (params) {
+                    var showLabel = "";
+                    showLabel += params[0].name + "<br>";
+                    for (var p in params) {
+                        if (params[p].value || params[p].value == 0) {
+                            if (params[0].name == params[p].name) {
+                                if (params[p].seriesName == '查看热度') {
+                                    showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + params[p].value + "<br>";
+                                } else {
+                                    showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
                                 }
                             }
                         }
-                        return showLabel;
                     }
-                },
-            color: ["rgb(39,105,180)","rgb(151,47,134)", "rgb(243,104,97)"],
-            legend: {
-                data: [{name: hs, icon: 'line'}, {name: yield_checkbox, icon: 'line'}, {
-                    name: hot_degree,
-                    icon: 'line'
-                }], bottom: "40", left: 60, itemWidth: 20, itemHeight: 15,
+                    return showLabel;
+                }
             },
+            legend: legend,
             grid: {
-                top: '25px',
+                top: '10px',
                 left: '15px',
                 right: '15px',
-                bottom: 0,
+                bottom: "auto",
                 containLabel: true
             },
             xAxis: {
-                show : false,
+                show: true,
                 type: 'category',
                 boundaryGap: false,
                 data: dateArr,
-                splitLine: {show: false},
-                axisLine: {show: false},
                 axisLabel: {
                     interval: labelInterval
-                },
-
+                }
             },
-            yAxis: [
-                {
-                    type: 'value',
-                    position: 'left',
-                    axisLabel: {
-                        formatter: function (value) {
-                            if (value !== 0) {
-                                return (value * 100).toFixed(0) + "%";
-                            } else {
-                                return 0;
-                            }
-                        }
-                    }
-                },
-                {
-                    type: 'value',
-                    position: 'right'
-                }
-
-            ],
-            series: [
-                {
-                    name: '沪深指数',
-                    type: 'line',
-                    smooth: true,
-                    data: JSON.parse("[" + r2Data + "]")
-                },
-                {
-                    name: '收益率',
-                    type: 'line',
-                    smooth: true,
-                    data: JSON.parse("[" + r1Data + "]")
-                },
-                {
-                    name: '查看热度',
-                    type: 'line',
-                    smooth: true,
-                    data: JSON.parse("[" + r3Data + "]"),
-                    yAxisIndex: 1
-                }
-            ]
+            yAxis: yAxis,
+            series: series
         };
         rateChart.setOption(option);
         window.onresize = rateChart.resize
@@ -1727,7 +1728,6 @@ var inforcenter = {
      * @param backFn
      */
     getBackTest: function (arrData, beforeFn, backFn) {
-        arrData.operate_code = 3;
         $.ajax({
             url: "../ajax/infocenter/ajax_get_back_test.php",
             type: "post",

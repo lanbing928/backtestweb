@@ -6,36 +6,21 @@
 class iwookongConfig
 {
     public static $usercookie = "Uj8$!mhy";
-    /**
-     * 测试版地址
-     * @var string
-     */
+
+    #region 测试版地址
     public static $requireUrl = "http://61.147.114.67/cgi-bin/test_wookong/";
-    /**
-     * 测试版回测地址
-     * @var string
-     */
-    public static $requireBackUrl = "http://61.147.114.67/cgi-bin/george/stock/v1/";
-    /**
-     * 测试版公司概况的地址
-     * @var string
-     */
     public static $requireCompanyUrl = "http://61.147.114.67/cgi-bin/luyao/companyprofile/";
-    /**
-     * 正式版公司概况的地址
-     * @var string
-     */
-//    public static $requireCompanyUrl = "http://61.147.114.76/cgi-bin/company/companyprofile/";
-    /**
-     * 测试收益率接口前缀地址
-     * @var string
-     */
     public static $requireRateUrl = "http://61.147.114.67/cgi-bin/george/";
-    /**
-     * 正式版收益率接口
-     * @var string
-     */
+    public static $requireBackUrl = "http://61.147.114.67/cgi-bin/george/stock/v1/";
+    #endregion
+
+    #region 正式版地址
+    //public static $requireUrl = "http://61.147.114.76/cgi-bin/twookong122/";
+    //public static $requireCompanyUrl = "http://61.147.114.76/cgi-bin/company/companyprofile/";
     //public static $requireRateUrl = "http://61.147.114.76/cgi-bin/george/";
+    //public static $requireBackUrl = "http://61.147.114.76/cgi-bin/george/stock/v1/";
+    #endregion
+
 
     #region 无用的代码
     /**
