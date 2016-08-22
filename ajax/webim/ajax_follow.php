@@ -11,7 +11,7 @@ if (CheckLogin::check() == -1) {
 }
 $taskid = isset($_POST['task_id']) ? $_POST['task_id'] : "";
 $follow = isset($_POST['follow']) ? $_POST['follow'] : "";
-$url = iwookongConfig::$requireUrl . "history/1/taskhistory.fcgi";
+$url = iwookongConfig::$requireUrl . "forwarding/1/follow_task.fcgi";
 
 $result = RequestUtil::get($url, array(
     "user_id" => $_SESSION['user_id'],
