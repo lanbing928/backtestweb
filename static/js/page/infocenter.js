@@ -1105,7 +1105,7 @@
      * */
     function getBackTest(stocks_info, timefrom, timeto) {
         var historyLine = echarts.init(document.getElementById("modal-chart"));
-        inforcenter.getBackTest({"stocks_info": stocks_info, "end_time": timefrom, "name": timeto}, function () {
+        inforcenter.getBackTest({"stocks_info": stocks_info, "start_time": timefrom, "end_time": timeto}, function () {
             historyLine.showLoading({"text": "加载中..."});
         }, function (resultData) {
             historyLine.hideLoading();
