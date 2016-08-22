@@ -59,68 +59,53 @@
 .nav{
     margin-bottom:20px;
 }
-
-.release_time{
-    padding:0;
-}
-.release_time li{
-    width:82%;
-    list-style: none;
-    text-align: right;
-    padding-right:15%;
-    font:bold 14px '微软雅黑';
-}
-.release_time .cont_date{
+.date{
+    width:11%;
+    height:30px;
     color:#011c71;
-    padding-bottom:10px;
-}
-.cont_date_line{
-    width:1px;
-    height:22px;
+    font:bold 14px '微软雅黑';
     border-right:1px solid #DFDFDF;
-    margin-top: 8px;
-    position: relative;
-    color:#dcdcdc;
+    position:relative;
+    text-align:right;
+    padding-right:1%;
 }
-.time_line{
-    width:1px;
-    height:180px;
-    border-right:1px solid #DFDFDF;
-    position: relative;
-    color:#dcdcdc;
-}
-.time_circle{
-    position: absolute;
-    width:8px;
-    height:8px;
-    border-radius:10px;
-    background-color:#ACACAC;
-    top:5px;
-    left:-4px;
-}
-.cont_date_circle{
+.circle{
     position: absolute;
     width:8px;
     height:8px;
     border-radius:10px;
     background-color:#ACACAC;
     top:0px;
-    left:-4px;
+    right:-4px;
+}
+.one_msg{
+    height:190px;
+}
+.time{
+    width:11%;
+    height:100%;
+    font:bold 14px '微软雅黑';
+    border-right:1px solid #DFDFDF;
+    position:relative;
+    text-align:right;
+    padding-right:1%;
 }
 .release_usericon{
     width:30px;
     height:30px;
+    margin:0 10px;
     background: #AD6A9F url("imgs/icon_user.png") no-repeat center;
     background-size:20px 20px;
-    margin-left:10px;
-    margin-top:6px;
 }
 .release_content{
-    margin-top:34px;
+    width:83%;
 }
 .content_user,.content_bottom .stock{
+    width:100%;
+    height:18px;
     color:#051b5d;
     fone-size:13px;
+    line-height:14px;
 }
 .content_user .release_end{
     float:right;
@@ -144,6 +129,7 @@
     cursor: pointer;
     background: #fff;
     font-size:12px;
+    display:none;
     border:1px solid #ddd;
     box-shadow: #eee 0 3px 9px;
 }
@@ -167,12 +153,13 @@
 .content_support > span{
     cursor: pointer;
 }
-.content_bottom .stock_name span:nth-child(2n-1) {
+.content_bottom .stock_name .span_ou {
     color:#A9080E;
 }
-.content_bottom .stock_name span:nth-child(2n-2) {
+.content_bottom .stock_name .span_ji {
     color:#2A6F52;
 }
+
 .reload_more{
     margin:20px auto 0px;
     text-align: center;
@@ -180,3 +167,17 @@
     cursor: pointer;
     font-size:12px;
 }
+#release_own_info{
+    display: none;
+}
+.follow_select{
+    color:#EE5F5F;
+}
+.click_end_release{
+    float:right;
+}
+.wk-user-no{
+    text-align:center;
+}
+
+
