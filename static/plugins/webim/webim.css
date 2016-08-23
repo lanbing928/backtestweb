@@ -8,7 +8,7 @@
     -moz-box-shadow: #eee 0 1px 5px;
     box-shadow: #eee 0 1px 5px;
     min-height: 400px;
-    margin-top: 25px;
+    margin: 25px 0 50px;
 }
 .release_frame textarea{
     width:100%;
@@ -28,11 +28,11 @@
     color:#bbb;
     font-size: 13px;
 }
-.nav-tabs>li{
+.wk-release .nav-tabs>li{
     width:65px;
     height:25px;
     padding:0px;
-    border:0.5px solid #E9E9E9;
+    border:1px solid #E9E9E9;
     text-align: center;
 }
 .nav-tabs>li:first-child{
@@ -56,7 +56,7 @@
     color:#333;
     border:0;
 }
-.nav{
+.wk-release .nav{
     margin-bottom:20px;
 }
 .date{
@@ -79,7 +79,7 @@
     right:-4px;
 }
 .one_msg{
-    height:190px;
+    height:180px;
 }
 .time{
     width:11%;
@@ -105,7 +105,7 @@
     height:18px;
     color:#051b5d;
     fone-size:13px;
-    line-height:14px;
+    /*line-height:10px;*/
 }
 .content_user .release_end{
     float:right;
@@ -137,7 +137,7 @@
     width:100%;
     height:90px;
     border:1px solid #D0CFD4;
-    margin:3px 0 10px;
+    margin:6px 0 10px;
 }
 .content_main_text{
     height:67px;
@@ -153,15 +153,9 @@
 .content_support > span{
     cursor: pointer;
 }
-.content_bottom .stock_name .span_ou {
-    color:#A9080E;
-}
-.content_bottom .stock_name .span_ji {
-    color:#2A6F52;
-}
 
 .reload_more{
-    margin:20px auto 0px;
+    margin:0px auto 0px;
     text-align: center;
     color:#c0c0c0;
     cursor: pointer;
