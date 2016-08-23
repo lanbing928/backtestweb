@@ -179,6 +179,7 @@
         var message = $('.release_frame textarea').val();
         webim.setReleaseInfo({"message": message}, function () {
             $('.release_ing').html('<i class="fa fa-refresh fa-spin"></i>&nbsp;发送中...&nbsp;&nbsp;');
+            $('.release_info').attr("disabled", true);
         }, function (resultDate) {
             if (resultDate.status == 1) {
         page_all=page_all-1;
