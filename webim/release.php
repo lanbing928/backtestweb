@@ -25,56 +25,24 @@ if (CheckLogin::check() == -1) {
 </head>
 <body>
 <?php include(dirname(__FILE__) . "/../share/_header.php") ?>
-<div class="container wk-container wk-company">
+<div class="container wk-container">
     <section class="wk-release" data-userid="<?php echo $_SESSION['user_id'] ?>">
         <div class="release_frame">
             <textarea></textarea>
             <div class="fl release_frame_describe">说明：您发布的消息将推送至每一位用户，可在"群发小助手"中浏览信息并与意向者沟通交流</div>
             <button class="fr release_info">发布</button>
+            <div class="release_ing fr"></div>
             <div class="clear"></div>
         </div>
 
         <ul class="nav nav-tabs release_ul" style="padding-top: 11px;border:0px">
-            <li class="active"><a href="#release_all_info" data-toggle="tab">全部</a></li>
-            <li><a href="#release_own_info" data-toggle="tab">我的</a></li>
+            <li class="active" data-type="0"><a href="#release_all_info" data-toggle="tab">全部</a></li>
+            <li data-type="1"><a href="#release_own_info" data-toggle="tab">我的</a></li>
         </ul>
 
         <div class="tab-content">
             <div class="all_content tab-pane active" id="release_all_info">
-
                 <div class="get_release_content">
-<!--                    <div class="date">2016-08-09 <div class="circle"></div></div>-->
-<!---->
-<!--                    <div class="one_msg">-->
-<!--                        <div class="time fl">12:20<div class="circle"></div></div>-->
-<!--                        <div class="release_usericon fl"></div>-->
-<!--                        <div class="release_content fl">-->
-<!--                            <div class="content_user">pufa-浦发银行 <i class="glyphicon glyphicon-menu-down release_own"><div class="release_own_end">结束发布</div></i></div>-->
-<!--                            <div class="content_main">-->
-<!--                                <div class="content_main_text">-->
-<!--                                    投资于不动产，我仅限。。-->
-<!--                                </div>-->
-<!--                                <div class="content_support">-->
-<!--                                <span>-->
-<!--                                    <img src="../static/plugins/webim/imgs/icon_add_unselect.png" width="15px">&nbsp;跟 ( 388 )-->
-<!--                                </span>&nbsp;&nbsp;-->
-<!--                                    <span>-->
-<!--                                    <img src="../static/plugins/webim/imgs/icon_noadd_unselect.png" width="15px">&nbsp;不跟 ( 388 )-->
-<!--                                </span>&nbsp;-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="content_bottom">-->
-<!--                                <span class="stock">股票：</span>-->
-<!--                                <span class="stock_name">-->
-<!--                                   <span>山东黄金</span>&nbsp;-->
-<!--                                   <span>四川长虹</span>&nbsp;-->
-<!--                                   <span>四川长虹</span>&nbsp;-->
-<!--                                   <span>四川长虹</span>&nbsp;-->
-<!--                            </span>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="clear"></div>-->
-<!--                    </div>-->
                 </div>
                 <div class="reload_more">点击展开更多<br/><i class="glyphicon glyphicon-menu-down"></i></div>
             </div>
