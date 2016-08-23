@@ -1769,3 +1769,58 @@ var company = {
     }
 };
 
+var webim = {
+    /**
+     * 聊天 获取全部发布信息
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getReleaseInfo: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/webim/ajax_get_release.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    setReleaseInfo: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/webim/ajax_set_release.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    follow: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/webim/ajax_follow.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    }
+};
+
+
