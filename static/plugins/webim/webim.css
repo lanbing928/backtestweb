@@ -1,6 +1,10 @@
 .fl{float: left;}
 .fr{float: right;}
 .clear{clear: both}
+.typeahead__query input,.typeahead__button button {
+    border: 0;
+    height: 26px;
+}
 .wk-release {
     border: 1px solid #d1d1d1;
     padding: 20px;
@@ -35,7 +39,7 @@
     border:1px solid #E9E9E9;
     text-align: center;
 }
-.nav-tabs>li:first-child{
+.wk-release .nav-tabs>li:first-child{
     border-right:none;
 }
 .nav-tabs>li a{
