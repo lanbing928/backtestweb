@@ -1,10 +1,19 @@
 .fl{float: left;}
 .fr{float: right;}
 .clear{clear: both}
-.typeahead__query input,.typeahead__button button {
-    border: 0;
-    height: 26px;
-}
+/*banner栏搜索*/
+.typeahead__query input,.typeahead__button button{border: none;height: 26px;}
+.typeahead__button button{padding: 4px 12px;}
+.typeahead__search-icon{opacity: 0.5;}
+.typeahead__cancel-button{top: 6px;right:.2em;}
+.typeahead__list,.wk-head-search{font-family: "微软雅黑",'Microsoft Yahei', Helvetica, Arial, sans-serif;}
+.typeahead__list li{border: none;}
+.typeahead__item{font-size: 13px;}
+.typeahead__group a{color: #303F9F;background-color: #FFFFFF;}
+.typeahead__group {border: none;}
+.typeahead__list>li.typeahead__group:first-child{border: none;}
+.typeahead__list>li.typeahead__group.active>a, .typeahead__list>li.typeahead__group>a, .typeahead__list>li.typeahead__group>a:focus, .typeahead__list>li.typeahead__group>a:hover{cursor: default; color: #303F9F;background-color: #FFFFFF;}
+
 .wk-release {
     border: 1px solid #d1d1d1;
     padding: 20px;
