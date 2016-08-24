@@ -161,9 +161,6 @@
     cursor: pointer;
     font-size:12px;
 }
-#release_own_info{
-    display: none;
-}
 .follow_select{
     color:#EE5F5F;
 }

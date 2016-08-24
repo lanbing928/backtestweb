@@ -80,9 +80,8 @@
         if (type == 0) { //全部信息
             //调用接口，得到结果
             webim.getReleaseInfo({"query_type" : "alltask"}, function() {
-                $("#release_own_info .all_content").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
+                $("#release_all_info").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
             }, function (resultData) {
-                console.log(resultData);
                 //进行数据处理
                 if (resultData.status == 1 && resultData.result.length) {
                     data_all = getNewArr(resultData.result);
@@ -94,54 +93,26 @@
 
         if (type > 0) { //个人的信息
             webim.getReleaseInfo({"query_type" : "mytask"}, function() {
-                $("#release_own_info .own_content").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
+                $("#release_own_info").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
             }, function (resultData) {
                 //进行数据处理
-                // if(resultData.status == 1 && resultData.result.length ){
-                //     var data_own = getNewArr(resultData.result);
-                //     var data_own_pape = getFirstPageContent(page_own,limit_own,data_own);
-                //     if(data_own_pape.length <=0){
-                //         $("#release_own_info .reload_more").hide(); //没有数据
-                //     }
-                //     buildDatatoHtml(data_own_pape,"release_own_info");
-                // }
                 if (resultData.status == 1 && resultData.result.length) {
                     data_own = getNewArr(resultData.result);
                     var data_own_pape = getFirstPageContent(page_own, limit_own, data_own);
                     buildDatatoHtml(data_own_pape, "release_own_info");
                 }
-
             });
         }
-    }
-
-
-    /*获取分页的内容 替换*/
-    function getPageContent(page, limit, arr) {
-        var start = (page - 1) * limit;
-        var page_arr = [];
-        if (arr.length <= start) {
-            return page_arr; //如果没有数据返回空
-        }
-        if (arr.length > start) {
-            if (arr.length - start < limit) {
-                limit = arr.length - start;
-            }
-            for (var i = 0; i < start + limit; i++) {
-                page_arr[i] = arr[i];
-            }
-        }
-        return page_arr;
     }
 
     /* 获取分页的内容 追加*/
     function getFirstPageContent(page, limit, arr) {
         var start = (page - 1) * limit;
         var page_arr = [];
-        if (arr.length <= start) {
+        if (arr && arr.length <= start) {
             return page_arr; //如果没有数据返回空
         }
-        if (arr.length > start) {
+        if (arr && arr.length > start) {
             if (arr.length - start < limit) {
                 limit = arr.length - start;
             }
@@ -182,9 +153,9 @@
             $('.release_info').attr("disabled", true);
         }, function (resultDate) {
             if (resultDate.status == 1) {
-        page_all=page_all-1;
-        getInterfaceData(0);
-        window.location.reload();
+                // page_all=page_all-1;
+                // getInterfaceData(0);
+                window.location.reload();
             } else {
                 swal("发送失败");
             }
@@ -203,7 +174,7 @@
             $("#release_all_info .reload_more").hide(); //没有数据
         }
         buildDatatoHtml(data_all_pape, "release_all_info");
-    })
+    });
     $('#release_own_info .reload_more').click(function () {
         page_own++;
         // getInterfaceData(1);
@@ -212,7 +183,7 @@
             $("#release_own_info .reload_more").hide(); //没有数据
         }
         buildDatatoHtml(data_own_pape, "release_own_info");
-    })
+    });
     /**
      * 滑动加载
      * */
@@ -236,19 +207,6 @@
     });
 
     function clickEvent() {
-        /**
-         * 点击获取历史记录
-         * */
-        $('.release_ul li').click(function () {
-            var type = $(this).find('a').attr('href');
-            if (type == '#release_all_info') {
-                $("#release_all_info").show();
-                $("#release_own_info").hide();
-            } else if (type == '#release_own_info') {
-                $("#release_all_info").hide();
-                $("#release_own_info").show();
-            }
-        });
         /**
          * 结束发布
          * */
