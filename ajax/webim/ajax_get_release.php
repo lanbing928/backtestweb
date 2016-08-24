@@ -12,8 +12,7 @@ if (CheckLogin::check() == -1) {
 $type = isset($_POST['query_type']) ? $_POST['query_type'] : "";
 $url = iwookongConfig::$requireReleaseUrl . "history/1/taskhistory.fcgi";
 $result = RequestUtil::get($url, array(
-//    "user_id" => $_SESSION['user_id'],
-    "user_id" => 9999,
+    "user_id" => $_SESSION['user_id'],
     "token" => $_SESSION["token"],
     "query_type" => $type
 ));

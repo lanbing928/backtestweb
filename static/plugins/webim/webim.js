@@ -1,11 +1,10 @@
 "use strict";
 (function ($, window, document) {
-    // var userid=$('.wk-release').attr('data-userid');
-    var userid = 9999;
+    var userid=$('.wk-release').attr('data-userid');
     var page_all = 1; //初始页码
-    var limit_all = 2; //每页的数目
+    var limit_all = 5; //每页的数目
     var page_own = 1; //初始页码
-    var limit_own = 2; //每页的数目
+    var limit_own = 5; //每页的数目
     var data_own;
     var data_all;
 
@@ -21,8 +20,8 @@
      * @div_id 追加到的对应id
      */
     function buildDatatoHtml(list, div_id) {
+        var infoHtml = [];
         if (list.length) {
-            var infoHtml = [];
             /*数组日期已经处理*/
             for (var i = 0; i < list.length; i++) {
                 var stock = list[i].stock;
@@ -69,10 +68,9 @@
                 infoHtml.push('</span></div>');
                 infoHtml.push('</div><div class="clear"></div></div></div>');
             }
-            // $("#" + div_id + " .get_release_content").html(infoHtml.join(''));
-            $("#" + div_id + " .get_release_content").append(infoHtml.join(''));
-            clickEvent();
         }
+        $("#" + div_id + " .get_release_content").append(infoHtml.join(''));
+        clickEvent();
     }
 
     /*从接口获得数据 0:全部，1为我的*/
@@ -80,26 +78,34 @@
         if (type == 0) { //全部信息
             //调用接口，得到结果
             webim.getReleaseInfo({"query_type" : "alltask"}, function() {
-                $("#release_all_info").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
+                $(".all_load").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
             }, function (resultData) {
+                $(".all_load").html('').removeClass("all_load");;
+                $("#release_all_info .reload_more").show();
                 //进行数据处理
                 if (resultData.status == 1 && resultData.result.length) {
                     data_all = getNewArr(resultData.result);
                     var data_all_pape = getFirstPageContent(page_all, limit_all, data_all);
                     buildDatatoHtml(data_all_pape, "release_all_info");
+                }else{
+                    $('#release_all_info').html("<img src='../../static/imgs/i/index_nodata.png'>&nbsp;&nbsp;暂无数据").css({"margin-top":"90px","text-align":"center"});
                 }
             });
         }
 
         if (type > 0) { //个人的信息
             webim.getReleaseInfo({"query_type" : "mytask"}, function() {
-                $("#release_own_info").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
+                $(".own_load").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
             }, function (resultData) {
+                $(".own_load").html('').removeClass("own_load");
+                $("#release_own_info .reload_more").show();
                 //进行数据处理
                 if (resultData.status == 1 && resultData.result.length) {
                     data_own = getNewArr(resultData.result);
                     var data_own_pape = getFirstPageContent(page_own, limit_own, data_own);
                     buildDatatoHtml(data_own_pape, "release_own_info");
+                }else{
+                    $('#release_own_info').html("<img src='../../static/imgs/i/index_nodata.png'>&nbsp;&nbsp;暂无数据").css({"margin-top":"90px","text-align":"center"});
                 }
             });
         }
@@ -148,19 +154,22 @@
      * */
     $('.release_info').click(function () {
         var message = $('.release_frame textarea').val();
-        webim.setReleaseInfo({"message": message}, function () {
-            $('.release_ing').html('<i class="fa fa-refresh fa-spin"></i>&nbsp;发送中...&nbsp;&nbsp;');
-            $('.release_info').attr("disabled", true);
-        }, function (resultDate) {
-            if (resultDate.status == 1) {
-                // page_all=page_all-1;
-                // getInterfaceData(0);
-                window.location.reload();
-            } else {
-                swal("发送失败");
-            }
-        });
-
+        if(message){
+            webim.setReleaseInfo({"message": message}, function () {
+                $('.release_ing').html('<i class="fa fa-refresh fa-spin"></i>&nbsp;发送中...&nbsp;&nbsp;');
+                $('.release_info').attr("disabled", true);
+            }, function (resultDate) {
+                $('.release_ing').html('');
+                $('.release_info').attr("disabled", false);
+                if (resultDate.status == 1) {
+                    swal({title: "发送成功", type: "success" ,timer: 1000, showConfirmButton: false}, function(){window.location.reload(); });
+                } else {
+                    swal("发送失败","","error");
+                }
+            });
+        }else{
+            swal("发送内容不要为空","" , "warning");
+        }
     });
 
     /**
@@ -168,7 +177,6 @@
      * */
     $('#release_all_info .reload_more').click(function () {
         page_all++;
-        // getInterfaceData(0);
         var data_all_pape = getFirstPageContent(page_all, limit_all, data_all);
         if (data_all_pape.length <= 0) {
             $("#release_all_info .reload_more").hide(); //没有数据
@@ -177,7 +185,6 @@
     });
     $('#release_own_info .reload_more').click(function () {
         page_own++;
-        // getInterfaceData(1);
         var data_own_pape = getFirstPageContent(page_own, limit_own, data_own);
         if (data_own_pape.length <= 0) {
             $("#release_own_info .reload_more").hide(); //没有数据
@@ -262,7 +269,6 @@
             }
             webim.follow({"follow": 2});
         });
-
 
     }
     init();

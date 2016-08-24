@@ -35,19 +35,21 @@ if (CheckLogin::check() == -1) {
             <div class="clear"></div>
         </div>
 
-        <ul class="nav nav-tabs release_ul" style="padding-top: 11px;border:0px">
+        <ul class="nav nav-tabs release_ul">
             <li class="active" data-type="0"><a href="#release_all_info" data-toggle="tab">全部</a></li>
             <li data-type="1"><a href="#release_own_info" data-toggle="tab">我的</a></li>
         </ul>
 
         <div class="tab-content">
             <div class="all_content tab-pane active" id="release_all_info">
+                <div class="all_load"></div>
                 <div class="get_release_content">
                 </div>
                 <div class="reload_more">点击展开更多<br/><i class="glyphicon glyphicon-menu-down"></i></div>
             </div>
 
             <div class="own_content tab-pane" id="release_own_info">
+                <div class="own_load"></div>
                 <div class="get_release_content">
                 </div>
                 <div class="reload_more">点击展开更多<br/><i class="glyphicon glyphicon-menu-down"></i></div>

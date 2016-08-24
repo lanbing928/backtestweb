@@ -37,6 +37,10 @@
     color:#fff;
     width:62px;
 }
+.release_ul{
+    padding-top: 11px;
+    border:0px
+}
 .release_frame_describe{
     color:#bbb;
     font-size: 13px;
@@ -173,6 +177,10 @@
     color:#c0c0c0;
     cursor: pointer;
     font-size:12px;
+    display:none;
+}
+.own_load , .all_load{
+   margin-top:90px;
 }
 .follow_select{
     color:#EE5F5F;
