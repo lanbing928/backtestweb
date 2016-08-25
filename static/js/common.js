@@ -1742,6 +1742,28 @@ var inforcenter = {
                 backFn && backFn(resultData);
             }
         })
+    },
+    /**
+     * 设置提醒阀值
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    setStockThreshold: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/infocenter/ajax_set_thresholder.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
     }
 };
 

@@ -78,7 +78,8 @@ if (CheckLogin::check() == -1) {
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <td>股票代码</td>
+                        <td class="stock_category"><img src="/static/imgs/i/icon_edit.png">&nbsp;&nbsp;股票代码
+                        </td>
                         <td>股票名称</td>
                         <td>最新价</td>
                         <td>涨跌幅</td>
