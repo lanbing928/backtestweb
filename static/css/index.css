@@ -122,7 +122,7 @@
 .loadingmask{width: 100%; height: 100%; position: absolute;top: 0;left: 0;background: rgba(193,193,193,.5);}
 .loadingmask label{background: url("../imgs/i/loader.gif") no-repeat center;}
 .loadingmask p{text-align: center;margin-top: 200px;color: #212121;}
-.clear{clear: both;}
+/*.clear{clear: both;}*/
 .dropdown-menu{min-width: 100%;}
 
 /*重写table间隔变色，偶数行变色*/
@@ -411,7 +411,7 @@ td span img{width:13px;margin-left:2px;}
 .person-backtest span:hover{cursor: pointer}
 .person-backtest input{width:87px;font-size:12px}
 .person-backtest button{background: #4963AE;color:#fff;border:0;width:60px;height:22px;font-size: 12px;}
-.person-backtest .progress_bar{display:none;width:330px;padding:10px;margin-top:10px;border:1px solid #eee; box-shadow: 0 1px 3px rgba(0,0,0,.175);background:#fff;position: absolute;z-index:9;}
+.person-backtest .progress_bar{display:none;width:330px;padding:10px;margin-top:5px;border:1px solid #eee; box-shadow: 0 1px 3px rgba(0,0,0,.175);background:#fff;position: absolute;z-index:9;}
 .person-backtest .progress_bar li{font-size:12px;line-height:25px;position:relative; height:25px; list-style:none;}
 .person-backtest .position_ratio{color:#bebebe}
 .person-backtest .scale + span {position: absolute;right:-2px;top:-6px; color:#333}
@@ -422,7 +422,7 @@ td span img{width:13px;margin-left:2px;}
 .person-backtest #surplus_scale{background-color: #5bbcd8;width:168px;border-radius: 5px}
 .person-backtest #surplus_title{color: #fa4d4d;}
 .person-backtest .compare_select{color:#475586;}
-.person-backtest .compare_data{display:none;width:150px;padding:3px 10px;margin-top:10px;border:1px solid #eee; box-shadow: 0 1px 3px rgba(0,0,0,.175);background:#fff;position: absolute;left:0;}
+.person-backtest .compare_data{display:none;width:150px;z-index:10;padding:3px 10px;margin-top:5px;border:1px solid #eee; box-shadow: 0 1px 3px rgba(0,0,0,.175);background:#fff;position: absolute;left:0;}
 .person-backtest .compare_data li{float:left;height:21px;line-height:24px;list-style:none;margin:0 auto;}
 .person-backtest .compare_data li  input {width:15px;}
 
@@ -437,3 +437,15 @@ td span img{width:13px;margin-left:2px;}
 .progress_bar span[id='wk-all-num-tip']{margin-left: 15px;}
 .progress_bar span[id^='wk-all-subnum-tip-']{margin-left: 15px;}
 .wk-his-name{width: 80px; display: block;float: left;}
+
+/*个人中心 提醒阀值*/
+.person_stock_code{position: relative;}
+.person_stock_code img:hover,.person_stock_code img:focus{cursor: pointer}
+.person_threshold{display:none;position:absolute;top:32px;left:0;z-index:13;list-style: none;background:#fff;text-align: left;color:#333;padding:7px 9px 2px;width:120px;height:130px;border:1px solid #ececec;box-shadow:2px 4px 5px #E7E7E7;}
+.person_threshold li{height:25%}
+.person_threshold li:first-child{font-weight:600}
+.person_threshold .threshold_btn{text-align: center}
+.person_threshold .threshold_btn button{color:#fff;background:#665B9B;width:55px;height:22px;border:0}
+.person_threshold .hot input,.person_threshold .yield input{width:43%;height:70%;border:1px solid #C9C9C9}
+.person_threshold .hot input{margin-left:14%;}
+.wk-user-mychoose-table input::-webkit-outer-spin-button, .wk-user-mychoose-table input::-webkit-inner-spin-button{  -webkit-appearance: none !important; }
