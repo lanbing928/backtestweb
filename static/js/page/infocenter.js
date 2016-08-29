@@ -1085,18 +1085,25 @@
      * 点击进行回测
      * */
     $("#wk-history-btn").click(function () {
-        $(".modal-chart").modal("show");
         var stockArr = [];
         $(".wk-slider-sub").find("input[id^='wk-all-subnum-']").each(function (i, v) {
-            stockArr.push($(v).attr("data-send-stock"));
-            stockArr.push($(v).attr("value") / 100);
+            if ($(v).attr("value") != 0) {
+                stockArr.push($(v).attr("data-send-stock"));
+                stockArr.push($(v).attr("value") / 100);
+            }
         });
         var stocks_info = "";
-        for (var s in stockArr) {
-            stocks_info += stockArr[s] == 0 ? "" : ("," + stockArr[s]);
+        if ($("#wk-all-subnum-0").attr("value") == 100) {
+            swal("提示!", "请选择持仓比", "warning");
+            return;
+        } else {
+            for (var s in stockArr) {
+                stocks_info += stockArr[s] == 0 ? "" : ("," + stockArr[s]);
+            }
         }
         var timefrom = ',' + $('.testfrom').val();
         var timeto = ',' + $('.testto').val();
+        $(".modal-chart").modal("show");
         getBackTest(stocks_info, timefrom, timeto);
     });
 
@@ -1105,7 +1112,7 @@
      * */
     function getBackTest(stocks_info, timefrom, timeto) {
         var historyLine = echarts.init(document.getElementById("modal-chart"));
-        inforcenter.getBackTest({"stocks_info": stocks_info, "end_time": timefrom, "name": timeto}, function () {
+        inforcenter.getBackTest({"stocks_info": stocks_info, "start_time": timefrom, "end_time": timeto}, function () {
             historyLine.showLoading({"text": "加载中..."});
         }, function (resultData) {
             historyLine.hideLoading();
