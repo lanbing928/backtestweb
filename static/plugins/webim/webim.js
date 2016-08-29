@@ -25,9 +25,9 @@
             /*数组日期已经处理*/
             for (var i = 0; i < list.length; i++) {
                 var stock = list[i].stock;
-                // var increment = list[i].increment;
+                var increment = list[i].advance_or_decline;
                 var new_stock = stock.split(',');
-                // var new_increment = increment.split(',');
+                var new_increment = increment.split(',');
 
                 /*判断是否是每一天的第一条数据*/
                 if (list[i].is_ymd) {
@@ -62,8 +62,8 @@
                 infoHtml.push('</div></div>');
                 infoHtml.push('<div class="content_bottom"><span class="stock">股票：</span><span class="stock_name">');
                 for (var j = 0; j < new_stock.length; j++) {
-                    // infoHtml.push('<span class="' + Utility.getPriceColor(parseInt(new_increment[j])) + '">' + new_stock[j] + '</span>&nbsp;');
-                    infoHtml.push('<span>' + new_stock[j] + '</span>&nbsp;');
+                    infoHtml.push('<span class="' + Utility.getPriceColor(parseInt(new_increment[j])) + '">' + new_stock[j] + '</span>&nbsp;&nbsp;');
+                    // infoHtml.push('<span>' + new_stock[j] + '</span>&nbsp;');
                 }
                 infoHtml.push('</span></div>');
                 infoHtml.push('</div><div class="clear"></div></div></div>');
@@ -80,6 +80,7 @@
             webim.getReleaseInfo({"query_type" : "alltask"}, function() {
                 $(".all_load").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
             }, function (resultData) {
+                console.log(resultData);
                 $(".all_load").html('').removeClass("all_load");;
                 $("#release_all_info .reload_more").show();
                 //进行数据处理
