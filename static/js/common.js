@@ -1742,6 +1742,28 @@ var inforcenter = {
                 backFn && backFn(resultData);
             }
         })
+    },
+    /**
+     * 设置提醒阀值
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    setStockThreshold: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/infocenter/ajax_set_thresholder.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
     }
 };
 
@@ -1768,4 +1790,59 @@ var company = {
         })
     }
 };
+
+var webim = {
+    /**
+     * 聊天 获取全部发布信息
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getReleaseInfo: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/webim/ajax_get_release.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    setReleaseInfo: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/webim/ajax_set_release.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    follow: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/webim/ajax_follow.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                backFn && backFn(resultData);
+            }
+        })
+    }
+};
+
 

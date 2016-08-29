@@ -254,9 +254,11 @@
                 var stockHtml = [];
                 var bar_html = [];//回测持仓比股票名称
                 var _all_stock_code = [];
+                var thresholdHtml=[];//我的自选股与组合设置阀值下拉框
                 if (resultData && resultData.status == 1) {
                     if (resultData.result.info.group_info.length > 0) {
                         var list = resultData.result.info.group_info[0].stock_info;
+                        var thresholder_stock=[]; //取自选股/组合下面所有股票代码
                         bar_html.push('<li><span class="wk-his-name">剩余调仓比：</span>');
                         bar_html.push("<input id=\"wk-all-subnum-0\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"100\" data-slider-value=\"100\"  data-slider-step=\"1\" data-slider-tooltip='hide'/>");
                         bar_html.push("<span id=\"wk-all-subnum-tip-0\"><span>100%</span></span>");
@@ -264,7 +266,7 @@
                         for (var i = 0; i < list.length; i++) {
                             _all_stock_code.push(list[i].code);
                             stockHtml.push("<tr>");
-                            stockHtml.push("<td>" + list[i].code + "</td>");
+                            stockHtml.push("<td><img src='/static/imgs/i/icon_edit.png'>&nbsp;&nbsp;" + list[i].code + "<ul class='person_threshold'><li>提醒条件筛选</li><li class='hot'>热度：<input type='number'></li> <li class='yield'>收益率：<input type='number'></li><li class='threshold_btn'><button data-stock="+list[i].code+">确定</button></li></ul></td>");
                             stockHtml.push("<td><a href='../stocks.php?stock=" + list[i].code + "' target='_blank'>" + list[i].name + "</a></td>");
                             stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + list[i].trade.toFixed(2) + "</td>");
                             stockHtml.push("<td class='" + Utility.getPriceColor(list[i].price_change_ratio) + "'>" + (list[i].price_change_ratio).toFixed(2) + "%</td>");
@@ -281,9 +283,15 @@
                             bar_html.push("<input id=\"wk-all-subnum-" + (i + 1) + "\" type=\"text\" data-slider-min=\"0\" data-slider-max=\"100\" data-slider-value=\"0\"  data-slider-step=\"1\" data-slider-tooltip='hide' data-send-stock='" + list[i].code + "'/>");
                             bar_html.push("<span id=\"wk-all-subnum-tip-" + (i + 1) + "\"><span>0%</span></span>");
                             bar_html.push('</li>');
+                            thresholder_stock[i] = list[i].code;
                         }
                         $(".wk-user-mynews").attr("data-stock", _all_stock_code.join('|') + "|");
                         $('.progress_bar').html(bar_html.join(''));//追加回测持仓比进度条
+
+                        /*追加自选股与组合 阀值下拉框*/
+                        thresholder_stock = thresholder_stock.join(',');//对应组合的全部股票代码
+                        thresholdHtml.push("<ul class='person_threshold'><li>提醒条件筛选</li><li class='hot'>热度：<input type='number'></li> <li class='yield'>收益率：<input type='number'></li><li class='threshold_btn'><button data-stock="+thresholder_stock+" >确定</button></li></ul>");
+                        $('.stock_category').append(thresholdHtml.join(''));
 
                         $(".progress_bar li").find("input").each(function (i, v) {
                             if (i === 0) {
@@ -347,6 +355,8 @@
                 }, function () {
                     $(this).find(".btn-del-stock").hide();
                 });
+                setThreshold();//调用提醒阀值
+
                 //加载完股票列表后获取相关联的新闻
                 var query_type = $(".wk-user-mynews").attr("data-query-type");
                 var info_type = $(".wk-user-mynews").attr("data-info-type");
@@ -1133,7 +1143,6 @@
         return sumCount;
     }
 
-
     function checkSlider($this, reEvt, i) {
         var thisSlider = $this.slider();
         //获取剩余持仓比进度条元素
@@ -1158,6 +1167,45 @@
             // 改变剩余持仓比进度条
             allSlider.slider("setValue", remain);
         }
+    }
+
+    /**
+     * 设置提醒阀值
+     * */
+    function setThreshold() {
+        $('.wk-user-mychoose-table tr td:first-child img').on("click", function () {
+            $('.wk-user-mychoose-table tr td:first-child').removeClass('person_stock_code');
+            $('.person_threshold').hide();
+            $(this).parent().addClass('person_stock_code');
+            $(this).siblings().show();
+            $(document).bind("click", function (e) { //点击空白处下拉框消失
+                var target = $(e.target);
+                if (target.closest("td").length == 0) {
+                    $('.person_threshold').hide();
+                }
+            });
+        });
+        $('.threshold_btn button').click(function () {
+            var $this = $(this);
+            var stock = $this.attr('data-stock');
+            var hot = $this.parent().parent().find('.hot input').val();
+            var stock_yield = $this.parent().parent().find('.yield input').val();
+            console.log(stock);
+            console.log(hot);
+            console.log(stock_yield);
+            if (hot || stock_yield && stock) {
+                inforcenter.setStockThreshold({
+                    "stock": stock,
+                    "hot": hot,
+                    "yield": stock_yield
+                }, null, function (resultData) {
+                    if (resultData.result == 1) {
+                        swal({title: "设置提醒成功", type: "success", timer: 1200, showConfirmButton: false});
+                    }
+                });
+            }
+            $this.parent().parent().hide();
+        });
     }
 
 })(jQuery, window, document);

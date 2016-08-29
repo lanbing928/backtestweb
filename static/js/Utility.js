@@ -139,6 +139,41 @@ var Utility = {
         return (h + m);
     },
     /**
+     * 11位Unix时间戳转化年月日,格式为YYYY-MM-DD
+     * @returns {string}
+     */
+    getYmd: function (time) {
+        var date = new Date(time * 1000);
+        var Y = date.getFullYear();
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+        var D = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate());
+        return Y + '-' + M + '-' + D;
+    },
+    /**
+     * 11位Unix时间戳转化时分秒,格式为HH:ii:ss
+     * @returns {string}
+     */
+    getHis: function (time) {
+        var date = new Date(time * 1000);
+        var h = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours());
+        var m = ((date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes());
+        var s = ((date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds());
+        return h + ':' + m + ':' + s;
+    },
+    /**
+     * 判断某个值是否在数组中存在，数组是一维数组
+     *  @param search 值
+     *  @param array 数组
+     */
+    in_array: function (search, array) {
+        for (var i in array) {
+            if (array[i] == search) {
+                return true;
+            }
+        }
+        return false;
+    },
+    /**
      * 获取时间范围
      * @param beginTime
      * @param endTime
