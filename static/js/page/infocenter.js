@@ -1173,7 +1173,7 @@
             $(this).siblings().show();
             $(document).bind("click", function (e) { //点击空白处下拉框消失
                 var target = $(e.target);
-                if (target.closest("td").length == 0) {
+                if (target.closest(".person_stock_code").length == 0) {
                     $('.person_threshold').hide();
                 }
             });
