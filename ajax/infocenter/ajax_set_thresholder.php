@@ -10,13 +10,13 @@ if (CheckLogin::check() == -1) {
     return;
 }
 $stock = isset($_POST['stock']) ? $_POST['stock'] : "";
-$hot = isset($_POST['hot']) ? $_POST['hot'] : "";
-$yield = isset($_POST['yield']) ? $_POST['yield'] : "";
+$hot = isset($_POST['hot']) ? $_POST['hot'] : "-1";
+$yield = isset($_POST['yield']) ? $_POST['yield'] : "-2";
 $url = iwookongConfig::$requireReleaseUrl . "forwarding/1/group_task.fcgi";
 $result = RequestUtil::get($url, array(
     "user_id" => $_SESSION['user_id'],
     "token" => $_SESSION["token"],
-    "stock" => $stock,
+    "stock" => $stock.',',
     "hot" => $stock,
     "yield" => $yield
 ));
