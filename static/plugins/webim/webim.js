@@ -112,7 +112,7 @@
         }
     }
 
-    /* 获取分页的内容 追加*/
+    /* 获取分页的内容 追加 */
     function getFirstPageContent(page, limit, arr) {
         var start = (page - 1) * limit;
         var page_arr = [];
