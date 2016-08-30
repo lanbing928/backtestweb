@@ -9,7 +9,7 @@ class iwookongConfig
 
     #region 测试版地址
 //    public static $requireUrl = "http://61.147.114.67/cgi-bin/test_wookong/";
-//    public static $requireCompanyUrl = "http://61.147.114.67/cgi-bin/luyao/companyprofile/";
+    public static $requireCompanyUrl = "http://61.147.114.67/cgi-bin/luyao/companyprofile/";
 //    public static $requireRateUrl = "http://61.147.114.67/cgi-bin/george/";
 //    public static $requireBackUrl = "http://61.147.114.67/cgi-bin/george/stock/v1/";
     public static $requireReleaseUrl = "http://61.147.114.67/cgi-bin/tangtao/";
@@ -17,7 +17,7 @@ class iwookongConfig
 
     #region 正式版地址
     public static $requireUrl = "http://61.147.114.76/cgi-bin/twookong122/";
-    public static $requireCompanyUrl = "http://61.147.114.76/cgi-bin/company/companyprofile/";
+//    public static $requireCompanyUrl = "http://61.147.114.76/cgi-bin/company/companyprofile/";
     public static $requireRateUrl = "http://61.147.114.76/cgi-bin/george/";
     public static $requireBackUrl = "http://61.147.114.76/cgi-bin/george/stock/v1/";
     #endregion
