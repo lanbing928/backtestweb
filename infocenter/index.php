@@ -187,7 +187,6 @@ if (CheckLogin::check() == -1) {
 <script src="http://js.97uimg.com/js/My97DatePicker/WdatePicker.js"></script>
 <script src="../static/plugins/typeahead/jquery.typeahead.min.js"></script>
 <script src="../static/plugins/slider/js/bootstrap-slider.min.js"></script>
-<script src="../static/plugins/My97DatePicker/WdatePicker.min.js"></script>
 <script src="../static/js/all.min.js"></script>
 <script src="../static/js/common.min.js"></script>
 <script src="../static/js/Utility.min.js"></script>
