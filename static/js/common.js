@@ -136,6 +136,7 @@ var common = {
             }
         });
     },
+
     /**
      * 达人观点(原自媒体)
      * @param arrData
