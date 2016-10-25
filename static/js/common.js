@@ -5,9 +5,24 @@ var common = {
      * @param resultData
      */
     initCheckLogin: function (resultData) {
-        if (resultData.status == -100) {
-            window.location.href = "http://" + window.location.host + "/login.php";
+        var i=0;
+         for(var key in resultData){
+           if(key=='status'){
+            i=1;
+           }
         }
+        if(i){
+            if(resultData.status == -103){
+                window.location.href = "http://" + window.location.host + "/login.php";
+            }
+        }else{
+             if(resultData.head.status == -103){
+
+               window.location.href = "http://" + window.location.host + "/login.php";
+             }
+        }
+        
+
     },
     /**
      * 登录
@@ -715,7 +730,7 @@ var common = {
      */
     getRateLine: function (arrData, beforeFn, backFn) {
         $.ajax({
-            url: "ajax/ajax_get_rateline.php",
+            url: "/ajax/ajax_get_rateline.php",
             type: "post",
             dataType: "json",
             cache: false,
@@ -786,7 +801,7 @@ var common = {
             //dataZoom: [{show: true, realtime: true}, {type: 'inside', realtime: true}],
             grid: {
                 top: '25px',
-                left: '15px',
+                left: '33px',
                 right: '0',
                 bottom: 0,
                 containLabel: true
@@ -828,7 +843,7 @@ var common = {
             ]
         };
         rateChart.setOption(option);
-        window.onresize = rateChart.resize
+        window.onresize = rateChart.resize;
     },
     /**
      * 构建热度趋势图 历史回测
@@ -1785,12 +1800,12 @@ var company = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
     }
 };
-
 var webim = {
     /**
      * 聊天 获取全部发布信息
@@ -1809,6 +1824,7 @@ var webim = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1824,6 +1840,7 @@ var webim = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })
@@ -1839,6 +1856,102 @@ var webim = {
                 beforeFn && beforeFn();
             },
             success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    }
+};
+
+var backtest = {
+    /**
+     * 回测平台
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    backtest: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_request_backtest.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    backtestResult: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_result_stock.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    getSentence: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_get_sentence.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 获取热度走势图
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getRateLine: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "/ajax/backtest/ajax_get_rateline.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    searchCheck:function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_search_check.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
                 backFn && backFn(resultData);
             }
         })

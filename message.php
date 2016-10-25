@@ -59,7 +59,7 @@ $msg_cooikes->set('message','1','2592000');
                 <img src="static/imgs/msg/pic_7.png">
                 <div>8.通过socket链接控制，一个账户只能一处登录。</div>
             </div>
-            <a href="index.php"><button class="msg_btn btn btn-primary">立即体验</button></a>
+            <a href="index2.php"><button class="msg_btn btn btn-primary">立即体验</button></a>
         </div>
     </section>
 </div>

@@ -25,7 +25,7 @@ if (!VerifyAction::isPwd($userpwd, 6, 16)) {
 }
 //TODO 上线时密码无加密应该改掉
 $md5Password = md5(crypt($userpwd, substr($userpwd, 0, 2)));//将密码无敌加密
-$url = iwookongConfig::$requireUrl . "user/1/user_login.fcgi";
+$url = iwookongConfig::$requireBTUrl . "user/1/user_login.fcgi";
 $result = RequestUtil::get($url,
     array(
         "platform_id" => $platformid,
@@ -51,9 +51,8 @@ if ($jsonresult['status'] != null) {
         //如果用户选择"10天内免登录",则存储用户的信息(由于token失效期的原因，故之后代码改为存储用户的登录名和密码，并加密)
         if ($autologin) {
             $usercookie = new Cookies();
-            $usercookie->set(iwookongConfig::$usercookie, json_encode($resultArr), 864000);
+            $usercookie->set(iwookongConfig::$usercookie.'1111', json_encode($resultArr), 864000,"/","www.baidu.com");
         }
-
         print_r(json_encode(array("status" => 1, "result" => $jsonresult['status'])));
     } else {
         print_r(json_encode(array("status" => 0, "result" => $jsonresult['msg'])));

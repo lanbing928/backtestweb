@@ -1,7 +1,8 @@
 <?php
 /**
- * 发布页 获取历史任务
+ * 获取收益率走势
  */
+
 require_once(dirname(__FILE__) . "/../../common/Request.class.php");
 require_once(dirname(__FILE__) . "/../../common/iwookongConfig.class.php");
 require_once(dirname(__FILE__) . "/../../common/CheckUserLogin.class.php");
@@ -9,13 +10,13 @@ if (CheckLogin::check() == -1) {
     print_r(json_encode(array("status" => -1, "result" => "未知登录状态")));
     return;
 }
-$message = isset($_POST['message']) ? $_POST['message'] : "";
-$url = iwookongConfig::$requireReleaseUrl . "forwarding/1/group_task.fcgi";
-
+$session_id = isset($_POST['sessionid']) ? $_POST['sessionid'] : "";
+$url = iwookongConfig::$requireBTUrl . "kensho/1/btyield.fcgi";
+//获取收益率走势图
 $result = RequestUtil::get($url, array(
-    "user_id" => $_SESSION['user_id'],
+    "uid" => $_SESSION['user_id'],
     "token" => $_SESSION["token"],
-    "message" => $message.','
+    "sessionid" =>$session_id
 ));
 print_r($result);
 return;

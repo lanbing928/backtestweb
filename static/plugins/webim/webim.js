@@ -81,7 +81,7 @@
                 $(".all_load").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
             }, function (resultData) {
                 console.log(resultData);
-                $(".all_load").html('').removeClass("all_load");;
+                $(".all_load").html('').removeClass("all_load");
                 $("#release_all_info .reload_more").show();
                 //进行数据处理
                 if (resultData.status == 1 && resultData.result.length) {

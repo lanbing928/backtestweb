@@ -65,6 +65,7 @@
             "hot_type": hot_type,
             "operate_code": operate_code
         };
+
         if (hot_type == 2) {
             postData.hy = rank_name;
         }

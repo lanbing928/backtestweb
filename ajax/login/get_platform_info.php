@@ -5,7 +5,7 @@
 require_once(dirname(__FILE__) . "/../../common/Request.class.php");
 require_once(dirname(__FILE__) . "/../../common/iwookongConfig.class.php");
 
-$url = iwookongConfig::$requireUrl . "user/1/get_platform_info.fcgi?1=1";
+$url = iwookongConfig::$requireBTUrl . "user/1/get_platform_info.fcgi?1=1";
 $result = RequestUtil::get($url);
 $jsonresult = json_decode($result, true);
 

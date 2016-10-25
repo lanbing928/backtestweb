@@ -104,20 +104,7 @@
 
 /*热力图表*/
 /*.charts{min-height: 250px;min-width: 458px;}*/
-
-/*banner栏搜索*/
-.typeahead__query input,.typeahead__button button{border: none;height: 26px;}
-.typeahead__button button{padding: 4px 12px;}
-.typeahead__search-icon{opacity: 0.5;}
-.typeahead__cancel-button{top: 6px;right:.2em;}
-.typeahead__list,.wk-head-search{font-family: "微软雅黑",'Microsoft Yahei', Helvetica, Arial, sans-serif;}
-.typeahead__list li{border: none;}
-.typeahead__item{font-size: 13px;}
-.typeahead__group a{color: #303F9F;background-color: #FFFFFF;}
-.typeahead__group {border: none;}
-.typeahead__list>li.typeahead__group:first-child{border: none;}
-.typeahead__list>li.typeahead__group.active>a, .typeahead__list>li.typeahead__group>a, .typeahead__list>li.typeahead__group>a:focus, .typeahead__list>li.typeahead__group>a:hover{cursor: default; color: #303F9F;background-color: #FFFFFF;}
-
+b
 /*一些公共的css*/
 .loadingmask{width: 100%; height: 100%; position: absolute;top: 0;left: 0;background: rgba(193,193,193,.5);}
 .loadingmask label{background: url("../imgs/i/loader.gif") no-repeat center;}

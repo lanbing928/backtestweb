@@ -97,7 +97,7 @@
                                 dateHtml.push("<tr><td>" + title[i] + "</td>");
                             }
 
-                            for (var j = 0; j < 7; j++) { //数据列数
+                            for (var j = 0; j < resultData.result.length; j++) { //数据列数
                                 dateHtml.push("<td>" + (resultData.result[j][arrKey[i]] || "--") + "</td>");
                             }
                             dateHtml.push("</tr>");
@@ -125,12 +125,38 @@
                     if (resultData.stock_executive.length > 0) {
                         for (var i = 0; i < resultData.stock_executive.length; i++) {
                             stockHtml.push("<tr>");
-                            stockHtml.push("<td><b>" + resultData.stock_executive[i].number + "</b></td>");
-                            stockHtml.push("<td>" + resultData.stock_executive[i].name + "</td>");
-                            stockHtml.push("<td>" + resultData.stock_executive[i].sex + "</td>");
-                            stockHtml.push("<td>" + resultData.stock_executive[i].age + "</td>");
-                            stockHtml.push("<td>" + resultData.stock_executive[i].education + "</td>");
-                            stockHtml.push("<td>" + resultData.stock_executive[i].duty + "</td>");
+                            if(resultData.stock_executive[i].number == ''){
+                                stockHtml.push("<td><b>--</b></td>");
+
+                            }else{
+                                stockHtml.push("<td><b>" + resultData.stock_executive[i].number + "</b></td>");
+                            }
+                            if(resultData.stock_executive[i].name == ''){
+                                stockHtml.push("<td>--</td>");
+                            }else{
+                                stockHtml.push("<td>" + resultData.stock_executive[i].name + "</td>");
+                            }
+                            if( resultData.stock_executive[i].sex ==''){
+                                stockHtml.push("<td>--</td>");
+                            }else{
+                                stockHtml.push("<td>" + resultData.stock_executive[i].sex + "</td>");
+                            }
+                            if(resultData.stock_executive[i].age == ''){
+                                stockHtml.push("<td>--</td>");
+                            }else{
+                                stockHtml.push("<td>" + resultData.stock_executive[i].age + "</td>");
+                            }
+                            if(resultData.stock_executive[i].education == ''){
+                                stockHtml.push("<td>--</td>");
+                            }else{
+                                stockHtml.push("<td>" + resultData.stock_executive[i].education + "</td>");
+                            }
+                            if(resultData.stock_executive[i].duty == ''){
+                                stockHtml.push("<td>--</td>");
+                            }else{
+                                stockHtml.push("<td>" + resultData.stock_executive[i].duty + "</td>");
+                            }
+
                             stockHtml.push("</tr>");
                         }
                     } else {
@@ -139,10 +165,34 @@
 
                     //高管介绍
                     if (resultData.executive_profile.length > 0) {
+                        console.log(resultData.executive_profile);
                         for (var j = 0; j < resultData.executive_profile.length; j++) {
-                            profileHtml.push("<tr><th colspan='2' width='20%'>" + resultData.executive_profile[j].name + "</th><td rowspan='3'>" + resultData.executive_profile[j].brief_intro + "</td></tr>");
-                            profileHtml.push("<tr><td>性别：" + resultData.executive_profile[j].sex + "</td> <td>" + resultData.executive_profile[j].education + "</td></tr>");
-                            profileHtml.push(" <tr><td colspan='2'>" + resultData.executive_profile[j].position + "</td></tr><tr><td colspan='3'></td></tr>");
+                            if(resultData.executive_profile[j].name==''){
+                                profileHtml.push("<tr><th colspan='2' width='20%'>--</th>");
+                            }else{
+                                profileHtml.push("<tr><th colspan='2' width='20%'>" + resultData.executive_profile[j].name + "</th>");
+                            }
+                            if(resultData.executive_profile[j].brief_intro==''){
+                                profileHtml.push("<td rowspan='3'>--</td></tr>");
+                            }else{
+                                profileHtml.push("<td rowspan='3'>" + resultData.executive_profile[j].brief_intro + "</td></tr>");
+                            }
+                            if(resultData.executive_profile[j].sex==''){
+                                profileHtml.push("<tr><td>性别：--</td>");
+                            }else{
+                                profileHtml.push("<tr><td>性别：" + resultData.executive_profile[j].sex + "</td>");
+                            }
+                            if(resultData.executive_profile[j].education ==''){
+                                profileHtml.push("<td>--</td></tr>");
+                            }else{
+                                profileHtml.push("<td>" + resultData.executive_profile[j].education + "</td></tr>");
+                            }
+                            if(resultData.executive_profile[j].position == ''){
+                                profileHtml.push(" <tr><td colspan='2'>--</td></tr><tr><td colspan='3'></td></tr>");
+                            }else{
+                                profileHtml.push(" <tr><td colspan='2'>" + resultData.executive_profile[j].position + "</td></tr><tr><td colspan='3'></td></tr>");
+                            }
+
                             profileHtml.push("</tr>");
                         }
                     } else {

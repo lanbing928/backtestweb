@@ -114,7 +114,7 @@ var Utility = {
         }
     },
     /**
-     * Unix 时间戳转换为时间
+     * Unix 时间戳转换为时间 年月日时分
      * @param unixtime
      * @returns {string}
      */
@@ -126,6 +126,18 @@ var Utility = {
         var h = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours()) + ':';
         var m = ((date.getMinutes() < 10) ? '0' + date.getMinutes() : date.getMinutes());
         return (Y + M + D + h + m);
+    },
+    /**
+     * Unix 时间戳转换为时间 年月日
+     * @param unixtime
+     * @returns {string}
+     */
+    unixToDate2: function (unixtime) {
+        var date = new Date(unixtime);
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var D = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate()) + '';
+        return (Y + M + D);
     },
     /**
      * unix时间戳转时间
@@ -429,5 +441,13 @@ var Utility = {
             default:
                 return "";
         }
-    }
+    },
+    /**
+     * 获取url中的参数
+     */
+    getUrlParam: function (name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+    if (r != null) return unescape(r[2]); return null; //返回参数值
+}
 };

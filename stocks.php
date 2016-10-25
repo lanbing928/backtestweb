@@ -766,6 +766,6 @@ if (empty($stockCode)) {
 <script src="static/js/all.min.js"></script>
 <script src="static/js/common.min.js"></script>
 <script src="static/js/Utility.min.js"></script>
-<script src="static/js/page/stock.js"></script>
+<script src="static/js/page/stock.min.js"></script>
 </body>
 </html>
