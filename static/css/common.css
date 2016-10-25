@@ -1,0 +1,45 @@
+/*body,html{font-family:'微软雅黑','Microsoft Yahei', Helvetica, Arial, sans-serif;}*/
+body,html{font-family:"Lantinghei SC","Open Sans","Hiragino Sans GB",'微软雅黑',"Microsoft YaHei",STHeiti,"WenQuanYi Micro Hei",SimSun,Arial,sans-serif;}
+
+/*头部导航*/
+.wk-header{background-color: #303f9f; -webkit-box-shadow: #919191 0 2px 10px; -moz-box-shadow: #919191 0 2px 10px; box-shadow: #919191 0 2px 10px;}
+.navbar-brand{padding: 10px 0;}
+.wk-nav-title a{font-size: 20px;color: #FFFFFF;}
+.wk-nav-search{margin-top: 12px;}
+.wk-nav-user li:active{background-color: #26327f;}
+.wk-nav-user li:hover{background-color: #26327f;}
+.wk-nav-user a{font-size: 14px;color: #FFFFFF;cursor: pointer;}
+.wk-nav-user li:hover{background: transparent;}
+.nav>li>a:focus, .nav>li>a:hover{background-color: #26327f;}
+
+.navbar-toggle .icon-bar{background-color: #FFFFFF;}
+
+/*头部搜索*/
+.typeahead__container{height: 26px;width: 305px;}
+
+/*涨跌文字显示*/
+.wk-up{color: #a40000;}
+.wk-down{color: #016f3f;}
+.wk-red{color: #fa4d4d;}
+.wk-green{color: #077545;}
+.wk-gray{color: #545454;}
+
+/*主题框架*/
+.wk-container{max-width: 960px;}
+
+/*其他*/
+.popover{font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;color: #717171;border: 1px solid #a0a7d3; text-align:justify;font-size: 12px;}
+
+
+/*优化webkit内核下浏览器滚动条*/
+::-webkit-scrollbar{width: 8px;height: 8px;  }
+::-webkit-scrollbar-track:vertical{background: #e0e0e0;}
+::-webkit-scrollbar-track:horizontal{background: #e0e0e0;}
+::-webkit-scrollbar-thumb:vertical{height: 40px;background: #b0b0b0;border: 1px solid #e0e0e0;-webkit-border-radius: 8px;}
+::-webkit-scrollbar-thumb:horizontal{width: 40px;background: #aaaaaa;border: 1px solid #e0e0e0;-webkit-border-radius: 8px;}
+::-webkit-scrollbar-thumb:vertical:hover{height: 40px;background: #777777; border: 1px solid #e0e0e0;-webkit-border-radius: 8px;}
+::-webkit-scrollbar-thumb:horizontal:hover{width: 40px;background: #777777;border: 1px solid #e0e0e0;-webkit-border-radius: 8px;}
+::-webkit-scrollbar-corner{background: #e0e0e0;}
+
+@media screen and (max-width: 620px) {.st-strategy-tab label {display: table-cell; padding-right: 15px;}}
+@media screen and (max-width: 990px) {.wk-intro-header hr{display: none;}.wk-con-box .tab-pane .col-md-7.right{padding: 0;}}
