@@ -25,7 +25,7 @@ if (CheckLogin::check() == -1) {
 <body>
 <?php include(dirname(__FILE__) . "/backtest/header.php") ?>
 <div class="wk-content container">
-   <div class="index_recommend row">
+   <div class="index_recommend row index_sentence">
        <div class="col-md-4 new_words">
            <div class="new_title">最热语句</div>
            <img src="/static/imgs/backtest/line1.png">
@@ -46,7 +46,43 @@ if (CheckLogin::check() == -1) {
            <ul class="index-ul-classic">
            </ul>
        </div>
+       <div class="index_more">更多 more</div>
    </div>
+
+    <div class="index_recommend detail_sentence">
+        <div class="basic">
+            <div class="detail_title detail_basic_title">基本面</div>
+            <ul class="detail-ul-basic">
+                <div class="clear"></div>
+            </ul>
+            <div class="detail_type_more" data-click-type="1"><i class="glyphicon glyphicon-menu-down"></i></div>
+        </div>
+
+        <div class="tec">
+            <div class="detail_title detail_tec_title">技术面</div>
+            <ul class="detail-ul-tec">
+                <div class="clear"></div>
+            </ul>
+            <div class="detail_type_more" data-click-type="3"><i class="glyphicon glyphicon-menu-down"></i></div>
+        </div>
+
+        <div class="industry">
+            <div class="detail_title detail_industry_title">行情面</div>
+            <ul class="detail-ul-industry">
+                <div class="clear"></div>
+            </ul>
+            <div class="detail_type_more" data-click-type="2"><i class="glyphicon glyphicon-menu-down"></i></div>
+        </div>
+
+        <div class="news">
+            <div class="detail_title detail_news_title">消息</div>
+            <ul class="detail-ul-news">
+                <div class="clear"></div>
+            </ul>
+            <div class="detail_type_more" data-click-type="4"><i class="glyphicon glyphicon-menu-down"></i></div>
+        </div>
+        <div class="detail_back">返回 back</div>
+    </div>
 </div>
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
