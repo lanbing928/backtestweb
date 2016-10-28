@@ -13,6 +13,11 @@ $(function () {
     var url_opt;//二次搜索需要的第一次搜索产生的sessionid
     var no_result;//结果还没返回
     var request_count=0;//请求接口次数
+    var sentence_total=[];
+         sentence_total[1]=0; //基本面
+         sentence_total[3]=0; //技术面
+         sentence_total[2]=0;//行情面
+         sentence_total[4]=0; //消息面
     $(".wk-head-search").typeahead({
         minLength: 1,
         maxItem: 20,
@@ -100,6 +105,7 @@ $(function () {
             },
             onClickAfter: function () {
                 $('.wk-head-search').val(searchData);
+                conditionWord();
             },
             onSubmit: function (node, form, item, event) {
                 var testfrom = $('.index_time .testfrom').val();//回测开始时间
@@ -282,18 +288,22 @@ $(function () {
         var time=Utility.unixToDate2(unix_time);//转换为日期
         $('.index_time .testfrom').val(time);
         $('.index_time .testto').val(time);
-        getSentence('newHtml', '5', '7', 'index-ul-new');//最热语句
-        getSentence('hotHtml', '1', '7', 'index-ul-hot');//热点事件
-        getSentence('classicHtml', '2', '7', 'index-ul-classic');//经典语句
+        getSentence('5', '7', 'index-ul-new');//最热语句
+        getSentence('1', '7', 'index-ul-hot');//热点事件
+        getSentence('2', '7', 'index-ul-classic');//经典语句
+        getMoreSentence('1','','8','detail-ul-basic');//对应接口的flag, pos,count, attr_selector
+        getMoreSentence('3','','8','detail-ul-tec');//对应接口的flag, pos,count, attr_selector
+        getMoreSentence('2','','8','detail-ul-industry');//对应接口的flag, pos,count, attr_selector
+        getMoreSentence('4','','8','detail-ul-news');//对应接口的flag, pos,count, attr_selector
     }
 
     /**
      * 构造结果页面
      */
     function buildResultHtml() {
-        getSentence('hotHtml', '1', '7', 'result-ul-hot');//热点事件
-        getSentence('newHtml', '5', '7', 'result-ul-new');//最热语句
-        getSentence('classicHtml', '2', '7', 'result-ul-classic');//经典语句
+        getSentence('1', '7', 'result-ul-hot');//热点事件
+        getSentence('5', '7', 'result-ul-new');//最热语句
+        getSentence('2', '7', 'result-ul-classic');//经典语句
         $('.right_industry').append(common.getLoading());//加载动画
         setTimeout(function () {
                 initRateLine();//收益率折线图
@@ -341,6 +351,7 @@ $(function () {
                         setTimeout(function () {
                                 no_result=1;
                                 getStock();
+                                initRateLine();
                                 request_count++;//请求接口次数
                             },1000); //1秒后执行
                     }
@@ -445,7 +456,7 @@ $(function () {
      * @count 数量
      * @attr_selector 标签属性与li的class
      */
-    function getSentence(html, flag, count, attr_selector) {
+    function getSentence(flag, count, attr_selector) {
         var html = [];
         backtest.getSentence({flag: flag, count: count}, function () {
             $("." + attr_selector).html("<div class='sentence_load'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
@@ -456,16 +467,65 @@ $(function () {
                     for (var i = 0; i < data.length; i++) {
                         html.push('<li data-type="0" data-index="' + attr_selector + '-' + i + '">' + data[i].sentence + '</li>');
                     }
-                    $('.' + attr_selector).html(html.join(""));
+                    $('.' + attr_selector).find('.sentence_load').html('').removeClass('sentence_load');
+                    $('.' + attr_selector).append(html.join(""));
                 } else {
                     $("." + attr_selector).html("<div style='text-align:center'>暂无数据</div>");
                 }
             }
 
         });
-    }
+    };
 
     /**
+     * 调回测语句更多接口 获取更多的语句
+     * @html
+     * @flag类型 1，基本面 2.技术面 3.行情面 4.消息面
+     * @pos 起始位置
+     * @count 数量
+     * @attr_selector 标签属性与li的class
+     */
+    function getMoreSentence(flag, pos, count, attr_selector){
+        var html = [];
+        backtest.getMoreSentence({flag: flag, after_sentence:pos, count: count}, function () {
+            $("." + attr_selector).append("<div class='sentence_load'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
+            $("." + attr_selector).next().hide();
+        }, function (resultData) {
+            if(resultData.head.status != -103){
+                if (resultData.body.sentences[0]) {
+                    $("." + attr_selector).next().show();//显示下拉符号
+                    var data = resultData.body.sentences[0][flag];
+                    sentence_total[flag]=sentence_total[flag]+data.length;//对应类型已显示出的数据条数
+                    for (var i = 0; i < data.length; i++) {
+                        html.push('<li data-type="0" data-index="' + attr_selector + '-' + i + '">' + data[i].sentence + '</li>');
+                    }
+                    $('.' + attr_selector).find('.sentence_load').html('').removeClass('sentence_load');//加载中动画不显示
+                    $("." + attr_selector).find('.clear').before(html.join(""));
+
+                    if(resultData.body.sentences[0]['totals']==sentence_total[flag]){ //当数据加载完
+                       $("." + attr_selector).next().hide();//下拉符号消失
+                    }
+                } else {
+                    $("." + attr_selector).html("<div style='text-align:center'>暂无数据</div>");
+                }
+            }
+
+        });
+    };
+
+    /**
+     * 首页
+     * 点击加载更多语句
+     * */
+    $('.detail_type_more').on('click',function(){
+        var type=$(this).attr('data-click-type');
+        var pos= $(this).prev().find('li').last().html();
+        var attr_selector=$(this).prev().attr("class");
+        getMoreSentence(type,pos,8,attr_selector);
+    });
+
+    /**
+     * 结果页
      * 滑动加载 与点击加载更多
      * */
     function scrolLoad() {
@@ -604,6 +664,18 @@ $(function () {
         $('.wk-header .testfrom').val(newFromTime);
         $('.wk-header .testto').val(newToTime);
     })
+
+
+    //点击首页更多 加载更多语句
+    $('.index_more').on('click', function () {
+        $('.detail_sentence').show();
+        $('.index_sentence').hide();
+    });
+    //点击结果页返回 返回首页语句
+    $('.detail_back').on('click', function () {
+        $('.index_sentence').show();
+        $('.detail_sentence').hide();
+    });
 
 
     if (data_type == 'result') {
