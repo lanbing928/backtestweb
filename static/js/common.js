@@ -1919,6 +1919,22 @@ var backtest = {
             }
         })
     },
+    getMoreSentence: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_get_more_sentence.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
     /**
      * 获取热度走势图
      * @param arrData
