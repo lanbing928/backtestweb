@@ -163,12 +163,9 @@ $(function () {
      */
     function isdate(str){
         var result=str.match(/\d{4}[-]\d{1,2}[-]\d{1,2}[-]\d{1,2}/);//第一个时间
-        // var result=str.match(/['到']\d{4}[-]\d{1,2}[-]\d{1,2}[-]\d{1,2}/);
         if(result==null) {
             return false;
         }else{
-            // var d=new Date(result[1], result[3]-1, result[4]);
-            // return (d.getFullYear()==result[1] && d.getMonth()+1==result[3] && d.getDate()==result[4]);
             return 1;
         }
 
@@ -413,7 +410,7 @@ $(function () {
                             $('.dataload').addClass('dis_none');
                         }
                         for (var i = 0; i < stockData.length; i++) {
-                            stockHtml.push('<tr><td>' + (i + p + 1) + '</td><td>' + stockData[i].symbol + '</td><td>' + stockData[i].name + '</a></td><td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td><td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td><td>' + parseInt(stockData[i].volume / 10000) + '万</td><td>' + stockData[i].amount.toFixed(2) + '</td><td>' + stockData[i].bordname + '</td></tr>');
+                            stockHtml.push('<tr><td>' + (i + p + 1) + '</td><td><a href="http://stock.iwookong.com/stocks.php?stock='+stockData[i].symbol+'" target="_blank">' + stockData[i].symbol + '</a></td><td>' + stockData[i].name + '</a></td><td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td><td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td><td>' + parseInt(stockData[i].volume / 10000) + '万</td><td>' + stockData[i].amount.toFixed(2) + '</td><td>' + stockData[i].bordname + '</td></tr>');
                         }
                         $('.right_industry_table tbody').append(stockHtml.join(""));
                         $(".dataload").html('<div class="click_more">点击加载</div>');
@@ -442,7 +439,7 @@ $(function () {
         var stockData = buildData;
         var stockHtml = [];
         for (var i = 0; i < stockData.length; i++) {
-            stockHtml.push('<tr><td>' + (i + 1) + '</td><td>' + stockData[i].symbol + '</td><td>' + stockData[i].name + '</a></td><td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td><td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td><td>' + parseInt(stockData[i].volume / 10000) + '万</td><td>' + stockData[i].amount.toFixed(2) + '</td><td>' + stockData[i].bordname + '</td></tr>');
+            stockHtml.push('<tr><td>' + (i + 1) + '</td><td><a href="http://stock.iwookong.com/stocks.php?stock='+stockData[i].symbol+'" target="_blank">' + stockData[i].symbol + '</a></td><td>' + stockData[i].name + '</a></td><td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td><td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td><td>' + parseInt(stockData[i].volume / 10000) + '万</td><td>' + stockData[i].amount.toFixed(2) + '</td><td>' + stockData[i].bordname + '</td></tr>');
         }
         $('.right_industry_table tbody').html(stockHtml.join(""));
         $(".dataload").html('<div class="click_more">点击加载</div>');
