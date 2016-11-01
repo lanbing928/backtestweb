@@ -4,6 +4,7 @@ body{font-family:"微软雅黑";}
 .fr{float: right;}
 .clear{clear: both}
 a:hover{text-decoration: none}
+a:link{ text-decoration: none;  }
 ul{padding-left:0}
 ul li{list-style: none;}
 .bor{border:1px solid red;}
