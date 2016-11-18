@@ -49,45 +49,7 @@
 <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="static/js/common.min.js"></script>
-
 <script>
-    var account=getCookie('Uj8$!mhy');
-    //获取cookie
-    function getCookie(c_name)
-    {
-        if (document.cookie.length>0)
-        {
-            c_start=document.cookie.indexOf(c_name + "=")
-            if (c_start!=-1)
-            {
-                c_start=c_start + c_name.length+1
-                c_end=document.cookie.indexOf(";",c_start)
-                if (c_end==-1) c_end=document.cookie.length
-                return unescape(document.cookie.substring(c_start,c_end))
-            }
-        }
-        return ""
-    }
-
-
-
-
-    $("#addcollect").click(function() {
-        var ctrl = (navigator.userAgent.toLowerCase()).indexOf('mac') != -1 ? 'Command/Cmd': 'CTRL';
-        if (document.all) {
-            window.external.addFavorite('http://stock.iwookong.com', '坤雁悟空')
-        } else if (window.sidebar) {
-            window.sidebar.addPanel('坤雁悟空', 'http://stock.iwookong.com', "")
-        } else {
-            alert('您可以尝试通过快捷键' + ctrl + ' + D 加入到收藏夹')
-        }
-    });
-    $("#wechat").click(function(){
-        swal({title: "",text: "",imageUrl: "static/imgs/i/qrcode.jpg" });
-        $(".sa-custom").css({"width":"258px","height":"258px"});
-        $(".showSweetAlert").css({"margin-top":"-230px"});
-        //staticimgs/i/qrcode.jpg
-    });
     $(function(){
         $(this).keydown(function (e){
             if(e.which == "13"){

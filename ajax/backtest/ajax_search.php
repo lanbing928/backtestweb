@@ -15,7 +15,6 @@ if (empty($message)) {
     return;
 }
 $message=urlencode($message);
-//$url="http://61.147.114.67/cgi-bin/backtest/search/1/btsearch.fcgi";
 $url = iwookongConfig::$requireBTUrl . "search/1/btsearch.fcgi";
 $result = RequestUtil::get($url,
     array(

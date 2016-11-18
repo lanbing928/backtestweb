@@ -5,7 +5,7 @@ require_once(dirname(__FILE__) . "/common/iwookongConfig.class.php");
 require_once(dirname(__FILE__) . "/common/CheckUserLogin.class.php");
 require_once(dirname(__FILE__) . "/common/Utility.class.php");
 if (CheckLogin::check() == -1) {
-    header("Location:../login.php ");
+    header("Location:/common/checkDevice.php ");
     exit();
 }
 ?>
@@ -80,6 +80,14 @@ if (CheckLogin::check() == -1) {
                 <div class="clear"></div>
             </ul>
             <div class="detail_type_more" data-click-type="4"><i class="glyphicon glyphicon-menu-down"></i></div>
+        </div>
+
+        <div class="events">
+            <div class="detail_title detail_basic_title">热点事件</div>
+            <ul class="detail-ul-events">
+                <div class="clear"></div>
+            </ul>
+            <div class="detail_type_more" data-click-type="5"><i class="glyphicon glyphicon-menu-down"></i></div>
         </div>
         <div class="detail_back">返回 back</div>
     </div>

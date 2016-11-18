@@ -1,317 +1,106 @@
 <!DOCTYPE html>
 <html class="ui-page-login">
 
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title></title>
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<style>
-			.ui-page-login,
-			body {
-				width: 100%;
-				height: 100%;
-				margin: 0px;
-				padding: 0px;
-			}
-			.mui-content{height: 100%;}
-			.area {
-				margin: 20px auto 0px auto;
-			}
-			
-			.mui-input-group {
-				margin-top: 10px;
-			}
-			
-			.mui-input-group:first-child {
-				margin-top: 20px;
-			}
-			
-			.mui-input-group label {
-				width: 22%;
-			}
-			
-			.mui-input-row label~input,
-			.mui-input-row label~select,
-			.mui-input-row label~textarea {
-				width: 78%;
-			}
-			
-			.mui-checkbox input[type=checkbox],
-			.mui-radio input[type=radio] {
-				top: 6px;
-			}
-			
-			.mui-content-padded {
-				margin-top: 25px;
-			}
-			
-			.mui-btn {
-				padding: 10px;
-			}
-			
-			.link-area {
-				display: block;
-				margin-top: 25px;
-				text-align: center;
-			}
-			
-			.spliter {
-				color: #bbb;
-				padding: 0px 8px;
-			}
-			
-			.oauth-area {
-				position: absolute;
-				bottom: 20px;
-				left: 0px;
-				text-align: center;
-				width: 100%;
-				padding: 0px;
-				margin: 0px;
-			}
-			
-			.oauth-area .oauth-btn {
-				display: inline-block;
-				width: 50px;
-				height: 50px;
-				background-size: 30px 30px;
-				background-position: center center;
-				background-repeat: no-repeat;
-				margin: 0px 20px;
-				/*-webkit-filter: grayscale(100%); */
-				border: solid 1px #ddd;
-				border-radius: 25px;
-			}
-			
-			.oauth-area .oauth-btn:active {
-				border: solid 1px #aaa;
-			}
-			
-			.oauth-area .oauth-btn.disabled {
-				background-color: #ddd;
-			}
-		</style>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>回测登录</title>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <style>
+        html, body {width: 100%; height: 100%; margin: 0px; padding: 0px; }
+        body {width: 100%; height: 100%; background: url('img/login_bac.png') no-repeat; background-size:100% 100%; font-family: '微软雅黑';}
+        .fl {float: left }
+        .clear {clear: both}
+        .header {width: 100%; text-align: center;position: absolute;top: 18%;}
+        .content {position: absolute; top: 33%; left: 11.5%; width: 77%; height: 235px; background-color: #fff; border-radius: 6px; padding: 20px 10px 20px; text-align: center;}
+        .result-tips {color: #ff6565; font-size: 10px; padding: 0; text-align: center;  margin: 0; }
+        .account-box {height: 135px; padding: 0; margin: 0;}
+        .account-box li {width: 100%; height: 30px; border: 0px; border-bottom: 1px solid #E3E3E3; padding: 5px 10px; margin-bottom: 20px; color: #484848; list-style: none}
+        /*.account-box li:nth-child(1) {height: 20%;}*/
+        .account-box li:nth-child(3), .account-box li:nth-child(3) input {margin-bottom: 0px;}
+        .account-box li input { width: 80%; height: 100%; border: 0; font: 14px '微软雅黑';padding:0px 10px;}
+        .account-box li img { margin-top: 4px;}
+        /*.account-box li img {margin-top: 6px;}*/
+        .content button {padding: 5px; background-color: #5878CB; border-radius: 2em; font: 14px '微软雅黑'; margin-top: 5px;}
+    </style>
+</head>
+<body>
+<div class="header"><img src="img/login_icon1.png" width="25%"></div>
+<div class="content">
+    <ul class="account-box">
+        <li>
+            <img src="img/login_icon2.png" class="fl" height="70%">
+            <input type="text" id="platformid" class="fl" placeholder="机构ID">
+            <div class="clear"></div>
+        </li>
+        <li>
+            <img src="img/login_icon3.png" class="fl" height="70%">
+            <input type="text" id="uname" class="fl" placeholder="用户名">
+            <div class="clear"></div>
+        </li>
+        <li>
+            <img src="img/login_icon4.png" class="fl" height="70%">
+            <input type="password" id="upwd" class="fl" placeholder="密码">
+            <div class="clear"></div>
+        </li>
+    </ul>
+    <div class="clear"></div>
+    <p class="result-tips" id="result-tips">&nbsp;</p>
+    <button type="button" id="login" class="mui-btn mui-btn-primary mui-btn-block">登&nbsp;&nbsp;录</button>
+</div>
 
-	</head>
-
-	<body>
-		<header class="mui-bar mui-bar-nav">
-			<h1 class="mui-title">登录</h1>
-		</header>
-		<div class="mui-content">
-			
-			<form id='login-form' class="mui-input-group">
-				<div class="mui-input-row">
-					<label>账号</label>
-					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
-				</div>
-				<div class="mui-input-row">
-					<label>密码</label>
-					<input id='password' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
-				</div>
-			</form>
-			<form class="mui-input-group">
-				<ul class="mui-table-view mui-table-view-chevron">
-					<li class="mui-table-view-cell">
-						自动登录
-						<div id="autoLogin" class="mui-switch">
-							<div class="mui-switch-handle"></div>
-						</div>
-					</li>
-				</ul>
-			</form>
-			<div class="mui-content-padded">
-				<button id='login' class="mui-btn mui-btn-block mui-btn-primary">登录</button>
-				<div class="link-area"><a id='reg'>注册账号</a> <span class="spliter">|</span> <a id='forgetPassword'>忘记密码</a>
-				</div>
-			</div>
-			<div class="mui-content-padded oauth-area">
-
-			</div>
-		</div>
-		<script src="js/mui.min.js"></script>
-		<script src="js/mui.enterfocus.js"></script>
-		<script src="js/app.js"></script>
-		<script>
-			(function($, doc) {
-				$.init({
-					statusBarBackground: '#f7f7f7'
-				});
-				$.plusReady(function() {
-					plus.screen.lockOrientation("portrait-primary");
-					var settings = app.getSettings();
-					var state = app.getState();
-					var mainPage = $.preload({
-						"id": 'main',
-						"url": 'main.html'
-					});
-					var toMain = function() {
-						$.fire(mainPage, 'show', null);
-						setTimeout(function() {
-							$.openWindow({
-								id: 'main',
-								show: {
-									aniShow: 'pop-in'
-								},
-								waiting: {
-									autoShow: false
-								}
-							});
-						}, 0);
-					};
-					//检查 "登录状态/锁屏状态" 开始
-					if (settings.autoLogin && state.token && settings.gestures) {
-						$.openWindow({
-							url: 'unlock.html',
-							id: 'unlock',
-							show: {
-								aniShow: 'pop-in'
-							},
-							waiting: {
-								autoShow: false
-							}
-						});
-					} else if (settings.autoLogin && state.token) {
-						toMain();
-					} else {
-						app.setState(null);
-						//第三方登录
-						var authBtns = ['qihoo', 'weixin', 'sinaweibo', 'qq']; //配置业务支持的第三方登录
-						var auths = {};
-						var oauthArea = doc.querySelector('.oauth-area');
-						plus.oauth.getServices(function(services) {
-							for (var i in services) {
-								var service = services[i];
-								auths[service.id] = service;
-								if (~authBtns.indexOf(service.id)) {
-									var isInstalled = app.isInstalled(service.id);
-									var btn = document.createElement('div');
-									//如果微信未安装，则为不启用状态
-									btn.setAttribute('class', 'oauth-btn' + (!isInstalled && service.id === 'weixin' ? (' disabled') : ''));
-									btn.authId = service.id;
-									btn.style.backgroundImage = 'url("images/' + service.id + '.png")'
-									oauthArea.appendChild(btn);
-								}
-							}
-							$(oauthArea).on('tap', '.oauth-btn', function() {
-								if (this.classList.contains('disabled')) {
-									plus.nativeUI.toast('您尚未安装微信客户端');
-									return;
-								}
-								var auth = auths[this.authId];
-								var waiting = plus.nativeUI.showWaiting();
-								auth.login(function() {
-									waiting.close();
-									plus.nativeUI.toast("登录认证成功");
-									auth.getUserInfo(function() {
-										plus.nativeUI.toast("获取用户信息成功");
-										var name = auth.userInfo.nickname || auth.userInfo.name;
-										app.createState(name, function() {
-											toMain();
-										});
-									}, function(e) {
-										plus.nativeUI.toast("获取用户信息失败：" + e.message);
-									});
-								}, function(e) {
-									waiting.close();
-									plus.nativeUI.toast("登录认证失败：" + e.message);
-								});
-							});
-						}, function(e) {
-							oauthArea.style.display = 'none';
-							plus.nativeUI.toast("获取登录认证失败：" + e.message);
-						});
-					}
-					// close splash
-					setTimeout(function() {
-						//关闭 splash
-						plus.navigator.closeSplashscreen();
-					}, 600);
-					//检查 "登录状态/锁屏状态" 结束
-					var loginButton = doc.getElementById('login');
-					var accountBox = doc.getElementById('account');
-					var passwordBox = doc.getElementById('password');
-					var autoLoginButton = doc.getElementById("autoLogin");
-					var regButton = doc.getElementById('reg');
-					var forgetButton = doc.getElementById('forgetPassword');
-					loginButton.addEventListener('tap', function(event) {
-						var loginInfo = {
-							account: accountBox.value,
-							password: passwordBox.value
-						};
-						app.login(loginInfo, function(err) {
-							if (err) {
-								plus.nativeUI.toast(err);
-								return;
-							}
-							toMain();
-						});
-					});
-					$.enterfocus('#login-form input', function() {
-						$.trigger(loginButton, 'tap');
-					});
-					autoLoginButton.classList[settings.autoLogin ? 'add' : 'remove']('mui-active')
-					autoLoginButton.addEventListener('toggle', function(event) {
-						setTimeout(function() {
-							var isActive = event.detail.isActive;
-							settings.autoLogin = isActive;
-							app.setSettings(settings);
-						}, 50);
-					}, false);
-					regButton.addEventListener('tap', function(event) {
-						$.openWindow({
-							url: 'reg.html',
-							id: 'reg',
-							preload: true,
-							show: {
-								aniShow: 'pop-in'
-							},
-							styles: {
-								popGesture: 'hide'
-							},
-							waiting: {
-								autoShow: false
-							}
-						});
-					}, false);
-					forgetButton.addEventListener('tap', function(event) {
-						$.openWindow({
-							url: 'forget_password.html',
-							id: 'forget_password',
-							preload: true,
-							show: {
-								aniShow: 'pop-in'
-							},
-							styles: {
-								popGesture: 'hide'
-							},
-							waiting: {
-								autoShow: false
-							}
-						});
-					}, false);
-					//
-					window.addEventListener('resize', function() {
-						oauthArea.style.display = document.body.clientHeight > 400 ? 'block' : 'none';
-					}, false);
-					//
-					var backButtonPress = 0;
-					$.back = function(event) {
-						backButtonPress++;
-						if (backButtonPress > 1) {
-							plus.runtime.quit();
-						} else {
-							plus.nativeUI.toast('再按一次退出应用');
-						}
-						setTimeout(function() {
-							backButtonPress = 0;
-						}, 1000);
-						return false;
-					};
-				});
-			}(mui, document));
-		</script>
-	</body>
+<script src="js/mui.min.js"></script>
+<script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="/static/js/common.min.js"></script>
+<script>
+    $(function () {
+        $(this).keydown(function (e) {
+            if (e.which == "13") {
+                login();
+            }
+        });
+    });
+    $("#login").click(function () {
+        login();
+    });
+    function login() {
+        var platform = $("#platformid").val();
+        var uname = $("#uname").val();
+        var upwd = $("#upwd").val();
+        var autologin = $("#autologin").is(":checked");
+        if (platform == "") {
+            $("#result-tips").html("机构ID不能为空");
+            setTimeout(function () {
+                $("#result-tips").html("&nbsp;");
+            }, 2000);
+            return;
+        }
+        if (uname === "" || upwd === "") {
+            $("#result-tips").html("用户名和密码不能为空");
+            setTimeout(function () {
+                $("#result-tips").html("&nbsp;");
+            }, 2000);
+            return;
+        }
+        var arrData = {
+            platform_id: platform,
+            user_name: uname,
+            password: upwd,
+            autologin: autologin
+        };
+        common.login(arrData, null, function (resultData) {
+            if (resultData.status != 0) {
+                window.location.href = "/";
+            } else {
+                $("#result-tips").html(resultData.result);
+                setTimeout(function () {
+                    $("#result-tips").html("&nbsp;");
+                }, 2000);
+            }
+        });
+    }
+</script>
+</body>
 
 </html>

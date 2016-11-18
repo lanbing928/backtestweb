@@ -1,6 +1,6 @@
 <?php
 /**
- * 请求 回测结果
+ * 请求 回测结果 获取sessionid
  */
 require_once(dirname(__FILE__) . "/../../common/Request.class.php");
 require_once(dirname(__FILE__) . "/../../common/iwookongConfig.class.php");
@@ -14,7 +14,6 @@ $start = isset($_POST['start_time']) ? $_POST['start_time'] : "";
 $end = isset($_POST['end_time']) ? $_POST['end_time'] : "";
 $baseSessionid=isset($_POST['base_sessionid']) ? $_POST['base_sessionid'] : "";
 $url = iwookongConfig::$requireBTUrl . "kensho/1/btsentence.fcgi";
-
 $result = RequestUtil::get($url, array(
     "uid" => $_SESSION['user_id'],
     "token" =>  $_SESSION["token"],

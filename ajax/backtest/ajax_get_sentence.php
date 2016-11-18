@@ -12,7 +12,6 @@ if (CheckLogin::check() == -1) {
 $flag = isset($_POST['flag']) ? $_POST['flag'] : "";
 $pos = isset($_POST['pos']) ? $_POST['pos'] : "";
 $count = isset($_POST['count']) ? $_POST['count'] : "";
-//$url = "http://61.147.114.67/cgi-bin/backtest/hotsuggest/1/hotsuggest.fcgi";
 $url = iwookongConfig::$requireBTUrl . "hotsuggest/1/hotsuggest.fcgi";
 $result = RequestUtil::get($url, array(
     "uid" => $_SESSION['user_id'],

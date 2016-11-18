@@ -20,7 +20,7 @@ if (isset($userInfo)) {
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="wk-nav-search">
-                    <div class="typeahead__container">
+                    <div class="typeahead__container container">
                         <div class="typeahead__field"><span class="typeahead__query"> <input class="wk-head-search" type="search" placeholder="搜索(股票/行业/概念/事件)" autocomplete="off"> </span> <span class="typeahead__button"> <button> <i class="typeahead__search-icon"></i> </button> </span></div>
                     </div>
                 </li>
