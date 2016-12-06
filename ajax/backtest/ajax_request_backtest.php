@@ -22,7 +22,5 @@ $result = RequestUtil::get($url, array(
     "end_time" => $end,
     "base_sessionid" => $baseSessionid
 ));
-
-
 print_r($result);
 return;
