@@ -16,6 +16,7 @@ $(function () {
          sentence_total[3]=0; //技术面
          sentence_total[2]=0;//行情面
          sentence_total[4]=0; //消息面
+         sentence_total[5]=0; //热点事件
     var more_1=0;// 首页更多语句类型 1，基本面 2.行情面 3.技术面 4.消息面 5热点事件
     var more_2=0;
     var more_3=0;
@@ -105,6 +106,7 @@ $(function () {
                 var arr = $('.wk-head-search').val().split('+');
                 arr[arr.length - 1] = item.sentence;
                 searchData = arr.join('+');
+                conditionRepeat(arr,item.sentence);//搜索条件重复提醒
             },
             onClickAfter: function () {
                 $('.wk-head-search').val(searchData);
@@ -178,7 +180,7 @@ $(function () {
      * 初始化热度趋势
      */
     function initRateLine() {
-        var session = getUrlParam('session');
+        var session = Utility.getUrlParam('session');
         var rateLine = echarts.init(document.getElementById("wk-rate-line-pic"));
         backtest.getRateLine({sessionid: session}, function () {
             $('.right_yield').hide();
@@ -235,10 +237,32 @@ $(function () {
      *  手动改变搜索框内容,语句与已选条件联动
      */
     $('.wk-head-search').on('input propertychange', function () {
+        var search_arr =$('.wk-head-search').val().split('+');//搜索框内容
+        var last_sentence=search_arr[search_arr.length-1];//搜索框最后一个条件
+        conditionRepeat(search_arr,last_sentence);
         conditionWord();
     });
 
-    /*语句与已选条件联动*/
+    /*当搜索框条件重复输入时提醒（包括结果页搜索框内容与已选条件重复）*/
+    function conditionRepeat(arr,last_sentence) {
+        var obj = $('.right_condition li span');
+        var result_arr = [];//结果页的已选条件
+        if (obj.length) {
+            for (var j = 0; j < obj.length; j++) {
+                var text = obj.eq(j).text();
+                result_arr[j] = text;
+            }
+            arr=result_arr.concat(arr);
+        }
+        for(var i=0;i<arr.length-1;i++){
+            if(last_sentence==arr[i]){
+                swal({title: "回测条件重复！", type: "warning", timer: 1000, showConfirmButton: false});
+                return false;
+            }
+        }
+    }
+
+  /*语句与已选条件联动*/
     function conditionWord() {
         var input_content = $('.wk-head-search').val();
         var tags_arr = exist_tags_arr();
@@ -247,23 +271,13 @@ $(function () {
             var x;
             for (x in tags_arr) {
                 var val = tags_arr[x];
-                if (in_array(val, input_arr)) {
+                if (Utility.inArray(val, input_arr)) {
                     $(".index_recommend li[data-index='" + x + "']").addClass('word_active').attr('data-type', '1');
                 } else {
                     $(".index_recommend li[data-index='" + x + "']").removeClass('word_active').attr('data-type', '0');
                 }
             }
         }
-    }
-
-    /*判断是否存在*/
-    function in_array(search, array) {
-        for (var i in array) {
-            if (array[i] == search) {
-                return true;
-            }
-        }
-        return false;
     }
 
     /*获取已经存在的标签*/
@@ -315,29 +329,13 @@ $(function () {
             , 1000); //1秒后执行
     }
 
-    function in_array(search, array) {
-        for (var i in array) {
-            if (array[i] == search) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //获取url中的参数
-    function getUrlParam(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-        if (r != null) return unescape(r[2]);
-        return null; //返回参数值
-    }
 
     /**
      * 调回测结果接口 获取股票信息
      */
     function getStock(p, c) {
-        var session = getUrlParam('session');
-        var session = getUrlParam('session');
+        var session = Utility.getUrlParam('session');
+        var session = Utility.getUrlParam('session');
         if (session) {
             var stockHtml = [];//股票表格
             var rigth_condition = [];//右边已选条件
@@ -346,7 +344,7 @@ $(function () {
                     $(".dataload").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
                 }
             }, function (resultData) {
-                console.log(resultData)
+                console.log(resultData);
                 if(!resultData.body.end_time){//1秒定时结束结果还没返回
                     if(request_count>=10){   //接口调三次还没结果 默认sessionid失效
                         window.open(thisHost , "_self");//调10次接口还没结果返回
@@ -367,23 +365,23 @@ $(function () {
                     $('.right_industry').append(common.hideLoading());//加载动画
                     var stockData = resultData.body.stocks;
                     alldata_s = alldata_s.concat(stockData);//显示的所有股票数据
-
+                    // var thresholdHtml=[];//设置提醒预值下拉框
+                    // var thresholder_stock=[]; //获取所有股票代码
                     $('.testfrom').val(resultData.body.start_time);//开始时间
                     $('.testto').val(resultData.body.end_time);//结束时间
                     $('.right_stock_num span').html(resultData.body.count);//股票数
 
                     //右侧已选条件
                     if (resultData.body.right_sentence.length > 0) {
-                        var input_cont;//搜索框显示回测正确语句
-                        for (var i = 0; i < resultData.body.right_sentence.length; i++) { //结果页右侧已选条件
-                            rigth_condition.push('<li>' + resultData.body.right_sentence[i] + '</li>');
-                            if (input_cont) {
-                                input_cont = input_cont + '+' + resultData.body.right_sentence[i];
-                            } else {
-                                input_cont = resultData.body.right_sentence[i];
+                        var sentence=resultData.body.right_sentence;//已选语句
+                        for (var i = 0; i < sentence.length; i++) { //结果页右侧已选条件
+                            if(sentence[i]['type'] && sentence[i]['type']==5){
+                                rigth_condition.push('<li><span>' + sentence[i]['sentence'] + '</span><i class="fa tip_time"><div class="tip_abstract"><div class="title">事件摘要：</div>'+sentence[i]['abstract']+'</div><div class="tip_date"><span class="title">开始时间：</span>'+Utility.unixToDate2(sentence[i]['start_time'])+'&nbsp;&nbsp;&nbsp;&nbsp;<span class="title">结束时间：</span>'+Utility.unixToDate2(sentence[i]['end_time'])+'</div></i></li>');
+                            }else{
+                                rigth_condition.push('<li><span>' + sentence[i]['sentence'] + '</span></li>');
                             }
                         }
-                        // $('.wk-head-search').val(input_cont);//搜索框为正确语句
+
                         rigth_condition.push('<div class="clear"></div>');
                         $('.right_condition ul').html(rigth_condition.join(""));
                     }
@@ -401,7 +399,7 @@ $(function () {
                                 title: "以下条件不符合筛选规则",
                                 type: "warning",
                                 text: content,
-                                timer: 1200,
+                                timer: 6500,
                                 showConfirmButton: false
                             }, function () {
                                 window.open(thisHost , "_self");
@@ -416,9 +414,26 @@ $(function () {
                             $('.dataload').addClass('dis_none');
                         }
                         for (var i = 0; i < stockData.length; i++) {
-                            stockHtml.push('<tr><td>' + (i + p + 1) + '</td><td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a></td><td>' + stockData[i].name + '</a></td><td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td><td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td><td>' + parseInt(stockData[i].volume / 10000) + '万</td><td>' + stockData[i].amount.toFixed(2) + '</td><td>' + stockData[i].bordname + '</td></tr>');
+                            stockHtml.push('<tr>');
+                            stockHtml.push('<td>' + (i + p + 1) + '</td>');
+                            // stockHtml.push('<td><img src="/static/imgs/i/icon_edit.png">&nbsp;&nbsp;<a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a><ul class="result_threshold"><li>提醒条件筛选</li><li class="hot">热度：<input type="number"></li> <li class="yield">收益率：<input type="number"></li><li class="threshold_btn"><button data-stock="'+stockData[i].symbol+'">确定</button></li></ul></td>');
+                            stockHtml.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a></td>');
+                            stockHtml.push('<td>' + stockData[i].name + '</a></td>');
+                            stockHtml.push('<td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td>');
+                            stockHtml.push('<td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td>');
+                            stockHtml.push('<td>' + (stockData[i].volume / 10000).toFixed(2) + '万</td>');
+                            stockHtml.push('<td>' + stockData[i].amount.toFixed(2) + '</td>');
+                            stockHtml.push('<td>' + stockData[i].bordname + '</td></tr>');
+                            stockHtml.push('</tr>');
+                            // thresholder_stock[i] = stockData[i].symbol;
                         }
                         $('.right_industry_table tbody').append(stockHtml.join(""));
+                        /*点击tr第一行编辑 对所有股票设置阀值*/
+                        // thresholder_stock = thresholder_stock.join(',');//所有股票代码
+                        // thresholdHtml.push("<ul class='result_threshold'><li>提醒条件筛选</li><li class='hot'>热度：<input type='number'></li> <li class='yield'>收益率：<input type='number'></li><li class='threshold_btn'><button data-stock="+thresholder_stock+" >确定</button></li></ul>");
+                        // $('.stock_category').append(thresholdHtml.join(''));//所有股票代码
+                        // setThreshold();//设置阀值事件
+
                         $(".dataload").html('<div class="click_more">点击加载</div>');
                         $('#table1 tbody').append(stockHtml.join(""));//导出表格
                         url_opt = Utility.getUrlParam('session');//结果页url的参数 sessionid
@@ -443,12 +458,30 @@ $(function () {
      */
     function buildSortRankTable(buildData) {
         var stockData = buildData;
-        console.log(stockData);
         var stockHtml = [];
+        // var thresholdHtml=[];//设置提醒预值下拉框
+        // var thresholder_stock=[]; //获取所有股票代码
         for (var i = 0; i < stockData.length; i++) {
-            stockHtml.push('<tr><td>' + (i + 1) + '</td><td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a></td><td>' + stockData[i].name + '</a></td><td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td><td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td><td>' + parseInt(stockData[i].volume / 10000) + '万</td><td>' + stockData[i].amount.toFixed(2) + '</td><td>' + stockData[i].bordname + '</td></tr>');
+            // stockHtml.push('<tr><td>' + (i + 1) + '</td><td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a></td><td>' + stockData[i].name + '</a></td><td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td><td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td><td>' + parseInt(stockData[i].volume / 10000) + '万</td><td>' + stockData[i].amount.toFixed(2) + '</td><td>' + stockData[i].bordname + '</td></tr>');
+            stockHtml.push('<tr>');
+            stockHtml.push('<td>' + (i + 1) + '</td>');
+            stockHtml.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a></td>');
+            // stockHtml.push('<td><img src="/static/imgs/i/icon_edit.png">&nbsp;&nbsp;<a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a><ul class="result_threshold"><li>提醒条件筛选</li><li class="hot">热度：<input type="number"></li> <li class="yield">收益率：<input type="number"></li><li class="threshold_btn"><button data-stock="'+stockData[i].symbol+'">确定</button></li></ul></td>');
+            stockHtml.push('<td>' + stockData[i].name + '</a></td>');
+            stockHtml.push('<td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td>');
+            stockHtml.push('<td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td>');
+            stockHtml.push('<td>' + (stockData[i].volume / 10000).toFixed(2) + '万</td>');
+            stockHtml.push('<td>' + stockData[i].amount.toFixed(2) + '</td>');
+            stockHtml.push('<td>' + stockData[i].bordname + '</td></tr>');
+            stockHtml.push('</tr>');
+            // thresholder_stock[i] = stockData[i].symbol;
         }
         $('.right_industry_table tbody').html(stockHtml.join(""));
+        /*点击tr第一行编辑 对所有股票设置阀值*/
+        // thresholder_stock = thresholder_stock.join(',');//所有股票代码
+        // thresholdHtml.push("<ul class='result_threshold'><li>提醒条件筛选</li><li class='hot'>热度：<input type='number'></li> <li class='yield'>收益率：<input type='number'></li><li class='threshold_btn'><button data-stock="+thresholder_stock+" >确定</button></li></ul>");
+        // $('.stock_category').append(thresholdHtml.join(''));//所有股票代码
+        // setThreshold();//设置阀值事件
         $(".dataload").html('<div class="click_more">点击加载</div>');
         $('#table1 tbody').html(stockHtml.join(""));//导出表格
     }
@@ -470,7 +503,8 @@ $(function () {
                     var data = resultData.body.sentences[0][flag];
                     for (var i = 0; i < data.length; i++) {
                         if(flag==1){
-                            html.push('<li data-type="0" data-index="' + attr_selector + '-' + i + '"><span>' + data[i].sentence + '</span><i class="fa tip_time">开始时间：'+Utility.unixToDate2(data[i].create_time)+'，结束时间：'+Utility.unixToDate2(data[i].end_time)+'</i></li>');
+                            // html.push('<li data-type="0" data-index="' + attr_selector + '-' + i + '"><span>' + data[i].sentence + '</span><i class="fa tip_time">开始时间：'+Utility.unixToDate2(data[i].create_time)+'，结束时间：'+Utility.unixToDate2(data[i].end_time)+'</i></li>');
+                            html.push('<li data-type="0" data-index="' + attr_selector + '-' + i + '"><span>' + data[i].sentence + '</span><i class="fa tip_time"><div class="tip_abstract"><div class="title">事件摘要：</div>'+data[i].abstract+'</div><div class="tip_date"><span class="title">开始时间：</span>'+Utility.unixToDate2(data[i].create_time)+'&nbsp;&nbsp;&nbsp;&nbsp;<span class="title">结束时间：</span>'+Utility.unixToDate2(data[i].end_time)+'</div></i></li>');
                         }else{
                             html.push('<li data-type="0" data-index="' + attr_selector + '-' + i + '"><span>' + data[i].sentence + '</span></li>');
                         }
@@ -518,7 +552,7 @@ $(function () {
                             html.push('<li data-type="0" data-index="' + attr_selector + '-' + more_4 + '"><span>' + data[i].sentence + '</span></li>');
                             more_4++;
                         }else if(flag==5){
-                            html.push('<li data-type="0" data-index="' + attr_selector + '-' + more_5 + '"><span>' + data[i].sentence + '</span></li>');
+                            html.push('<li data-type="0" data-index="' + attr_selector + '-' + more_5 + '"><span>' + data[i].sentence + '</span><i class="fa tip_time"><div class="tip_abstract"><div class="title">事件摘要：</div>'+data[i].abstract+'</div><div class="tip_date"><span class="title">开始时间：</span>'+Utility.unixToDate2(data[i].create_time)+'&nbsp;&nbsp;&nbsp;&nbsp;<span class="title">结束时间：</span>'+Utility.unixToDate2(data[i].update)+'</div></i></li>');
                             more_5++;
                         }
                     }
@@ -542,7 +576,7 @@ $(function () {
      * */
     $('.detail_type_more').on('click',function(){
         var type=$(this).attr('data-click-type');
-        var pos= $(this).prev().find('li span').last().html();
+        var pos= $(this).prev().find('li').last().find('span').html();
         var attr_selector=$(this).prev().attr("class");
         getMoreSentence(type,pos,8,attr_selector);
     });
@@ -569,10 +603,6 @@ $(function () {
         });
     }
 
-
-    /**
-     * 导出数据
-     */
     function exportTable() {
         var $exportLink = document.getElementById('export');
         $exportLink.addEventListener('click', function (e) {
@@ -620,7 +650,7 @@ $(function () {
     $("body").on("click", ".right thead td span", function () {
         var sortdata;
         var sort_type = $(this).attr('data-sort-type'); //desc asc
-        var sort_opt = $(this).attr('data-hot-sort'); //排序名称
+        var sort_opt =  $(this).attr('data-hot-sort'); //排序名称
         if (sort_type == 'desc') {
             $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('data-sort-type', 'ase').parent().siblings().find('span');
             sortdata = alldata_s.sort(desc_by(sort_opt));
@@ -699,12 +729,52 @@ $(function () {
     });
 
     //事件提示
-    $("body").on("mouseover", ".index-ul-hot li,.result-ul-hot li", function () {
-        $(this).find('i').show();
+    $("body").on("mouseover", ".index-ul-hot li span,.result-ul-hot li span,.detail-ul-events li span,.right_condition li span", function () {
+        $(this).next().show();
     });
-    $("body").on("mouseout", ".index-ul-hot li,.result-ul-hot li", function () {
-        $(this).find('i').hide();
+    $("body").on("mouseout", ".index-ul-hot li span,.result-ul-hot li span,.detail-ul-events li span,.right_condition li span", function () {
+        $(this).next().hide();
     });
+
+
+    /**
+     * 设置提醒阀值
+     * */
+    // function setThreshold() {
+    //     $('.right_industry_table tr td:nth-child(2) img').on("click", function () {
+    //         $('.right_industry_table tr td:nth-child(2)').removeClass('result_code');
+    //         $('.result_threshold').hide();
+    //         $(this).parent().addClass('result_code');
+    //         $(this).siblings().show();
+    //         $(document).bind("click", function (e) { //点击空白处下拉框消失
+    //             var target = $(e.target);
+    //             if (target.closest(".result_code").length == 0) {
+    //                 $('.result_threshold').hide();
+    //             }
+    //         });
+    //     });
+    //     $('.threshold_btn button').click(function () {
+    //         var $this = $(this);
+    //         var stock = $this.attr('data-stock');
+    //         var hot = $this.parent().parent().find('.hot input').val();
+    //         var stock_yield = $this.parent().parent().find('.yield input').val();
+    //         console.log(stock);
+    //         console.log(hot);
+    //         console.log(stock_yield);
+    //         if (hot || stock_yield && stock) {
+    //             inforcenter.setStockThreshold({
+    //                 "stock": stock,
+    //                 "hot": hot,
+    //                 "yield": stock_yield
+    //             }, null, function (resultData) {
+    //                 if (resultData.result == 1) {
+    //                     swal({title: "设置提醒成功", type: "success", timer: 1200, showConfirmButton: false});
+    //                 }
+    //             });
+    //         }
+    //         $this.parent().parent().hide();
+    //     });
+    // }
 
     if (data_type == 'result') {
         buildResultHtml();
@@ -712,4 +782,5 @@ $(function () {
     } else {
         buildIndexHtml();
     }
+
 });
