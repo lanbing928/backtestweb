@@ -20,7 +20,7 @@ if (CheckLogin::check() == -1) {
     <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css">
     <link rel="stylesheet" href="../static/plugins/typeahead/jquery.typeahead.min.css">
-    <link rel="stylesheet" href="../static/css/backtest.min.css">
+    <link rel="stylesheet" href="<?php echo UtilityTools::AutoVersion('/static/css/backtest.min.css')?>">
 </head>
 <body>
 <?php include(dirname(__FILE__) . "/backtest/header.php") ?>
@@ -99,8 +99,8 @@ if (CheckLogin::check() == -1) {
 <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script src="http://js.97uimg.com/js/My97DatePicker/WdatePicker.js"></script>
 <script src="../static/plugins/typeahead/jquery.typeahead.min.js"></script>
-<script src="../static/js/common.min.js"></script>
-<script src="../static/js/Utility.min.js"></script>
-<script src="../static/js/page/backtest.js"></script>
+<script src="<?php echo UtilityTools::AutoVersion('/static/js/common.min.js')?>"></script>
+<script src="<?php echo UtilityTools::AutoVersion('/static/js/Utility.min.js')?>"></script>
+<script src="<?php echo UtilityTools::AutoVersion('/static/js/page/backtest.js')?>"></script>
 </body>
 </html>
