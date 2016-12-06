@@ -173,19 +173,6 @@ var Utility = {
         return h + ':' + m + ':' + s;
     },
     /**
-     * 判断某个值是否在数组中存在，数组是一维数组
-     *  @param search 值
-     *  @param array 数组
-     */
-    in_array: function (search, array) {
-        for (var i in array) {
-            if (array[i] == search) {
-                return true;
-            }
-        }
-        return false;
-    },
-    /**
      * 获取时间范围
      * @param beginTime
      * @param endTime
@@ -446,8 +433,23 @@ var Utility = {
      * 获取url中的参数
      */
     getUrlParam: function (name) {
-    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-    var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-    if (r != null) return unescape(r[2]); return null; //返回参数值
-}
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]); return null; //返回参数值
+    },
+
+    /**
+     * 判断某个值是否在数组中存在 存在返回true,不存在返回flase
+     * @param  search 查询的value值
+     * @paramarray 被查找的数组
+     */
+    inArray: function(search, array) {
+    for (var i in array) {
+        if (array[i] == search) {
+            return true;
+        }
+    }   return false;
+    }
+
+
 };
