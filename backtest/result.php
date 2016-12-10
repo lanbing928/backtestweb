@@ -20,7 +20,7 @@ if (CheckLogin::check() == -1) {
     <link rel="stylesheet" href="http://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css">
     <link rel="stylesheet" href="../static/plugins/typeahead/jquery.typeahead.min.css">
-    <link rel="stylesheet" href="../static/css/backtest.min.css">
+    <link rel="stylesheet" href="<?php echo UtilityTools::AutoVersion('/static/css/backtest.min.css')?>">
 </head>
 <body>
 <?php include(dirname(__FILE__) . "/../backtest/header.php") ?>
@@ -84,6 +84,7 @@ if (CheckLogin::check() == -1) {
                         <thead>
                         <tr>
                             <td>序号</td>
+<!--                            <td class="stock_category"><img src="/static/imgs/i/icon_edit.png">&nbsp;&nbsp;股票代码</td>-->
                             <td>股票代码</td>
                             <td>股票名称</td>
                             <td>最新价<span data-hot-sort='trade' data-sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td>
@@ -137,9 +138,9 @@ if (CheckLogin::check() == -1) {
 <script src="../static/plugins/table_excel/Blob.js"></script>
 <script src="../static/plugins/table_excel/FileSaver.js"></script>
 <script src="../static/plugins/table_excel/tableExport.js"></script>
-<script src="../static/js/common.min.js"></script>
-<script src="../static/js/Utility.min.js"></script>
-<script src="../static/js/page/backtest.js"></script>
+<script src="<?php echo UtilityTools::AutoVersion('/static/js/common.min.js')?>"></script>
+<script src="<?php echo UtilityTools::AutoVersion('/static/js/Utility.min.js')?>"></script>
+<script src="<?php echo UtilityTools::AutoVersion('/static/js/page/backtest.js')?>"></script>
 </body>
 </html>
 

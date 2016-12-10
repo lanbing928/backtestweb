@@ -13,23 +13,22 @@ var common = {
         }
         if(i){
             if(resultData.status == -103){
-                window.location.href = "http://" + window.location.host + "/login.php";
+                window.location.href = "../../common/checkDevice.php";
+                // window.location.href = "http://" + window.location.host + "/login.php";
             }
         }else{
              if(resultData.head.status == -103){
-
-               window.location.href = "http://" + window.location.host + "/login.php";
+                 window.location.href = "../../common/checkDevice.php";
+               // window.location.href = "http://" + window.location.host + "/login.php";
              }
         }
-        
-
     },
     /**
      * 登录
      */
     login: function (arrData, beforeFn, backFn) {
         $.ajax({
-            url: "ajax/login/user_login.php",
+            url: "/ajax/login/user_login.php",
             type: "post",
             dataType: "json",
             cache: false,
@@ -59,64 +58,7 @@ var common = {
             }
         })
     },
-    /**
-     * 获得热力图和热力图表数据
-     * @param arrData
-     * @param beforeFn
-     * @param backFn
-     */
-    getTopTwentyStock: function (arrData, beforeFn, backFn) {
-        $.ajax({
-            url: "ajax/ajax_get_hot_data.php",
-            type: "post",
-            dataType: "json",
-            cache: false,
-            data: arrData,
-            beforeSend: function () {
-                beforeFn && beforeFn();
-            },
-            success: function (resultData) {
-                common.initCheckLogin(resultData);
-                backFn && backFn(resultData);
-            }
-        })
-    },
-    /**
-     * 获取相关联的信息
-     */
-    getRelatedInfo: function (queryArr, beforeFn, backFn) {
-        $.ajax({
-            url: "ajax/ajax_get_related_info.php",
-            dataType: "json",
-            type: "post",
-            data: queryArr,
-            beforeSend: function () {
-                beforeFn && beforeFn();
-            },
-            success: function (resultData) {
-                common.initCheckLogin(resultData);
-                backFn && backFn(resultData);
-            }
-        });
-    },
-    /**
-     *获取事件关联新闻
-     */
-    getEventRelatedInfo: function (queryArr, beforeFn, backFn) {
-        $.ajax({
-            url: "ajax/ajax_get_event_relatedinfo.php",
-            dataType: "json",
-            type: "post",
-            data: queryArr,
-            beforeSend: function () {
-                beforeFn && beforeFn();
-            },
-            success: function (resultData) {
-                common.initCheckLogin(resultData);
-                backFn && backFn(resultData);
-            }
-        });
-    },
+
     /**
      * 新闻
      * @param arrData
@@ -785,11 +727,11 @@ var common = {
                     var showLabel = "";
                     showLabel += params[0].name + "<br>";
                     for (var p in params) {
-                        if (params[p].value && params[p].value != 0) {
+                    //     if (params[p].value && params[p].value != 0) {
                             if (params[0].name == params[p].name) {
                                 showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
                             }
-                        }
+                        // }
                     }
                     return showLabel;
                 }
@@ -1906,6 +1848,22 @@ var backtest = {
     getSentence: function (arrData, beforeFn, backFn) {
         $.ajax({
             url: "../ajax/backtest/ajax_get_sentence.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    getMoreSentence: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_get_more_sentence.php",
             type: "post",
             dataType: "json",
             cache: false,

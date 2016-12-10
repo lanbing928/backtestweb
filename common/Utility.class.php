@@ -201,4 +201,17 @@ class UtilityTools
         }
         return strtoupper($new);
     }
+
+    /**
+    * 读取文件最后一次修改修改时间，然后将获取的时间作为版本号
+    */
+    public static function AutoVersion($file)
+    {
+        if (file_exists($_SERVER['DOCUMENT_ROOT'] . $file)) {
+            $ver = filemtime($_SERVER['DOCUMENT_ROOT'] . $file);
+        } else {
+            $ver = 1;
+        }
+        return $file . '?v=' . $ver;
+    }
 }
