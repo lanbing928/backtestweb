@@ -30,8 +30,8 @@ if (isset($userInfo)) {
         </div>
         </form>
         <div class="index_time">
-            开始时间: <input class="testfrom" onFocus="WdatePicker({lang:'zh-cn',maxDate:new Date()})" readonly><br/>
-            结束时间: <input class="testto" onFocus="WdatePicker({lang:'zh-cn',maxDate:new Date()})" readonly>
+            开始时间: <input class="testfrom" readonly><br/>
+            结束时间: <input class="testto" readonly>
         </div>
         <div class="clear"></div>
     </div>
