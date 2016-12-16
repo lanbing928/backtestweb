@@ -140,6 +140,19 @@ var Utility = {
         return (Y + M + D);
     },
     /**
+     * Unix 时间戳转换为时间 年月日
+     * @param unixtime
+     * @returns {string}
+     */
+    unixToDate3: function (unixtime) {
+        var date = new Date(unixtime);
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        var D = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate()) + ':';
+        var h = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours()) + '';
+        return (Y + M + D+h);
+    },
+    /**
      * unix时间戳转时间
      * @param unixtime
      * @returns {string}
