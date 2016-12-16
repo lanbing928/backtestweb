@@ -22,6 +22,9 @@ $(function () {
     var more_3=0;
     var more_4=0;
     var more_5=0;
+    var unix_time=Date.parse(new Date())-24*3600*1000;//当前日期前一天
+    var time=Utility.unixToDate2(unix_time);//转换为日期 年月日 默认时间
+    var time_h=Utility.unixToDate3(unix_time);//转换为日期 年月日时 默认时间
     $(".wk-head-search").typeahead({
         minLength: 1,
         maxItem: 20,
@@ -93,14 +96,28 @@ $(function () {
                             $('.typeahead__result').css("display", " none");//完整语句
                         }
                     }
+                    /*条件里有一个t-t-t-t样式的时间控件就需要显示为小时*/
+                    if(resultData.status){
+                        var data=resultData.checked_sentences;
+                        var date_is_show=0;
+                        for(var i=0;i<data.length;i++){
+                            if(19000<=data[i]['id'] && data[i]['id']<20000){
+                                date_is_show=1;
+                            }
+                        }
+                        if(date_is_show){
+                            $('.testfrom,.testto').val(time_h);
+                            $('.testfrom,.testto').attr("onFocus","WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd:HH',maxDate:new Date()})");
+                        }else{
+                            $('.testfrom,.testto').val(time);
+                            $('.testfrom,.testto').attr("onFocus","WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',maxDate:new Date()})");
+                        }
+                    }
+
+
                     searchData = search;
                 });
-               var input_data= isdate(search);//语句中是否有时间小时
-                if(input_data==1){
-                    $('.index_time .testfrom,.index_time .testto').attr({"disabled":true});
-                }else{
-                    $('.index_time .testfrom,.index_time .testto').attr({"disabled":false});
-                }
+
             },
             onClick: function (node, a, item, event) {
                 var arr = $('.wk-head-search').val().split('+');
@@ -298,8 +315,6 @@ $(function () {
      * 构造首页页面
      */
     function buildIndexHtml() {
-        var unix_time=Date.parse(new Date())-24*3600*1000;//当前日期前一天
-        var time=Utility.unixToDate2(unix_time);//转换为日期
         $('.index_time .testfrom').val(time);
         $('.index_time .testto').val(time);
         getSentence('5', '7', 'index-ul-new');//最热语句
@@ -344,7 +359,6 @@ $(function () {
                     $(".dataload").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
                 }
             }, function (resultData) {
-                console.log(resultData);
                 if(!resultData.body.end_time){//1秒定时结束结果还没返回
                     if(request_count>=10){   //接口调三次还没结果 默认sessionid失效
                         window.open(thisHost , "_self");//调10次接口还没结果返回
