@@ -140,7 +140,7 @@ var Utility = {
         return (Y + M + D);
     },
     /**
-     * Unix 时间戳转换为时间 年月日
+     * Unix 时间戳转换为时间 年月日时
      * @param unixtime
      * @returns {string}
      */
@@ -148,7 +148,7 @@ var Utility = {
         var date = new Date(unixtime);
         var Y = date.getFullYear() + '-';
         var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
-        var D = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate()) + ':';
+        var D = ((date.getDate() < 10) ? '0' + date.getDate() : date.getDate()) + '-';
         var h = ((date.getHours() < 10) ? '0' + date.getHours() : date.getHours()) + '';
         return (Y + M + D+h);
     },
