@@ -28,20 +28,47 @@ if (CheckLogin::check() == -1) {
 <div class="container wk-content" data-type="result">
     <div class="col-md-4 left index_recommend">
         <div class="result_title left_title">问句汇总</div>
-        <div class="recommend">
-            <div class="left_content_title"><div class="fl left_re_color color"></div><div class="fl left_re_title">热点事件</div><div class="clear"></div></div>
-            <ul class="result-ul-hot">
+        <div class="hot">
+            <div class="left_content_title"><div class="fl left_hot_color color"></div><div class="fl left_hot_title">最热语句</div><img src="../static/imgs/backtest/result_up1.png" data-type="0" data-sentecne="long" class="fl"><div class="clear"></div></div>
+            <ul class="detail-ul-hot">
+                <div class="clear"></div>
             </ul>
+            <div class="detail_more detail_long_more" data-click-type="6" data-end="0"><i class="glyphicon glyphicon-menu-down"></i></div>
         </div>
-        <div class="new">
-            <div class="left_content_title"><div class="fl left_new_color color"></div><div class="fl left_new_title">最热语句</div><div class="clear"></div></div>
-            <ul class="result-ul-new">
+        <div class="events">
+            <div class="left_content_title"><div class="fl left_event_color color"></div><div class="fl left_event_title">热点事件</div><img src="../static/imgs/backtest/result_up2.png" data-type="0" data-sentecne="long" class="fl"><div class="clear"></div></div>
+            <ul class="detail-ul-events">
+                <div class="clear"></div>
             </ul>
+            <div class="detail_more detail_long_more" data-click-type="5" data-end="0"><i class="glyphicon glyphicon-menu-down"></i></div>
         </div>
-        <div class="classic">
-            <div class="left_content_title"><div class="fl left_classic_color color"></div><div class="fl left_classic_title">经典语句</div><div class="clear"></div></div>
-            <ul class="result-ul-classic">
+        <div class="basic">
+            <div class="left_content_title"><div class="fl left_basic_color color"></div><div class="fl left_basic_title">基本面</div><img src="../static/imgs/backtest/result_up3.png" data-type="0" data-sentecne="short" class="fl"><div class="clear"></div></div>
+            <ul class="detail-ul-basic">
+                <div class="clear"></div>
             </ul>
+            <div class="detail_more detail_type_more" data-click-type="1" data-end="0"><i class="glyphicon glyphicon-menu-down"></i></div>
+        </div>
+        <div class="tec">
+            <div class="left_content_title"><div class="fl left_tec_color color"></div><div class="fl left_tec_title">技术面</div><img src="../static/imgs/backtest/result_up4.png" data-type="0" data-sentecne="short" class="fl"><div class="clear"></div></div>
+            <ul class="detail-ul-tec">
+                <div class="clear"></div>
+            </ul>
+            <div class="detail_more detail_type_more" data-click-type="3" data-end="0"><i class="glyphicon glyphicon-menu-down"></i></div>
+        </div>
+        <div class="industry">
+            <div class="left_content_title"><div class="fl left_industry_color color"></div><div class="fl left_industry_title">行情面</div><img src="../static/imgs/backtest/result_up5.png" data-type="0" data-sentecne="short" class="fl"><div class="clear"></div></div>
+            <ul class="detail-ul-industry">
+                <div class="clear"></div>
+            </ul>
+            <div class="detail_more detail_type_more" data-click-type="2" data-end="0"><i class="glyphicon glyphicon-menu-down"></i></div>
+        </div>
+        <div class="news">
+            <div class="left_content_title"><div class="fl left_news_color color"></div><div class="fl left_news_title">消息面</div><img src="../static/imgs/backtest/result_up6.png" data-type="0" data-sentecne="short" class="fl"><div class="clear"></div></div>
+            <ul class="detail-ul-news">
+                <div class="clear"></div>
+            </ul>
+            <div class="detail_more detail_type_more" data-click-type="4" data-end="0"><i class="glyphicon glyphicon-menu-down"></i></div>
         </div>
     </div>
 
@@ -84,7 +111,6 @@ if (CheckLogin::check() == -1) {
                         <thead>
                         <tr>
                             <td>序号</td>
-<!--                            <td class="stock_category"><img src="/static/imgs/i/icon_edit.png">&nbsp;&nbsp;股票代码</td>-->
                             <td>股票代码</td>
                             <td>股票名称</td>
                             <td>最新价<span data-hot-sort='trade' data-sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td>
@@ -140,7 +166,7 @@ if (CheckLogin::check() == -1) {
 <script src="../static/plugins/table_excel/tableExport.js"></script>
 <script src="<?php echo UtilityTools::AutoVersion('/static/js/common.min.js')?>"></script>
 <script src="<?php echo UtilityTools::AutoVersion('/static/js/Utility.min.js')?>"></script>
-<script src="<?php echo UtilityTools::AutoVersion('/static/js/page/backtest.js')?>"></script>
+<script src="<?php echo UtilityTools::AutoVersion('/static/js/page/backtest.min.js')?>"></script>
 </body>
 </html>
 
