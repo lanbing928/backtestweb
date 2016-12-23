@@ -107,19 +107,18 @@ $(function () {
                                 date_is_show = 1;
                             }
                         }
-
                         if (date_is_show) {
-                            $('.testfrom,.testto').val(time_h);
-                            $('.testfrom,.testto').attr("onFocus", "WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd-HH',maxDate:'2016-12=20-10'})");
+                            $('.index_time .testfrom,.index_time .testto').val(time_h);
+                            $('.testfrom,.testto').attr("onFocus", "WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd-HH',maxDate:'time_h'})");
                         } else {
-                            $('.testfrom,.testto').val(time);
+                            $('.index_time .testfrom,.index_time .testto').val(time);
                             $('.testfrom,.testto').attr("onFocus", "WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',maxDate:new Date()})");
                         }
                     }
                     searchData = search;
                 });
             },
-            onClick: function (node, a, item, event) {
+            onClick: function (node, a, item) {
                 var arr = $('.wk-head-search').val().split('+');
                 arr[arr.length - 1] = item.sentence;
                 searchData = arr.join('+');
