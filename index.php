@@ -74,7 +74,7 @@ if (CheckLogin::check() == -1) {
             <div class="detail_more detail_type_more" data-click-type="4" data-end="0"><i class="glyphicon glyphicon-menu-down"></i></div>
         </div>
     </div>
-    <div class="back_top"><a href="#top"></ahref><img src="static/imgs/i/back_top.png"></a></div>
+    <div class="back_top"><a href="#top1"></ahref><img src="static/imgs/i/back_top.png"></a></div>
 </div>
 
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
