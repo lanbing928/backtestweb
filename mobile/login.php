@@ -16,11 +16,9 @@
         .result-tips {color: #ff6565; font-size: 10px; padding: 0; text-align: center;  margin: 0; }
         .account-box {height: 135px; padding: 0; margin: 0;}
         .account-box li {width: 100%; height: 30px; border: 0px; border-bottom: 1px solid #E3E3E3; padding: 5px 10px; margin-bottom: 20px; color: #484848; list-style: none}
-        /*.account-box li:nth-child(1) {height: 20%;}*/
         .account-box li:nth-child(3), .account-box li:nth-child(3) input {margin-bottom: 0px;}
         .account-box li input { width: 80%; height: 100%; border: 0; font: 14px '微软雅黑';padding:0px 10px;}
         .account-box li img { margin-top: 4px;}
-        /*.account-box li img {margin-top: 6px;}*/
         .content button {padding: 5px; background-color: #5878CB; border-radius: 2em; font: 14px '微软雅黑'; margin-top: 5px;}
     </style>
 </head>
