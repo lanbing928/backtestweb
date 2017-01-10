@@ -14,7 +14,7 @@ if (isset($userInfo)) {
     $token = '';
 }
 ?>
-<div class="wk-header">
+<div class="wk-header" name="top1" id="top1">
     <div class="title container">
         <a href="/" class="fl"><div class="wk-backtest title_button">悟空回测</div></a>
         <a href="http://t.stock.iwookong.com/ajax/login/nologin.php?uid=<?php echo $uid ?>&token=<?php echo $token ?>" class="fl" target="_blank"><div class="wk-site title_button">返回悟空官网</div></a>
@@ -30,8 +30,8 @@ if (isset($userInfo)) {
         </div>
         </form>
         <div class="index_time">
-            开始时间: <input class="testfrom" onFocus="WdatePicker({lang:'zh-cn',maxDate:new Date()})" readonly><br/>
-            结束时间: <input class="testto" onFocus="WdatePicker({lang:'zh-cn',maxDate:new Date()})" readonly>
+            开始时间: <input class="testfrom" onFocus="WdatePicker()" readonly><br/>
+            结束时间: <input class="testto" onFocus="WdatePicker()" readonly>
         </div>
         <div class="clear"></div>
     </div>

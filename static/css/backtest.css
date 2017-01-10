@@ -50,6 +50,8 @@ ul li{list-style: none;}
 .typeahead__cancel-button{top:14px;}
 .clock_time {display:inline-block;width:45px;height:44px;line-height:44px;background-color: #fff;cursor: pointer;font-size:12px;}
 .typeahead__search-icon{height: 44px;margin:auto;background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAaCAYAAACkVDyJAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo5NjhGREY1OTZFOTcxMUU2QTM1NTg2M0UyRjZDQTM2MCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo5NjhGREY1QTZFOTcxMUU2QTM1NTg2M0UyRjZDQTM2MCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjk2OEZERjU3NkU5NzExRTZBMzU1ODYzRTJGNkNBMzYwIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjk2OEZERjU4NkU5NzExRTZBMzU1ODYzRTJGNkNBMzYwIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+nNZfYQAAAo1JREFUeNq0ll2ITVEUx8+5zExE42Mk5CsPPCjzwGg0RTOMMRMJL8pXeZBSUpSRjyn5SPPgQVOe5fuJdDNDMsS8MeOFMpmYQR7QoIRy/Fb9T53u3Hv2OePeVb/W3eeevf9rr7P32tsPgsDzfd+Ls/q1zTW4TbASFsJkCOAzvIHHcOdBZ/ah5zA/ThChJtxJWOols5dwAuGbqQQRmoDrgO169A0uQxb64D2MgSqohjWwDabp/U7YifAnpyBi1qlLA/2CcwadfzjSXo7bB20wEd5BA/36CwrSyV58JLEhWE+HXi+FMcZ83G1YrEzUMMaH8P9MzvsXJTYItWnFzOgzgKuDFzDLPgVB+CMEebgOt1Vp3EDHoZhZnIHzMK6A6DCuBb7AKtiTb4an5c8mmNle2A8VMTO1gA+peYzgGuFARhHXKpVfod0rgjHmRq3ePzBTK7c+nOFm+Wuu1ZjC+pTOssizG6FgnXy2SGLh4mmG73r021ZvKLgoEpUrVZlI1BUO0ee4LUprly2mULBS/mOC4I/CeP2+RQDzHKJWRHbDdWuPHUW2onV1OQwg+hZvhfu++dwtRftS7rYYlp+RQPAC/IS/+gRWZ+da7QQbeJAA+iFvwQ8FX8kvSbAYLEVTYRK/bStNsaoErXBPwSxQaRxpVkuJph0C6CjC/iuHZbHHU0NTi0X4VBt/ThH3Yv6UItCD69VJftAroUVr6RH5w6SkulSCuefhFZ0YdjytiDsxHN+xUiu2jTGeFZqhp2PEUjsbekYzUxWCbju84aoqU8muGBbwKV0xrBisjr1ipLhEhamerqtEI+xQ2+wu7Ep0ifrPa+JrOG51E7Eg9b3UcREOS6KJPLFCrjoaxI31T4ABAD22CuCwsat8AAAAAElFTkSuQmCC) no-repeat scroll 50% transparent}
+.WdateFmtErr{color:#333!important;font-weight:500!important;}
+
 
 /*首页*/
 .wk-content{max-width:960px;padding:20px;margin-top:44px;margin-bottom:40px;}
@@ -57,32 +59,38 @@ ul li{list-style: none;}
 .index_time div:first-child{width:50px;}
 .index_time input,.right .result_time input{height:26px;margin-left:10px;width:56%;text-align: center}
 .index_recommend{border:1px solid #D1D1D1;margin:0;min-height: 400px;position: relative;padding-bottom: 35px;}
-.new_words,.hot_events,.classic_words{padding:0 0 0 10px}
-.new_title,.hot_title,.classic_title{width:90px;height:24px;line-height:24px;background:#545a65;color:#fff;margin:18px auto 0;box-shadow: 0 3px 3px #BFBFBF;text-align: center;padding-right:10px;}
-.index_recommend img{width:100%;padding-right: 12px;}
-.index_recommend ul {padding:0px 30px 0 0;margin:5px 0 0;}
 .index_recommend ul li ,.left ul li{border-bottom:1px solid #eee;padding:12px 4px;color:#333;}
-.index_recommend ul li span,.left ul li span{cursor: pointer;}
+.result-ul-hot li,.detail-ul-events li{position:relative}
 .index_recommend  ul .word_active,.left ul .word_active{color:#5972B3}
-.hot_title{background:#556fb5;}
-.new_words ul,.hot_events ul{border-right: 1px dashed #D5D5D5;}
-.classic_title{background:#9d6895;}
-.result-ul-hot li,.index-ul-hot li,.detail-ul-events li{position:relative}
+.back_top{text-align: right;display: none}
+.back_top img{position: fixed;bottom:60px;padding-left:30px}
+@media screen and (max-width: 1070px) {.back_top img{padding-left:10px;}}
+@media screen and (max-width: 820px) {.back_top img{padding-left:0px;}}
+
 
 /*结果页*/
+.left{max-height:992px;overflow-y:hidden}
+.left:hover{overflow-y:auto}
 .left,.right_content{min-height:992px;border:1px solid #D1D1D1;padding:18px 12px 8px;margin-bottom:100px;}
 .right{padding:0 0 0 20px;}
 .result_title{width:94px;height:27px;line-height:23px;color:#fff;padding-left:10px;margin-bottom:12px;}
-.left .recommend,.left .classic,.left .new{margin-bottom:14px;}
+.left>div:not(:nth-child(1)){margin-bottom:3px;}
 .left_content_title{height:30px;background: #F9FBFC;padding:5px 3px;}
 .color{width:9px;height:100%;margin-right:8px;}
-.left_re_color{background: #545A65;}
-.left_classic_color{background: #9D6895;}
-.left_new_color{background: #417EA3;}
-.left_re_title{color: #666;font:bold 16px '微软雅黑';}
-.left_classic_title{color: #9D6895;font:bold 16px '微软雅黑';}
-.left_new_title{color: #3A7FA9;font:bold 16px '微软雅黑';}
-.left ul{padding:0;}
+.left_hot_color{background: #545A65;}
+.left_event_color{background: #556FB5;}
+.left_basic_color{background: #9D6895;}
+.left_tec_color{background: #417EA3;}
+.left_industry_color{background: #40838B}
+.left_news_color{background: #616E8A}
+.left_hot_title{color: #666;font:bold 16px '微软雅黑';}
+.left_event_title{color: #556FB5;font:bold 16px '微软雅黑';}
+.left_basic_title{color: #9D6895;font:bold 16px '微软雅黑';}
+.left_tec_title{color: #3A7FA9;font:bold 16px '微软雅黑';}
+.left_industry_title{color: #40838B;font:bold 16px '微软雅黑';}
+.left_news_title{color: #616E8A;font:bold 16px '微软雅黑';}
+.left ul{padding:0;margin-bottom:3px}
+.left ul li:hover{cursor: pointer}
 .left_title{background:url('/static/imgs/backtest/tab1.png') no-repeat;}
 .right .result_time{margin-bottom:20px;padding:5px 0;min-height:36px;}
 .right_time_title{background:url('/static/imgs/backtest/tab2.png') no-repeat;}
@@ -118,6 +126,8 @@ ul li{list-style: none;}
 .right  table td{  white-space: nowrap; }
 .typeahead__result{display:none}
 .no_login:hover{cursor: pointer}
+.left_content_title img{margin-top:4px;margin-left:5px}
+.left_content_title img:hover{cursor: pointer}
 
 /*新闻加载动画*/
 #loading{background-color: transparent;height: 100%;width: 100%;position: absolute;z-index: 1;margin-top: 80px;top: 0px;  }
@@ -138,19 +148,22 @@ ul li{list-style: none;}
 @keyframes animate { 50% {  -ms-transform: scaleY(0);  -webkit-transform: scaleY(0);  transform: scaleY(0);  } }
 
 /*加载更多语句*/
-.detail_sentence{display:none;position: relative;min-height:648px;padding:20px 0px 16px 25px;}
-.index_more,.detail_back{cursor:pointer;font-size:14px;color:#8d8d8d;text-decoration:underline;position: absolute;bottom:10px;right:12px;}
-.detail_back{right:5%;}
-.detail_title{width:90px;height: 24px;line-height: 24px;color: #fff; box-shadow: 0 3px 3px #bfbfbf;text-align: center;}
-.detail_basic_title{background: #545a65; }
-.detail_tec_title{background: #556FB5; }
-.detail_industry_title{background: #9d6895; }
-.detail_news_title{background: #3A7FA9; }
-.detail_sentence ul{padding:0 0 20px;}
-.detail_sentence li{width:21%;margin-right:4%;float:left;padding:0 1%;}
+.detail_sentence{position: relative;min-height:648px;padding:20px 0px 16px 25px;}
+.detail_title{width:95px;height: 24px;line-height: 24px;color: #fff; box-shadow: 0 3px 3px #bfbfbf;text-align: center;}
+.detail_title img{height:13px;margin-left:5px;margin-bottom:2px}
+.detail_hot_title{background: #545a65; }
+.detail_events_title{background: #556FB5; }
+.detail_basic_title{background: #9d6895; }
+.detail_industry_title{background: #40838B; }
+.detail_tec_title{background: #3A7FA9; }
+.detail_news_title{background: #616E8A; }
+.detail_sentence ul{padding:0 0 0px;}
+.detail_sentence li{width:21%;margin-right:4%;float:left;padding:12px 4px;}
+.detail_sentence li:hover,.detail_title img:hover{cursor: pointer}
+.detail_sentence .hot li,.detail_sentence .events li{width:45%;margin-right:5%;float:left;padding:12px 4px;}
 /*.detail_sentence ul li:nth-child(4n){margin-right:0px; display:block; }*/
-.detail_type_more{margin:auto;text-align: center;color:#c0c0c0;cursor: pointer;}
-.basic,.tec,.industry,.news{margin-bottom:26px;}
+.detail_more{margin:auto;text-align: center;color:#c0c0c0;cursor: pointer;padding-right:35px;}
+/*.basic,.tec,.industry,.news{margin-bottom:15px;}*/
 
 /*结果页 提醒阀值*/
 .result_code{position:relative;}

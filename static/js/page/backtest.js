@@ -10,18 +10,23 @@ $(function () {
     var alldata_s = [];//股票数据
     var url_opt;//二次搜索需要的第一次搜索产生的sessionid
     var no_result;//结果还没返回
-    var request_count=0;//请求接口次数
-    var sentence_total=[];
-         sentence_total[1]=0; //基本面
-         sentence_total[3]=0; //技术面
-         sentence_total[2]=0;//行情面
-         sentence_total[4]=0; //消息面
-         sentence_total[5]=0; //热点事件
-    var more_1=0;// 首页更多语句类型 1，基本面 2.行情面 3.技术面 4.消息面 5热点事件
-    var more_2=0;
-    var more_3=0;
-    var more_4=0;
-    var more_5=0;
+    var request_count = 0;//请求接口次数
+    var sentence_total = [];
+    sentence_total[1] = 0; //基本面
+    sentence_total[3] = 0; //技术面
+    sentence_total[2] = 0;//行情面
+    sentence_total[4] = 0; //消息面
+    sentence_total[5] = 0; //热点事件
+    sentence_total[6] = 0; //最热语句
+    var more_1 = 0;// 首页更多语句类型 1，基本面 2.行情面 3.技术面 4.消息面 5热点事件 6最热语句
+    var more_2 = 0;
+    var more_3 = 0;
+    var more_4 = 0;
+    var more_5 = 0;
+    var more_6 = 0;
+    var unix_time = Date.parse(new Date()) - 24 * 3600 * 1000;//当前日期前一天
+    var time = Utility.unixToDate2(unix_time);//转换为日期 年月日 默认时间
+    var time_h = Utility.unixToDate3(unix_time);//转换为日期 年月日时 默认时间
     $(".wk-head-search").typeahead({
         minLength: 1,
         maxItem: 20,
@@ -86,27 +91,38 @@ $(function () {
                 var search = $('.wk-head-search').val();
                 var search_arr = search.split('+');
                 backtest.searchCheck({message: search}, null, function (resultData) {
-                    if(resultData.checked_sentences){
+                    if (resultData.checked_sentences) {
                         if (resultData.checked_sentences.length != search_arr.length) { //不是完整语句
                             $('.typeahead__result').css("display", " block");
                         } else {
                             $('.typeahead__result').css("display", " none");//完整语句
                         }
                     }
+                    /*条件里有一个t-t-t-t样式的时间控件就需要显示为小时*/
+                    if (resultData.status) {
+                        var data = resultData.checked_sentences;
+                        var date_is_show = 0;
+                        for (var i = 0; i < data.length; i++) {
+                            if (19000 <= data[i]['id'] && data[i]['id'] < 20000) { //id在19000-20000之前为显示小时
+                                date_is_show = 1;
+                            }
+                        }
+                        if (date_is_show) {
+                            $('.index_time .testfrom,.index_time .testto').val(time_h);
+                            $('.testfrom,.testto').attr("onFocus", "WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd-HH',maxDate:'time_h'})");
+                        } else {
+                            $('.index_time .testfrom,.index_time .testto').val(time);
+                            $('.testfrom,.testto').attr("onFocus", "WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM-dd',maxDate:new Date()})");
+                        }
+                    }
                     searchData = search;
                 });
-               var input_data= isdate(search);//语句中是否有时间小时
-                if(input_data==1){
-                    $('.index_time .testfrom,.index_time .testto').attr({"disabled":true});
-                }else{
-                    $('.index_time .testfrom,.index_time .testto').attr({"disabled":false});
-                }
             },
-            onClick: function (node, a, item, event) {
+            onClick: function (node, a, item) {
                 var arr = $('.wk-head-search').val().split('+');
                 arr[arr.length - 1] = item.sentence;
                 searchData = arr.join('+');
-                conditionRepeat(arr,item.sentence);//搜索条件重复提醒
+                conditionRepeat(arr, item.sentence);//搜索条件重复提醒
             },
             onClickAfter: function () {
                 $('.wk-head-search').val(searchData);
@@ -119,22 +135,22 @@ $(function () {
                 var sentence;//回测条件
                 var session;//session id
                 backtest.searchCheck({message: search}, null, function (resultData) {
-                    if(resultData.status==1){
+                    if (resultData.status == 1) {
                         sentence = resultData.checked_sentences;//回测条件
                         if (testfrom && testto) {
-                            if(data_type != 'result'){
-                                url_opt=-1;//首页搜索
+                            if (data_type != 'result') {
+                                url_opt = -1;//首页搜索
                             }
-                            if(url_opt){ //首页搜索或结果页二次搜索(第一次搜索有结果数据)
+                            if (url_opt) { //首页搜索或结果页二次搜索(第一次搜索有结果数据)
                                 backtest.backtest({
                                     "search": JSON.stringify(sentence),
-                                    "base_sessionid":url_opt,
+                                    "base_sessionid": url_opt,
                                     "start_time": testfrom,
                                     "end_time": testto
                                 }, null, function (resultData) {
                                     session = resultData.body.bt_session;
                                 });
-                            }else{//结果页第一次搜索无数据 二次搜索无结果
+                            } else {//结果页第一次搜索无数据 二次搜索无结果
                                 swal({title: "无筛选结果 ", type: "warning", timer: 800, showConfirmButton: false});
                             }
 
@@ -142,15 +158,13 @@ $(function () {
                             swal({title: "请选择回测时间", type: "warning", timer: 800, showConfirmButton: false});
                             $('.clock_time').trigger('click');
                         }
-                    }else{
-                        if(resultData.result){
+                    } else {
+                        if (resultData.result) {
                             swal({title: "搜索关键字为空 ", type: "warning", timer: 600, showConfirmButton: false});
-                        }else{
+                        } else {
                             swal({title: "请输入正确的的回测关键词", type: "warning", timer: 800, showConfirmButton: false});
                         }
-
                     }
-
                 });
                 setTimeout(function () {
                     if (session) {
@@ -161,20 +175,6 @@ $(function () {
             }
         }
     });
-
-    /**
-     * 判断字符串中是否有时间
-     *2016-12-12-12 格式
-     */
-    function isdate(str){
-        var result=str.match(/\d{4}[-]\d{1,2}[-]\d{1,2}[-]\d{1,2}/);//第一个时间
-        if(result==null) {
-            return false;
-        }else{
-            return 1;
-        }
-
-    }
 
     /**
      * 初始化热度趋势
@@ -216,7 +216,6 @@ $(function () {
         });
     });
 
-
     /**
      * 点击搜索框x号后 语句已选条件与搜索框联动清空
      */
@@ -229,22 +228,20 @@ $(function () {
         if (!search) {
             $('.index_recommend li').attr('data-type', '0').removeClass('word_active');
         }
-
-
     });
 
     /**
      *  手动改变搜索框内容,语句与已选条件联动
      */
     $('.wk-head-search').on('input propertychange', function () {
-        var search_arr =$('.wk-head-search').val().split('+');//搜索框内容
-        var last_sentence=search_arr[search_arr.length-1];//搜索框最后一个条件
-        conditionRepeat(search_arr,last_sentence);
+        var search_arr = $('.wk-head-search').val().split('+');//搜索框内容
+        var last_sentence = search_arr[search_arr.length - 1];//搜索框最后一个条件
+        conditionRepeat(search_arr, last_sentence);
         conditionWord();
     });
 
     /*当搜索框条件重复输入时提醒（包括结果页搜索框内容与已选条件重复）*/
-    function conditionRepeat(arr,last_sentence) {
+    function conditionRepeat(arr, last_sentence) {
         var obj = $('.right_condition li span');
         var result_arr = [];//结果页的已选条件
         if (obj.length) {
@@ -252,17 +249,17 @@ $(function () {
                 var text = obj.eq(j).text();
                 result_arr[j] = text;
             }
-            arr=result_arr.concat(arr);
+            arr = result_arr.concat(arr);
         }
-        for(var i=0;i<arr.length-1;i++){
-            if(last_sentence==arr[i]){
+        for (var i = 0; i < arr.length - 1; i++) {
+            if (last_sentence == arr[i]) {
                 swal({title: "回测条件重复！", type: "warning", timer: 1000, showConfirmButton: false});
                 return false;
             }
         }
     }
 
-  /*语句与已选条件联动*/
+    /*语句与已选条件联动*/
     function conditionWord() {
         var input_content = $('.wk-head-search').val();
         var tags_arr = exist_tags_arr();
@@ -298,27 +295,27 @@ $(function () {
      * 构造首页页面
      */
     function buildIndexHtml() {
-        var unix_time=Date.parse(new Date())-24*3600*1000;//当前日期前一天
-        var time=Utility.unixToDate2(unix_time);//转换为日期
         $('.index_time .testfrom').val(time);
         $('.index_time .testto').val(time);
-        getSentence('5', '7', 'index-ul-new');//最热语句
-        getSentence('1', '7', 'index-ul-hot');//热点事件
-        getSentence('2', '7', 'index-ul-classic');//经典语句
-        getMoreSentence('1','','8','detail-ul-basic');//对应接口的flag, pos,count, attr_selector 基础面
-        getMoreSentence('3','','8','detail-ul-tec');//技术面
-        getMoreSentence('2','','8','detail-ul-industry');//行情面
-        getMoreSentence('4','','8','detail-ul-news');//消息面
-        getMoreSentence('5','','8','detail-ul-events');//热点事件
+        getMoreSentence('1', '', '16', 'detail-ul-basic');//对应接口的flag, pos,count, attr_selector 基础面
+        getMoreSentence('3', '', '16', 'detail-ul-tec');//技术面
+        getMoreSentence('2', '', '16', 'detail-ul-industry');//行情面
+        getMoreSentence('4', '', '16', 'detail-ul-news');//消息面
+        getMoreSentence('5', '', '8', 'detail-ul-events');//热点事件
+        getMoreSentence('6', '', '8', 'detail-ul-hot');//最热语句
     }
 
     /**
      * 构造结果页面
      */
     function buildResultHtml() {
-        getSentence('1', '7', 'result-ul-hot');//热点事件
-        getSentence('5', '7', 'result-ul-new');//最热语句
-        getSentence('2', '7', 'result-ul-classic');//经典语句
+        getMoreSentence('1', '', '5', 'detail-ul-basic');//对应接口的flag, pos,count, attr_selector 基础面
+        getMoreSentence('3', '', '5', 'detail-ul-tec');//技术面
+        getMoreSentence('2', '', '5', 'detail-ul-industry');//行情面
+        getMoreSentence('4', '', '5', 'detail-ul-news');//消息面
+        getMoreSentence('5', '', '5', 'detail-ul-events');//热点事件
+        getMoreSentence('6', '', '5', 'detail-ul-hot');//最热语句
+
         $('.right_industry').append(common.getLoading());//加载动画
         setTimeout(function () {
                 initRateLine();//收益率折线图
@@ -344,22 +341,21 @@ $(function () {
                     $(".dataload").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
                 }
             }, function (resultData) {
-                console.log(resultData);
-                if(!resultData.body.end_time){//1秒定时结束结果还没返回
-                    if(request_count>=10){   //接口调三次还没结果 默认sessionid失效
-                        window.open(thisHost , "_self");//调10次接口还没结果返回
-                    }else{
+                if (!resultData.body.end_time) {//1秒定时结束结果还没返回
+                    if (request_count >= 10) {   //接口调三次还没结果 默认sessionid失效
+                        window.open(thisHost, "_self");//调10次接口还没结果返回
+                    } else {
                         setTimeout(function () {
-                                no_result=1;
-                                getStock();
-                                initRateLine();
-                                request_count++;//请求接口次数
-                            },1000); //1秒后执行
+                            no_result = 1;
+                            getStock();
+                            initRateLine();
+                            request_count++;//请求接口次数
+                        }, 1000); //1秒后执行
                     }
-                }else {
-                    if(no_result){
-                        p=0;
-                        no_result=0;
+                } else {
+                    if (no_result) {
+                        p = 0;
+                        no_result = 0;
                     }
                     $('.right_content_title,.table-responsive,.dataload').removeClass('dis_none');
                     $('.right_industry').append(common.hideLoading());//加载动画
@@ -373,11 +369,11 @@ $(function () {
 
                     //右侧已选条件
                     if (resultData.body.right_sentence.length > 0) {
-                        var sentence=resultData.body.right_sentence;//已选语句
+                        var sentence = resultData.body.right_sentence;//已选语句
                         for (var i = 0; i < sentence.length; i++) { //结果页右侧已选条件
-                            if(sentence[i]['type'] && sentence[i]['type']==5){
-                                rigth_condition.push('<li><span>' + sentence[i]['sentence'] + '</span><i class="fa tip_time"><div class="tip_abstract"><div class="title">事件摘要：</div>'+sentence[i]['abstract']+'</div><div class="tip_date"><span class="title">开始时间：</span>'+Utility.unixToDate2(sentence[i]['start_time'])+'&nbsp;&nbsp;&nbsp;&nbsp;<span class="title">结束时间：</span>'+Utility.unixToDate2(sentence[i]['end_time'])+'</div></i></li>');
-                            }else{
+                            if (sentence[i]['type'] && sentence[i]['type'] == 5) {
+                                rigth_condition.push('<li><span>' + sentence[i]['sentence'] + '</span><i class="fa tip_time"><div class="tip_abstract"><div class="title">事件摘要：</div>' + sentence[i]['abstract'] + '</div><div class="tip_date"><span class="title">开始时间：</span>' + Utility.unixToDate2(sentence[i]['start_time']) + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="title">结束时间：</span>' + Utility.unixToDate2(sentence[i]['end_time']) + '</div></i></li>');
+                            } else {
                                 rigth_condition.push('<li><span>' + sentence[i]['sentence'] + '</span></li>');
                             }
                         }
@@ -402,7 +398,7 @@ $(function () {
                                 timer: 6500,
                                 showConfirmButton: false
                             }, function () {
-                                window.open(thisHost , "_self");
+                                window.open(thisHost, "_self");
                             });
                             $('.sweet-alert p').html(wrongHtml.join('')).parent().css('width', '555px');
                             resultcount = 1;
@@ -417,7 +413,7 @@ $(function () {
                             stockHtml.push('<tr>');
                             stockHtml.push('<td>' + (i + p + 1) + '</td>');
                             // stockHtml.push('<td><img src="/static/imgs/i/icon_edit.png">&nbsp;&nbsp;<a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a><ul class="result_threshold"><li>提醒条件筛选</li><li class="hot">热度：<input type="number"></li> <li class="yield">收益率：<input type="number"></li><li class="threshold_btn"><button data-stock="'+stockData[i].symbol+'">确定</button></li></ul></td>');
-                            stockHtml.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a></td>');
+                            stockHtml.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock=' + stockData[i].symbol + '&uid=' + stockData[i].uid + '&token=' + stockData[i].token + '" target="_blank">' + stockData[i].symbol + '</a></td>');
                             stockHtml.push('<td>' + stockData[i].name + '</a></td>');
                             stockHtml.push('<td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td>');
                             stockHtml.push('<td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td>');
@@ -446,9 +442,7 @@ $(function () {
                             $('.right_industry').html('<div style="width：100%;height:100px;line-height:100px;text-align:center"><img src="../../static/imgs/backtest/message.png" width="30px;">&nbsp;&nbsp;抱歉，没有选出相关的股票，请检查输入是否正确 </div>');
                         }
                     }
-
                 }
-
             });
         }
     }
@@ -465,7 +459,7 @@ $(function () {
             // stockHtml.push('<tr><td>' + (i + 1) + '</td><td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a></td><td>' + stockData[i].name + '</a></td><td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td><td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td><td>' + parseInt(stockData[i].volume / 10000) + '万</td><td>' + stockData[i].amount.toFixed(2) + '</td><td>' + stockData[i].bordname + '</td></tr>');
             stockHtml.push('<tr>');
             stockHtml.push('<td>' + (i + 1) + '</td>');
-            stockHtml.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a></td>');
+            stockHtml.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock=' + stockData[i].symbol + '&uid=' + stockData[i].uid + '&token=' + stockData[i].token + '" target="_blank">' + stockData[i].symbol + '</a></td>');
             // stockHtml.push('<td><img src="/static/imgs/i/icon_edit.png">&nbsp;&nbsp;<a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a><ul class="result_threshold"><li>提醒条件筛选</li><li class="hot">热度：<input type="number"></li> <li class="yield">收益率：<input type="number"></li><li class="threshold_btn"><button data-stock="'+stockData[i].symbol+'">确定</button></li></ul></td>');
             stockHtml.push('<td>' + stockData[i].name + '</a></td>');
             stockHtml.push('<td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td>');
@@ -487,80 +481,50 @@ $(function () {
     }
 
     /**
-     * 调回测语句接口 获取语句
-     * @html
-     * @flag类型 1，热点事件 2.经典语句 3.推荐语句 4.最新语句 5.最热语句 0 全部
-     * @count 数量
-     * @attr_selector 标签属性与li的class
-     */
-    function getSentence(flag, count, attr_selector) {
-        var html = [];
-        backtest.getSentence({flag: flag, count: count}, function () {
-            $("." + attr_selector).html("<div class='sentence_load'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
-        }, function (resultData) {
-            if(resultData.head.status != -103){
-                if (resultData.body.sentences[0]) {
-                    var data = resultData.body.sentences[0][flag];
-                    for (var i = 0; i < data.length; i++) {
-                        if(flag==1){
-                            // html.push('<li data-type="0" data-index="' + attr_selector + '-' + i + '"><span>' + data[i].sentence + '</span><i class="fa tip_time">开始时间：'+Utility.unixToDate2(data[i].create_time)+'，结束时间：'+Utility.unixToDate2(data[i].end_time)+'</i></li>');
-                            html.push('<li data-type="0" data-index="' + attr_selector + '-' + i + '"><span>' + data[i].sentence + '</span><i class="fa tip_time"><div class="tip_abstract"><div class="title">事件摘要：</div>'+data[i].abstract+'</div><div class="tip_date"><span class="title">开始时间：</span>'+Utility.unixToDate2(data[i].create_time)+'&nbsp;&nbsp;&nbsp;&nbsp;<span class="title">结束时间：</span>'+Utility.unixToDate2(data[i].end_time)+'</div></i></li>');
-                        }else{
-                            html.push('<li data-type="0" data-index="' + attr_selector + '-' + i + '"><span>' + data[i].sentence + '</span></li>');
-                        }
-                    }
-                    $('.' + attr_selector).find('.sentence_load').html('').removeClass('sentence_load');
-                    $('.' + attr_selector).append(html.join(""));
-                } else {
-                    $("." + attr_selector).html("<div style='text-align:center'>暂无数据</div>");
-                }
-            }
-
-        });
-    };
-
-    /**
      * 调回测语句更多接口 获取更多的语句
      * @html
-     * @flag类型 1，基本面 2.行情面 3.技术面 4.消息面 5热点事件
+     * @flag类型 1，基本面 2.行情面 3.技术面 4.消息面
      * @pos 起始位置
      * @count 数量
      * @attr_selector 标签属性与li的class
      */
-    function getMoreSentence(flag, pos, count, attr_selector){
+    function getMoreSentence(flag, pos, count, attr_selector) {
         var html = [];
-        backtest.getMoreSentence({flag: flag, after_sentence:pos, count: count}, function () {
+        backtest.getMoreSentence({flag: flag, after_sentence: pos, count: count}, function () {
             $("." + attr_selector).append("<div class='sentence_load'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
             $("." + attr_selector).next().hide();
         }, function (resultData) {
-            if(resultData.head.status != -103){
+            if (resultData.head.status != -103) {
                 if (resultData.body.sentences[0]) {
                     $("." + attr_selector).next().show();//显示下拉符号
                     var data = resultData.body.sentences[0][flag];
-                    sentence_total[flag]=sentence_total[flag]+data.length;//对应类型已显示出的数据条数
+                    sentence_total[flag] = sentence_total[flag] + data.length;//对应类型已显示出的数据条数
                     for (var i = 0; i < data.length; i++) {
-                        if(flag==1){
+                        if (flag == 1) {
                             html.push('<li data-type="0" data-index="' + attr_selector + '-' + more_1 + '"><span>' + data[i].sentence + '</span></li>');
                             more_1++;
-                        }else if(flag==2){
+                        } else if (flag == 2) {
                             html.push('<li data-type="0" data-index="' + attr_selector + '-' + more_2 + '"><span>' + data[i].sentence + '</span></li>');
                             more_2++;
-                        }else if(flag==3){
+                        } else if (flag == 3) {
                             html.push('<li data-type="0" data-index="' + attr_selector + '-' + more_3 + '"><span>' + data[i].sentence + '</span></li>');
                             more_3++;
-                        }else if(flag==4){
+                        } else if (flag == 4) {
                             html.push('<li data-type="0" data-index="' + attr_selector + '-' + more_4 + '"><span>' + data[i].sentence + '</span></li>');
                             more_4++;
-                        }else if(flag==5){
-                            html.push('<li data-type="0" data-index="' + attr_selector + '-' + more_5 + '"><span>' + data[i].sentence + '</span><i class="fa tip_time"><div class="tip_abstract"><div class="title">事件摘要：</div>'+data[i].abstract+'</div><div class="tip_date"><span class="title">开始时间：</span>'+Utility.unixToDate2(data[i].create_time)+'&nbsp;&nbsp;&nbsp;&nbsp;<span class="title">结束时间：</span>'+Utility.unixToDate2(data[i].update)+'</div></i></li>');
+                        } else if (flag == 5) {
+                            html.push('<li data-type="0" data-index="' + attr_selector + '-' + more_5 + '"><span>' + data[i].sentence + '</span><i class="fa tip_time"><div class="tip_abstract"><div class="title">事件摘要：</div>' + data[i]['abstract'] + '</div><div class="tip_date"><span class="title">开始时间：</span>' + Utility.unixToDate2(data[i].create_time) + '&nbsp;&nbsp;&nbsp;&nbsp;<span class="title">结束时间：</span>' + Utility.unixToDate2(data[i].update) + '</div></i></li>');
                             more_5++;
+                        } else if (flag == 6) {
+                            html.push('<li data-type="0" data-index="' + attr_selector + '-' + more_6 + '"><span>' + data[i].sentence + '</span></li>');
+                            more_6++;
                         }
                     }
                     $('.' + attr_selector).find('.sentence_load').html('').removeClass('sentence_load');//加载中动画不显示
                     $("." + attr_selector).find('.clear').before(html.join(""));
 
-                    if(resultData.body.sentences[0]['totals']==sentence_total[flag]){ //当数据加载完
-                       $("." + attr_selector).next().hide();//下拉符号消失
+                    if (resultData.body.sentences[0]['totals'] == sentence_total[flag]) { //当数据加载完
+                        $("." + attr_selector).next().css('visibility', 'hidden').attr('data-end', 1);//下拉符号消失
                     }
                 } else {
                     $("." + attr_selector).html("<div style='text-align:center'>暂无数据</div>");
@@ -569,16 +533,26 @@ $(function () {
 
         });
     };
-
     /**
-     * 首页
-     * 点击加载更多语句
+     * 消息面 技术面 基本面 行情面 热点事件 热点语句
+     * 点击加载 更多语句
      * */
-    $('.detail_type_more').on('click',function(){
-        var type=$(this).attr('data-click-type');
-        var pos= $(this).prev().find('li').last().find('span').html();
-        var attr_selector=$(this).prev().attr("class");
-        getMoreSentence(type,pos,8,attr_selector);
+    $('.detail_more').on('click', function () {
+        var th = $(this);
+        var type = th.attr('data-click-type');
+        var pos = th.prev().find('li').last().find('span').html();
+        var attr_selector = th.prev().attr("class");
+        var sentence_size = th.parent().find('.detail_title img').attr('data-sentecne');
+        if (data_type == 'result') {//结果页
+            getMoreSentence(type, pos, 5, attr_selector);
+        } else { //首页
+            if (sentence_size == "long") {
+                getMoreSentence(type, pos, 8, attr_selector);
+            } else {
+                getMoreSentence(type, pos, 16, attr_selector);
+            }
+        }
+
     });
 
     /**
@@ -650,7 +624,7 @@ $(function () {
     $("body").on("click", ".right thead td span", function () {
         var sortdata;
         var sort_type = $(this).attr('data-sort-type'); //desc asc
-        var sort_opt =  $(this).attr('data-hot-sort'); //排序名称
+        var sort_opt = $(this).attr('data-hot-sort'); //排序名称
         if (sort_type == 'desc') {
             $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('data-sort-type', 'ase').parent().siblings().find('span');
             sortdata = alldata_s.sort(desc_by(sort_opt));
@@ -658,7 +632,6 @@ $(function () {
             $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('data-sort-type', 'desc').parent().siblings().find('span');
             sortdata = alldata_s.sort(asc_by(sort_opt));
         }
-
         buildSortRankTable(sortdata);//加载排序页码
     });
 
@@ -717,17 +690,6 @@ $(function () {
     })
 
 
-    //点击首页更多 加载更多语句
-    $('.index_more').on('click', function () {
-        $('.detail_sentence').show();
-        $('.index_sentence').hide();
-    });
-    //点击结果页返回 返回首页语句
-    $('.detail_back').on('click', function () {
-        $('.index_sentence').show();
-        $('.detail_sentence').hide();
-    });
-
     //事件提示
     $("body").on("mouseover", ".index-ul-hot li span,.result-ul-hot li span,.detail-ul-events li span,.right_condition li span", function () {
         $(this).next().show();
@@ -736,6 +698,62 @@ $(function () {
         $(this).next().hide();
     });
 
+    /**
+     * 当滚动条距离顶部400px 回到顶部显示
+     * */
+    $(window).scroll(function () {
+        if ($(window).scrollTop() >= 200) {
+            $(".back_top").fadeIn(1000);
+        } else {
+            $(".back_top").fadeOut(200);
+        }
+    });
+
+    $('.detail_title img,.left_content_title img').on('click', function () {
+        var th = $(this);
+        var status = th.attr('data-type'); // 1展开，0收起
+        var sentence = th.attr('data-sentecne');//short 短句子默认显示8条，long长句子默认显示4条
+        var is_end = th.parent().parent().find('.detail_more').attr('data-end');//语句是否加载完  1加载完 0未加载完
+        if (status == 1) { //所有都展开
+            th.parent().parent().find('ul li').show();
+            if (is_end == 0) {
+                th.parent().parent().find('.detail_more').css('visibility', 'visible');
+            }
+            th.attr({'data-type': 0});
+            th.css({
+                'transform': 'rotate(360deg)',
+                '-ms-transform': 'rotate(360deg)',
+                '-moz-transform': 'rotate(360deg)',
+                '-webkit-transform': 'rotate(360deg)',
+                '-o-transform': 'rotate(360deg)'
+            });
+        } else {
+            th.parent().parent().find('ul li').hide();
+            th.parent().parent().find('.detail_more').css('visibility', 'hidden');
+            if (data_type == 'result') {//默认显示5行
+                if (sentence == "long") {
+                    th.parent().parent().find('ul li').slice(0, 5).show();
+                } else {
+                    th.parent().parent().find('ul li').slice(0, 5).show();
+                }
+            } else {//默认显示4行开 其他收起
+                if (sentence == "long") {
+                    th.parent().parent().find('ul li').slice(0, 8).show();
+                } else {
+                    th.parent().parent().find('ul li').slice(0, 16).show();
+                }
+            }
+            th.attr({'data-type': 1});
+            th.css({
+                'transform': 'rotate(180deg)',
+                '-ms-transform': 'rotate(180deg)',
+                '-moz-transform': 'rotate(180deg)',
+                '-webkit-transform': 'rotate(180deg)',
+                '-o-transform': 'rotate(180deg)'
+            });
+        }
+
+    });
 
     /**
      * 设置提醒阀值
@@ -775,7 +793,6 @@ $(function () {
     //         $this.parent().parent().hide();
     //     });
     // }
-
     if (data_type == 'result') {
         buildResultHtml();
         exportTable();
