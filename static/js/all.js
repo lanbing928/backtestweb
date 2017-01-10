@@ -86,25 +86,4 @@ $(function () {
     });
     $(".wk-topshow-dp label").html(Utility.getTradeTime()).addClass("wk-up");
 
-    /*版本更新状态*/
-    function versionNotice(operate) {
-        common.versionUpdateNotice({"type": operate}, null, function (resultData) {
-            if(resultData.status && resultData.status==1){ //设置消息已读成功
-                $('.nav .dot').hide();
-            }else{
-                $('.nav .dot').show();
-            }
-        })
-    };
-
-    /*设置用户已读取版本更新提示。点击nav喇叭按钮 消息提醒红点消失 */
-    $('.wk-header .message a').on('click',function(){
-        var is_show= $('.nav .dot').css('display');
-        if(is_show=='block'){ //未读状态 设置为已读
-            versionNotice(2);
-        }
-    });
-
-    versionNotice(1);  /*获取用户读取版本更新提示的状态*/
-
 });
