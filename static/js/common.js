@@ -304,7 +304,122 @@ var backtest = {
                 backFn && backFn(resultData);
             }
         })
-    }
+    },
+
+    /**
+     * 模拟交易系统
+     * 获取交易的股票信息
+     * */
 };
 
 
+var backtest = {
+    /**
+     * 回测平台
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    backtest: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_request_backtest.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    backtestResult: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_result_stock.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    getSentence: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_get_sentence.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    getMoreSentence: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_get_more_sentence.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    /**
+     * 获取热度走势图
+     * @param arrData
+     * @param beforeFn
+     * @param backFn
+     */
+    getRateLine: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "/ajax/backtest/ajax_get_rateline.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    searchCheck:function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/backtest/ajax_search_check.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    }
+};

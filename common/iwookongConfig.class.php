@@ -9,7 +9,6 @@ class iwookongConfig
 
     #region 测试版地址
     public static $requireBTUrl = "http://61.147.114.67/cgi-bin/backtest/";//回测平台
-    public static $requireUrl = "http://61.147.114.67/cgi-bin/test_wookong/";//交易平台搜索搜索
     #endregion
 
     #region 正式版地址
