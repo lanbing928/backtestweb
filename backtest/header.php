@@ -18,9 +18,10 @@ if (isset($userInfo)) {
     <div class="title container">
         <a href="/" class="fl"><div class="wk-backtest title_button">悟空回测</div></a>
         <a href="http://t.stock.iwookong.com/ajax/login/nologin.php?uid=<?php echo $uid ?>&token=<?php echo $token ?>" class="fl" target="_blank"><div class="wk-site title_button">返回悟空官网</div></a>
+        <a href='../logout.php' class="fr logout"><img src="../static/imgs/i/exit.png" alt="">&nbsp退出</a>
         <div class="clear"></div>
     </div>
-    <img src="/static/imgs/backtest/name.png">
+    <img src="/static/imgs/backtest/name.png" class="logo">
     <form id="form-hockey_v1" name="form-hockey_v1">
     <div class="typeahead__container">
         <div class="typeahead__field fl">
