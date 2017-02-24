@@ -5,12 +5,14 @@ body,html{font-family:"Lantinghei SC","Open Sans","Hiragino Sans GB",'微软雅�
 .left{float: left}
 .right{float: right}
 .clear{clear: both}
+ul{padding:0;margin:0}
+ul li{list-style: none;padding:0}
 
 /*头部导航*/
 .wk-header{background:url('../imgs/trade/header.png') no-repeat;  height:130px;padding-top:8px;-webkit-box-shadow: #919191 0 2px 10px; -moz-box-shadow: #919191 0 2px 10px; box-shadow: #919191 0 2px 10px;}
-.navbar-brand{padding: 10px 0;}
-.navbar-brand>img{display: inline;margin-bottom: 2px;}
-.wk-header .navbar-title{margin:auto 22px;font-size:20px;color:#fff}
+.navbar-brand{padding-left:0;padding-right:0}
+.navbar-brand>img{display: inline;margin-bottom: 4px;}
+.wk-header .navbar-title{margin-right:23px;margin-left:18px;font-size:20px;color:#fff}
 .wk-nav-search{margin-top: 12px;}
 .wk-nav-user a{font-size: 16px;color: #FFFFFF;cursor: pointer;}
 .wk-header .nav>li>a:focus,.wk-header .nav>li>a:hover{background-color: #455CA1;}
@@ -24,12 +26,12 @@ body,html{font-family:"Lantinghei SC","Open Sans","Hiragino Sans GB",'微软雅�
 /*涨跌文字显示*/
 .wk-up{color: #a40000;}
 .wk-down{color: #016f3f;}
-.wk-red{color: #fa4d4d;}
-.wk-green{color: #077545;}
-.wk-gray{color: #545454;}
+.wk-red{color: #d14a4a!important;}
+.wk-green{color: #0F8D57!important;}
+.wk-gray{color: #525252!important;}
 
 /*主题框架*/
-.wk-container{max-width: 960px;}
+.wk-container{max-width: 1000px;}
 
 /*其他*/
 .popover{font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;color: #717171;border: 1px solid #a0a7d3; text-align:justify;font-size: 12px;}
@@ -58,4 +60,4 @@ body,html{font-family:"Lantinghei SC","Open Sans","Hiragino Sans GB",'微软雅�
 .wk-nav-tabs .active>a{padding-left:61px!important;}
 .wk-nav-hushen{cursor: pointer;height:45px;line-height: 45px;text-align: center}
 .wk-nav-hushen img{margin-bottom:5px;}
-.tab-content{width:80%;background-color: #fff;margin-left:2.5%;padding:16px 15px 55px;box-shadow:#D8D8D8 0 1px 8px}
+.wk-nav-content{width:80%;background-color: #fff;margin-left:2.5%;padding:16px 15px 55px;box-shadow:#D8D8D8 0 1px 8px}
