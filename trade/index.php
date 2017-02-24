@@ -644,6 +644,7 @@ if (isset($userInfo)) {
     var thisHost = "http://" + window.location.host + "/";
     var uid=<?php echo $uid ?>;
     var token=<?php echo '"'.$token.'"' ?>;
+    
     /**
      * 搜索框自动完成
      */
