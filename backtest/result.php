@@ -96,8 +96,6 @@ if (CheckLogin::check() == -1) {
             <div class="right_result">
                 <div class="result_title right_result_title fl">筛选结果</div>
                 <div class="right_stock_num fl">选出股票数：<span></span></div>
-                <a href="../trade/index.php" target="_blank"><div class="fr result_moni_trade">模拟炒股</div></a>
-                <div class="fr result_set_group">建立组合</div>
                 <div class="clear"></div>
             </div>
 
@@ -113,7 +111,7 @@ if (CheckLogin::check() == -1) {
                         <thead>
                         <tr>
                             <td>序号</td>
-                            <td><input class="fl" type="checkbox" id="checkedAll"><span class="fl">股票代码</span></td>
+                            <td>股票代码</td>
                             <td>股票名称</td>
                             <td>最新价<span data-hot-sort='trade' data-sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td>
                             <td>涨跌幅<span data-hot-sort='changepercent' data-sort-type='desc'><img src='/static/imgs/i/icon_desc.png'></span></td>
