@@ -13,7 +13,7 @@ class iwookongConfig
     #endregion
 
     #region 正式版地址
-//    public static $requireBTUrl = "http://61.147.114.76/cgi-bin/backtest/";//回测平台
+    public static $requireBTUrl = "http://61.147.114.76/cgi-bin/backtest/";//回测平台
 
     #endregion
 
