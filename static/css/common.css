@@ -18,10 +18,18 @@ ul li{list-style: none;padding:0}
 .wk-header .nav>li>a:focus,.wk-header .nav>li>a:hover{background-color: #455CA1;}
 .wk-nav-fuxi a{padding-left:0px!important;padding-right:0px!important;cursor: default}
 
+/*公共搜索部分*/
+.typeahead__container{width:160px;margin-left:5px;border:1px solid #ccc;}
+.typeahead__container input{outline:none;height:25px;border:0;padding:0 5px;}
+.typeahead__container .input-group-addon{height:24px;border:0;background: #fff;padding:6px 8px}
+.typeahead__container *{font-size:12px}
+.typeahead__cancel-button{top:6px;right:.2em}
+.typeahead__search-icon,.fa-search{opacity:0.5;cursor:pointer;font-size:14px;}
+
 /*头部搜索*/
-.wk-header .typeahead__field input,.typeahead__container button{height:27px;border:0;}
-.wk-header .typeahead__search-icon{opacity:0.5}
-.wk-header .typeahead__container{height: 26px;width: 305px;}
+.wk-header .typeahead__field input,.wk-header .typeahead__container button{height:27px;border:0;}
+.wk-header .typeahead__field input{padding-left:15px;}
+.wk-header .typeahead__container{width: 305px;}
 
 /*涨跌文字显示*/
 .wk-up{color: #a40000;}
@@ -46,6 +54,24 @@ ul li{list-style: none;padding:0}
 ::-webkit-scrollbar-thumb:horizontal:hover{width: 40px;background: #777777;border: 1px solid #e0e0e0;-webkit-border-radius: 8px;}
 /*::-webkit-scrollbar-corner{background: #f2f3f8;}*/
 
+/*加载动画*/
+#loading{background-color: transparent;height: 100%;width: 100%;position: absolute;z-index: 1;margin-top: 80px;top: 0px;  }
+#loading-center{width: 100%;height: 100%;position: relative;  }
+#loading-center-absolute {position: absolute;  left: 50%;  top: 50%;  height: 50px;  width: 150px;  margin-top: -25px;  margin-left: -75px;  }
+.object{  width: 4px;  height: 50px;  margin-right:5px;  background-color: #d0d0d0;  -webkit-animation: animate 1s infinite;  animation: animate 1s infinite;  float: left;  }
+.object:last-child {  margin-right: 0px;  }
+.object:nth-child(10){  -webkit-animation-delay: 0.9s;  animation-delay: 0.9s;  }
+.object:nth-child(9){  -webkit-animation-delay: 0.8s;  animation-delay: 0.8s;  }
+.object:nth-child(8){  -webkit-animation-delay: 0.7s;  animation-delay: 0.7s;  }
+.object:nth-child(7){  -webkit-animation-delay: 0.6s;  animation-delay: 0.6s;  }
+.object:nth-child(6){  -webkit-animation-delay: 0.5s;  animation-delay: 0.5s;  }
+.object:nth-child(5){  -webkit-animation-delay: 0.4s;  animation-delay: 0.4s;  }
+.object:nth-child(4){  -webkit-animation-delay: 0.3s;  animation-delay: 0.3s;  }
+.object:nth-child(3){  -webkit-animation-delay: 0.2s;  animation-delay: 0.2s;  }
+.object:nth-child(2){  -webkit-animation-delay: 0.1s;  animation-delay: 0.1s;  }
+@-webkit-keyframes animate { 50% {  -ms-transform: scaleY(0);  -webkit-transform: scaleY(0);  transform: scaleY(0);  } }
+@keyframes animate { 50% {  -ms-transform: scaleY(0);  -webkit-transform: scaleY(0);  transform: scaleY(0);  } }
+
 @media screen and (max-width: 620px) {.st-strategy-tab label {display: table-cell; padding-right: 15px;}}
 @media screen and (max-width: 990px) {.wk-intro-header hr{display: none;}.wk-con-box .tab-pane .col-md-7.right{padding: 0;}}
 
@@ -61,3 +87,5 @@ ul li{list-style: none;padding:0}
 .wk-nav-hushen{cursor: pointer;height:45px;line-height: 45px;text-align: center}
 .wk-nav-hushen img{margin-bottom:5px;}
 .wk-nav-content{width:80%;background-color: #fff;margin-left:2.5%;padding:16px 15px 55px;box-shadow:#D8D8D8 0 1px 8px}
+.table>tbody>tr>td{border-bottom: 1px solid #ddd;border-top:0}
+

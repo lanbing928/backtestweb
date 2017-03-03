@@ -5,10 +5,10 @@ require_once(dirname(__FILE__) . "/../common/Cookies.class.php");
 require_once(dirname(__FILE__) . "/../common/iwookongConfig.class.php");
 require_once(dirname(__FILE__) . "/../common/CheckUserLogin.class.php");
 require_once(dirname(__FILE__) . "/../common/Utility.class.php");
-if (CheckLogin::check() == -1) {
-    header("Location:../login.php ");
-    exit();
-}
+//if (CheckLogin::check() == -1) {
+//    header("Location:../login.php ");
+//    exit();
+//}
 $userCookie = new Cookies();
 $userInfo = $userCookie->get(iwookongConfig::$usercookie);
 if (isset($userInfo)) {
@@ -20,7 +20,7 @@ if (isset($userInfo)) {
     $uid = '';
     $token = '';
 }
-?>
+//?>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -66,15 +66,132 @@ if (isset($userInfo)) {
     <div class=" wk-nav-tabs left">
         <div class="wk-nav-hushen" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><img src="../static/imgs/trade/hushen.png">&nbsp;&nbsp;我的沪深</div>
         <ul class="nav" role="tablist" id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-            <li role="presentation" class="active"><a href="#holdings" role="tab" data-toggle="tab">持仓</a></li>
+            <li role="presentation" class="active"><a href="#attention" role="tab" data-toggle="tab">我的关注</a></li>
+            <li role="presentation"><a href="#holdings" role="tab" data-toggle="tab">我的账户</a></li>
             <li role="presentation"><a href="#trade" role="tab" data-toggle="tab">交易</a></li>
             <li role="presentation"><a href="#analysis" role="tab" data-toggle="tab">收益分析</a></li>
         </ul>
     </div>
     <!-- 右边内容 -->
     <div class="tab-content wk-nav-content left">
+        <!-- 我的关注 -->
+        <section role="tabpane1" class="tab-pane active" id="attention">
+            <ul class="group-name-list">
+<!--                <li class="left gp-active" data-gid="1">创业</li>-->
+<!--                <li class="left" data-gid="2">概念</li>-->
+<!--                <li class="left" data-gid="3">金融</li>-->
+<!--                <li class="left add-group trade-add-group" data-gid="-1">自定义<i class="fa fa-plus"></i></li>-->
+<!--                <div class="clear"></div>-->
+            </ul>
+            <hr>
+            <div class="input-group">
+            <div class="typeahead__container">
+                <div class="typeahead__field">
+                <span class="typeahead__query">
+                    <span class="typeahead__cancel-button"></span>
+                    <input class="wk-attention-search" type="search" placeholder="请输入股票代码" autocomplete="off">
+                </span>
+                    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                </div>
+            </div></div>
+
+            <!--账户股票列表-->
+            <div class="group-stock-list table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>序号</td>
+                        <td><input type="checkbox" class="left checkedAll"><span class="left">证券名称(代码)</span></td>
+                        <td>股票名称</td>
+                        <td>查看热度<img src="/static/imgs/trade/arrow_down.png" data-hot-sort="visit_heat" data-sort-type="desc" class="sort_img"></td>
+                        <td>最新价<img src="/static/imgs/trade/arrow_down.png" data-hot-sort="price" data-sort-type="desc" class="sort_img"></td>
+                        <td>涨跌幅<img src="/static/imgs/trade/arrow_down.png" data-hot-sort="change" data-sort-type="desc" class="sort_img"></td>
+                        <td>成交量(万手)<img src="/static/imgs/trade/arrow_down.png" data-hot-sort="volume" data-sort-type="desc" class="sort_img"></td>
+                        <td>行业</td>
+                        <td class="bulk-trade-op">
+                            操作(
+                            <img src="../static/imgs/trade/op_buy.png"  data-toggle="modal" data-target="#bulk-trade-buy">
+                            <img src="../static/imgs/trade/op_sale.png" data-toggle="modal" data-target="#bulk-trade-sale">
+                            )
+                        </td>
+                        <td width="27px"></td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><input type="checkbox" class="left"><span class="left">000002</span></td>
+                            <td>jjdjj</td>
+                            <td>jjdjj</td>
+                            <td>22</td>
+                            <td>jjdjj</td>
+                            <td>jjdjj</td>
+                            <td>jjdjj</td>
+                            <td><img src="../static/imgs/trade/op_buy.png" class="one-stock-trade" data-trade-type="1" href="#trade" data-toggle="tab"><img src="../static/imgs/trade/op_sale.png" class="one-stock-trade" data-trade-type="2" href="#trade" data-toggle="tab"></td>
+                            <td><i class="fa fa-minus-circle text-danger btn-del-stock" data-stock-code="000002" data-stock-gid="1"></i></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><input type="checkbox" class="left"><span class="left">000003</span></td>
+                            <td>jjdjj</td>
+                            <td>jjdjj</td>
+                            <td>33</td>
+                            <td>jjdjj</td>
+                            <td>jjdjj</td>
+                            <td>jjdjj</td>
+                            <td><img src="../static/imgs/trade/op_buy.png" class="one-stock-trade" data-trade-type="1" href="#trade" data-toggle="tab"><img src="../static/imgs/trade/op_sale.png" class="one-stock-trade" data-trade-type="2" href="#trade" data-toggle="tab"></td>
+                            <td><i class="fa fa-minus-circle text-danger btn-del-stock" data-stock-code="000002" data-stock-gid="1"></i></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--批量买-->
+            <div class="modal fade" id="bulk-trade-buy" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="bulk-trade-error">委托的总金额超出总资产</div>
+                            <div>
+                                委托价格：
+                                <select>
+                                    <option value="1">当前价格</option>
+                                </select>
+                            </div>
+                            <div class="modal-trade-num">
+                                委托数量：
+                                <input type="number">手
+                            </div>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary bulk-trade-btn" data-dismiss="modal" data-trade-type="1">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--批量卖-->
+            <div class="modal fade" id="bulk-trade-sale" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="bulk-trade-error">委托的总金额超出总资产</div>
+                            <div>
+                                委托价格：
+                                <select>
+                                    <option value="1">当前价格</option>
+                                </select>
+                            </div>
+                            <div class="modal-trade-num">
+                                委托数量：
+                                <input type="number">手
+                            </div>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button type="button" class="btn btn-primary bulk-trade-btn" data-dismiss="modal" data-trade-type="2">确定</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
         <!-- 持仓 -->
-        <section role="tabpanel" class="tab-pane active" id="holdings">
+        <section role="tabpanel" class="tab-pane" id="holdings">
             <div class="container-fluid index-container">
                 <div class="row index-items">
                     <!--                    <div class="col-md-4  index-item">-->
@@ -211,7 +328,7 @@ if (isset($userInfo)) {
                                                 <td>涨跌幅</td>
                                                 <td>成交（万手）</td>
                                                 <td>行业</td>
-                                                <td>操作(<img src="../static/imgs/trade/icon_7.png" alt="">&nbsp<img src="../static/imgs/trade/icon_8.png" alt="">)</td>
+                                                <td>操作(<img src="../static/imgs/trade/op_buy.png" alt="">&nbsp<img src="../static/imgs/trade/op_sale.png" alt="">)</td>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -233,7 +350,7 @@ if (isset($userInfo)) {
                                                 <td>涨跌幅</td>
                                                 <td>成交（万手）</td>
                                                 <td>行业</td>
-                                                <td>操作(<a href="#"><img src="../static/imgs/trade/icon_7.png" alt="">&nbsp<img src="../static/imgs/trade/icon_8.png" alt=""></a>)</td>
+                                                <td>操作(<a href="#"><img src="../static/imgs/trade/op_buy.png" alt="">&nbsp<img src="../static/imgs/trade/op_sale.png" alt=""></a>)</td>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -255,7 +372,7 @@ if (isset($userInfo)) {
                                                 <td>涨跌幅</td>
                                                 <td>成交（万手）</td>
                                                 <td>行业</td>
-                                                <td>操作(<a href="#"><img src="../static/imgs/trade/icon_7.png" alt="">&nbsp<img src="../static/imgs/trade/icon_8.png" alt=""></a>)</td>
+                                                <td>操作(<a href="#"><img src="../static/imgs/trade/op_buy.png" alt="">&nbsp<img src="../static/imgs/trade/op_sale.png" alt=""></a>)</td>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -277,7 +394,7 @@ if (isset($userInfo)) {
                                                 <td>涨跌幅</td>
                                                 <td>成交（万手）</td>
                                                 <td>行业</td>
-                                                <td>操作(<a href="#"><img src="../static/imgs/trade/icon_7.png" alt="">&nbsp<img src="../static/imgs/trade/icon_8.png" alt=""></a>)</td>
+                                                <td>操作(<a href="#"><img src="../static/imgs/trade/op_buy.png" alt="">&nbsp<img src="../static/imgs/trade/op_sale.png" alt=""></a>)</td>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -303,7 +420,7 @@ if (isset($userInfo)) {
                                         <td>浮动盈亏</td>
                                         <td>盈亏比例</td>
                                         <td>仓位</td>
-                                        <td>操作(<a href="#"><img src="../static/imgs/trade/icon_7.png" alt="">&nbsp<img src="../static/imgs/trade/icon_8.png" alt=""></a>)</td>
+                                        <td>操作(<a href="#"><img src="../static/imgs/trade/op_buy.png" alt="">&nbsp<img src="../static/imgs/trade/op_sale.png" alt=""></a>)</td>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -428,11 +545,13 @@ if (isset($userInfo)) {
                         <ul class="trade-info">
                             <li>
                                 <lable class="left">买入股票：&nbsp;&nbsp;</lable>
+                                <select class="user-group left">
+                                </select>
                                 <div class="typeahead__container left">
                                     <div class="typeahead__field">
-                                <span class="typeahead__query">
-                                    <input class="wk-head-search2" type="search" placeholder="请输入股票名称/代码/拼音" autocomplete="off">
-                                </span>
+                                        <span class="typeahead__query">
+                                            <input class="wk-trade-search" type="search" placeholder="请输入股票名称/代码/拼音" autocomplete="off">
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="clear"></div>
@@ -503,7 +622,7 @@ if (isset($userInfo)) {
                         <ul class="trade-info">
                             <li>
                                 <lable>卖出股票：&nbsp;&nbsp;</lable>
-                                <select class="sale-stock-group">
+                                <select class="user-group sale-stock-group">
                                     <option value="-1">请选择</option>
                                 </select>
                                 <select class="sale-stock">
@@ -597,7 +716,6 @@ if (isset($userInfo)) {
     </div>
     <div class="clear"></div>
 </div>
-
 <script src="../static/plugins/jquery-1.11.3.min.js"></script>
 <script src="../static/plugins/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/echarts/3.1.10/echarts.min.js"></script>
@@ -606,9 +724,10 @@ if (isset($userInfo)) {
 <script src="../static/plugins/typeahead/jquery.typeahead.min.js"></script>
 <script src="<?php echo UtilityTools::AutoVersion('/static/js/common.js') ?>"></script>
 <script src="<?php echo UtilityTools::AutoVersion('/static/js/Utility.min.js') ?>"></script>
-<script src="<?php echo UtilityTools::AutoVersion('/static/js/trade-sys/holdings.js') ?>"></script>
+<!--<script src="--><?php //echo UtilityTools::AutoVersion('/static/js/trade-sys/holdings.js') ?><!--"></script>-->
 <script src="<?php echo UtilityTools::AutoVersion('/static/js/trade-sys/trade.js') ?>"></script>
-<script src="<?php echo UtilityTools::AutoVersion('/static/js/trade-sys/analysis.js') ?>"></script>
+<!--<script src="--><?php //echo UtilityTools::AutoVersion('/static/js/trade-sys/analysis.js') ?><!--"></script>-->
+<script src="<?php echo UtilityTools::AutoVersion('/static/js/trade-sys/attention.js') ?>"></script>
 <script src="../static/plugins/template-native.js" ></script>
 <script type="text/html" id="tpl">
     <%for(var i = 0;i<index_info.length;i++ ){%>

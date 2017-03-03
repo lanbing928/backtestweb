@@ -26,10 +26,10 @@ $(function () {
                 //         indexHtml.push("<p class=\"wk-user-datas-title\">" + list[i].name + "</p><div>");
                 //         indexHtml.push("<p class=\"wk-user-datas-num\">");
                 //         if (list[i].up_price > 0) {
-                //             indexHtml.push("<img src=\"../static/imgs/trade/icon_7.png\">");
+                //             indexHtml.push("<img src=\"../static/imgs/trade/op_buy.png\">");
                 //         }
                 //         else if (list[i].up_price < 0) {
-                //             indexHtml.push("<img src=\"../static/imgs/trade/icon_8.png\">");
+                //             indexHtml.push("<img src=\"../static/imgs/trade/op_sale.png\">");
                 //         }
                 //         indexHtml.push(list[i].price);
                 //         indexHtml.push("</p>");
@@ -194,7 +194,7 @@ $(function () {
                 groupStockList_html.push('<td>' + list[i].change + '</td>');
                 groupStockList_html.push('<td>' + list[i].volume + '</td>');
                 groupStockList_html.push('<td>' + list[i].industry + '</td>');
-                groupStockList_html.push('<td class="call_back" data-groupStockList-id="' + list[i].id + '"><img src="/static/imgs/trade/icon_7.png">&nbsp<img src="/static/imgs/trade/icon_8.png"></td>');
+                groupStockList_html.push('<td class="call_back" data-groupStockList-id="' + list[i].id + '"><img src="/static/imgs/trade/op_buy.png">&nbsp<img src="/static/imgs/trade/op_sale.png"></td>');
                 groupStockList_html.push('</tr>');
             }
             $('.groupStockList table tbody').html(groupStockList_html.join(""));
@@ -233,7 +233,7 @@ $(function () {
                 holding_html.push('<td>' + list[i].profit + '</td>');
                 holding_html.push('<td>' + list[i].profit_ratio + '</td>');
                 holding_html.push('<td>' + list[i].position + '</td>');
-                holding_html.push('<td class="call_back" data-holding-id="' + list[i].id + '"><img src="/static/imgs/trade/icon_7.png">&nbsp<img src="/static/imgs/trade/icon_8.png"></td>');
+                holding_html.push('<td class="call_back" data-holding-id="' + list[i].id + '"><img src="/static/imgs/trade/op_buy.png">&nbsp<img src="/static/imgs/trade/op_sale.png"></td>');
                 holding_html.push('</tr>');
             }
             $('.holdingStock table tbody').html(holding_html.join(""));

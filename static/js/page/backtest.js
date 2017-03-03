@@ -628,58 +628,14 @@ $(function () {
         var sort_opt = $(this).attr('data-hot-sort'); //排序名称
         if (sort_type == 'desc') {
             $(this).html("<img src='/static/imgs/i/icon_desc.png'>").attr('data-sort-type', 'ase').parent().siblings().find('span');
-            sortdata = alldata_s.sort(desc_by(sort_opt));
+            sortdata = alldata_s.sort(Utility.desc_by(sort_opt));
         } else {
             $(this).html("<img src='/static/imgs/i/icon_asc.png'>").attr('data-sort-type', 'desc').parent().siblings().find('span');
-            sortdata = alldata_s.sort(asc_by(sort_opt));
+            sortdata = alldata_s.sort(Utility.asc_by(sort_opt));
         }
         buildSortRankTable(sortdata);//加载排序页码
     });
 
-    /**
-     * 逆序排序函数
-     */
-    var desc_by = function (name) {
-        return function (o, p) {
-            var a, b;
-            if (typeof o === "object" && typeof p === "object" && o && p) {
-                a = o[name];
-                b = p[name];
-                if (a === b) {
-                    return 0;
-                }
-                if (typeof a === typeof b) {
-                    return a > b ? -1 : 1;
-                }
-                return typeof a > typeof b ? -1 : 1;
-            }
-            else {
-                throw ("error");
-            }
-        }
-    }
-    /**
-     * 正序排序函数
-     */
-    var asc_by = function (name) {
-        return function (o, p) {
-            var a, b;
-            if (typeof o === "object" && typeof p === "object" && o && p) {
-                a = o[name];
-                b = p[name];
-                if (a === b) {
-                    return 0;
-                }
-                if (typeof a === typeof b) {
-                    return a < b ? -1 : 1;
-                }
-                return typeof a < typeof b ? -1 : 1;
-            }
-            else {
-                throw ("error");
-            }
-        }
-    }
 
 
     //修改已选时间时 搜索框时间与其同步
@@ -797,15 +753,8 @@ $(function () {
 
     //点击全选/全不选
     $("#checkedAll").click(function () {
-        if ($(this).prop("checked") == true) { // 全选
-            $(".right_industry input[name='checkbox_name']").each(function () {
-                $(this).prop("checked", true);
-            });
-        } else { // 取消全选
-            $(".right_industry input[name='checkbox_name']").each(function () {
-                $(this).prop("checked", false);
-            });
-        }
+        alert(22);
+        Utility.allcheckOrNot('#checkedAll','.right_industry');
     });
 
     /*建立模拟交易的组合*/
@@ -822,8 +771,8 @@ $(function () {
             return false;
         };
         swal({
-            title: "添加组合",
-            text: "组合名称不能超过6个汉字或12个字符",
+            title: "添加账户",
+            text: "账户名称不能超过6个汉字或12个字符",
             type: "input",
             html: true,
             showCancelButton: true,
@@ -831,11 +780,11 @@ $(function () {
             confirmButtonText: "确定",
             cancelButtonText: "取消",
             animation: "slide-from-top",
-            inputPlaceholder: "请输入组合名称"
+            inputPlaceholder: "请输入账户名称"
         }, function (inputValue) {
             if (inputValue === false) return false;
             if (inputValue === "") {
-                swal.showInputError("请输入组合名称");
+                swal.showInputError("请输入账户名称");
                 return false;
             }
             if (Utility.getByteLen(inputValue) > 12) {
@@ -846,7 +795,7 @@ $(function () {
                 if (resultData.group_id) {
                     swal({
                         title: "",
-                        text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合成功",
+                        text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>账户成功",
                         html: true,
                         timer: 1000,
                         showConfirmButton: false
@@ -854,7 +803,7 @@ $(function () {
                 } else {
                     swal({
                         title: "",
-                        text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>组合异常," + resultData.msg + "",
+                        text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>账户异常," + resultData.msg + "",
                         html: true,
                         timer: 1000,
                         showConfirmButton: false

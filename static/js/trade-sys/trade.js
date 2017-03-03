@@ -1,35 +1,34 @@
 "use strict";
 $(function () {
     var open_price;
-    $(function () {
-        var thisHost = "http://" + window.location.host + "/";
-        /**
-         * 搜索框自动完成
-         */
-        $(".wk-head-search2").typeahead({
-            minLength: 2,
-            maxItem: 20,
-            order: "asc",
-            hint: true,
-            group: true,
-            maxItemPerGroup: 5,
-            backdrop: false,
-            dynamic: true,
-            filter: false,
-            emptyTemplate: '未找到 "{{query}}" 的相关信息',
-            source: {
-                "股票": {url: [thisHost + "ajax/trade/ajax_search.php?message={{query}},&type=1", "stock"]},
-            },
-            callback: {
-                onClickAfter: function () {
-                    var str = $('.wk-head-search2').val();
-                    var code = str.substring(str.indexOf("(") + 1, str.indexOf(")"));
-                    getAvailableBuyNum(code); //获取交易中可买股票的数量
-                    getStockInfo('#buy', code);//获取右边股票信息与当前价
-                    $('#buy .buy-wrong').hide().attr('data-wrong-type',-1);//错误消息不显示
-                }
+    var isFistLoad=0;//0时第一次
+    var thisHost = "http://" + window.location.host + "/";
+    /**
+     * 搜索框自动完成
+     */
+    $(".wk-trade-search").typeahead({
+        minLength: 2,
+        maxItem: 20,
+        order: "asc",
+        hint: true,
+        group: true,
+        maxItemPerGroup: 5,
+        backdrop: false,
+        dynamic: true,
+        filter: false,
+        emptyTemplate: '未找到 "{{query}}" 的相关信息',
+        source: {
+            "股票": {url: [thisHost + "ajax/trade/ajax_search.php?message={{query}},&type=1", "stock"]},
+        },
+        callback: {
+            onClickAfter: function () {
+                var str = $('.wk-trade-search').val();
+                var code = str.substring(str.indexOf("(") + 1, str.indexOf(")"));
+                getAvailableBuyNum(code); //获取交易中可买股票的数量
+                getStockInfo('#buy', code);//获取右边股票信息与当前价
+                $('#buy .buy-wrong').hide().attr('data-wrong-type',-1);//错误消息不显示
             }
-        });
+        }
     });
 
     /*重置*/
@@ -42,7 +41,7 @@ $(function () {
         this_s.parent().find('.trade-info li .buy-price,.trade-info li .buy-num').attr("readonly","readonly");
         this_s.parent().find('.trade-info li .num-scale input').attr("disabled",true);//单选按钮不可选
         //卖出的选择标签恢复默认
-        this_s.parent().find('.trade-info .sale-stock-group option').eq(0).prop('selected', true);
+        this_s.parent().find('.trade-info .user-group option').eq(0).prop('selected', true);
         this_s.parent().find('.trade-info li .sale-stock').html('').append('<option value="-1">请选择</option>');
     });
 
@@ -90,17 +89,9 @@ $(function () {
         $(this).parent().parent().find('.buy-num').trigger('change');//验证数量
     });
 
-    /*买入下单*/
-    $('.trade-btn').click(function(selector){
-        var price=$(this).parent().find('ul li .buy-price');
-        var num=$(this).parent().find('ul li .buy-num');
-        var stop_price=$(this).parent().find('ul li .stop-price');
-    });
-
     /*获取买5卖5个股基本信息，当前价、开盘价*/
     function getStockInfo(selector,stock_code){
         trade.getStockInfo({code:stock_code},null,function(resultdata){
-            console.log(resultdata);
             if(resultdata.status==1){
                 var now_price=resultdata.real_info.now_price;
                 var buy=resultdata.buy;
@@ -110,25 +101,25 @@ $(function () {
                 open_price=real_info.open_price;
                 //右边买卖股票信息
                 for(var i=0;i<5;i++){
-                    $(selector+' .table2 tr').eq(i).find('td').eq(1).html(sell[i].price).addClass(Utility.getPriceColor(sell[i].price-now_price));
-                    $(selector+' .table2 tr').eq(i).find('td').eq(2).html(sell[i].amount);
-                    $(selector+' .table2 tr').eq(6+i).find('td').eq(1).html(buy[i].price).addClass(Utility.getPriceColor(buy[i].price-now_price));;
-                    $(selector+' .table2 tr').eq(6+i).find('td').eq(2).html(buy[i].amount);
+                    $(selector+' .table2 tr').eq(i).find('td').eq(1).html(sell[i].price.toFixed(2)).addClass(Utility.getPriceColor(sell[i].price-now_price));
+                    $(selector+' .table2 tr').eq(i).find('td').eq(2).html(parseInt(sell[i].vol));
+                    $(selector+' .table2 tr').eq(6+i).find('td').eq(1).html(buy[i].price.toFixed(2)).addClass(Utility.getPriceColor(buy[i].price-now_price));;
+                    $(selector+' .table2 tr').eq(6+i).find('td').eq(2).html(parseInt(buy[i].vol));
                 }
-                $(selector+' .table2 tr').eq(5).find('td').eq(1).html(now_price).addClass(Utility.getPriceColor(now_price - real_info.yesterday_close_price));//当前价
-                $(selector+' .table1 tr').eq(0).find('td span').html(real_info.now_price).addClass(Utility.getPriceColor(real_info.now_price - now_price));
-                $(selector+' .table1 tr').eq(1).find('td span').html(real_info.open_price).addClass(Utility.getPriceColor(real_info.open_price - now_price));
-                $(selector+' .table1 tr').eq(2).find('td span').html(real_info.yesterday_close_price);
-                $(selector+' .table1 tr').eq(3).find('td span').html(real_info.high_price).addClass(Utility.getPriceColor(real_info.high_price - now_price));
-                $(selector+' .table1 tr').eq(4).find('td span').html(real_info.low_price).addClass(Utility.getPriceColor(real_info.low_price - now_price));
-                $(selector+' .table1 tr').eq(5).find('td span').html(real_info.limit_up).addClass(Utility.getPriceColor(real_info.limit_up - now_price));
-                $(selector+' .table1 tr').eq(6).find('td span').html(real_info.limit_down).addClass(Utility.getPriceColor(real_info.limit_down - now_price));
-                $(selector+' .table1 tr').eq(7).find('td span').html(real_info.turnover_rate+'%');
-                $(selector+' .table1 tr').eq(8).find('td span').html(real_info.amount);
+                $(selector+' .table2 tr').eq(5).find('td').eq(1).html(now_price.toFixed(2)).addClass(Utility.getPriceColor(now_price - real_info.yesterday_close_price));//当前价
+                $(selector+' .table1 tr').eq(0).find('td span').html(real_info.now_price.toFixed(2)).addClass(Utility.getPriceColor(real_info.now_price - now_price));
+                $(selector+' .table1 tr').eq(1).find('td span').html(real_info.open_price.toFixed(2)).addClass(Utility.getPriceColor(real_info.open_price - now_price));
+                $(selector+' .table1 tr').eq(2).find('td span').html(real_info.yesterday_close_price.toFixed(2));
+                $(selector+' .table1 tr').eq(3).find('td span').html(real_info.high_price.toFixed(2)).addClass(Utility.getPriceColor(real_info.high_price - now_price));
+                $(selector+' .table1 tr').eq(4).find('td span').html(real_info.low_price.toFixed(2)).addClass(Utility.getPriceColor(real_info.low_price - now_price));
+                $(selector+' .table1 tr').eq(5).find('td span').html(real_info.limit_up.toFixed(2)).addClass(Utility.getPriceColor(real_info.limit_up - now_price));
+                $(selector+' .table1 tr').eq(6).find('td span').html(real_info.limit_down.toFixed(2)).addClass(Utility.getPriceColor(real_info.limit_down - now_price));
+                $(selector+' .table1 tr').eq(7).find('td span').html(real_info.turnover_rate.toFixed(2)+'%');
+                $(selector+' .table1 tr').eq(8).find('td span').html(parseInt(real_info.vol));
     
-                $(selector+' .now-price').html(real_info.now_price);
-                $(selector+' .buy-price').val(real_info.now_price);
-                $(selector+' .buy-total').html(real_info.now_price*trade_num);
+                $(selector+' .now-price').html(real_info.now_price.toFixed(2));
+                $(selector+' .buy-price').val(real_info.now_price.toFixed(2));
+                $(selector+' .buy-total').html(real_info.now_price.toFixed(2)*trade_num);
                 $(selector+' .right-infos').show();
                 $(selector+' .buy-price').removeAttr('readonly');//价格可改
             }
@@ -142,10 +133,11 @@ $(function () {
             if(resultdata.status==0){
                 var group_html=[];
                 var list=resultdata.group_list;
+                group_html.push('<option value="-1">请选择</option>');
                 for(var i=0;i<list.length;i++){
                     group_html.push('<option value ="'+list[i].id+'">'+list[i].name+'</option>');
                 }
-                $('#sale .sale-stock-group').append(group_html.join(""));
+                $('.user-group').html(group_html.join(""));
             }
         });
     };
@@ -196,26 +188,31 @@ $(function () {
     /*进行买入/卖出交易*/
     $('.trade-btn').click(function(){
         var trade_type=$(this).attr('data-type');//0：买，1：卖
+        var gid=$(this).parent().find('.trade-info .user-group option:selected').val();//组合id
         var stock_code=$(this).parent().find('.stock-code').html();
-        var buy_price=$(this).parent().find('li .buy-price').val();//委托价格
-        var expected_price=$(this).parent().find('.stop-price input').val();//止损价格
+        var buy_price=Number($(this).parent().find('li .buy-price').val()).toFixed(2);//委托价格
+        var expected_price=Number($(this).parent().find('.stop-price input').val()).toFixed(2);//止损价格
         var buy_num=$(this).parent().find('li .buy-num').val();//委托数量
         var price_wrong=$(this).parent().find('.price .buy-wrong').attr('data-wrong-type');//委托价格验证 -1没有错误 1有错误
         var num_wrong=$(this).parent().find('.num .buy-wrong').attr('data-wrong-type');//委托数量验证 -1没有错误 1有错误
-        if(trade_type=="0"){ //买
-            var gid=$(this).attr('data-buy-gid');//默认0 当前持仓
-        }else{ //卖
-            var gid=$('#sale .sale-stock-group option:selected').val();
-        }
-        if(expected_price){
-            if(!(expected_price.split(".")[1])){//如果是整数 拼接小数
-                expected_price=expected_price+'.00';
-            }
-        }else{ //买入时候用户未输入止损价格或者是卖出
-            expected_price='0.00';
-        }
-        if(buy_price && !(buy_price.split(".")[1])){ //如果是整数 拼接小数
-            buy_price=buy_price+'.00';
+        // if(trade_type=="0"){ //买
+        //     var gid=$(this).attr('data-buy-gid');//默认0 当前持仓
+        // }else{ //卖
+        //     var gid=$('#sale .user-group option:selected').val();
+        // }
+        // if(expected_price){
+        //     if(!(expected_price.split(".")[1])){//如果是整数 拼接小数
+        //         expected_price=expected_price+'.00';
+        //     }
+        // }else{ //买入时候用户未输入止损价格或者是卖出
+        //     expected_price='0.00';
+        // }
+        // if(buy_price && !(buy_price.split(".")[1])){ //如果是整数 拼接小数
+        //     buy_price=buy_price+'.00';
+        // }
+        if(buy_price*buy_num==0){
+            swal({title: "买入金额为0，不可买入", type: "warning", timer: 1200, showConfirmButton: false});
+            return false;
         }
         if(!buy_price || !buy_num){
             swal({title: "输入信息不完整，请补全信息", type: "warning", timer: 1200, showConfirmButton: false});
@@ -260,7 +257,9 @@ $(function () {
     //当日委托
     function todayOrders() {
         trade.getUserRelatedOp({opcode:107},function () {
-             $(".day_orders table tbody").append("<tr><td colspan='8'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</td></tr>");
+            if(isFistLoad==0){
+                $(".day_orders table tbody").html("<tr><td colspan='8'><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</td></tr>");
+            }
             },function(resultdata){
                 if(resultdata.status==0) {
                     var order_html = [];
@@ -277,7 +276,7 @@ $(function () {
                             }
                             order_html.push('<td>' + list[i].order_price + '</td>');
                             order_html.push('<td>' + list[i].order_nums + '</td>');
-                            order_html.push('<td>' + Utility.unixToDate4(list[i].order_time) + '</td>');
+                            order_html.push('<td>' + Utility.unixToDate4(list[i].order_time*1000) + '</td>');
                             if (list[i].status) {
                                 order_html.push('<td>已成交</td>');
                             } else {
@@ -290,6 +289,7 @@ $(function () {
                         order_html.push('<tr><td colspan="8">暂无数据</td></tr>');
                     }
                     $('.day_orders table tbody').html(order_html.join(""));
+                    isFistLoad++;
                 }
         });
     };
@@ -309,9 +309,15 @@ $(function () {
             }
         });
     };
-
-    getUserGroup();
-    todayOrders();
+    
+    function init_trade() {
+        getUserGroup();
+        todayOrders();
+    }
+    init_trade();
+    // setInterval(function () {
+    //     init_trade();
+    // }, 1000);
 
 });
 
