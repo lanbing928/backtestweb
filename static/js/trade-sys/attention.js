@@ -319,9 +319,7 @@ $(function () {
             }
         });
     }
-
     getGroupList();
-    // userTotalAssets();
     // setInterval(function () {
     //     getStockList();
     // }, 2000);

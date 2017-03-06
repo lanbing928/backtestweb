@@ -383,6 +383,23 @@ var trade = {
                 backFn && backFn(resultData);
             }
         })
+    },
+    //构建新闻，快讯，达人观点，公告
+    getRelatedInfo: function (arrData, beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/trade/ajax_get_relatedinfo.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
     }
 };
 
