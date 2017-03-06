@@ -1,5 +1,8 @@
+#analysis{
+    /*background-color: #c0c0c0;*/
+    width: 761px;
+}
 #income-analyze{
-    width: 810px;
-    height: 500px;
-    background-color: #fff;
+    width: 761px;
+    height: 520px;
 }

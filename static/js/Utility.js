@@ -472,11 +472,72 @@ var Utility = {
      * @paramarray 被查找的数组
      */
     inArray: function(search, array) {
-    for (var i in array) {
-        if (array[i] == search) {
-            return true;
+        for (var i in array) {
+            if (array[i] == search) {
+                return true;
+            }
+        }   return false;
+    },
+
+    /**
+     * input中checkbox 全选/全不选
+     * @param  clickname 控制全选/全不选的选择框
+     * @param  name 被控制的所有选择框
+     */
+    allcheckOrNot:function(clickname,name){
+        if ($(clickname).prop("checked") == true) { // 全选
+            $(name+" input[type='checkbox']").each(function () {
+                $(this).prop("checked", true);
+            });
+        } else { // 取消全选
+            $(name+" input[type='checkbox']").each(function () {
+                $(this).prop("checked", false);
+            });
         }
-    }   return false;
+    },
+    /**
+     * 逆序排序函数
+     */
+     desc_by : function (name) {
+        return function (o, p) {
+            var a, b;
+            if (typeof o === "object" && typeof p === "object" && o && p) {
+                a = o[name];
+                b = p[name];
+                if (a === b) {
+                    return 0;
+                }
+                if (typeof a === typeof b) {
+                    return a > b ? -1 : 1;
+                }
+                return typeof a > typeof b ? -1 : 1;
+            }
+            else {
+                throw ("error");
+            }
+        }
+    },
+    /**
+     * 正序排序函数
+     */
+    asc_by : function (name) {
+        return function (o, p) {
+            var a, b;
+            if (typeof o === "object" && typeof p === "object" && o && p) {
+                a = o[name];
+                b = p[name];
+                if (a === b) {
+                    return 0;
+                }
+                if (typeof a === typeof b) {
+                    return a < b ? -1 : 1;
+                }
+                return typeof a < typeof b ? -1 : 1;
+            }
+            else {
+                throw ("error");
+            }
+        }
     }
 
 

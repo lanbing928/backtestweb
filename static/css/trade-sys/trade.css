@@ -6,10 +6,7 @@
 #trade .nav>li>a:hover{background:none;}
 #trade .buy-tip{color:#d14a4a;margin:14px auto}
 #trade .trade-info>li {height:52px;}
-#trade .trade-info>li input[type=text],#sale .trade-info .sale-stock,#sale .trade-info .sale-stock-group{width:200px;height:26px;font-size:12px;padding:0 5px;border: 1px solid #ccc;outline:none;}
-#buy .typeahead__container{width:200px;}
-#buy .typeahead__container input{outline:none;height:26px;border:1px solid #ccc;padding:0 5px;}
-#buy  .typeahead__container *{font-size:12px}
+#trade .trade-info>li input[type=text],#sale .sale-stock,.trade-info .user-group{width:200px;height:26px;font-size:12px;padding:0 5px;border: 1px solid #ccc;outline:none;}
 #trade .trade-info li>span{font-size:12px;}
 #trade .trade-info .num{margin-bottom:30px;}
 #trade .trade-info .num-scale{margin:8px 10px 0 80px}
@@ -27,7 +24,7 @@
 .right-infos table .info-now-price td{font-size:14px;}
 #sale{margin-top:44px;}
 #trade .tab-content{padding-left:0}
-#sale .trade-info .sale-stock-group{width:70px;}
+.trade-info .user-group{width:70px;height:26px;}
 #sale .trade-info .sale-stock{width:150px;}
 
 /*当日委托*/
@@ -41,3 +38,20 @@
 .day_orders table a:link,.day_orders table a:visited{color:#525252;}
 .day_orders table .call-back:hover{text-decoration: underline;cursor: pointer}
 
+/*我的关注*/
+#attention{min-height: 158px;position: relative}
+#attention #loading{margin-top:35px;height:100px}
+#attention .group-name-list li{color:#414b6c;height:28px;padding:0 10px;line-height: 25px;text-align: center;border:1px solid #ccc;margin-right:17px;cursor:pointer;margin-bottom:10px;}
+#attention .group-name-list .gp-active{color:#fff;background: #4a60a3;}
+#attention hr{border:1px dashed #E8E8E8;margin:5px 0 15px;}
+#attention .group-stock-list tr input[type='checkbox']{margin-right:5px;margin-top:3px;}
+.group-stock-list thead td .sort_img{width:8px;height:11px;margin-left:2px;cursor:pointer}
+.btn-del-stock{display: none;cursor: pointer;}
+.bulk-trade-op img{cursor: pointer}
+/*模态弹出框批量可买卖*/
+#attention .modal-body{text-align: center!important;padding:10px 0 20px;}
+@media (min-width: 768px) {#attention .modal-sm{margin:200px auto}}
+#attention .modal-trade-num{margin:10px auto;}
+#attention .modal-trade-num input{width:67px;}
+#attention .bulk-trade-error{color:#d14a4a;margin:0px auto;font-size: 12px;height:20px;visibility: hidden}
+#attention .one-stock-trade{cursor:pointer;}
