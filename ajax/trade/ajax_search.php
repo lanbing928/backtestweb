@@ -11,8 +11,7 @@ if (CheckLogin::check() == -1) {
     return;
 }
 $message = isset($_GET["message"]) ? $_GET["message"] : "";
-$type = isset($_GET["type"]) ? $_GET["type"] : "";
-//$type = isset($_GET["type"]) ? 0  : 1; //0所有类型 1股票
+$type = isset($_GET["type"]) ? 0  : 1; //0所有类型 1股票
 if (empty($message)) {
     print_r(json_encode(array("status" => 0, "result" => "搜索关键字为空")));
     return;
@@ -21,7 +20,7 @@ if (empty($message)) {
 $url="http://61.147.114.67/cgi-bin/luyao/wookong/search/search.fcgi";
 $result = RequestUtil::get($url,
     array(
-        "user_id" => 9999,
+        "user_id" => $_SESSION['user_id'],
         "token" => $_SESSION["token"],
         "message" => $message,
         "op" => $type

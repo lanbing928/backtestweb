@@ -13,23 +13,23 @@
 #trade .stock-code{display:none}
 #trade .trade-btn{width:76px;height:25px;padding:0;border-radius:0;background: #6a7fb9;color:#fff;border:none;outline:none;}
 #trade .trade-reset{width:62px;height:25px;padding:0;border-radius:0;background: #FBFBFB;color:#525252;border:1px solid #ccc;margin-left:13px;outline:none;}
-#trade .trade-info .buy-wrong{color:#D8110B;margin:5px 10px 0 80px;font-size:12px;display:none}
+#trade .trade-info .buy-wrong{color:#D8110B;margin:5px 8px 0 0px;font-size:12px;display:none}
 .right-infos{margin-top:50px;padding-right:20px;display: none}
 #sale .right-infos{margin-top:6px;}
 .right-infos table{border:1px solid #E7E7E7}
 .right-infos .table1{width:131px;margin-right:10px;}
 .right-infos .table2{width:166px}
-.right-infos table tr td{font-size:12px;color:#525252;border:none;padding:7px}
+.right-infos table tr td{font-size:12px;color:#525252;border-top:0!important;padding:7px}
 .right-infos table .info-now-price{background: #F2F3F8}
 .right-infos table .info-now-price td{font-size:14px;}
-#sale{margin-top:44px;}
+#sale,#buy{margin-top:20px;}
 #trade .tab-content{padding-left:0}
-.trade-info .user-group{width:70px;height:26px;}
-#sale .trade-info .sale-stock{width:150px;}
+.trade-info .user-group{width:200px;height:26px;}
+#buy .typeahead__container,#sale .trade-info .sale-stock{width:200px;}
 
 /*当日委托*/
 .day_orders{margin-top:17px}
-.day_orders .title{border-bottom: 1px solid #e8e8e8;height: 40px;margin-bottom: 13px;}
+.day_orders .title{border-bottom: 1px solid #e8e8e8;height: 40px;}
 .day_orders .title h3{border-bottom: 4px solid #455CA1;float: left;height: 38px;line-height: 32px;font-weight: normal;padding-right: 5px;position: relative;margin-top: 1px;width: 90px;}
 .day_orders h3 span{font-size: 20px;}
 .day_orders table{width:100%;font-size: 12px;}
@@ -38,20 +38,3 @@
 .day_orders table a:link,.day_orders table a:visited{color:#525252;}
 .day_orders table .call-back:hover{text-decoration: underline;cursor: pointer}
 
-/*我的关注*/
-#attention{min-height: 158px;position: relative}
-#attention #loading{margin-top:35px;height:100px}
-#attention .group-name-list li{color:#414b6c;height:28px;padding:0 10px;line-height: 25px;text-align: center;border:1px solid #ccc;margin-right:17px;cursor:pointer;margin-bottom:10px;}
-#attention .group-name-list .gp-active{color:#fff;background: #4a60a3;}
-#attention hr{border:1px dashed #E8E8E8;margin:5px 0 15px;}
-#attention .group-stock-list tr input[type='checkbox']{margin-right:5px;margin-top:3px;}
-.group-stock-list thead td .sort_img{width:8px;height:11px;margin-left:2px;cursor:pointer}
-.btn-del-stock{display: none;cursor: pointer;}
-.bulk-trade-op img{cursor: pointer}
-/*模态弹出框批量可买卖*/
-#attention .modal-body{text-align: center!important;padding:10px 0 20px;}
-@media (min-width: 768px) {#attention .modal-sm{margin:200px auto}}
-#attention .modal-trade-num{margin:10px auto;}
-#attention .modal-trade-num input{width:67px;}
-#attention .bulk-trade-error{color:#d14a4a;margin:0px auto;font-size: 12px;height:20px;visibility: hidden}
-#attention .one-stock-trade{cursor:pointer;}

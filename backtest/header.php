@@ -17,7 +17,7 @@ if (isset($userInfo)) {
 <div class="wk-header" name="top1" id="top1">
     <div class="title container">
         <a href="/" class="fl"><div class="wk-backtest title_button">悟空回测</div></a>
-        <a href="http://t.stock.iwookong.com/ajax/login/nologin.php?uid=<?php echo $uid ?>&token=<?php echo $token ?>" class="fl" target="_blank"><div class="wk-site title_button">返回悟空官网</div></a>
+        <a href="http://stock.iwookong.com/ajax/login/nologin.php?uid=<?php echo $uid ?>&token=<?php echo $token ?>" class="fl" target="_blank"><div class="wk-site title_button">返回悟空官网</div></a>
         <a href='../logout.php' class="fr logout"><img src="../static/imgs/i/exit.png" alt="">&nbsp退出</a>
         <div class="clear"></div>
     </div>

@@ -274,6 +274,26 @@ var Utility = {
         }
         return year + seperator1 + month + seperator1 + strDate;
     },
+
+    /**
+     * 获取当前日期的后一天,格式为YYYY-MM-DD
+     * @returns {string}
+     */
+    getNowFormatDate1: function () {
+        var date = new Date();
+        var seperator1 = "-";
+        var year = date.getFullYear();
+        var month = date.getMonth() + 1;
+        var strDate = date.getDate()+1;
+        if (month >= 1 && month <= 9) {
+            month = "0" + month;
+        }
+        if (strDate >= 0 && strDate <= 9) {
+            strDate = "0" + strDate;
+        }
+        return year + seperator1 + month + seperator1 + strDate;
+    },
+
     /**
      * 获取字符串长度,汉字两个字节
      * @param val
@@ -463,7 +483,7 @@ var Utility = {
     getUrlParam: function (name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-        if (r != null) return unescape(r[2]); return null; //返回参数值
+        if (r != null) return decodeURI(r[2]); return null; //返回参数值
     },
 
     /**
@@ -537,6 +557,38 @@ var Utility = {
             else {
                 throw ("error");
             }
+        }
+    },
+    /**
+     * 设置cookie
+     * 如果第三个参数不设置，cookie失效时间为24小时之后
+     */
+    setCookie: function (name, value) {
+        var exp = new Date();
+        var days = arguments[2]?arguments[2]:1;
+        exp.setTime(exp.getTime() + days*24*60*60*1000);//失效时间
+        document.cookie = name + "="+ encodeURI(value) + ";domain=t.backtest.iwookong.com;expires=" + exp.toGMTString() + ";path=/";
+    },
+    /**
+     * 获取cookie
+     */
+    getCookie: function (name) {
+        var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+        if(arr = document.cookie.match(reg)) {
+            return decodeURI(arr[2]);
+        } else {
+            return null;
+        }
+    },
+    /**
+     * 删除cookie
+     */
+    unsetCookie: function (name) {
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var cval = this.getCookie(name);
+        if(cval != null) {
+            document.cookie = name + "=" + cval + ";domain=t.backtest.iwookong.com;expires=" + exp.toGMTString()+ ";path=/";
         }
     }
 

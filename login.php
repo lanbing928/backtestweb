@@ -1,3 +1,7 @@
+<?php
+date_default_timezone_set("PRC");
+require_once(dirname(__FILE__) . "/common/Utility.class.php");
+?>
 <!doctype html>
 <html>
 <head>
@@ -48,6 +52,7 @@
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="http://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.js"></script>
+<script src="<?php echo UtilityTools::AutoVersion('/static/js/Utility.min.js')?>"></script>
 <script src="static/js/common.min.js"></script>
 <script>
     $(function(){
@@ -87,6 +92,7 @@
         };
         common.login(arrData, null, function (resultData) {
             if (resultData.status != 0) {
+                Utility.unsetCookie('last_gid');//登录时清除最后一次交易id
                 window.location.href = "/";
             } else {
                 $("#result-tips").html(resultData.result);

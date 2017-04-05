@@ -413,7 +413,7 @@ $(function () {
                             stockHtml.push('<tr>');
                             stockHtml.push('<td>' + (i + p + 1) + '</td>');
                             // stockHtml.push('<td><img src="/static/imgs/i/icon_edit.png">&nbsp;&nbsp;<a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a><ul class="result_threshold"><li>提醒条件筛选</li><li class="hot">热度：<input type="number"></li> <li class="yield">收益率：<input type="number"></li><li class="threshold_btn"><button data-stock="'+stockData[i].symbol+'">确定</button></li></ul></td>');
-                            stockHtml.push('<td><input class="fl" type="checkbox" name="checkbox_name"/><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock=' + stockData[i].symbol + '&uid=' + stockData[i].uid + '&token=' + stockData[i].token + '" class="fl" target="_blank">' + stockData[i].symbol + '</a></td>');
+                            stockHtml.push('<td><input class="fl" type="checkbox" name="checkbox_name"/><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock=' + stockData[i].symbol + '&uid=' + stockData[i].uid + '&token=' + stockData[i].token + '" class="fl" target="_blank">' + stockData[i].symbol + '</a></td>');
                             stockHtml.push('<td>' + stockData[i].name + '</a></td>');
                             stockHtml.push('<td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td>');
                             stockHtml.push('<td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td>');
@@ -459,7 +459,7 @@ $(function () {
             // stockHtml.push('<tr><td>' + (i + 1) + '</td><td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a></td><td>' + stockData[i].name + '</a></td><td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td><td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td><td>' + parseInt(stockData[i].volume / 10000) + '万</td><td>' + stockData[i].amount.toFixed(2) + '</td><td>' + stockData[i].bordname + '</td></tr>');
             stockHtml.push('<tr>');
             stockHtml.push('<td>' + (i + 1) + '</td>');
-            stockHtml.push('<td><input class="fl" type="checkbox" name="checkbox_name"/><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock=' + stockData[i].symbol + '&uid=' + stockData[i].uid + '&token=' + stockData[i].token + '" class="fl" target="_blank">' + stockData[i].symbol + '</a></td>');
+            stockHtml.push('<td><input class="fl" type="checkbox" name="checkbox_name"/><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock=' + stockData[i].symbol + '&uid=' + stockData[i].uid + '&token=' + stockData[i].token + '" class="fl" target="_blank">' + stockData[i].symbol + '</a></td>');
             // stockHtml.push('<td><img src="/static/imgs/i/icon_edit.png">&nbsp;&nbsp;<a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a><ul class="result_threshold"><li>提醒条件筛选</li><li class="hot">热度：<input type="number"></li> <li class="yield">收益率：<input type="number"></li><li class="threshold_btn"><button data-stock="'+stockData[i].symbol+'">确定</button></li></ul></td>');
             stockHtml.push('<td>' + stockData[i].name + '</a></td>');
             stockHtml.push('<td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td>');
@@ -753,11 +753,10 @@ $(function () {
 
     //点击全选/全不选
     $("#checkedAll").click(function () {
-        alert(22);
         Utility.allcheckOrNot('#checkedAll','.right_industry');
     });
 
-    /*建立模拟交易的组合*/
+    /*建立模拟交易的关注*/
     $('.result_set_group').on('click', function () {
         //获取股票代码列表
         var code_arr = [];
@@ -771,8 +770,8 @@ $(function () {
             return false;
         };
         swal({
-            title: "添加账户",
-            text: "账户名称不能超过6个汉字或12个字符",
+            title: "添加关注",
+            text: "关注名称不能超过6个汉字或12个字符",
             type: "input",
             html: true,
             showCancelButton: true,
@@ -780,22 +779,26 @@ $(function () {
             confirmButtonText: "确定",
             cancelButtonText: "取消",
             animation: "slide-from-top",
-            inputPlaceholder: "请输入账户名称"
+            inputPlaceholder: "请输入关注名称"
         }, function (inputValue) {
+            $('.sa-input-error').click(function(){
+                $(this).removeClass('show').prev().val('');
+                $(this).parent().parent().find('.sa-error-container').removeClass('show');
+            });
             if (inputValue === false) return false;
             if (inputValue === "") {
-                swal.showInputError("请输入账户名称");
+                swal.showInputError("请输入关注名称");
                 return false;
             }
             if (Utility.getByteLen(inputValue) > 12) {
                 swal.showInputError("字符数超过限制");
                 return false;
             }
-            trade.getUserRelatedOp({opcode: 101, group_name: inputValue, code_list: code_arr.join(',')}, null, function (resultData) {
-                if (resultData.group_id) {
+            trade.getUserRelatedOp({opcode: 120, attention_name: encodeURI(inputValue+','), code_list: code_arr.join(',')}, null, function (resultData) {
+                if (resultData.status==0) {
                     swal({
                         title: "",
-                        text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>账户成功",
+                        text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>关注成功",
                         html: true,
                         timer: 1000,
                         showConfirmButton: false
@@ -803,7 +806,7 @@ $(function () {
                 } else {
                     swal({
                         title: "",
-                        text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>账户异常," + resultData.msg + "",
+                        text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>关注异常：" + resultData.msg + "",
                         html: true,
                         timer: 1000,
                         showConfirmButton: false
