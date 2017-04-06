@@ -154,9 +154,15 @@ $(function () {
                       stockHtml.push('<td><input type="checkbox" class="left"><span class="left">'+list[i].code+'</span></td>');
                       stockHtml.push('<td>'+list[i].name+'</td>');
                       stockHtml.push('<td>'+list[i].visit_heat+'</td>');
-                      stockHtml.push('<td class="' + Utility.getPriceColor(list[i].change) + '">'+list[i].price.toFixed(2)+'</td>');
-                      stockHtml.push('<td class="' + Utility.getPriceColor(list[i].change) + '">'+list[i].change.toFixed(2)+'%'+Utility.getHotUpDown(list[i].change)+'</td>');
-                      stockHtml.push('<td>'+(list[i].volume/10000).toFixed(2)+'</td>');
+                        if(list[i].price==0){
+                            stockHtml.push('<td>--</td>');
+                            stockHtml.push('<td>--</td>');
+                            stockHtml.push('<td>--</td>');
+                        }else{
+                            stockHtml.push('<td class="' + Utility.getPriceColor(list[i].change) + '">'+list[i].price.toFixed(2)+'</td>');
+                            stockHtml.push('<td class="' + Utility.getPriceColor(list[i].change) + '">'+list[i].change.toFixed(2)+'%'+Utility.getHotUpDown(list[i].change)+'</td>');
+                            stockHtml.push('<td>'+(list[i].volume/10000).toFixed(2)+'</td>');
+                        }
                       stockHtml.push('<td>'+list[i].industry+'</td>');
                       stockHtml.push('<td>');
                       stockHtml.push('<a href="trade.php?name='+list[i].name+'&code='+list[i].code+'&price='+list[i].price.toFixed(2)+'"><img src="../static/imgs/trade/op_buy.png" class="one-stock-trade" data-trade-type="0"></a>&nbsp;');
