@@ -97,7 +97,7 @@ if (CheckLogin::check() == -1) {
                 <div class="result_title right_result_title fl">筛选结果</div>
                 <div class="right_stock_num fl">选出股票数：<span></span></div>
                 <a href="../trade/index.php" target="_blank"><div class="fr result_moni_trade">模拟炒股</div></a>
-                <div class="fr result_set_group">建立账户</div>
+                <div class="fr result_set_group">建立关注</div>
                 <div class="clear"></div>
             </div>
 

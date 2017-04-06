@@ -87,5 +87,10 @@ ul li{list-style: none;padding:0}
 .wk-nav-hushen{cursor: pointer;height:45px;line-height: 45px;text-align: center}
 .wk-nav-hushen img{margin-bottom:5px;}
 .wk-nav-content{width:80%;background-color: #fff;margin-left:2.5%;padding:16px 15px 55px;box-shadow:#D8D8D8 0 1px 8px}
-.table>tbody>tr>td{border-bottom: 1px solid #ddd;border-top:0}
+/*.table>tbody>tr>td{border-bottom: 1px solid #ddd;border-top:0}*/
+table{text-align: center;font-size: 12px}
+table thead{background-color:#f2f3f8}
+.table-responsive{margin-top:12px}
+.table-responsive table tr td{border-bottom:1px solid #eee}
+
 

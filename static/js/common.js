@@ -1,4 +1,11 @@
 "use strict";
+//设置cookie
+var CookieHandle = {
+
+};
+
+
+
 var common = {
     /**
      * 验证是否没有权限
@@ -369,12 +376,13 @@ var trade = {
         })
     },
     //获取用户可用资产信息
-    getAccountInfo:function ( beforeFn,backFn) {
+    getAccountInfo:function (arrData,beforeFn,backFn) {
         $.ajax({
             url: "../ajax/trade/ajax_user_account_info.php",
             type: "post",
             dataType: "json",
             cache: false,
+            data: arrData,
             beforeSend:function () {
                 beforeFn && beforeFn();
             },
@@ -392,6 +400,23 @@ var trade = {
             dataType: "json",
             cache: false,
             data: arrData,
+            beforeSend: function () {
+                beforeFn && beforeFn();
+            },
+            success: function (resultData) {
+                common.initCheckLogin(resultData);
+                backFn && backFn(resultData);
+            }
+        })
+    },
+    //获取历史收益率
+    getHistoryYields: function (arrdata,beforeFn, backFn) {
+        $.ajax({
+            url: "../ajax/trade/ajax_user_yields_history.php",
+            type: "post",
+            dataType: "json",
+            cache: false,
+            data:arrdata,
             beforeSend: function () {
                 beforeFn && beforeFn();
             },

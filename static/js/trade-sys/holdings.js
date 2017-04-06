@@ -3,10 +3,7 @@
  *
  */
 // 基于准备好的dom，初始化echarts实例
-
 // 使用刚指定的配置项和数据显示图表。
-
-
 
 "use strict";
 $(function () {
@@ -16,166 +13,477 @@ $(function () {
             $(".index-items").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
         }, function (resultData) {
             if (resultData && resultData.status == 1) {
-                var str1=template('tpl',resultData);
+                var str1 = template('tpl', resultData);
                 $('.index-items').html(str1);
             }
         });
     }
-    // 点击我的账户获取相应的子账户
-    $('.myAccount').click(function () {
-        $('.myAccount-1').show();
-        $(this).siblings().find('.myAccount-1').hide();
 
+    var holdings_gid;//选中的账户id
+
+    var is_first=0;
+    /*我的账户里的获取账户*/
+    function getGroupList() {
+        trade.getUserRelatedOp({opcode: 104}, function () {
+            if(is_first==0){
+                $('.btn-groupList').html('<li style="border:none"><i class="fa fa-refresh fa-spin"></i>&nbsp;加载中...</li>');
+            }
+        }, function (resultData) {
+            if (resultData.status == 0) {
+                var groupHtml = [];
+                if (resultData.group_list.length > 0) {
+                    var cookie_gid=Utility.getCookie('last_gid');
+                    for (var i = 0; i < resultData.group_list.length; i++) {
+                        if(cookie_gid){ //最后一次交易的cookie存在
+                            if(resultData.group_list[i].id == cookie_gid){ //最后一次交易gid cookie
+                                holdings_gid = resultData.group_list[i].id;//默认的账户id,gid
+                                // groupHtml.push('<li class="left gp-active" data-gid="' + resultData.group_list[i].id + '">' + resultData.group_list[i].name + '</li>')
+                                groupHtml.push('<li class="left gp-active" data-gid="'+resultData.group_list[i].id+'">');
+                            }
+                            else{
+                                // if(i==0){
+                                //     holdings_gid=resultData.group_list[0].id;//默认的账户id,gid
+                                //     groupHtml.push('<li class="left gp-active" data-gid="'+resultData.group_list[0].id+'">')
+                                // }else{
+                                    groupHtml.push('<li class="left" data-gid="'+resultData.group_list[i].id+'">')
+                                // }
+                            }
+                            groupHtml.push('<span>'+resultData.group_list[i].name+'</span>&nbsp;');
+                            groupHtml.push('<span class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-chevron-down"></i></span>');
+                            groupHtml.push('<ul class="dropdown-menu" data-group-name="'+resultData.group_list[i].name+'" data-group-id="'+resultData.group_list[i].id+'"><li class="change-name"><a href="#"><i class="fa fa-pencil fa-fw"></i>更改名称</a></li><li class="del-group"><a href="#"><i class="fa fa-trash-o fa-fw"></i>删除组合</a></li></ul>');
+                            groupHtml.push('</li>');
+                        }
+                        else{ //没有cookie 最后一次交易不存在
+                            if (i == 0) { //最后一次交易gid不存在就默认第一个账号
+                                holdings_gid = resultData.group_list[0].id;//默认的账户id,gid
+                                // groupHtml.push('<li class="left gp-active" data-gid="' + resultData.group_list[0].id + '">' + resultData.group_list[0].name + '</li>')
+                                groupHtml.push('<li class="left gp-active" data-gid="'+resultData.group_list[0].id+'">');
+                            } else {
+                                // groupHtml.push('<li class="left" data-gid="' + resultData.group_list[i].id + '">' + resultData.group_list[i].name + '</li>')
+                                groupHtml.push('<li class="left" data-gid="'+resultData.group_list[i].id+'">')
+
+                            }
+                            groupHtml.push('<span>'+resultData.group_list[i].name+'</span>&nbsp;');
+                            groupHtml.push('<span class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-chevron-down"></i></span>');
+                            groupHtml.push('<ul class="dropdown-menu" data-group-name="'+resultData.group_list[i].name+'" data-group-id="'+resultData.group_list[i].id+'"><li class="change-name"><a href="#"><i class="fa fa-pencil fa-fw"></i>更改名称</a></li><li class="del-group"><a href="#"><i class="fa fa-trash-o fa-fw"></i>删除组合</a></li></ul>');
+                            groupHtml.push('</li>');
+                        }
+
+                    }
+
+                    // getGroupStockList();
+                    // getAccount();
+                }
+                // else {
+                //     groupHtml.push('<li style="border:none">无添加的账号</li>')
+                // }
+                groupHtml.push('<li class="left add-group trade-add-group" data-gid="-1">自定义<i class="fa fa-plus"></i></li>');
+                groupHtml.push('<div class="clear"></div>');
+                $('.btn-groupList').html(groupHtml.join(""));
+                if(holdings_gid){
+                    getGroupStockList();
+                    clickGroupList();//点击账户切换不同的股票信息
+                    changeGroupName();
+                    delGroupName();
+                }else{
+                    $(".holdingStock table tbody").html("<tr><td colspan='11' style='padding: 50px 0 40px 0;'>暂无账户相关数据</td></tr>");
+                }
+                is_first++;
+            }
+        });
+    }
+
+    /*修改组合名称*/
+    function changeGroupName() {
+        $('#holdings .change-name').on('click',function(){
+            var group_id=$(this).parent().attr('data-group-id');
+            var group_name=$(this).parent().attr('data-group-name');
+            swal({
+                title: "更改名称【" + group_name + "】",
+                text: "组合名称不能超过6个汉字或12个字符",
+                type: "input",
+                html: true,
+                showCancelButton: true,
+                closeOnConfirm: false,
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                animation: "slide-from-top",
+                inputPlaceholder: "请输入组合名称"
+            }, function (inputValue) {
+                $('.sa-input-error').click(function(){
+                    $(this).removeClass('show').prev().val('');
+                    $(this).parent().parent().find('.sa-error-container').removeClass('show');
+                });
+                if (inputValue === false) return false;
+                if ($.trim(inputValue) === "") {
+                    swal.showInputError("请输入组合名称");
+                    return false;
+                }
+                if ($.trim(inputValue) == group_name) {
+                    swal.showInputError("与原组合名重复");
+                    return false;
+                }
+                if (Utility.getByteLen(inputValue) > 12) {
+                    swal.showInputError("字符数超过限制");
+                    return false;
+                }
+                trade.getUserRelatedOp({
+                    opcode:117,
+                    group_name:inputValue+',',
+                    gid: group_id
+                }, null, function (resultData) {
+                    if (resultData.status == 0) {
+                        swal({
+                            title: "",
+                            text: "修改组合<span style='color: #F8BB86'>" + group_name + "</span>为<span style='color: #F8BB86'>" + inputValue + "</span>成功",
+                            html: true,
+                            timer: 1000,
+                            showConfirmButton: false
+                        });
+                        //修改完后重新加载我的组选股组合(tip:可以直接修改掉名字而不用请求接口)
+                        getGroupList();
+                        // $('#holdings .btn-groupList .gp-active span:nth-child(1)').html(inputValue);//直接改名字不调接口
+
+                    }
+                    else{
+                        swal({
+                            title: "",
+                            text: "修改组合<span style='color: #F8BB86'>" + group_name + "</span>为<span style='color: #F8BB86'>" + inputValue + "</span>失败："+resultData.msg,
+                            html: true,
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+                    }
+                });
+            });
+        });
+    };
+
+    /*删除组合*/
+    function delGroupName() {
+        $('#holdings .del-group').on('click',function(){
+            var group_id=$(this).parent().attr('data-group-id');
+            var group_name=$(this).parent().attr('data-group-name');
+            swal({
+                title: "",
+                text: "确定删除<span style='color: #F8BB86'>" + group_name + "</span>吗?此操作将无法恢复!",
+                type: "warning",
+                html: true,
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "确定",
+                cancelButtonText: "取消",
+                closeOnConfirm: false,
+                closeOnCancel: true
+            }, function (isConfirm) {
+                if (isConfirm) {
+                    trade.getUserRelatedOp({opcode:118,gid: group_id}, null, function (resultData) {
+                        if (resultData.status == 0) {
+                            swal({
+                                title: "",
+                                text: "组合<span style='color: #F8BB86'>" + group_name + "</span>已被删除",
+                                html: true,
+                                timer: 1000,
+                                showConfirmButton: false
+                            });
+                            if(group_id==Utility.getCookie('last_gid')){
+                                Utility.unsetCookie('last_gid');
+                            }
+                            getGroupList();   // 重新获取账户
+                            getGroupStockList();//当前持仓，当日委托，当日成交，历史成交，对账单
+
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /*建立模拟交易的组合*/
+    $("body").on("click", "#holdings .add-group", function () {
+        swal({
+            title: "添加账户",
+            text: "账户名称不能超过6个汉字或12个字符",
+            type: "input",
+            html: true,
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            animation: "slide-from-top",
+            inputPlaceholder: "请输入账户名称"
+        }, function (inputValue) {
+            $('.sa-input-error').click(function(){
+                $(this).removeClass('show').prev().val('');
+                $(this).parent().parent().find('.sa-error-container').removeClass('show');
+            });
+            if (inputValue === false) return false;
+            if ($.trim(inputValue) === "") {
+                swal.showInputError("请输入账户名称");
+                return false;
+            }
+            if (Utility.getByteLen(inputValue) > 12) {
+                swal.showInputError("字符数超过限制");
+                return false;
+            }
+            trade.getUserRelatedOp({opcode: 101, group_name: inputValue+','}, null, function (resultData) {
+                if (resultData.status==0) {
+                    swal({
+                        title: "",
+                        text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>账户成功",
+                        html: true,
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                    getGroupList();   // 重新获取账户
+                    // getUserGroup();//模拟交易买卖中的账户列表
+                } else {
+                    swal({
+                        title: "",
+                        text: "添加<span style='color: #F8BB86'>" + inputValue + "</span>账户失败," + resultData.msg + "",
+                        html: true,
+                        timer: 1000,
+                        showConfirmButton: false
+                    });
+                }
+            });
+        });
     });
 
 
-    // 获取环形图盈亏收益
-    function getRoundEacharts(id,data,type) {
+    /*点击账户切换账户的股票信息*/
+    function clickGroupList() {
+        $('.attention .btn-groupList >li').on('click', function () {
+            $(this).not('.add-group').addClass('gp-active').siblings().removeClass('gp-active');
+            var tmp_gid = $(this).attr('data-gid');
+            Utility.setCookie('last_gid',tmp_gid);//设置点击股票的组合id设置为最后一次操作的cookie
+            if (tmp_gid != -1) {
+                holdings_gid = tmp_gid;
+                getGroupStockList(tmp_gid);
 
+            }
+        });
+    }
+
+    // 点击每个子账户中的当前持仓，当日委托，当日成交，历史成交，对账单；
+    $('#holdings .clickLi li').on('click', function () {
+        var tapList = $(this).attr('data-type');
+
+        if (tapList == 1) {
+            getHoldingStock(holdings_gid);
+        }
+        else if (tapList == 2) {
+            getTodayOrders();
+        }
+        else if (tapList == 3) {
+            getFinishedOrder(holdings_gid);
+        }
+        else if (tapList == 4) {
+            getHistoryOrder('0-0-0',Utility.getNowFormatDate1());
+            $('.sQuery1,.eQuery1').val('');
+
+        }
+        else if (tapList == 5) {
+            getStatement('0-0-0',Utility.getNowFormatDate1());
+            $('.sQuery2,.eQuery2').val('');
+
+        }
+    });
+    // 获取环形图盈亏收益
+    function getRoundEacharts(gid) {
         var myChart_profit = echarts.init(document.getElementById('profit'));
         var myChart_loss = echarts.init(document.getElementById('loss'));
-        var data = {
-            "total": 80000.00,
-            "month": 12,
-            "per": 6936.16,
-            "unit": 8
-        };
-        var  option = {
-            backgroundColor: '#fff',
-            color: ['#D14A4A', '#eee'],
-            series: [
-                {
-                    // name:'',
-                    type:'pie',
-                    radius: ['50%', '70%'],
-                    symbolSize:11,
-                    hoverAnimation:false,
-                    labelLine: {
-                        normal: {
-                            show: false
-                        }
+        var profit;
+        var loss;
+        var profit_scale=0;
+        var loss_scale=0;
+        trade.getUserRelatedOp({opcode: 115, gid: holdings_gid}, null, function (resultdata) {
+            if (resultdata.status == 0) {
+                profit = resultdata.profit_num;
+                loss = resultdata.loss_num;
+                if (profit + loss == 0) {
+                    profit_scale = "--";
+                    loss_scale = "--";
+                }
+                else {
+                    profit_scale = (profit / (profit + loss)*100).toFixed(2)+'%';
+                    loss_scale = (loss / (profit + loss)*100).toFixed(2)+'%';
+                }
+                var option1= {
+                    color: ['#D14A4A', '#d0d0d0'],
+                    tooltip: {
+                        show:false,
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b}: {c} ({d}%)"
                     },
-                    data:[
-                        {value:20, name:''},
-                        {value:80, name:''}
+                    legend: {
+                        orient: 'vertical',
+                        x: 'left'
+                    },
+                    series: [
+                        {
+                            // name:'访问来源',
+                            type:'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data:[
+                                {value: profit / (profit + loss)*100, name: ''},
+                                {value: loss / (profit + loss)*100, name: ''}
+                            ]
+                        }
                     ]
-                }
-            ]
-        };
-        myChart_profit.setOption(option);
-        myChart_loss.setOption(option);
-    }
+                };
+                var option2= {
+                    // backgroundColor: '#fff',
+                    color: ['#d0d0d0','#009944'],
+                    legend: {
+                        orient: 'vertical',
+                        x: 'left'
+                    },
+                    series: [
+                        {
+                            name:'访问来源',
+                            type:'pie',
+                            radius: ['50%', '70%'],
+                            avoidLabelOverlap: false,
+                            label: {
+                                normal: {
+                                    show: false,
+                                    position: 'center'
+                                },
+                                emphasis: {
+                                    show: true,
+                                    textStyle: {
+                                        fontSize: '30',
+                                        fontWeight: 'bold'
+                                    }
+                                }
+                            },
+                            labelLine: {
+                                normal: {
+                                    show: false
+                                }
+                            },
+                            data:[
+                                {value:  profit / (profit + loss)*100, name: ''},
+                                {value:  loss / (profit + loss)*100, name: ''}
+                            ]
+                        }
+                    ]
+                };
+                myChart_profit.setOption(option1);
+                myChart_loss.setOption(option2);
 
-    //获取用户账户信息
+                $('.profit-amount p:nth-child(1)').html(profit_scale);
+                $('.profit-amount p:nth-child(2) span').html(profit);
+                $('.loss-amount p:nth-child(1)').html(loss_scale);
+                $('.loss-amount p:nth-child(2) span').html(loss);
+            }
+
+        });
+
+    }
+    //获取每个子账户的信息
     function getAccount() {
-        trade.getAccountInfo(function () {
-            $(".fund-data").html("<div class=\"row-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载中...</div>");
-        },  function (resultdata) {
-            if(resultdata.status==1){
-                var userAccount_html = [];
-                var list = resultdata.result;
-                userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">总资产: '+list.total_assets+'</div>');
-                userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">当日收益率：'+(list.yields_of_day*100).toFixed(2)+'%</div>');
-                userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">总收益率：'+(list.total_yields*100).toFixed(2)+'%</div>');
-                userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">可用资金：'+list.usable_assets+'</div>');
-                userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">当日盈亏：'+list.profit_or_loss+'</div>');
-                userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">股票市值：'+list.stock_value+'</div>');
-                $('.fund-data .row').html(userAccount_html.join(""));
-            }
-        });
-    }
-
-    var firstgid;
-    //获取我的组合
-    function getMygroupStock() {
-        trade.getUserRelatedOp({opcode: 104}, null, function (resultdata) {
-            if(resultdata.status==0){
-                var myGroup_html = [];
-                var list = resultdata.group_list;
-                // console.log(list);
-                for (var i = 0; i < list.length; i++) {
-                    if(i===0) {
-                        firstgid=list[i].id;
-                        myGroup_html.push(' <li role="presentation" class="active" data-gid="'+list[i].id+'"><a href="#index1-1" role="tab" data-toggle="tab">'+list[i].name+'</a></li>');
-                    }
-                    else {
-                        myGroup_html.push(' <li role="presentation" data-gid="'+list[i].id+'"><a href="#index1-1" role="tab" data-toggle="tab">'+list[i].name+'</a></li>');
-                    }
+        if(holdings_gid) {
+            trade.getAccountInfo({opcode: 131, gid: holdings_gid}, function () {
+                $(".fund-data .user_account").html("<div class=\"row-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载中...</div>");
+            }, function (resultdata) {
+                if (resultdata.status == 0) {
+                    var userAccount_html = [];
+                    var list = resultdata.user_account_info;
+                    userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">总资产: ' + list.total_assets.toFixed(2) + '</div>');
+                    // userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">当日收益率：' + (list[i].yields_of_day * 100).toFixed(2) + '%</div>');
+                    userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">总收益率：' + (list.total_yields * 100).toFixed(2) + '%</div>');
+                    // userAccount_html.push('<div class="col-md-3 col-xs-6 fund-item">当日盈亏：' + list[i].profit_or_loss + '</div>');
+                    userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">总市值：' + list.stock_value.toFixed(2) + '</div>');
+                    userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">可用资产：' + list.usable_assets.toFixed(2) + '</div>');
+                    userAccount_html.push('<div class="col-md-4 col-xs-6 fund-item">持仓收益：' + list.holding_yields.toFixed(2) + '</div>');
+                    $('.fund-data .user_account').html(userAccount_html.join(""));
                 }
-                $('.myGroup ul').html(myGroup_html.join(""));
-                getGroupStockList(firstgid);
-            }
-        });
+            });
+        }
     }
-    //我的组合股票列表
-    function getGroupStockList(gid) {
-        trade.getUserRelatedOp({opcode: 105, gid: gid}, null, function (resultdata) {
-            var groupStockList_html = [];
-            var list = resultdata.stock_list;
-            // console.log(list);
-            for (var i = 0; i < list.length; i++) {
-                groupStockList_html.push('<tr>');
-                //序号
-                groupStockList_html.push('<td>' + (i + 1) + '</td>');
-                //股票代码
-                //  groupStockList_html.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+list[i].code+'&uid='+uid+'&token=token" target="_blank">'+list[i].name+'('+list[i].code+')'+'</a></td>');
-                groupStockList_html.push('<td><input type="checkbox" class="checkbox"><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+list[i].code+'&uid='+uid+'&token=token" target="_blank">' + list[i].name + '</a></td>');
-                groupStockList_html.push('<td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+list[i].code+'&uid='+uid+'&token=token" target="_blank">' + list[i].code + '</a></td>');
-                groupStockList_html.push('<td>' + list[i].visit_heat + '</td>');
-                groupStockList_html.push('<td>' + list[i].price + '</td>');
-                groupStockList_html.push('<td>' + list[i].change + '</td>');
-                groupStockList_html.push('<td>' + list[i].volume + '</td>');
-                groupStockList_html.push('<td>' + list[i].industry + '</td>');
-                groupStockList_html.push('<td class="call_back" data-groupStockList-id="' + list[i].id + '"><a href=""><img src="/static/imgs/trade/op_buy.png">&nbsp<img src="/static/imgs/trade/op_sale.png"></a></td>');
-                groupStockList_html.push('</tr>');
-            }
-            $('.groupStockList table tbody').html(groupStockList_html.join(""));
-        });
-    }
-    //点击组合名实现tab切换
+    //默认当前持仓，当日委托，当日成交，历史成交，对账单
+    function getGroupStockList(holdings_gid) {
+            getRoundEacharts(holdings_gid);
+            getAccount();
+            getHoldingStock(holdings_gid);
+            getTodayOrders();
+            getFinishedOrder(holdings_gid);
+            getHistoryOrder('0-0-0',Utility.getNowFormatDate1());
+            getStatement('0-0-0',Utility.getNowFormatDate1());
 
+    }
+
+    //点击组合名实现tab切换
     $('body').on("click", ".myGroup ul li", function () {
         var gid = $(this).attr('data-gid');
         getGroupStockList(gid);
 
     });
 
-
     //定义当日持仓
-    function getHoldingStock() {
-        trade.getUserRelatedOp({opcode: 106,gid:1},
-            //     function () {
-            //     $(".holdingStock table tbody").append("<tr><td colspan='11' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>");
-            // },
-            null,
+    function getHoldingStock(gid) {
+        trade.getUserRelatedOp({opcode: 106, gid: holdings_gid},
+            function () {
+                if(is_first==0) {
+                    $(".holdingStock table tbody").html("<tr><td colspan='11' style='padding: 50px 0 40px 0;'><i class='fa fa-refresh fa-spin'></i>&nbsp;加载中...</td></tr>");
+                }
+            },
             function (resultdata) {
-                console.log(resultdata);
-                if(resultdata.status==0){
-                    //console.log(resultdata);
+                if (resultdata.status == 0) {
                     var holding_html = [];
                     var list = resultdata.stock_list;
-                    if(list.length>0){
+                    if (list.length > 0) {
                         for (var i = 0; i < list.length; i++) {
                             holding_html.push('<tr>');
                             //序号
                             holding_html.push('<td>' + (i + 1) + '</td>');
                             //股票代码
-                            //  holding_html.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+list[i].code+'&uid='+uid+'&token=token" target="_blank">'+list[i].name+'('+list[i].code+')'+'</a></td>');
-                            holding_html.push('<td>' + list[i].code + '</td>');
+                            holding_html.push('<td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock=' + list[i].code+ '&uid=' + uid + '&token=token" target="_blank">' + list[i].name + '(<span>'+ list[i].code + '</span>)' + '</a></td>');
+                            // holding_html.push('<td>' + list[i].code + '</td>');
                             //当前持仓
-                            holding_html.push('<td>' + list[i].holding + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].holding + '</td>');
                             //可用股数
-                            holding_html.push('<td>' + list[i].available + '</td>');
-                            holding_html.push('<td>' + list[i].cost + '</td>');
-                            holding_html.push('<td>' + list[i].price + '</td>');
-                            holding_html.push('<td>' + list[i].market_value + '</td>');
-                            holding_html.push('<td>' + list[i].profit + '</td>');
-                            holding_html.push('<td>' + list[i].profit_ratio + '</td>');
-                            holding_html.push('<td>' + list[i].position + '</td>');
-                            holding_html.push('<td class="call_back" data-holding-id="' + list[i].id + '"><img src="/static/imgs/trade/op_buy.png">&nbsp<img src="/static/imgs/trade/op_sale.png"></td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].available + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].cost.toFixed(3) + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].price.toFixed(3) + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>"+ list[i].market_value + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].profit.toFixed(2) + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].profit_ratio.toFixed(2)+'%'+ '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].position.toFixed(2)+ '</td>');
+                            // holding_html.push('<td class="call_back" data-holding-id="' + list[i].id + '"><img src="/static/imgs/trade/op_buy.png">&nbsp<img src="/static/imgs/trade/op_sale.png"></td>');
+                            holding_html.push('<td>');
+                            holding_html.push('<a href="trade.php?name='+list[i].name+'&gid='+holdings_gid+'&code='+list[i].code+'&price='+list[i].price.toFixed(2)+'"><img src="../static/imgs/trade/op_buy.png" class="one-stock-trade" data-trade-type="0"></a>&nbsp;');
+                            if(list[i].available== 0){
+                                holding_html.push('&nbsp;--');
+                            }else{
+                                // holding_html.push('<img src="../static/imgs/trade/op_sale.png" class="one-stock-trade" data-trade-type="2" data-holding-num="'+list[i].holding+'" href="#trade" data-toggle="tab">');
+                                holding_html.push('<a href="trade.php?gid='+holdings_gid+'&code='+list[i].code+'&type=1"><img src="../static/imgs/trade/op_sale.png" class="one-stock-trade" data-trade-type="0"></a>&nbsp;');
+                            }
+                            holding_html.push('</td>');
                             holding_html.push('</tr>');
                         }
-                    }else{
+                    } else {
                         holding_html.push("<tr><td colspan='11' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>");
                     }
 
@@ -184,872 +492,299 @@ $(function () {
 
             });
     }
+    /*单个股票买卖 跳转到交易*/
 
+    // $("body").on("click", "#holdings .one-stock-trade", function () {
+    //     var trade_type=$(this).attr('data-trade-type');//1 买 2卖
+    //     var code=$(this).parent().parent().find("td:nth-child(2) span").html();//1 买 2卖
+    //     var stock_name=$(this).parent().parent().find("td:nth-child(3)").html();//1 买 2卖
+    //     var group_name=$('#holdings .btn-groupList').find('.gp-active').html();//组合名
+    //     $('#collapseOne li:nth-child(2)').removeClass('active').find('a').attr('aria-expanded','false');//我的账户tab显灰
+    //     $('#collapseOne li:nth-child(3)').addClass('active').find('a').attr('aria-expanded','true');//交易tab显示
+    //     if(code){
+    //         if(trade_type==1){ //买
+    //             $('#trade .nav li:nth-child(1)').addClass('active').find('a').attr('aria-expanded','true');
+    //             $('#trade .nav li:nth-child(2)').removeClass('active').find('a').attr('aria-expanded','false');
+    //             $('#trade .tab-content #buy').addClass('active');
+    //             $('#trade .tab-content #sale').removeClass('active');
+    //             $('#buy .wk-trade-search').val(code);
+    //             $('#buy .wk-trade-search').trigger('input');//触发typehead插件
+    //             $('#buy .user-group option').each(function(){  //默认选中组合名
+    //                 if($(this).html()==group_name){
+    //                     $(this).prop('selected',true).siblings().prop('selected',false);
+    //                 }
+    //             });
+    //         }else if(trade_type==2){  //卖
+    //             $('#trade .nav li:nth-child(1)').removeClass('active').find('a').attr('aria-expanded','false');
+    //             $('#trade .nav li:nth-child(2)').addClass('active').find('a').attr('aria-expanded','true');
+    //             $('#trade .tab-content #buy').removeClass('active');
+    //             $('#trade .tab-content #sale').addClass('active');
+    //             $('#sale .user-group option').each(function(){  //默认选中组合名
+    //                 if($(this).html()==group_name){
+    //                     $(this).prop('selected',true).siblings().prop('selected',false);
+    //                     $('#sale .sale-stock-group').trigger('change',[code]);//获取组合下股票信息并把点击的股票代码传给change事件
+    //                 }
+    //             });
+    //         }
+    //     }
+    // });
+    /*撤单*/
+    $('body').on("click", "#holdings .call-back", function () {
+        var order_id = $(this).attr('data-order-id');
+        var group_id = $(this).attr('data-id');
+        // trade.getUserRelatedOp({opcode:114,order_id:order_id,gid:group_id},null,function(resultData){
+        //     if(resultData.status==0){
+        //         swal({title: "撤单成功！", type: "success", timer: 1200, showConfirmButton: false});
+        //         getTodayOrders();
+        //     }else{
+        //         swal({title: "撤单失败！", type: "error", timer: 1200, showConfirmButton: false});
+        //     }
+        // });
+        swal({
+            title: "",
+            text: "确认要撤销这笔委托么？",
+            type: "info",
+            html: true,
+            showCancelButton: true,
+            closeOnConfirm: false,
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            animation: "slide-from-top",
+        }, function () {
+            trade.getUserRelatedOp({opcode: 114, order_id: order_id, gid: group_id}, null, function (resultData) {
+                if (resultData.status == 0) {
+                    swal({title: "撤单成功！", type: "success", timer: 1200, showConfirmButton: false});
+                    getTodayOrders();
+                } else {
+                    swal({title: "撤单失败！", type: "error", timer: 1200, showConfirmButton: false});
+                }
+            });
+        });
+    });
     //定义当日委托
     function getTodayOrders() {
-        trade.getUserRelatedOp({opcode:107,gid:1},null,
-            //     function () {
-            //     $(".orderStock table tbody").append("<tr><td colspan='8' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>");
-            // },
-            function(resultdata){
-
-                if(resultdata.status==0){
-                    var order_html=[];
-                    var list=resultdata.order_list;
-                    if(list.length>0){
-                        for(var i=0;i<list.length;i++){
+        trade.getUserRelatedOp({opcode: 107, gid: holdings_gid},
+            function () {
+                $(".orderStock table tbody").html("<tr><td colspan='8' style='padding: 50px 0 40px 0;'><i class='fa fa-refresh fa-spin'></i>&nbsp;加载中...</td></tr>");
+            },
+            function (resultdata) {
+                if (resultdata.status == 0) {
+                    var order_html = [];
+                    var list = resultdata.order_list;
+                    if (list.length > 0) {
+                        for (var i = 0; i < list.length; i++) {
                             order_html.push('<tr>');
-                            order_html.push('<td>'+(i+1)+'</td>');
-                            order_html.push('<td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+list[i].code+'&uid='+uid+'&token=token" target="_blank">'+list[i].name+'('+list[i].code+')'+'</a></td>');
-                            if(list[i].order_operation){ //0买，1卖)
+                            order_html.push('<td>' + (i + 1) + '</td>');
+                            order_html.push('<td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock=' + list[i].code + '&uid=' + uid + '&token=token" target="_blank">' + list[i].name + '(' + list[i].code + ')' + '</a></td>');
+                            if (list[i].order_operation) { //0买，1卖)
                                 order_html.push('<td>卖出</td>');
-                            }else{
+                            } else {
                                 order_html.push('<td>买入</td>');
                             }
-                            order_html.push('<td>'+list[i].order_price+'</td>');
-                            order_html.push('<td>'+list[i].order_nums+'</td>');
-                            order_html.push('<td>'+Utility.unixToDate4(list[i].order_time)+'</td>');
-                            if(list[i].status){
+                            order_html.push('<td>' + list[i].order_price.toFixed(3) + '</td>');
+                            order_html.push('<td>' + list[i].order_nums + '</td>');
+                            order_html.push('<td>' + Utility.unixToDate4(list[i].order_time*1000) + '</td>');
+                            if (list[i].status==1) {
                                 order_html.push('<td>已成交</td>');
-                            }else{
+                                order_html.push('<td>--</td>');
+                            } else if(list[i].status==0) {
                                 order_html.push('<td>未成交</td>');
+                                order_html.push('<td class="call-back" data-order-id="' + list[i].id + '"  data-id="' + list[i].group_id + '">撤销</td>');
                             }
-                            order_html.push('<td class="call-back" data-order-id="'+list[i].id+'">撤销</td>');
+                            else if(list[i].status == 2){
+                                order_html.push('<td>已撤销</td>');
+                                order_html.push('<td>--</td>');
+                            }
                             order_html.push('</tr>');
                         }
-
-                        $('.orderStock table tbody').html(order_html.join(""));
                     }
-                     else {order_html.push("<tr><td colspan='8' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>")}
-
-
+                    else {
+                        order_html.push("<tr><td colspan='8' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>")
+                    }
+                    $('.orderStock table tbody').html(order_html.join(""));
                 }
-
             });
     }
-
     //定义当日成交方法
-    function getFinishedOrder() {
-        trade.getUserRelatedOp({opcode: 108,gid:1},
-            null,
-            //     function () {
-            //     $(".finishedOrder table tbody").append("<tr><td colspan='7' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>");
-            // },
+    function getFinishedOrder(gid) {
+        trade.getUserRelatedOp({opcode: 108, gid: gid},
+            function () {
+                $(".finishedOrder table tbody").html("<tr><td colspan='7' style='padding: 50px 0 40px 0;'><i class='fa fa-refresh fa-spin'></i>&nbsp;加载中...</td></tr>");
+            },
             function (resultdata) {
-                if(resultdata.status==0){
+                if (resultdata.status == 0) {
                     var finishedOrder_html = [];
                     var list = resultdata.order_list;
-                    if(list.length>0){
-                        for (var i = 0; i < list.length; i++) {
+                    if (list.length > 0) {
+                        for (var i = list.length-1; i >=0; i--) {
                             finishedOrder_html.push('<tr>');
                             finishedOrder_html.push('<td>' + (i + 1) + '</td>');
                             //股票代码
-                            //order_html.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+list[i].code+'&uid='+uid+'&token=token" target="_blank">'+list[i].name+'('+list[i].code+')'+'</a></td>');
-                            finishedOrder_html.push('<td>' + list[i].code + '</td>');
+                            finishedOrder_html.push('<td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock=' + list[i].code + '&uid=' + uid + '&token=token" target="_blank">' + list[i].name + '(' + list[i].code + ')' + '</a></td>');
+                            // finishedOrder_html.push('<td>' + list[i].code + '</td>');
                             if (list[i].order_operation) { //0买，1卖)
                                 finishedOrder_html.push('<td>卖出</td>');
                             } else {
                                 finishedOrder_html.push('<td>买入</td>');
                             }
-                            finishedOrder_html.push('<td>' + list[i].order_price + '</td>');
+                            finishedOrder_html.push('<td>' + list[i].order_price.toFixed(3) + '</td>');
                             finishedOrder_html.push('<td>' + list[i].order_nums + '</td>');
-                            finishedOrder_html.push('<td>' + list[i].amount + '</td>');
-                            finishedOrder_html.push('<td>' + Utility.unixToDate4(list[i].order_time) + '</td>');
+                            finishedOrder_html.push('<td>' + list[i].amount.toFixed(2) + '</td>');
+                            finishedOrder_html.push('<td>' + Utility.unixToDate4(list[i].order_time*1000) + '</td>');
                             finishedOrder_html.push('</tr>');
                         }
+                    }
+                    else {
+                        finishedOrder_html.push("<tr><td colspan='7' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>")
                     }
 
                     $('.finishedOrder table tbody').html(finishedOrder_html.join(""));
                 }
-
             });
-
     }
-
     //定义历史成交方法
-    function getHistoryOrder() {
-        trade.getUserRelatedOp({opcode: 109,gid:1},
-            null,
-            //     function () {
-            //     $(".HistoryOrder table tbody").append("<tr><td colspan='7' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>");
-            // },
+    function getHistoryOrder(start,end) {
+        trade.getUserRelatedOp({opcode: 109,
+                start_time: start,
+                end_time:end,
+                gid: holdings_gid },
+            function () {
+                $(".HistoryOrder table tbody").html("<tr><td colspan='7' style='padding: 50px 0 40px 0;'><i class='fa fa-refresh fa-spin'></i>&nbsp;加载中...</td></tr>");
+            },
             function (resultdata) {
-                if(resultdata.status==0){
+                if (resultdata.status == 0) {
                     var HistoryOrder_html = [];
                     var list = resultdata.order_list;
-                    //console.log(list);
-                    for (var i = 0; i < list.length; i++) {
-                        HistoryOrder_html.push('<tr>');
-                        HistoryOrder_html.push('<td>' + (i + 1) + '</td>');
-                        //股票代码
-                        //order_html.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+list[i].code+'&uid='+uid+'&token=token" target="_blank">'+list[i].name+'('+list[i].code+')'+'</a></td>');
-                        HistoryOrder_html.push('<td>' + list[i].code + '</td>');
-                        if (list[i].order_operation) { //0买，1卖)
-                            HistoryOrder_html.push('<td>卖出</td>');
-                        } else {
-                            HistoryOrder_html.push('<td>买入</td>');
+                    if(list.length>0){
+                        for (var i = list.length-1; i >=0; i--) {
+                            HistoryOrder_html.push('<tr>');
+                            HistoryOrder_html.push('<td>' + (i + 1) + '</td>');
+                            //股票代码
+                            HistoryOrder_html.push('<td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock=' + list[i].code + '&uid=' + uid + '&token=token" target="_blank">' + list[i].name + '(' + list[i].code + ')' + '</a></td>');
+                            if (list[i].order_operation) { //0买，1卖)
+                                HistoryOrder_html.push('<td>卖出</td>');
+                            } else {
+                                HistoryOrder_html.push('<td>买入</td>');
+                            }
+                            HistoryOrder_html.push('<td>' + list[i].order_price.toFixed(3) + '</td>');
+                            HistoryOrder_html.push('<td>' + list[i].order_nums + '</td>');
+                            HistoryOrder_html.push('<td>' + list[i].amount.toFixed(2) + '</td>');
+                            HistoryOrder_html.push('<td>' + Utility.unixToDate4(list[i].order_time*1000) + '</td>');
+                            HistoryOrder_html.push('</tr>');
                         }
-                        HistoryOrder_html.push('<td>' + list[i].order_price + '</td>');
-                        HistoryOrder_html.push('<td>' + list[i].order_nums + '</td>');
-                        HistoryOrder_html.push('<td>' + list[i].amount + '</td>');
-                        HistoryOrder_html.push('<td>' + Utility.unixToDate4(list[i].order_time) + '</td>');
-                        HistoryOrder_html.push('</tr>');
+                    }
+                    else {
+                        HistoryOrder_html.push("<tr><td colspan='7' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>")
                     }
                     $('.HistoryOrder table tbody').html(HistoryOrder_html.join(""));
                 }
-
             });
-
     }
+    // 点击历史成交查询
+    $('body').on('click','.h-query',function () {
+            var inputVule1=$('.sQuery1').val();
+            var inputVule2=$('.eQuery1').val();
+            inputVule2 = inputVule2.substring(0,10);
+            inputVule2 = inputVule2.replace(/-/g,'-');
+            var timestamp = new Date(inputVule2).getTime();
+            var oneday='86400000';
+            var addOneday=parseInt(timestamp)+parseInt(oneday);
+            var addOneday2=Utility.unixToDate2(addOneday);
+            getHistoryOrder(inputVule1,addOneday2);
+        }
+    );
 
     //定义对账单方法
-    function getStatement() {
+    function getStatement(start,end) {
         trade.getUserRelatedOp({
                 opcode: 110,
-                end_time: '2017-01-12',
-                start_time: '2017-01-20'
+                start_time: start,
+                end_time: end,
+                gid: holdings_gid
             },
-            null,
-            //     function () {
-            //     $(".statement table tbody").append("<tr><td colspan='10' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>");
-            // },
+            function () {
+                $(".statement table tbody").html("<tr><td colspan='10' style='padding: 50px 0 40px 0;'><i class='fa fa-refresh fa-spin'></i>&nbsp;加载中...</td></tr>");
+            },
             function (resultdata) {
-                if(resultdata.status==0){
+                if (resultdata.status == 0) {
                     var statement_html = [];
                     var list = resultdata.statement_list;
-                    console.log(list);
-                    for (var i = 0; i < list.length; i++) {
-                        statement_html.push('<tr>');
-                        //股票代码
-                        //order_html.push('<td><a href="http://t.stock.iwookong.com/ajax/login/nologin.php?stock='+list[i].code+'&uid='+uid+'&token=token" target="_blank">'+list[i].name+'('+list[i].code+')'+'</a></td>');
-                        statement_html.push('<td>' + Utility.unixToDate4(list[i].amount) + '</td>');
-                        statement_html.push('<td>' + list[i].code + '</td>');
-                        if (list[i].order_operation) { //0买，1卖)
-                            statement_html.push('<td>卖出</td>');
-                        } else {
-                            statement_html.push('<td>买入</td>');
+                    if(list.length>0){
+                        for (var i = list.length-1; i>=0; i--) {
+                            statement_html.push('<tr>');
+                            //股票代码
+                            statement_html.push('<td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock=' + list[i].code + '&uid=' + uid + '&token=token" target="_blank">' + list[i].name + '(' + list[i].code + ')' + '</a></td>');
+                            statement_html.push('<td>' + Utility.unixToDate4(list[i].deal_time*1000) + '</td>');
+                            if (list[i].order_operation) { //0买，1卖)
+                                statement_html.push('<td>卖出</td>');
+                                statement_html.push('<td>' + list[i].order_price.toFixed(3) + '</td>');
+                                statement_html.push('<td>' + list[i].order_nums + '</td>');
+                                statement_html.push('<td>' + list[i].commission.toFixed(2) + '</td>');
+                                statement_html.push('<td>' + list[i].stamp_duty.toFixed(2) + '</td>');
+                                statement_html.push('<td>' + list[i].transfer_fee.toFixed(2) + '</td>');
+                                statement_html.push('<td>' +list[i].amount + '</td>');
+                                statement_html.push('<td>' + list[i].available_capital + '</td>');
+                                statement_html.push('</tr>');
+
+
+                            } else {
+                                statement_html.push('<td>买入</td>');
+                                statement_html.push('<td>' + list[i].order_price.toFixed(3) + '</td>');
+                                statement_html.push('<td>' + list[i].order_nums + '</td>');
+                                statement_html.push('<td>' + list[i].commission.toFixed(2) + '</td>');
+                                statement_html.push('<td>' + list[i].stamp_duty.toFixed(2)+ '</td>');
+                                statement_html.push('<td>' + list[i].transfer_fee.toFixed(2) + '</td>');
+                                statement_html.push('<td>' +'-'+list[i].amount + '</td>');
+                                statement_html.push('<td>' + list[i].available_capital+ '</td>');
+                                statement_html.push('</tr>');
+
+
+                            }
+                            // statement_html.push('<td>' + list[i].order_price.toFixed(3) + '</td>');
+                            // statement_html.push('<td>' + list[i].order_nums + '</td>');
+                            // statement_html.push('<td>' + list[i].commission + '</td>');
+                            // statement_html.push('<td>' + list[i].stamp_duty + '</td>');
+                            // statement_html.push('<td>' + list[i].transfer_fee + '</td>');
+                            // statement_html.push('<td>' +list[i].amount + '</td>');
+                            // statement_html.push('<td>' + list[i].available_capital + '</td>');
+                            // statement_html.push('</tr>');
                         }
-                        statement_html.push('<td>' + list[i].order_price + '</td>');
-                        statement_html.push('<td>' + list[i].order_nums + '</td>');
-                        statement_html.push('<td>' + list[i].commission + '</td>');
-                        statement_html.push('<td>' + list[i].order_operation + '</td>');
-                        statement_html.push('<td>' + list[i].stamp_duty + '</td>');
-                        statement_html.push('<td>' + list[i].transfer_fee + '</td>');
-                        statement_html.push('<td>' + list[i].available_capital + '</td>');
-                        statement_html.push('</tr>');
+                    }
+                    else {
+                        statement_html.push("<tr><td colspan='10' style='padding: 50px 0 40px 0;'><i class='fa fa-exclamation-circle'></i>&nbsp;当前没有任何记录...</td></tr>")
                     }
                     $('.statement table tbody').html(statement_html.join(""));
                 }
 
             });
     }
-    //命名空间
-    var ctrlInfo = {
-
-        getGroupStock: function (groupName) {
-            trade.showstock({ori_name: groupName}, function () {
-                $(".wk-sub-refresh").addClass("fa-spin");
-                $(".wk-user-mychoose-table table>tbody").html("<tr><td colspan='11'><div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div></td></tr>");
-            }, function () {
-                $(".wk-sub-refresh").removeClass("fa-spin");
-                //加载完股票列表后获取相关联的新闻
-                var query_type = $(".wk-user-mynews").attr("data-query-type");
-                var info_type = $(".wk-user-mynews").attr("data-info-type");
-                if (_all_stock_code.join('|').length > 0) {
-                    if (info_type == 0) {
-                        ctrlInfo.getNews({
-                            "query_type": query_type,
-                            "start_time": 0,
-                            "info_type": info_type,
-                            "stock_list": _all_stock_code.join('|') + "|"
-                        });
-                    }
-                    if (info_type == 1) {
-                        ctrlInfo.getFastNews({
-                            "query_type": query_type,
-                            "start_time": 0,
-                            "info_type": info_type,
-                            "stock_list": _all_stock_code.join('|') + "|"
-                        });
-                    }
-                    if (info_type == 2) {
-                        ctrlInfo.getMedia({
-                            "query_type": query_type,
-                            "start_time": 0,
-                            "info_type": info_type,
-                            "stock_list": _all_stock_code.join('|') + "|"
-                        });
-                    }
-                } else {
-                    if (info_type == 0) {
-                        ctrlInfo.getNews({
-                            "query_type": query_type,
-                            "start_time": 0,
-                            "info_type": info_type,
-                            "stock_list": "00000x|"
-                        });
-                    }
-                    if (info_type == 1) {
-                        ctrlInfo.getFastNews({
-                            "query_type": query_type,
-                            "start_time": 0,
-                            "info_type": info_type,
-                            "stock_list": "00000x|"
-                        });
-                    }
-                    if (info_type == 2) {
-                        ctrlInfo.getMedia({
-                            "query_type": query_type,
-                            "start_time": 0,
-                            "info_type": info_type,
-                            "stock_list": "00000x|"
-                        });
-                    }
-                }
-                //获取相关联的平台
-                ctrlInfo.getPlatform();
-            })
-
-        },
-
-        /**
-         * 获取所有平台
-         */
-        getPlatform: function () {
-            //获取组合下的所有平台
-            trade.getPlatform(function () {
-                $(".wk-user-news-loading").show();
-            }, function (resultData) {
-                if (resultData && resultData.status == 1) {
-                    var news_platform = resultData.result[0].news_info_plat;
-                    var vpoint_platform = resultData.result[2].media_info_plat;
-                    if (news_platform && news_platform.length > 0) {
-                        var newsHtml = [];
-                        for (var i = 0; i < news_platform.length; i++) {
-                            newsHtml.push("<div class=\"con-item\">");
-                            if (news_platform[i].is_choosed == 1) {
-                                newsHtml.push("<label><span class='active'>" + news_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-times-circle\" data-platform='" + news_platform[i].platform_id + "'></i></label>");
-                            }
-                            else {
-                                newsHtml.push("<label><span>" + news_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-plus\"  data-platform='" + news_platform[i].platform_id + "'></i></label>");
-                            }
-                            newsHtml.push("</div>");
-                        }
-                        $(".wk-user-news-list .wk-user-news-ctrl-con").html(newsHtml.join(''));
-                    }
-                    if (vpoint_platform && vpoint_platform.length > 0) {
-                        var vpointHtml = [];
-                        for (var i = 0; i < vpoint_platform.length; i++) {
-                            vpointHtml.push("<div class=\"con-item\">");
-                            if (vpoint_platform[i].is_choosed == 1) {
-                                vpointHtml.push("<label><span class='active'>" + vpoint_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-times-circle\"  data-platform='" + vpoint_platform[i].platform_id + "'></i></label>");
-                            }
-                            else {
-                                vpointHtml.push("<label><span>" + vpoint_platform[i].platform_name + "</span>&nbsp;<i class=\"fa fa-plus\"  data-platform='" + vpoint_platform[i].platform_id + "'></i></label>");
-                            }
-                            vpointHtml.push("</div>");
-                        }
-                        $(".wk-user-vpoint-ctrl .wk-user-news-ctrl-con").html(vpointHtml.join(''));
-                    }
-                    $(".wk-user-news-ctrl-con div").hover(function () {
-                        $(this).find("i").show();
-                    }, function () {
-                        $(this).find("i").hide();
-                    });
-                    $(".con-item i").each(function () {
-                        $(this).unbind("click").bind("click", function (e) {
-                            var $this = $(this);
-                            var _plat_id = $this.attr("data-platform");
-                            if ($this.hasClass("fa-times-circle")) {
-                                trade.delUserPlatform({plat_id: _plat_id}, null, function (resultData) {
-                                    if (resultData.status == 1) {
-                                        $this.removeClass("fa-times-circle").addClass("fa-plus").siblings().removeClass("active");
-                                    }
-                                });
-                            } else {
-                                trade.addUserPlatform({plat_id: _plat_id}, null, function (resultData) {
-                                    if (resultData.status == 1) {
-                                        $this.removeClass("fa-plus").addClass("fa-times-circle").siblings().addClass("active");
-                                    }
-                                });
-                            }
-                            var query_type = $(".wk-user-mynews").attr("data-query-type");
-                            var info_type = $(".wk-user-mynews").attr("data-info-type");
-                            var stock_list = $(".wk-user-mynews").attr("data-stock");
-                            if (info_type == 0) {
-                                ctrlInfo.getNews({
-                                    "query_type": query_type,
-                                    "start_time": 0,
-                                    "info_type": info_type,
-                                    "stock_list": stock_list
-                                });
-                            }
-                            if (info_type == 2) {
-                                ctrlInfo.getMedia({
-                                    "query_type": query_type,
-                                    "start_time": 0,
-                                    "info_type": info_type,
-                                    "stock_list": stock_list
-                                });
-                            }
-                            e.stopPropagation();
-                        });
-                    });
-                    //新闻标签后面的箭头按钮
-                    $(".wk-user-mynews .btn-group i").each(function () {
-                        $(this).unbind("click").bind("click", function () {
-                            var btnGroup = $(this).parent().parent();
-                            var target = btnGroup.attr("data-target");
-                            var stock_list = $(".wk-user-mynews").attr("data-stock");
-                            if (target == "wk-user-news-list") {
-                                if (btnGroup.hasClass("active")) {
-                                    if ($(this).attr("data-expand") != "false") {
-                                        $(this).addClass("fa-chevron-down").removeClass("fa-chevron-up").attr("data-expand", false);
-                                        $(".wk-user-news-ctrl").hide();
-                                    } else {
-                                        $(this).addClass("fa-chevron-up").removeClass("fa-chevron-down").attr("data-expand", true);
-                                        $(".wk-user-news-ctrl").show();
-                                    }
-                                    $("#" + target + " .wk-user-news-ctrl-head div").click(function () {
-                                        $(this).addClass("active").siblings().removeClass("active");
-                                        if ($(this).hasClass("user-default")) {
-                                            $(".wk-user-mynews").attr("data-query-type", 1).attr("data-info-type", "0");
-                                            ctrlInfo.getNews({
-                                                "query_type": 1,
-                                                "start_time": 0,
-                                                "info_type": 0,
-                                                "stock_list": stock_list
-                                            });
-                                        }
-                                        if ($(this).hasClass("user-define")) {
-                                            $(this).find("i").unbind("click").bind("click", function () {
-                                                if ($(this).attr("data-expand") == "false") {
-                                                    $(this).addClass("fa-caret-up").removeClass("fa-caret-down");
-                                                    $("#" + target + " .wk-user-news-ctrl-con").show();
-                                                    $(this).attr("data-expand", true);
-                                                } else {
-                                                    $(this).addClass("fa-caret-down").removeClass("fa-caret-up");
-                                                    $("#" + target + " .wk-user-news-ctrl-con").hide();
-                                                    $(this).attr("data-expand", false);
-                                                }
-                                            });
-                                            $(".wk-user-mynews").attr("data-query-type", 2).attr("data-info-type", "0");
-                                            ctrlInfo.getNews({
-                                                "query_type": 2,
-                                                "start_time": 0,
-                                                "info_type": 0,
-                                                "stock_list": stock_list
-                                            });
-                                        }
-                                    })
-                                }
-                                return;
-                            }
-                            if (target == "wk-user-vpoint-list") {
-                                if (btnGroup.hasClass("active")) {
-                                    if ($(this).attr("data-expand") == "false") {
-                                        $(this).addClass("fa-chevron-up").removeClass("fa-chevron-down").attr("data-expand", true);
-                                        $(".wk-user-vpoint-ctrl").show();
-                                    } else {
-                                        $(this).addClass("fa-chevron-down").removeClass("fa-chevron-up").attr("data-expand", false);
-                                        $(".wk-user-vpoint-ctrl").hide();
-                                    }
-                                    $("#" + target + " .wk-user-news-ctrl-head div").click(function () {
-                                        $(this).addClass("active").siblings().removeClass("active");
-                                        var stock_list = $(".wk-user-mynews").attr("data-stock");
-                                        if ($(this).hasClass("user-default")) {
-                                            $(".wk-user-mynews").attr("data-query-type", 1).attr("data-info-type", "2");
-                                            ctrlInfo.getMedia({
-                                                "query_type": 1,
-                                                "start_time": 0,
-                                                "info_type": 2,
-                                                "stock_list": stock_list
-                                            });
-                                        }
-                                        if ($(this).hasClass("user-define")) {
-                                            $(this).find("i").unbind("click").bind("click", function () {
-                                                if ($(this).attr("data-expand") == "false") {
-                                                    $(this).addClass("fa-caret-up").removeClass("fa-caret-down");
-                                                    $("#" + target + " .wk-user-news-ctrl-con").show();
-                                                    $(this).attr("data-expand", true);
-                                                } else {
-                                                    $(this).addClass("fa-caret-down").removeClass("fa-caret-up");
-                                                    $("#" + target + " .wk-user-news-ctrl-con").hide();
-                                                    $(this).attr("data-expand", false);
-                                                }
-                                            });
-                                            $(".wk-user-mynews").attr("data-query-type", 2).attr("data-info-type", "2");
-                                            ctrlInfo.getMedia({
-                                                "query_type": 2,
-                                                "start_time": 0,
-                                                "info_type": 2,
-                                                "stock_list": stock_list
-                                            });
-                                        }
-                                    })
-                                }
-                            }
-                        });
-                    })
-                }
-            });
-        },
-        /**
-         * 获取新闻
-         * @param arrData
-         */
-        getNews: function (arrData) {
-            trade.getRelatedInfo(arrData, function () {
-                $(".wk-user-news-loading").show();
-                $("#wk-user-news-list").find(".wk-con").empty();
-            }, function (resultData) {
-                $(".wk-user-news-loading").hide();
-                var html = "";
-                if (resultData) {
-                    html = ctrlInfo.buildNews(resultData.result);
-                }
-                else {
-                    html = "<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关快讯</span></div>";
-                }
-                $("#wk-user-news-list").find(".wk-con").html(html);
-            })
-        },
-        /**
-         * 获取达人观点(原自媒体)
-         * @param arrData
-         */
-        getMedia: function (arrData) {
-            trade.getRelatedInfo(arrData, function () {
-                $("#wk-user-vpoint-list").find(".wk-con").empty();
-                $(".wk-user-news-loading").show();
-            }, function (resultData) {
-                $(".wk-user-news-loading").hide();
-                var html = "";
-                if (resultData) {
-                    html = ctrlInfo.buildMedia(resultData.result);
-                }
-                else {
-                    html = "<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关达人观点</span></div>";
-                }
-                $("#wk-user-vpoint-list").find(".wk-con").html(html);
-            })
-        },
-        /**
-         * 获取快讯
-         * @param arrData
-         */
-        getFastNews: function (arrData) {
-            trade.getRelatedInfo(arrData, function () {
-                $("#wk-user-fastnews-list").find(".wk-con").empty();
-                $(".wk-user-news-loading").show();
-            }, function (resultData) {
-                $(".wk-user-news-loading").hide();
-                var html = "";
-                if (resultData) {
-                    html = ctrlInfo.buildFastNews(resultData.result);
-                } else {
-                    html = "<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关快讯</span></div>";
-                }
-                $("#wk-user-fastnews-list").find(".wk-con").html(html);
-            })
-        },
-        /**
-         * 获取公告
-         * @param arrData
-         */
-        getNotice: function (arrData) {
-            trade.getRelatedInfo(arrData, function () {
-                $(".wk-user-news-loading").show();
-                $("#wk-user-notice-list").find(".wk-con").empty();
-            }, function (resultData) {
-                $(".wk-user-news-loading").hide();
-                var html = "";
-                if (resultData) {
-                    html = ctrlInfo.buildNotice(resultData.result);
-                }
-                else {
-                    html = "<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关公告</span></div>";
-                }
-                $("#wk-user-notice-list").find(".wk-con").html(html);
-            })
-        },
-        /**
-         * 获取研报
-         * @param arrData
-         */
-        getReport: function (arrData) {
-            trade.getRelatedInfo(arrData, function () {
-                $(".wk-user-news-loading").show();
-                $("#wk-user-report-list").find(".wk-con").empty();
-            }, function (resultData) {
-                $(".wk-user-news-loading").hide();
-                var html = "";
-                if (resultData) {
-                    html = ctrlInfo.buildReport(resultData.result);
-                }
-                else {
-                    html = "<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关公告</span></div>";
-                }
-                $("#wk-user-report-list").find(".wk-con").html(html);
-            })
-        },
-        /**
-         * 构建新闻信息
-         * @param resultData
-         * @returns {string}
-         */
-        buildNews: function (resultData) {
-            var newsHtml = [];
-            if (resultData.length > 0) {
-                for (var i = 0; i < resultData.length; i++) {
-                    newsHtml.push("<div class=\"wk-news-list\" id=\"news_" + resultData[i].info_id + "\" data-news-timestamp=\"" + resultData[i].timestamp + "\">");
-                    newsHtml.push("<div class=\"news-rel-stock\">");
-                    if (resultData[i].related_stock.length > 0) {
-                        for (var j = 0; j < resultData[i].related_stock.length; j++) {
-                            var stock_name = resultData[i].related_stock[j].stock_name;
-                            var stock_code = resultData[i].related_stock[j].stock_code;
-                            var price_up_down = resultData[i].related_stock[j].price_up_down;
-                            if (stock_name != "" && stock_code != "") {
-                                newsHtml.push("<a class='" + Utility.getPriceColor(price_up_down) + "' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
-                            }
-                        }
-                    }
-                    newsHtml.push("</div>");
-                    newsHtml.push("<div class=\"wk-news-list-head\">");
-                    newsHtml.push("<p class=\"wk-news-list-title\"><a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\">");
-                    newsHtml.push(resultData[i].titile);
-                    newsHtml.push("</a></p>" + Utility.getgetEmotion(resultData[i].sentiment) + "</div><div class=\"wk-news-list-con\"><p>");
-                    if (resultData[i].summary != "") {
-                        newsHtml.push("<strong>【机器人摘要】</strong>");
-                        newsHtml.push(resultData[i].summary);
-                        newsHtml.push("<a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
-                    }
-                    newsHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
-                }
-            } else {
-                newsHtml.push("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关新闻资讯</span></div>");
-            }
-            return newsHtml.join('');
-        },
-        /**
-         * 构建达人观点(原自媒体)
-         * @param resultData
-         * @returns {string}
-         */
-        buildMedia: function (resultData) {
-            var mediaHtml = [];
-            if (resultData.length > 0) {
-                for (var i = 0; i < resultData.length; i++) {
-                    mediaHtml.push("<div class=\"wk-news-list\" id=\"media_" + resultData[i].info_id + "\" data-news-timestamp=\"" + resultData[i].timestamp + "\">");
-                    mediaHtml.push("<div class=\"news-rel-stock\">");
-                    if (resultData[i].related_stock.length > 0) {
-                        for (var j = 0; j < resultData[i].related_stock.length; j++) {
-                            var stock_name = resultData[i].related_stock[j].stock_name;
-                            var stock_code = resultData[i].related_stock[j].stock_code;
-                            var price_up_down = resultData[i].related_stock[j].price_up_down;
-                            if (stock_name != "" && stock_code != "") {
-                                mediaHtml.push("<a class='" + Utility.getPriceColor(price_up_down) + "' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
-                            }
-                        }
-                    }
-                    mediaHtml.push("</div>");
-                    mediaHtml.push("<div class=\"wk-news-list-head\">");
-                    mediaHtml.push("<p class=\"wk-news-list-title\"><a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\">");
-                    mediaHtml.push(resultData[i].titile);
-                    mediaHtml.push("</a></p>" + Utility.getgetEmotion(resultData[i].sentiment) + "</div><div class=\"wk-news-list-con\"><p>");
-                    if (resultData[i].summary != "") {
-                        mediaHtml.push("<strong>【机器人摘要】</strong>");
-                        mediaHtml.push(resultData[i].summary);
-                        mediaHtml.push("<a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
-                    }
-                    mediaHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
-                }
-            } else {
-                mediaHtml.push("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关达人观点</span></div>");
-            }
-            return mediaHtml.join('');
-        },
-        /**
-         * 构建快讯
-         * @param resultData
-         * @returns {string}
-         */
-        buildFastNews: function (resultData) {
-            var fastHtml = [];
-            if (resultData.length > 0) {
-                for (var i in resultData) {
-                    for (var j in resultData[i]) {
-                        fastHtml.push();
-                        fastHtml.push("<div class=\"wk-user-fastnews\">");
-                        fastHtml.push("<span class=\"wk-user-fastnews-dot\">●</span>");
-                        fastHtml.push("<p class=\"wk-user-fastnews-todate\">" + j + "</p>");
-                        fastHtml.push("<ul>");
-                        for (var k = 0; k < resultData[i][j].length; k++) {
-                            fastHtml.push("<li id='" + resultData[i][j][k].info_id + "' data-fastnews-timestamp='" + resultData[i][j][k].timestamp + "'>");
-                            fastHtml.push("<label>" + Utility.unixToTime(resultData[i][j][k].timestamp) + "</label>");
-                            fastHtml.push("<p>" + resultData[i][j][k].summary + "</p>");
-                            fastHtml.push("</li>");
-                        }
-                        fastHtml.push("</ul></div>");
-                    }
-                }
-            } else {
-                fastHtml.push("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关快讯</span></div>");
-                $(".wk-user-fastnews-list").css("border", "none");
-            }
-            return fastHtml.join('');
-        },
-        /**
-         * 构建公告
-         * @param resultData
-         * @returns {string}
-         */
-        buildNotice: function (resultData) {
-            var noticeHtml = [];
-            if (resultData.length > 0) {
-                for (var i = 0; i < resultData.length; i++) {
-                    noticeHtml.push("<div class=\"wk-news-list\" id=\"notice_" + resultData[i].info_id + "\" data-news-timestamp=\"" + resultData[i].timestamp + "\">");
-                    noticeHtml.push("<div class=\"news-rel-stock\">");
-                    if (resultData[i].related_stock.length > 0) {
-                        for (var j = 0; j < resultData[i].related_stock.length; j++) {
-                            var stock_name = resultData[i].related_stock[j].stock_name;
-                            var stock_code = resultData[i].related_stock[j].stock_code;
-                            var price_up_down = resultData[i].related_stock[j].price_up_down;
-                            if (stock_name != "" && stock_code != "") {
-                                noticeHtml.push("<a class='" + Utility.getPriceColor(price_up_down) + "' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
-                            }
-                        }
-                    }
-                    noticeHtml.push("</div>");
-                    noticeHtml.push("<div class=\"wk-news-list-head\">");
-                    noticeHtml.push("<p class=\"wk-news-list-title\"><a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\">");
-                    noticeHtml.push(resultData[i].titile);
-                    noticeHtml.push("</a></p>" + Utility.getgetEmotion(resultData[i].sentiment) + "</div><div class=\"wk-news-list-con\"><p>");
-                    if (resultData[i].summary != "") {
-                        noticeHtml.push("<strong>【机器人摘要】</strong>");
-                        noticeHtml.push(resultData[i].summary);
-                        noticeHtml.push("<a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
-                    }
-                    noticeHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
-                }
-            } else {
-                noticeHtml.push("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关新闻公告</span></div>");
-            }
-            return noticeHtml.join('');
-        },
-        /**
-         * 构建研报
-         * @param resultData
-         * @returns {string}
-         */
-        buildReport: function (resultData) {
-            var reportHtml = [];
-            if (resultData.length > 0) {
-                for (var i = 0; i < resultData.length; i++) {
-                    reportHtml.push("<div class=\"wk-news-list\" id=\"report_" + resultData[i].info_id + "\" data-news-timestamp=\"" + resultData[i].timestamp + "\">");
-                    reportHtml.push("<div class=\"news-rel-stock\">");
-                    if (resultData[i].related_stock.length > 0) {
-                        for (var j = 0; j < resultData[i].related_stock.length; j++) {
-                            var stock_name = resultData[i].related_stock[j].stock_name;
-                            var stock_code = resultData[i].related_stock[j].stock_code;
-                            var price_up_down = resultData[i].related_stock[j].price_up_down;
-                            if (stock_name != "" && stock_code != "") {
-                                reportHtml.push("<a class='" + Utility.getPriceColor(price_up_down) + "' href='../stocks.php?stock=" + stock_code + "' target='_blank'>●&nbsp;" + stock_name + "(" + stock_code + ")</a>");
-                            }
-                        }
-                    }
-                    reportHtml.push("</div>");
-                    reportHtml.push("<div class=\"wk-news-list-head\">");
-                    reportHtml.push("<p class=\"wk-news-list-title\"><a href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\">");
-                    reportHtml.push(resultData[i].titile);
-                    reportHtml.push("</a></p>" + Utility.getgetEmotion(resultData[i].sentiment) + "</div><div class=\"wk-news-list-con\"><p>");
-                    if (resultData[i].summary != "") {
-                        reportHtml.push("<strong>【机器人摘要】</strong>");
-                        reportHtml.push(resultData[i].summary);
-                        reportHtml.push("<a class='" + Utility.getPriceColor(price_up_down) + "' href=\"../detail.php?infoid=" + resultData[i].info_id + "\" target=\"_blank\"><i class=\"fa fa-link\"></i>详情链接</a>");
-                    }
-                    reportHtml.push("</p><span>来源：" + resultData[i].from + "&nbsp;&nbsp;&nbsp;&nbsp;" + Utility.unixToDate(resultData[i].timestamp) + "</span></div><hr></div>");
-                }
-            } else {
-                reportHtml.push("<div class=\"wk-user-no\"><img src=\"../static/imgs/i/nonews.png\"><span>暂无相关新闻研报</span></div>");
-            }
-            return reportHtml.join('');
+    //点击对账单查询
+    $('body').on('click','.s-query',function () {
+            var inputVule3=$('.sQuery2').val();
+            var inputVule4=$('.eQuery2').val();
+            inputVule4 = inputVule4.substring(0,10);
+            inputVule4 = inputVule4.replace(/-/g,'-');
+            var timestamp = new Date(inputVule4).getTime();
+            var oneday='86400000';
+            var addOneday=parseInt(timestamp)+parseInt(oneday);
+            var addOneday4=Utility.unixToDate2(addOneday);
+            getStatement(inputVule3,addOneday4);
         }
-
-
-    };
-
-    // 新闻标签点击
-    $(".wk-user-mynews .btn-group span:first-child").bind("click", function () {
-        var btnGroup = $(this).parent().parent();
-        var stock_list = $(".wk-user-mynews").attr("data-stock");
-        var target = btnGroup.attr("data-target");
-        btnGroup.addClass("active").siblings().removeClass("active");
-        $("#" + target).show().siblings().hide();
-        if (target == "wk-user-news-list") {
-            $("#" + target).find(".wk-con").html("");
-            ctrlInfo.getNews({"query_type": 1, "start_time": 0, "info_type": 0, "stock_list": stock_list});
-            $(".wk-user-mynews").attr("data-info-type", 0);
-            $(".wk-user-mynews").attr("data-query-type", 1);
-        }
-        if (target == "wk-user-fastnews-list") {
-            $("#" + target).find(".wk-con").html("");
-            ctrlInfo.getFastNews({"query_type": 1, "start_time": 0, "info_type": 1, "stock_list": stock_list});
-            $(".wk-user-mynews").attr("data-info-type", 1);
-            $(".wk-user-mynews").attr("data-query-type", 1);
-        }
-        if (target == "wk-user-vpoint-list") {
-            $("#" + target).find(".wk-con").html("");
-            ctrlInfo.getMedia({"query_type": 1, "start_time": 0, "info_type": 2, "stock_list": stock_list});
-            $(".wk-user-mynews").attr("data-info-type", 2);
-            $(".wk-user-mynews").attr("data-query-type", 1);
-        }
-        if (target == "wk-user-notice-list") {
-            $("#" + target).find(".wk-con").html("");
-            ctrlInfo.getNotice({"query_type": 1, "start_time": 0, "info_type": 4, "stock_list": stock_list});
-            $(".wk-user-mynews").attr("data-info-type", 4);
-            $(".wk-user-mynews").attr("data-query-type", 1);
-        }
-        if (target == "wk-user-report-list") {
-            $("#" + target).find(".wk-con").html("");
-            ctrlInfo.getReport({"query_type": 1, "start_time": 0, "info_type": 3, "stock_list": stock_list});
-            $(".wk-user-mynews").attr("data-info-type", 3);
-            $(".wk-user-mynews").attr("data-query-type", 1);
-        }
-    });
-
-    // 新闻下拉刷新
-    $(window).scroll(function () {
-        var scrollTop = $(this).scrollTop();
-        var scrollHeight = $(document).height();
-        var windowHeight = $(this).height();
-        if (scrollHeight - scrollTop - windowHeight == 0) {
-            var stock_list = $(".wk-user-mynews").attr("data-stock");
-            var query_type = $(".wk-user-mynews").attr("data-query-type");
-            var info_type = $(".wk-user-mynews").attr("data-info-type");
-            if (info_type == "0") {
-                var lastNews = $("#wk-user-news-list .wk-con").find(".wk-news-list:last-child");
-                var last_id = lastNews.attr("id");
-                var last_time = lastNews.attr("data-news-timestamp");
-                trade.getRelatedInfo({
-                    "query_type": query_type,
-                    "info_type": info_type,
-                    "start_time": last_time,
-                    "stock_list": stock_list,
-                    "start_id": last_id ? last_id.replace('news_', '') : ""
-                }, function () {
-                    $(".wk-user-news-loading").show();
-                }, function (resultData) {
-                    $(".wk-user-news-loading").hide();
-                    if (resultData.result.length > 0) {
-                        var html = ctrlInfo.buildNews(resultData.result);
-                        $("#wk-user-news-list .wk-con").append(html);
-                    }
-                });
-                return;
-            }
-            if (info_type == "1") {
-                var lastNews = $("#wk-user-fastnews-list .wk-user-fastnews:last-child").find("ul li:last-child");
-                var last_id = lastNews.attr("id");
-                var last_time = lastNews.attr("data-fastnews-timestamp");
-                trade.getRelatedInfo({
-                    "query_type": query_type,
-                    "info_type": info_type,
-                    "start_time": last_time,
-                    "stock_list": stock_list,
-                    "start_id": last_id ? last_id.replace('fastnews_', '') : ''
-                }, function () {
-                    $(".wk-user-news-loading").show();
-                }, function (resultData) {
-                    $(".wk-user-news-loading").hide();
-                    if (resultData.result.length > 0) {
-                        var html = ctrlInfo.buildFastNews(resultData.result);
-                        $("#wk-user-fastnews-list .wk-con").append(html);
-                    }
-                });
-                return;
-            }
-            if (info_type == "2") {
-                var lastNews = $("#wk-user-vpoint-list .wk-con").find(".wk-news-list:last-child");
-                var last_id = lastNews.attr("id");
-                var last_time = lastNews.attr("data-news-timestamp");
-                trade.getRelatedInfo({
-                    "query_type": query_type,
-                    "info_type": info_type,
-                    "start_time": last_time,
-                    "stock_list": stock_list,
-                    "start_id": last_id ? last_id.replace('media_', '') : ""
-                }, function () {
-                    $(".wk-user-news-loading").show();
-                }, function (resultData) {
-                    $(".wk-user-news-loading").hide();
-                    if (resultData.result.length > 0) {
-                        var html = ctrlInfo.buildMedia(resultData.result);
-                        $("#wk-user-vpoint-list .wk-con").append(html);
-                    }
-                });
-            }
-            if (info_type == "3") {
-                var lastNews = $("#wk-user-report-list .wk-con").find(".wk-news-list:last-child");
-                var last_id = lastNews.attr("id");
-                var last_time = lastNews.attr("data-news-timestamp");
-                trade.getRelatedInfo({
-                    "query_type": query_type,
-                    "info_type": info_type,
-                    "start_time": last_time,
-                    "stock_list": stock_list,
-                    "start_id": last_id ? last_id.replace('report_', '') : ""
-                }, function () {
-                    $(".wk-user-news-loading").show();
-                }, function (resultData) {
-                    $(".wk-user-news-loading").hide();
-                    if (resultData.result.length > 0) {
-                        var html = ctrlInfo.buildReport(resultData.result);
-                        $("#wk-user-report-list .wk-con").append(html);
-                    }
-                });
-            }
-            if (info_type == "4") {
-                var lastNews = $("#wk-user-notice-list .wk-con").find(".wk-news-list:last-child");
-                var last_id = lastNews.attr("id");
-                var last_time = lastNews.attr("data-news-timestamp");
-                trade.getRelatedInfo({
-                    "query_type": query_type,
-                    "info_type": info_type,
-                    "start_time": last_time,
-                    "stock_list": stock_list,
-                    "start_id": last_id ? last_id.replace('notice_', '') : ""
-                }, function () {
-                    $(".wk-user-news-loading").show();
-                }, function (resultData) {
-                    $(".wk-user-news-loading").hide();
-                    if (resultData.result.length > 0) {
-                        var html = ctrlInfo.buildNotice(resultData.result);
-                        $("#wk-user-notice-list .wk-con").append(html);
-                    }
-                });
-            }
-        }
-    });
+    );
 
     //调用大盘指数
     getRealIndex();
+    // 获取子账户信息
+    getGroupList();
     //调用环形盈亏收益分析
     getRoundEacharts();
-    //调用用户资产变动信息
-    getAccount();
-    //调用我的股票组合，渲染页面
-    getMygroupStock();
-    //调用当前持仓，渲染页面
-    getHoldingStock();
-    //调用当日委托，渲染页面
-    getTodayOrders();
-    //调用当日成交，渲染页面
-    getFinishedOrder();
-    //调用历史成交，渲染页面
-    getHistoryOrder();
-    //调用对账单，渲染页面
-    getStatement();
 
+    // getHoldingStock();
+
+    // setInterval(function () {
+    //     // 获取子账户信息
+    //     getHoldingStock();
+    //     // getGroupList();
+    // }, 2000);
 
 });
