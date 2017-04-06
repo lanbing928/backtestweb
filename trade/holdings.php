@@ -212,18 +212,15 @@ if (CheckLogin::check() == -1) {
 <script src="<?php echo UtilityTools::AutoVersion('/static/js/trade-sys/holdings.js') ?>"></script>
 <script src="../static/plugins/template-native.js" ></script>
 <script type="text/html" id="tpl">
-    <%for(var i = 0;i
-    <index_info.length;i++ ){%>
+    <%for(var i = 0;i<index_info.length;i++ ){%>
     <div class="col-md-4  index-item">
-
-        <%if(index_info[i].up_price>0){%>
+        <%if((index_info[i].up_price).toFixed(2)>0){%>
         <% var imgurl="../static/imgs/trade/arrow_up.png" %>
         <div class='index redStyle'>
             <%}else{%>
             <% var imgurl="../static/imgs/trade/arrow_down.png" %>
             <div class='index greenStyle'>
                 <%}%>
-
                 <p class='index-title'><%==index_info[i].name%></p>
                 <div class="index-box ">
                     <div class='index-box-left pull-left'>
@@ -234,7 +231,7 @@ if (CheckLogin::check() == -1) {
                         </p>
                     </div>
                     <div class='index-box-right pull-right'>
-                        <p><%==index_info[i].up_price%></p>
+                        <p><%==(index_info[i].up_price).toFixed(2)%></p>
                         <%var percent=(index_info[i].up_percent*100).toFixed(2)%>
                         <p><%==percent%>%</p>
                     </div>

@@ -462,15 +462,15 @@ $(function () {
                             holding_html.push('<td><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock=' + list[i].code+ '&uid=' + uid + '&token=token" target="_blank">' + list[i].name + '(<span>'+ list[i].code + '</span>)' + '</a></td>');
                             // holding_html.push('<td>' + list[i].code + '</td>');
                             //当前持仓
-                            holding_html.push('<td>' + list[i].holding + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].holding + '</td>');
                             //可用股数
-                            holding_html.push('<td>' + list[i].available + '</td>');
-                            holding_html.push('<td>' + list[i].cost.toFixed(3) + '</td>');
-                            holding_html.push('<td>' + list[i].price.toFixed(3) + '</td>');
-                            holding_html.push('<td>' + list[i].market_value + '</td>');
-                            holding_html.push('<td>' + list[i].profit + '</td>');
-                            holding_html.push('<td>' + list[i].profit_ratio.toFixed(2)+'%'+ '</td>');
-                            holding_html.push('<td>' + list[i].position.toFixed(2)+ '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].available + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].cost.toFixed(3) + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].price.toFixed(3) + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>"+ list[i].market_value + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].profit.toFixed(2) + '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].profit_ratio.toFixed(2)+'%'+ '</td>');
+                            holding_html.push("<td class='" + Utility.getPriceColor(list[i].profit_ratio) + "'>" + list[i].position.toFixed(2)+ '</td>');
                             // holding_html.push('<td class="call_back" data-holding-id="' + list[i].id + '"><img src="/static/imgs/trade/op_buy.png">&nbsp<img src="/static/imgs/trade/op_sale.png"></td>');
                             holding_html.push('<td>');
                             holding_html.push('<a href="trade.php?name='+list[i].name+'&gid='+holdings_gid+'&code='+list[i].code+'&price='+list[i].price.toFixed(2)+'"><img src="../static/imgs/trade/op_buy.png" class="one-stock-trade" data-trade-type="0"></a>&nbsp;');
@@ -629,7 +629,7 @@ $(function () {
                             }
                             finishedOrder_html.push('<td>' + list[i].order_price.toFixed(3) + '</td>');
                             finishedOrder_html.push('<td>' + list[i].order_nums + '</td>');
-                            finishedOrder_html.push('<td>' + list[i].amount + '</td>');
+                            finishedOrder_html.push('<td>' + list[i].amount.toFixed(2) + '</td>');
                             finishedOrder_html.push('<td>' + Utility.unixToDate4(list[i].order_time*1000) + '</td>');
                             finishedOrder_html.push('</tr>');
                         }
@@ -668,7 +668,7 @@ $(function () {
                             }
                             HistoryOrder_html.push('<td>' + list[i].order_price.toFixed(3) + '</td>');
                             HistoryOrder_html.push('<td>' + list[i].order_nums + '</td>');
-                            HistoryOrder_html.push('<td>' + list[i].amount + '</td>');
+                            HistoryOrder_html.push('<td>' + list[i].amount.toFixed(2) + '</td>');
                             HistoryOrder_html.push('<td>' + Utility.unixToDate4(list[i].order_time*1000) + '</td>');
                             HistoryOrder_html.push('</tr>');
                         }
@@ -684,7 +684,13 @@ $(function () {
     $('body').on('click','.h-query',function () {
             var inputVule1=$('.sQuery1').val();
             var inputVule2=$('.eQuery1').val();
-            getHistoryOrder(inputVule1,inputVule2);
+            inputVule2 = inputVule2.substring(0,10);
+            inputVule2 = inputVule2.replace(/-/g,'-');
+            var timestamp = new Date(inputVule2).getTime();
+            var oneday='86400000';
+            var addOneday=parseInt(timestamp)+parseInt(oneday);
+            var addOneday2=Utility.unixToDate2(addOneday);
+            getHistoryOrder(inputVule1,addOneday2);
         }
     );
 
@@ -756,7 +762,13 @@ $(function () {
     $('body').on('click','.s-query',function () {
             var inputVule3=$('.sQuery2').val();
             var inputVule4=$('.eQuery2').val();
-            getStatement(inputVule3,inputVule4);
+            inputVule4 = inputVule4.substring(0,10);
+            inputVule4 = inputVule4.replace(/-/g,'-');
+            var timestamp = new Date(inputVule4).getTime();
+            var oneday='86400000';
+            var addOneday=parseInt(timestamp)+parseInt(oneday);
+            var addOneday4=Utility.unixToDate2(addOneday);
+            getStatement(inputVule3,addOneday4);
         }
     );
 

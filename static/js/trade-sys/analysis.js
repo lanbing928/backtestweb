@@ -26,7 +26,7 @@ $(function () {
                 var sum_arr = [];
                 for(var i=0;i<data.length;i++){
                     var group_name = data[i]['group_name'];
-                    var yield = data[i]['yield']*100;
+                    var yield = data[i]['yield'];
                     // console.log(yield);
                     dateArr.push(data[i].date);
                     var key_arr_length = key_arr.length;
@@ -115,12 +115,15 @@ $(function () {
                 }
                 var option = {
                     title: {
-                        text: '收益分析(当天添加的账户，收益率收盘后计算)',
+                        text: '收益分析',
                         textStyle: {
                             color: '#000',
                             fontStyle: 'normal',
                             fontFamily: 'Microsoft YaHei',
                             fontSize: 16
+                        },
+                        subtext:'当天添加的账户，收益率收盘后计算',
+                        subtextStyle:{
                         }
                     },
                     tooltip: {
