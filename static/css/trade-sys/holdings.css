@@ -44,6 +44,7 @@ body {
 .greenColor {
     color: #148855;
 }
+.grayStyle{color:#148855;border-bottom:2px solid #148855;}
 
 .index {
     height: 68px;
