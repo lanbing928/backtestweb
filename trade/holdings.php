@@ -214,31 +214,42 @@ if (CheckLogin::check() == -1) {
 <script type="text/html" id="tpl">
     <%for(var i = 0;i<index_info.length;i++ ){%>
     <div class="col-md-4  index-item">
-        <%if((index_info[i].up_price).toFixed(2)>0){%>
+        <%if((index_info[i].up_price).toFixed(2)>0&&index_info[i].price!=0.00){%>
         <% var imgurl="../static/imgs/trade/arrow_up.png" %>
         <div class='index redStyle'>
-            <%}else{%>
-            <% var imgurl="../static/imgs/trade/arrow_down.png" %>
-            <div class='index greenStyle'>
-                <%}%>
-                <p class='index-title'><%==index_info[i].name%></p>
-                <div class="index-box ">
-                    <div class='index-box-left pull-left'>
-                        <p><img src=<%==imgurl%> alt="">
-                            <%var percent=(index_info[i].price).toFixed(2)%>
-                            <span><%==percent%></span>
-                            <!--                            <span><%==index_info[i].price%></span>-->
+            <%}else if(index_info[i].price==0.00){%>
+            <div class='index grayStyle'>
+                <%}else{%>
+                <% var imgurl="../static/imgs/trade/arrow_down.png" %>
+                <div class='index greenStyle'>
+                    <%}%>
+                    <p class='index-title'><%==index_info[i].name%></p>
+                    <div class="index-box ">
+
+                        <div class='index-box-left pull-left'>
+                            <p>
+                                <%if((index_info[i].price)!==0.00){%>
+                                <img src=<%==imgurl%> alt="">
+                                <%var percent=(index_info[i].price).toFixed(2)%>
+                                <span><%==percent%></span>
+                            </p>
+                        </div>
+                        <div class='index-box-right pull-right'>
+                            <p><%==(index_info[i].up_price).toFixed(2)%></p>
+                            <%var percent=(index_info[i].up_percent*100).toFixed(2)%>
+                            <p><%==percent%>%</p>
+                        </div>
+                        <%}else{%>
+                        <span class="changeStyle">--</span>
                         </p>
                     </div>
-                    <div class='index-box-right pull-right'>
-                        <p><%==(index_info[i].up_price).toFixed(2)%></p>
-                        <%var percent=(index_info[i].up_percent*100).toFixed(2)%>
-                        <p><%==percent%>%</p>
-                    </div>
+                    <%}%>
+                    <!--<span><%==index_info[i].price%></span>-->
                 </div>
             </div>
         </div>
-        <%}%>
+    </div>
+    <%}%>
 </script>
 </html>
 
