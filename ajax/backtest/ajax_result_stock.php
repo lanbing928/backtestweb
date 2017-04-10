@@ -9,6 +9,7 @@ if (CheckLogin::check() == -1) {
     print_r(json_encode(array("status" => -1, "result" => "未知登录状态")));
     return;
 }
+$mac_adr=isset(getallheaders()['uuid']) ? getallheaders()['uuid'] : ""; //mac地址
 $pos = isset($_POST['pos']) ? $_POST['pos'] : "0";
 $sessionid = isset($_POST['session']) ? $_POST['session'] : "";
 $count = isset($_POST['count']) ? $_POST['count'] : "10";
@@ -16,6 +17,7 @@ $url = iwookongConfig::$requireBTUrl . "kensho/1/btresult.fcgi";
 $result = RequestUtil::get($url, array(
     "uid" => $_SESSION['user_id'],
     "token" => $_SESSION["token"],
+    "uuid"  => $mac_adr,
    "sessionid" => $sessionid,
     "pos" => $pos,
     "count" =>$count

@@ -9,6 +9,7 @@ if (CheckLogin::check() == -1) {
     print_r(json_encode(array("status" => -1, "result" => "未知登录状态")));
     return;
 }
+$mac_adr=isset(getallheaders()['uuid']) ? getallheaders()['uuid'] : ""; //mac地址
 $message = isset($_POST["message"]) ? $_POST["message"] : "";
 if (empty($message)) {
     print_r(json_encode(array("status" => 0, "result" => "搜索关键字为空")));
@@ -20,6 +21,7 @@ $result = RequestUtil::get($url,
     array(
         "uid" => $_SESSION['user_id'],
         "token" => $_SESSION["token"],
+        "uuid"  => $mac_adr,
         "sonditions" => $message.','
     ));
 $jsonresultc=json_decode($result, true);

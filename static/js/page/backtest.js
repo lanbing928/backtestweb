@@ -418,7 +418,7 @@ $(function () {
                             stockHtml.push('<td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td>');
                             stockHtml.push('<td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td>');
                             stockHtml.push('<td>' + (stockData[i].volume / 10000).toFixed(2) + '万</td>');
-                            stockHtml.push('<td>' + stockData[i].amount.toFixed(2) + '</td>');
+                            stockHtml.push('<td>' + (stockData[i].amount*100).toFixed(2) + '%</td>');
                             stockHtml.push('<td>' + stockData[i].bordname + '</td></tr>');
                             stockHtml.push('</tr>');
                             // thresholder_stock[i] = stockData[i].symbol;

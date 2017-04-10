@@ -35,6 +35,7 @@ if (CheckLogin::check() == -1) {
     print_r(json_encode(array("status" => -1, "result" => "未知登录状态")));
     return;
 }
+
 $opcode = isset($_POST['opcode']) ? $_POST['opcode'] : "";
 $code = isset($_POST['code']) ? $_POST['code'] : ""; //股票代码
 $code_list = isset($_POST['code_list']) ? $_POST['code_list'] : ""; //股票列表
