@@ -415,7 +415,7 @@ $(function () {
                             // stockHtml.push('<td><img src="/static/imgs/i/icon_edit.png">&nbsp;&nbsp;<a href="http://stock.iwookong.com/ajax/login/nologin.php?stock='+stockData[i].symbol+'&uid='+stockData[i].uid+'&token='+stockData[i].token+'" target="_blank">' + stockData[i].symbol + '</a><ul class="result_threshold"><li>提醒条件筛选</li><li class="hot">热度：<input type="number"></li> <li class="yield">收益率：<input type="number"></li><li class="threshold_btn"><button data-stock="'+stockData[i].symbol+'">确定</button></li></ul></td>');
                             stockHtml.push('<td><input class="fl" type="checkbox" name="checkbox_name"/><a href="http://stock.iwookong.com/ajax/login/nologin.php?stock=' + stockData[i].symbol + '&uid=' + stockData[i].uid + '&token=' + stockData[i].token + '" class="fl" target="_blank">' + stockData[i].symbol + '</a></td>');
                             stockHtml.push('<td>' + stockData[i].name + '</a></td>');
-                            stockHtml.push('<td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade + '</td>');
+                            stockHtml.push('<td class="' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].trade.toFixed(2) + '</td>');
                             stockHtml.push('<td class=" ' + Utility.getPriceColor(stockData[i].changepercent) + '">' + stockData[i].changepercent.toFixed(2) + '%</td>');
                             stockHtml.push('<td>' + (stockData[i].volume / 10000).toFixed(2) + '万</td>');
                             stockHtml.push('<td>' + (stockData[i].amount*100).toFixed(2) + '%</td>');
