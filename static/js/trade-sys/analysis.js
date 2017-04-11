@@ -1,11 +1,9 @@
-// "use strict";
+"use strict";
 $(function () {
-
     function getYieldsEacharts() {
         trade.getHistoryYields({opcode:130}, function () {
             $("#income-analyze").html("<div class=\"wk-user-no\"><i class='fa fa-refresh fa-spin'></i>&nbsp;正在加载...</div>");
         }, function (resultData) {
-            console.log(resultData);
             var analyze_html=[];
             var dateArr = [];//日期
             var yieldsData = [];//收益率
@@ -26,71 +24,34 @@ $(function () {
                 var sum_arr = [];
                 for(var i=0;i<data.length;i++){
                     var group_name = data[i]['group_name'];
-                    var yield = data[i]['yield'];
-                    // console.log(yield);
+                    var yields = data[i]['yield'];
                     dateArr.push(data[i].date);
                     var key_arr_length = key_arr.length;
                     if(!in_array(group_name,key_arr)){
                         key_arr[key_arr_length]=group_name;
-                        sum_arr[group_name]=''+yield;  //收益率为字符串
+                        sum_arr[group_name]=''+yields;  //收益率为字符串
                     }else{
-                        sum_arr[group_name]+=','+yield; //收益率为字符串
+                        sum_arr[group_name]+=','+yields; //收益率为字符串
                     }
                 }
 
-                //console.log(sum_arr);
-                //console.log(dateArr);
-                //数组去重
+                dateArr=Utility.arrRemoveSame(dateArr);//时间去重
 
-
-
-                // for (var i in sum_arr) {
-                //     var value = sum_arr[i];
-                //     value = value.substr(0, value.length - 1);
-                //     var ss = value.split(",");
-                //     sum_arr[i] = ss;
-                // }
-                //    console.log(sum_arr);
-                //遍历变成数组
-                for(var i in sum_arr){
-                    var value = sum_arr[i];
-                    var ss = value.split(",");
-                    sum_arr[i]=ss;
+                //统一收益率个数为日期天数，无收益率赋值--
+                for(var i in sum_arr){  //将收益率字符串转换为数组
+                    var arr_val = sum_arr[i].split(",");//收益率数组
+                    var count=dateArr.length-arr_val.length;//
+                    if(count>0){ //收益率个数与天数不等
+                        for(var j=0;j<count;j++){
+                            sum_arr[i]='--,'+ sum_arr[i]
+                        };
+                    }
+                    sum_arr[i]=sum_arr[i].split(",");
                 }
-                console.log(sum_arr);
-
-                var list = resultData.stock_hist_yields;
-                for (var i = 0; i < list.length; i++) {
-                    dateArr.push(list[i].date);
-                    groupName.push(list[i].group_name);
-                    yieldsData.push(list[i].yield);
-                }
-
-                // Array.prototype.unique = function () {
-                //     var res = [];
-                //     var json = {};
-                //     for (var i = 0; i < this.length; i++) {
-                //         if (!json[this[i]]) {
-                //             res.push(this[i]);
-                //             json[this[i]] = 1;
-                //         }
-                //     }
-                //     return res;
-                // };
-                // console.log(dateArr.unique());
                 var myChart = echarts.init(document.getElementById('income-analyze'));
                 var yAxis = [
                     {
                         type: 'value',
-                        // 控制y轴线是否显示
-                        // axisLine: {show: false},
-                        // splitLine: {
-                        //     show: true
-                        // },
-                        // 去除y轴上的刻度线
-                        // axisTick: {
-                        //     show: false
-                        // },
                         position: 'left',
                         axisLabel: {
                             formatter: function (value) {
@@ -134,7 +95,7 @@ $(function () {
                             for (var p in params) {
                                 if (params[p].value || params[p].value == 0) {
                                     if (params[0].name == params[p].name) {
-                                        if (params[p].seriesName == '') {
+                                        if (params[p].seriesName == '' || params[p].value=='--') {
                                             showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + params[p].value + "<br>";
                                         } else {
                                             showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
