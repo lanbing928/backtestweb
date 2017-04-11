@@ -35,7 +35,9 @@ body {
 .redColor {
     color: #d14a4a;
 }
-
+.changeStyle{
+    margin-left:4px;
+}
 .greenStyle {
     color: #148855;
     border-bottom: 2px solid #148855;
