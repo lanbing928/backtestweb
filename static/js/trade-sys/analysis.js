@@ -26,6 +26,7 @@ $(function () {
                     var group_name = data[i]['group_name'];
                     var yields = data[i]['yield'];
                     dateArr.push(data[i].date);
+                    groupName.push(data[i].group_name);
                     var key_arr_length = key_arr.length;
                     if(!in_array(group_name,key_arr)){
                         key_arr[key_arr_length]=group_name;
@@ -34,7 +35,6 @@ $(function () {
                         sum_arr[group_name]+=','+yields; //收益率为字符串
                     }
                 }
-
                 dateArr=Utility.arrRemoveSame(dateArr);//时间去重
 
                 //统一收益率个数为日期天数，无收益率赋值--
