@@ -36,7 +36,7 @@ $(function () {
                     }
                 }
                 dateArr=Utility.arrRemoveSame(dateArr);//时间去重
-
+                groupName=Utility.arrRemoveSame(groupName);
                 //统一收益率个数为日期天数，无收益率赋值--
                 for(var i in sum_arr){  //将收益率字符串转换为数组
                     var arr_val = sum_arr[i].split(",");//收益率数组
@@ -95,8 +95,8 @@ $(function () {
                             for (var p in params) {
                                 if (params[p].value || params[p].value == 0) {
                                     if (params[0].name == params[p].name) {
-                                        if (params[p].seriesName == '' || params[p].value=='--') {
-                                            showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + params[p].value + "<br>";
+                                        if (params[p].value=='--') {
+                                             // showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + params[p].value + "<br>";
                                         } else {
                                             showLabel += "<label style='color: " + params[p].color + ";font-size: 14px;'>●</label>&nbsp;&nbsp;" + params[p].seriesName + ":" + (params[p].value * 100).toFixed(2) + "%" + "<br>";
                                         }
@@ -107,11 +107,11 @@ $(function () {
                         }
                     },
                     legend: {
-                        top:'40px',
+                        top:'52px',
                         data: groupName
                     },
                     grid: {
-                        top: '90px',
+                        top: '100px',
                         left: '15px',
                         right: '50px',
                         bottom: '0',
@@ -137,7 +137,7 @@ $(function () {
                         },
                         axisLine:{
                             show: false,
-                            onZero: false
+                            onZero: true
                         }
                     },
                     yAxis: yAxis,

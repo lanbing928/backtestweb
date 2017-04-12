@@ -186,12 +186,21 @@ $(function () {
                                 timer: 1000,
                                 showConfirmButton: false
                             });
+
                             if(group_id==Utility.getCookie('last_gid')){
                                 Utility.unsetCookie('last_gid');
                             }
                             getGroupList();   // 重新获取账户
                             getGroupStockList();//当前持仓，当日委托，当日成交，历史成交，对账单
 
+                        }
+                        else if(resultData.status == 26){
+                            swal({
+                                title: "持仓未平，不能删除",
+                                html: true,
+                                timer: 5000,
+                                showConfirmButton: true
+                            });
                         }
                     });
                 }
