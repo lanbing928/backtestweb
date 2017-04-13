@@ -8,6 +8,7 @@ $(function () {
             var dateArr = [];//日期
             var yieldsData = [];//收益率
             var groupName = [];//组合名
+            var labelInterval='auto';
             //第一步先遍历一次取到某个键的名称的数组
             //检测判断一个值是否属于某个数组的值   这个函数在Utitly里面有叫inArray
             function in_array(search, array) {
@@ -22,10 +23,11 @@ $(function () {
                 var data = resultData.stock_hist_yields;  //需要处理的数组
                 var key_arr = [];  //得到以group_id的分类数组
                 var sum_arr = [];
+                labelInterval=1;
                 for(var i=0;i<data.length;i++){
                     var group_name = data[i]['group_name'];
                     var yields = data[i]['yield'];
-                    dateArr.push(data[i].date);
+                    dateArr.push(data[i].date.substr(5));
                     groupName.push(data[i].group_name);
                     var key_arr_length = key_arr.length;
                     if(!in_array(group_name,key_arr)){
@@ -36,7 +38,7 @@ $(function () {
                     }
                 }
                 dateArr=Utility.arrRemoveSame(dateArr);//时间去重
-                groupName=Utility.arrRemoveSame(groupName);
+                groupName=Utility.arrRemoveSame(groupName);//组合名去重
                 //统一收益率个数为日期天数，无收益率赋值--
                 for(var i in sum_arr){  //将收益率字符串转换为数组
                     var arr_val = sum_arr[i].split(",");//收益率数组
@@ -44,7 +46,7 @@ $(function () {
                     if(count>0){ //收益率个数与天数不等
                         for(var j=0;j<count;j++){
                             sum_arr[i]='--,'+ sum_arr[i]
-                        };
+                        }
                     }
                     sum_arr[i]=sum_arr[i].split(",");
                 }
@@ -70,7 +72,6 @@ $(function () {
                         name:key,
                         smooth: true,
                         type:'line',
-                        stack:'总量',
                         data:sum_arr[key]
                     })
                 }
@@ -123,7 +124,7 @@ $(function () {
                         data: dateArr,
                         show:true,
                         axisLabel: {
-                            interval: 0
+                            interval: labelInterval
                         },
                         axisTick: {
                             show: true,
