@@ -10,7 +10,8 @@ if (CheckLogin::check() == -1) {
     print_r(json_encode(array("status" => -1, "result" => "未知登录状态")));
     return;
 }
-$mac_adr=isset(getallheaders()['uuid']) ? getallheaders()['uuid'] : ""; //mac地址
+$mac_adr=getallheaders(); //获取header头信息
+$mac_adr=isset($mac_adr['uuid']) ? $mac_adr['uuid'] : ""; //mac地址
 $session_id = isset($_POST['sessionid']) ? $_POST['sessionid'] : "";
 $url = iwookongConfig::$requireBTUrl . "kensho/1/btyield.fcgi";
 //获取收益率走势图

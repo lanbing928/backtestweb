@@ -9,6 +9,8 @@ if (CheckLogin::check() == -1) {
     print_r(json_encode(array("status" => -1, "result" => "未知登录状态")));
     return;
 }
+$mac_adr=getallheaders(); //获取header头信息
+$mac_adr=isset($mac_adr['uuid']) ? $mac_adr['uuid'] : ""; //mac地址
 $query_type = isset($_POST['query_type']) ? $_POST['query_type'] : "";
 $start_time = isset($_POST['start_time']) ? $_POST['start_time'] : "";
 $info_type = isset($_POST['info_type']) ? $_POST['info_type'] : "";
@@ -18,6 +20,7 @@ $start_id = isset($_POST['start_id']) ? $_POST['start_id'] : "0";
 $arrData = array(
     "user_id" => 9999,
     "token" => $_SESSION["token"],
+    "uuid"  => $mac_adr,
    // "query_type" => $query_type,
       "query_type" => 1,
    //  "start_time" => $start_time,
