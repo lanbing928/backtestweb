@@ -10,6 +10,8 @@ if (CheckLogin::check() == -1) {
     print_r(json_encode(array("status" => -1, "result" => "未知登录状态")));
     return;
 }
+$mac_adr=getallheaders(); //获取header头信息
+$mac_adr=isset($mac_adr['uuid']) ? $mac_adr['uuid'] : ""; //mac地址
 $message = isset($_GET["message"]) ? $_GET["message"] : "";
 $type = isset($_GET["type"]) ? 0  : 1; //0所有类型 1股票
 if (empty($message)) {
@@ -22,6 +24,7 @@ $result = RequestUtil::get($url,
     array(
         "user_id" => $_SESSION['user_id'],
         "token" => $_SESSION["token"],
+        "uuid"  => $mac_adr,
         "message" => $message,
         "op" => $type
     ));

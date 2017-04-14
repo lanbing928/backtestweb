@@ -35,7 +35,8 @@ if (CheckLogin::check() == -1) {
     print_r(json_encode(array("status" => -1, "result" => "未知登录状态")));
     return;
 }
-
+$mac_adr=getallheaders(); //获取header头信息
+$mac_adr=isset($mac_adr['uuid']) ? $mac_adr['uuid'] : ""; //mac地址
 $opcode = isset($_POST['opcode']) ? $_POST['opcode'] : "";
 $code = isset($_POST['code']) ? $_POST['code'] : ""; //股票代码
 $code_list = isset($_POST['code_list']) ? $_POST['code_list'] : ""; //股票列表
@@ -57,6 +58,7 @@ $url = "http://61.147.114.67/cgi-bin/strade/user/user.fcgi"; //67
 $arr=array(
     "user_id" =>$_SESSION['user_id'],
     "token" =>  $_SESSION["token"],
+    "uuid"  => $mac_adr,
     "opcode" => $opcode
 );
 switch ($opcode){

@@ -10,6 +10,8 @@ require_once(dirname(__FILE__) . "/../../common/iwookongConfig.class.php");
 require_once(dirname(__FILE__) . "/../../common/VerifyAction.class.php");
 require_once(dirname(__FILE__) . "/../../common/Cookies.class.php");
 
+$mac_adr=getallheaders(); //获取header头信息
+$mac_adr=isset($mac_adr['uuid']) ? $mac_adr['uuid'] : ""; //mac地址
 $username = isset($_POST['user_name']) ? $_POST['user_name'] : "";      //用户名
 $userpwd = isset($_POST['password']) ? $_POST['password'] : "";         //密码
 $platformid = isset($_POST['platform_id']) ? $_POST['platform_id'] : "";//平台ID
@@ -30,7 +32,8 @@ $result = RequestUtil::get($url,
     array(
         "platform_id" => $platformid,
         "user_name" => $username,
-        "password" => $md5Password
+        "password" => $md5Password,
+        "uuid" => $mac_adr
     ));
 $jsonresult = json_decode($result, true);
 
