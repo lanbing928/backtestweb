@@ -174,7 +174,8 @@ $(function () {
                 confirmButtonText: "确定",
                 cancelButtonText: "取消",
                 closeOnConfirm: false,
-                closeOnCancel: true
+                closeOnCancel: true,
+                animation: "slide-from-top",
             }, function (isConfirm) {
                 if (isConfirm) {
                     trade.getUserRelatedOp({opcode:118,gid: group_id}, null, function (resultData) {
@@ -196,10 +197,11 @@ $(function () {
                         }
                         else if(resultData.status == 26){
                             swal({
-                                title: "持仓未平，不能删除",
+                                title: " 持仓未平不能删除",
+                                type: "error",
                                 html: true,
-                                timer: 5000,
-                                showConfirmButton: true
+                                timer: 2000,
+                                showConfirmButton: false
                             });
                         }
                     });
