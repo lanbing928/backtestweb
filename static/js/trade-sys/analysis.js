@@ -23,7 +23,7 @@ $(function () {
                 var data = resultData.stock_hist_yields;  //需要处理的数组
                 var key_arr = [];  //得到以group_id的分类数组
                 var sum_arr = [];
-                labelInterval=1;
+                labelInterval=5;
                 for(var i=0;i<data.length;i++){
                     var group_name = data[i]['group_name'];
                     var yields = data[i]['yield'];
